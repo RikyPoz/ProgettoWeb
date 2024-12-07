@@ -1,0 +1,94 @@
+/* Miglioramento generale */
+body {
+    background-color: #f8f9fa;
+    /* Colore di sfondo chiaro */
+    font-family: 'Roboto', sans-serif;
+    color: #212529;
+}
+
+/* Container principale */
+.container-fluid {
+    max-width: 1200px;
+    /* Limita la larghezza per una visibilità ottimale */
+    background-color: #ffffff;
+    /* Sfondo bianco per il contenuto */
+    border-radius: 10px;
+    /* Bordi arrotondati */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Ombra leggera */
+}
+
+/* Carousel immagini */
+.carousel-item img {
+    border-radius: 10px;
+    /* Arrotonda le immagini */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    /* Effetto tridimensionale */
+}
+
+/* Descrizione prodotto */
+h2 {
+    color: #ff7f50;
+    /* Colore arancio per titoli */
+}
+
+p {
+    font-size: 1rem;
+    /* Dimensione testo leggibile */
+    line-height: 1.5;
+    /* Spaziatura tra le righe */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    /* Blu Bootstrap */
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    /* Colore più scuro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* Ombra sull'hover */
+}
+
+/* Tabella specifiche */
+table th,
+table td {
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+table {
+    border-radius: 10px;
+    /* Arrotonda i bordi */
+    overflow: hidden;
+    border-collapse: separate;
+    /* Impedisce la sovrapposizione */
+}
+
+.table-bordered th,
+.table-bordered td {
+    border-color: #ff7f50;
+    /* Arancio per bordi */
+}
+
+/* Progress bar per le recensioni */
+.progress-bar {
+    transition: width 0.5s ease-in-out;
+    /* Animazione smooth */
+}
+
+.text-warning {
+    color: #ff7f50 !important;
+    /* Uniforma i colori arancio */
+}
+
+/* Recensioni prodotto */
+.col-12>h3 {
+    border-bottom: 2px solid #ff7f50;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
