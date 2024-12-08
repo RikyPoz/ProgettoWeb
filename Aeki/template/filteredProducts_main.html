@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aeki | Lista Prodotti</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <main class="container-lg my-5">
+    <!-- Filtro -->
+    <div class="row mb-4 justify-content-center">
+      <div class="col-12 col-xl-10 p-4 bg-white rounded-3 shadow-sm">
+        <!-- Box filtro centrato con larghezza limitata -->
+        <div class="row g-4">
+          <!-- Colore -->
+          <div class="col-12 col-md-4">
+            <h5 class="fw-semibold mb-3">Colore</h5>
+            <div class="row row-cols-2">
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="red">
+                  <label class="form-check-label" for="red">Rosso</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="white">
+                  <label class="form-check-label" for="white">Bianco</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="wood">
+                  <label class="form-check-label" for="wood">Marrone</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="black">
+                  <label class="form-check-label" for="black">Nero</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="blue">
+                  <label class="form-check-label" for="blue">Blu</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="blue">
+                  <label class="form-check-label" for="blue">Blu</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="blue">
+                  <label class="form-check-label" for="blue">Blu</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prezzo -->
+          <div class="col-12 col-md-4">
+            <h5 class="fw-semibold mb-3">Prezzo</h5>
+            <div class="d-flex flex-column align-items-center">
+              <div class="w-75">
+                <label for="maxPrice" class="form-label">MAX</label>
+                <input type="range" class="form-range" id="maxPrice">
+              </div>
+              <div class="w-75 mt-3">
+                <label for="minPrice" class="form-label">MIN</label>
+                <input type="range" class="form-range" id="minPrice">
+              </div>
+            </div>
+          </div>
+
+          <!-- Recensioni -->
+          <div class="col-12 col-md-4">
+            <h5 class="fw-semibold mb-3">Recensioni</h5>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="fiveStars">
+              <label class="form-check-label" for="fiveStars">5</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="fourStars">
+              <label class="form-check-label" for="fourStars">4+</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="threeStars">
+              <label class="form-check-label" for="threeStars">3+</label>
+            </div>
+          </div>
+        </div>
+        <div class="text-end mt-3">
+          <button class="btn btn-success"><i class="bi bi-filter"></i> Filtra</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Lista Prodotti -->
+    <div class="row g-4 justify-content-center">
+      <!-- Imposta margini sui lati con larghezza limitata -->
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card text-center shadow-sm border-0">
+          <img src="https://via.placeholder.com/150" class="card-img-top rounded-3" alt="Prodotto">
+          <div class="card-body">
+            <h6 class="card-title text-dark fw-semibold">Scrivania Minimal</h6>
+            <p class="text-success fw-bold">€199,99</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="text-warning fs-4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+              <span class="text-muted ms-1 small">(38)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
