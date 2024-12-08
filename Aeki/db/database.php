@@ -12,7 +12,7 @@ class DatabaseHelper{
 
     //HomePage Query
 
-    public function getCatagerie(){
+    public function getCategorie(){
         $stmt = $this->db->prepare("SELECT idcategoria, nomecategoria, imgcategoria FROM categoria ORDER BY nomecategoria");
         $stmt->execute();
         $result = $stmt->get_result();
