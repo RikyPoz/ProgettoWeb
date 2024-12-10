@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
-     <!-- Bootstrap CSS -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Icone Bootstrap -->
@@ -14,6 +14,29 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Aggiungi gli stili CSS qui, nella sezione <head> -->
+    <style>
+        #categoriesSlider img {
+            width: 300px; /* Larghezza immagine */
+            height: 200px; /* Altezza immagine */
+            object-fit: contain; /* Mantiene il rapporto dell'immagine */
+        }
+
+        #categoriesSlider {
+            transition: transform 0.4s ease-in-out;
+        }
+
+        #ambientSlider img {
+            width: 300px; /* Larghezza immagine */
+            height: 200px; /* Altezza immagine */
+            object-fit: cover; /* Mantiene il rapporto dell'immagine */
+        }
+
+        #ambientSlider {
+            transition: transform 0.4s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,8 +45,17 @@
         <div class="row mb-4">
             <div class="col-md-6 d-flex">
                 <div class="p-4 bg-light border w-100">
-                    <h2>Testo</h2>
-                    <p>Descrizione o testo introduttivo.</p>
+                    <h2><strong>Benvenuto su Aeki!</strong></h2>
+                    <h3><em>Arredamento per la tua casa</em></h3>
+                    <p style="text-align: justify;">
+                        Scopri il design e la funzionalità che trasformano ogni spazio in un luogo unico. 
+                        Aeki è il tuo partner ideale per arredare con gusto e praticità, grazie a una vasta gamma di mobili e complementi d'arredo progettati per rispondere a ogni tua esigenza.
+                        Dalla zona giorno alla camera da letto, passando per cucina e bagno, ti offriamo soluzioni su misura per ogni necessità. 
+                        Lasciati ispirare dalla nostra collezione e vivi l'emozione di trasformare i tuoi spazi in luoghi che raccontano la tua storia. 
+                    </p>
+                    <p style="text-align: center;">
+                        Con Aeki arredare casa diventa un’esperienza unica e creativa!
+                    </p>
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -94,18 +126,6 @@
                 <span class="bi bi-arrow-right"></span>
             </button>
         </div>
-    
-        <style>
-            #categoriesSlider img {
-                width: 300px; /* Larghezza immagine */
-                height: 200px; /* Altezza immagine */
-                object-fit: contain; /* Mantiene il rapporto dell'immagine */
-            }
-
-            #categoriesSlider {
-                transition: transform 0.4s ease-in-out;
-            }
-        </style>
 
 
         <!-- Sezione Ambienti -->
@@ -164,18 +184,6 @@
                 <span class="bi bi-arrow-right"></span>
             </button>
         </div>
-
-        <style>
-            #ambientSlider img {
-                width: 300px; /* Larghezza immagine */
-                height: 200px; /* Altezza immagine */
-                object-fit: cover; /* Mantiene il rapporto dell'immagine */
-            }
-
-            #ambientSlider {
-                transition: transform 0.4s ease-in-out;
-            }
-        </style>
     </div>
 
       <script>
@@ -237,3 +245,5 @@
 
 </body>
 </html>
+
+
