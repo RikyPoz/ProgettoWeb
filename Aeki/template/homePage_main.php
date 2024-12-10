@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="../upload/homePage/presentazione.jpg" alt="Immagine" class="img-fluid">
+                <img src="../upload/homePage/presentazione.jpg" alt="" class="img-fluid">
             </div>
         </div>
     
@@ -37,7 +37,7 @@
         <div class="position-relative">
             <!-- Freccia sinistra -->
             <button class="btn btn-outline-secondary btn-sm position-absolute start-0 top-50 translate-middle-y z-3" id="categoriesLeft">
-                <i class="bi bi-arrow-left"></i>
+                <span class="bi bi-arrow-left"></span>
             </button>
             
             <!-- Contenitore slider -->
@@ -91,11 +91,10 @@
 
             <!-- Freccia destra -->
             <button class="btn btn-outline-secondary btn-sm position-absolute end-0 top-50 translate-middle-y z-3" id="categoriesRight">
-                <i class="bi bi-arrow-right"></i>
+                <span class="bi bi-arrow-right"></span>
             </button>
         </div>
-
-
+    
         <style>
             #categoriesSlider img {
                 width: 300px; /* Larghezza immagine */
@@ -114,7 +113,7 @@
         <div class="position-relative">
             <!-- Freccia sinistra -->
             <button class="btn btn-outline-secondary btn-sm position-absolute start-0 top-50 translate-middle-y z-3" id="ambientLeft">
-                <i class="bi bi-arrow-left"></i>
+                <span class="bi bi-arrow-left"></span>
             </button>
             
             <!-- Contenitore slider -->
@@ -162,7 +161,7 @@
 
             <!-- Freccia destra -->
             <button class="btn btn-outline-secondary btn-sm position-absolute end-0 top-50 translate-middle-y z-3" id="ambientRight">
-                <i class="bi bi-arrow-right"></i>
+                <span class="bi bi-arrow-right"></span>
             </button>
         </div>
 
@@ -177,7 +176,7 @@
                 transition: transform 0.4s ease-in-out;
             }
         </style>
-
+    </div>
 
       <script>
         document.addEventListener("DOMContentLoaded", function () {
