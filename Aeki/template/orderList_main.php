@@ -1,10 +1,58 @@
-<div>
-    <h2>I miei ordini</h2>
-    <?php foreach($templateParams["ordini"] as $ordine): ?>
-        <div col-md-10 > 
-            <p> <?php echo $ordine["idOrdine"] ?> </p>
-            <p> <?php echo $ordine["dataOrdine"] ?> </p>
-            <p> <?php echo $ordine["costoTotale"] ?> </p>
+<div class="container-fluid col-10 mt-4">
+
+    <!-- Titolo e filtro -->
+    <div class="row d-flex align-items-center mb-md-4">
+      <div class = "col-md-4 col-12">
+      <h1>I miei Ordini</h1>
+      </div>
+      <div class = "col-md-2 col-6">
+        <select id="order-sort" class="form-select">
+          <option value = "Date" >Data Ordine</option>
+          <option value = "Price" >Costo Totale</option>
+        </select>
+      </div>
+    </div>
+
+    <!--Order List-->
+    <div id="orders-list ">
+        <?php foreach($templateParams["ordini"] as $ordine): ?>
+        <!--Single Order-->
+        <div class=" my-3 border rounded border-dark shadow">
+            <!--Order Info-->
+            <div class = "d-flex justify-content-around my-3">
+                <span class ="fs-5">ID Ordine: <span class = "fw-semibold"><?php echo $ordine["idOrdine"] ?></span></span> 
+                <span class ="fs-5">Costo Totale: <span class = "fw-semibold"><?php echo $ordine["costoTotale"] ?></span></span> 
+                <span class ="fs-5">Data Ordine: <span class = "fw-semibold"><?php echo $ordine["dataOrdine"] ?></span></span>
+            </div>
+            <!--Separator-->
+            <hr>
+            <!--Product List-->
+            <div class = "container-fluid">
+              <?php foreach ($templateParams["prodotti"] as $prodotto): ?>
+                <!--Single Product -->
+                  <div class = " row d-flex justify-content-center p-3 ">
+                      <div class = "col-md-2 col-6 ">
+                          <img src="<?php echo $prodotto["img"] ?>" alt="img" class="img-fluid">
+                      </div>
+                      <div class = "col-md-10 col-12 d-flex flex-column ps-md-5">
+                          <div>
+                            <h2 class="fw-semibold fs-4"><?php echo $prodotto["nome"] ?> </h2>
+                            <span class="fs-6">Prezzo : <?php echo $prodotto["prezzo"] ?> </span>
+                          </div>
+                          <div class = "mt-4">
+                              <button type="button" class="btn btn-primary btn-sm">Visualizza Articolo</button>
+                              <button type="button" class="btn btn-primary btn-sm ">Recensisci Articolo</button>
+                          </div>
+                      </div>
+                  </div>
+                <?php endforeach; ?>
+            </div>
+            <!--Button-->
+            <div class = "d-flex justify-content-md-end justify-content-center p-3 ">
+              <button type="button" class="btn btn-light btn-lg">Traccia il mio pacco</button>
+            </div>
         </div>
-    <?php endforeach; ?>
-</div>
+        <?php endforeach; ?>
+    </div>
+
+  </div>
