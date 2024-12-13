@@ -9,44 +9,69 @@ $templateParams["nome"] = "whishList_main.php";
 if(isset($_GET["nomeUtente"])){
     $nomeUtente = $_GET["nomeUtente"];
 }
-$templateParams["ordini"] = $dbh->getOrdiniByUtente($nomeUtente);*/
+$templateParams["prodotti"] = $dbh->getwhishlistByUtente($nomeUtente);*/
 
 
-$templateParams["ordini"] = $ordini;
 
 $prodotti = [
     [
-        "nome" => "Prodotto 1",
+        "nome" => "Piantina Verde",
         "prezzo"=>"10",
-        "img"=>"upload/img1.jpg"
+        "img"=>"upload/images.png",
+        "recensioniTotali" => "10"
     ],
     [
-        "nome"=>"Prodotto 2",
-        "prezzo"=>"60",
-        "img"=>"upload/img2.jpg"
+        "nome" => "Scrivania",
+        "prezzo"=>"135",
+        "img"=>"upload/img1.png",
+        "recensioniTotali" => "233"
     ],
     [
-        "nome"=>"Prodotto 2",
-        "prezzo"=>"60",
-        "img"=>"upload/img2.jpg"
+        "nome" => "Lampada da tavolo",
+        "prezzo"=>"24",
+        "img"=>"upload/imgLampada.png",
+        "recensioniTotali" => "7"
     ],
     [
-        "nome"=>"Prodotto 2",
-        "prezzo"=>"60",
-        "img"=>"upload/img2.jpg"
+        "nome" => "Scrivania",
+        "prezzo"=>"135",
+        "img"=>"upload/img1.png",
+        "recensioniTotali" => "233"
     ],
     [
-        "nome"=>"Prodotto 2",
-        "prezzo"=>"60",
-        "img"=>"upload/img2.jpg"
+        "nome" => "Piantina Verde",
+        "prezzo"=>"10",
+        "img"=>"upload/images.png",
+        "recensioniTotali" => "10"
     ],
-    [
-        "nome"=>"Prodotto 2",
-        "prezzo"=>"60",
-        "img"=>"upload/img2.jpg"
-    ]
+    
+    
     ];
     $templateParams["prodotti"] = $prodotti;
+
+    $categorie = [
+        [
+            "nome" => "Mobili",
+        ],
+        [
+            "nome" => "Letti",
+        ],
+        [
+            "nome" => "Armadi",
+        ],
+        [
+            "nome" => "Decorazioni",
+        ],
+        [
+            "nome" => "Illuminazione",
+        ],
+        [
+            "nome" => "Giardinaggio",
+        ],
+       
+        
+        ];
+    $templateParams["categorie"] = $categorie;
 
 
 require 'template/base.php';

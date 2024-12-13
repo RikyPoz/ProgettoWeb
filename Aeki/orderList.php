@@ -25,19 +25,26 @@ $ordini = [
 ];
 $templateParams["ordini"] = $ordini;
 
+
 $prodotti = [
-    [
-        "nome" => "Prodotto 1",
-        "prezzo"=>"10$",
-        "img"=>"upload/img1.jpg"
-    ],
-    [
-        "nome"=>"Prodotto 2",
-        "prezzo"=>"60$",
-        "img"=>"upload/img2.jpg"
-    ]
-    ];
-    $templateParams["prodotti"] = $prodotti;
+[
+    "nome" => "Piantina Verde",
+    "prezzo"=>"10",
+    "img"=>"upload/images.png"
+],
+[
+    "nome" => "Scrivania",
+    "prezzo"=>"135",
+    "img"=>"upload/img1.png"
+],
+[
+    "nome" => "Lampada da tavolo",
+    "prezzo"=>"24",
+    "img"=>"upload/imgLampada.png"
+]
+
+];
+$templateParams["prodotti"] = $prodotti;
 
 
 require 'template/base.php';

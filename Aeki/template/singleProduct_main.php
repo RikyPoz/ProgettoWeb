@@ -1,21 +1,27 @@
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS (necessario per il carousel) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 <?php foreach ($templateParams["prodotto"] as $prodotto):?>
-<div class="container-fluid my-5 d-flex justify-content-center">
-        <div class = "col-md-10 border rounded border-black p-4">
+<div class="row d-flex justify-content-center">
+        <div class = "col-9 border rounded shadow bg-light p-4">
             <div class="row d-flex align-items-stretch">
                 
                 <!-- Immagini  -->
-                <div class="col-md-7">
+                <div class="col-md-6">
                     <div id="productCarousel" class="carousel slide p-2" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="upload/img1.jpg" class="d-block img-fluid" alt="Prodotto 1">
+                                <img src="upload/img1.png" class="d-block img-fluid" alt="Prodotto 1">
                             </div>
+                            <?php foreach ($templateParams["immagini"] as $img): ?>
                             <div class="carousel-item">
-                                <img src="upload/img2.jpg" class="d-block img-fluid" alt="Prodotto 2">
+                                <img src="<?php echo $img["img"] ?>" class="d-block img-fluid" alt="<?php echo $img["img"] ?>">
                             </div>
-                            <div class="carousel-item">
-                                <img src="upload/img3.jpg" class="d-block img-fluid" alt="Prodotto 3">
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -30,9 +36,10 @@
                 
                 
                 <!-- Descrizione Prodotto-->
-                <div class="col-md-5 h-100">
+                <div class="col-md-6 h-100">
                     <div class="p-4">
-                        <h2 class="fw-bold"><?php echo $prodotto["nome"]?></h2>
+                        <h2 class="fw-bold"><?php echo $prodotto["nome"]?> </h2>
+                        <span class="fs-5 text-muted "><?php echo $prodotto["prezzo"] ?> €</span>
                         <div class="mb-3">
                             <span class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
                             <span><?php echo $prodotto["recensioniTotali"]?></span>
