@@ -8,7 +8,7 @@
                     <div id="productCarousel" class="carousel slide p-2" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="upload/img1.png" class="d-block img-fluid" alt="Prodotto 1">
+                                <img src="upload/poz/img1.png" class="d-block img-fluid" alt="Prodotto 1">
                             </div>
                             <?php foreach ($templateParams["immagini"] as $img): ?>
                             <div class="carousel-item">

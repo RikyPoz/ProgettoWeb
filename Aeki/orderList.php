@@ -30,17 +30,17 @@ $prodotti = [
 [
     "nome" => "Piantina Verde",
     "prezzo"=>"10",
-    "img"=>"upload/images.png"
+    "img"=>"upload/poz/images.png"
 ],
 [
     "nome" => "Scrivania",
     "prezzo"=>"135",
-    "img"=>"upload/img1.png"
+    "img"=>"upload/poz/img1.png"
 ],
 [
     "nome" => "Lampada da tavolo",
     "prezzo"=>"24",
-    "img"=>"upload/imgLampada.png"
+    "img"=>"upload/poz/imgLampada.png"
 ]
 
 ];

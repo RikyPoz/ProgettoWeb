@@ -17,31 +17,31 @@ $prodotti = [
     [
         "nome" => "Piantina Verde",
         "prezzo"=>"10",
-        "img"=>"upload/images.png",
+        "img"=>"upload/poz/images.png",
         "recensioniTotali" => "10"
     ],
     [
         "nome" => "Scrivania",
         "prezzo"=>"135",
-        "img"=>"upload/img1.png",
+        "img"=>"upload/poz/img1.png",
         "recensioniTotali" => "233"
     ],
     [
         "nome" => "Lampada da tavolo",
         "prezzo"=>"24",
-        "img"=>"upload/imgLampada.png",
+        "img"=>"upload/poz/imgLampada.png",
         "recensioniTotali" => "7"
     ],
     [
         "nome" => "Scrivania",
         "prezzo"=>"135",
-        "img"=>"upload/img1.png",
+        "img"=>"upload/poz/img1.png",
         "recensioniTotali" => "233"
     ],
     [
         "nome" => "Piantina Verde",
         "prezzo"=>"10",
-        "img"=>"upload/images.png",
+        "img"=>"upload/poz/images.png",
         "recensioniTotali" => "10"
     ],
     

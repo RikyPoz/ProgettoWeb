@@ -26,10 +26,10 @@ $templateParams["prodotto"] = $prodotto;
 
 $immagini = [
     [
-        "img"=>"upload/img2.png"
+        "img"=>"upload/poz/img2.png"
     ],
     [
-        "img"=>"upload/img3.png"
+        "img"=>"upload/poz/img3.png"
     ]
     ];
 $templateParams["immagini"] = $immagini;
