@@ -41,8 +41,7 @@
             <h5 class="fw-semibold mb-3">Colore</h5>
             <div class="row row-cols-2">
               <?php
-              // Supponiamo che getColors() restituisca un array di colori
-              $colors = ["rosso", "bianco", "marrone", "nero", "blu", "grigio", "verde"]; // Funzione immaginaria
+              $colors = ["rosso", "bianco", "marrone", "nero", "blu", "grigio", "verde"];
               foreach ($colors as $color) {
                 echo "<div class='col'>
                         <div class='form-check'>
