@@ -12,78 +12,79 @@
 -- Database Section
 -- ________________ 
 
-create database e-commerce;
-use e-commerce;
+drop database if exists aekiDb;
+create database aekiDb;
+use aekiDb;
 
 
 -- Tables Section
 -- _____________ 
 
 create table Ambiente (
-     NomeAmbiente char(1) not null,
+     NomeAmbiente VARCHAR(50) not null,
      constraint ID_Ambiente_ID primary key (NomeAmbiente));
 
 create table Carrello (
-     IDcarrelo char(1) not null,
-     Username char(1) not null,
-     constraint ID_Carrello_ID primary key (IDcarrelo),
+     IDcarrello VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
+     constraint ID_Carrello_ID primary key (IDcarrello),
      constraint FKpossiede_ID unique (Username));
 
 create table Categoria (
-     NomeCategoria char(1) not null,
+     NomeCategoria VARCHAR(50) not null,
      constraint ID_Categoria_ID primary key (NomeCategoria));
 
 create table Colorazione (
-     NomeColore char(1) not null,
-     CodiceProdotto char(1) not null,
+     NomeColore VARCHAR(50) not null,
+     CodiceProdotto VARCHAR(50) not null,
      constraint ID_Colorazione_ID primary key (NomeColore, CodiceProdotto));
 
 create table Colore (
-     NomeColore char(1) not null,
+     NomeColore VARCHAR(50) not null,
      constraint ID_Colore_ID primary key (NomeColore));
 
 create table DettaglioCarrello (
-     IDcarrelo char(1) not null,
-     CodiceProdotto char(1) not null,
-     Quantita char(1) not null,
-     constraint ID_DettaglioCarrello_ID primary key (CodiceProdotto, IDcarrelo));
+     IDcarrello VARCHAR(50) not null,
+     CodiceProdotto VARCHAR(50) not null,
+     Quantita INTEGER not null,
+     constraint ID_DettaglioCarrello_ID primary key (CodiceProdotto, IDcarrello));
 
 create table DettaglioOrdine (
-     IDordine char(1) not null,
-     CodiceProdotto char(1) not null,
-     Quantita char(1) not null,
+     IDordine VARCHAR(50) not null,
+     CodiceProdotto VARCHAR(50) not null,
+     Quantita INTEGER not null,
      constraint ID_DettaglioOrdine_ID primary key (CodiceProdotto, IDordine));
 
 create table DettaglioWishlist (
-     CodiceProdotto char(1) not null,
-     IDwishlist char(1) not null,
+     CodiceProdotto VARCHAR(50) not null,
+     IDwishlist VARCHAR(50) not null,
      constraint ID_DettaglioWishlist_ID primary key (CodiceProdotto, IDwishlist));
 
 create table Immagine (
-     PercorsoImg char(1) not null,
-     Icona char not null,
-     CodiceProdotto char(1) not null,
+     PercorsoImg VARCHAR(50) not null,
+     Icona BOOLEAN not null,
+     CodiceProdotto VARCHAR(50) not null,
      constraint ID_Immagine_ID primary key (PercorsoImg));
 
 create table Notifiche (
-     IdNotifica char(1) not null,
-     Username char(1) not null,
-     Testo char(1) not null,
+     IdNotifica VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
+     Testo VARCHAR(50) not null,
      Data date not null,
      constraint ID_Notifiche_ID primary key (IdNotifica),
      constraint SID_Notifiche_ID unique (Username, IdNotifica));
 
 create table Ordine (
-     IDordine char(1) not null,
-     Username char(1) not null,
+     IDordine VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
      constraint ID_Ordine_ID primary key (IDordine));
 
 create table Prodotto (
-     CodiceProdotto char(1) not null,
-     Nome char(1) not null,
+     CodiceProdotto VARCHAR(50) not null,
+     Nome VARCHAR(50) not null,
      Prezzo float(1) not null,
-     Descrizione char(1) not null,
-     Materiale char(1) not null,
+     Descrizione VARCHAR(50) not null,
+     Materiale VARCHAR(50) not null,
      Peso float(1) not null,
      Disponibilita int not null,
      Altezza float(1) not null,
@@ -91,34 +92,34 @@ create table Prodotto (
      Profondita float(1) not null,
      ValutazioneMedia float(1) not null,
      NumeroRecensioni int not null,
-     Username char(1) not null,
-     NomeAmbiente char(1) not null,
-     NomeCategoria char(1) not null,
+     Username VARCHAR(50) not null,
+     NomeAmbiente VARCHAR(50) not null,
+     NomeCategoria VARCHAR(50) not null,
      constraint ID_Prodotto_ID primary key (CodiceProdotto));
 
 create table Recensione (
-     Testo char(1) not null,
-     stelle int not null,
-     IDrecensione char(1) not null,
-     CodiceProdotto char(1) not null,
-     Username char(1) not null,
+     Testo VARCHAR(50) not null,
+     stelle INTEGER not null,
+     IDrecensione VARCHAR(50) not null,
+     CodiceProdotto VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
      constraint ID_Recensione_ID primary key (IDrecensione),
      constraint SID_Recensione_ID unique (CodiceProdotto, Username, IDrecensione));
 
 create table Utente (
-     Nome char(1) not null,
-     Cognome char(1) not null,
-     Username char(1) not null,
-     Email char(1) not null,
-     Password char(1) not null,
-     Tipo char(1) not null,
-     PartitaIVA char(1),
-     Telefono char(1) not null,
+     Nome VARCHAR(50) not null,
+     Cognome VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
+     Email VARCHAR(50) not null,
+     Password VARCHAR(50) not null,
+     Tipo VARCHAR(50) not null,
+     PartitaIVA VARCHAR(50),
+     Telefono VARCHAR(50) not null,
      constraint ID_Utente_ID primary key (Username));
 
 create table WishList (
-     IDwishlist char(1) not null,
-     Username char(1) not null,
+     IDwishlist VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
      constraint ID_WishList_ID primary key (IDwishlist),
      constraint FKha_ID unique (Username));
 
@@ -143,8 +144,8 @@ alter table DettaglioCarrello add constraint FKR_3_Pro
      references Prodotto (CodiceProdotto);
 
 alter table DettaglioCarrello add constraint FKR_3_Car_FK
-     foreign key (IDcarrelo)
-     references Carrello (IDcarrelo);
+     foreign key (IDcarrello)
+     references Carrello (IDcarrello);
 
 alter table DettaglioOrdine add constraint FKR_4_Pro
      foreign key (CodiceProdotto)
@@ -221,7 +222,7 @@ create unique index ID_Ambiente_IND
      on Ambiente (NomeAmbiente);
 
 create unique index ID_Carrello_IND
-     on Carrello (IDcarrelo);
+     on Carrello (IDcarrello);
 
 create unique index FKpossiede_IND
      on Carrello (Username);
@@ -239,10 +240,10 @@ create unique index ID_Colore_IND
      on Colore (NomeColore);
 
 create unique index ID_DettaglioCarrello_IND
-     on DettaglioCarrello (CodiceProdotto, IDcarrelo);
+     on DettaglioCarrello (CodiceProdotto, IDcarrello);
 
 create index FKR_3_Car_IND
-     on DettaglioCarrello (IDcarrelo);
+     on DettaglioCarrello (IDcarrello);
 
 create unique index ID_DettaglioOrdine_IND
      on DettaglioOrdine (CodiceProdotto, IDordine);

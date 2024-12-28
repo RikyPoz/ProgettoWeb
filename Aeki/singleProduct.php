@@ -11,7 +11,7 @@ $idprodotto = -1;
 if(isset($_GET["id"])){
     $idprodotto = $_GET["id"];
 }
-$templateParams["prodotto"] = $dbh->getProdottoById($idprodotto);
+$templateParams["prodotto"] = $dbh->getProdotto($idprodotto);
 
 // manca l attributo disponibilità e immagine (multipla?) di un prodotto nel database
 /*

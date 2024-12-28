@@ -28,7 +28,7 @@
                 <div class = "col-md-4 col-6 p-2">
                     <div class="border rounded bg-light d-flex flex-column p-3 h-100">
                         <div class = "d-flex justify-content-center">
-                            <img src="<?php echo htmlspecialchars($prodotto["Img"]); ?>" alt="<?php echo htmlspecialchars($prodotto["Nome"]); ?>" class=" img-fluid"> 
+                            <img src="<?php echo htmlspecialchars($prodotto["PercorsoImg"]); ?>" alt="<?php echo htmlspecialchars($prodotto["Nome"]); ?>" class=" img-fluid"> 
                         </div>
                         <div class = "d-flex flex-column align-items-center mt-auto">
                             <span class="fw-bold fs-4 mt-2"><?php echo htmlspecialchars($prodotto["Nome"]); ?></span>
