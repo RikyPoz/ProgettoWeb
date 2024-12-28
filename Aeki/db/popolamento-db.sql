@@ -1,6 +1,12 @@
+-- POPOLAMENTO
+
+
+
+
 -- Popolamento della tabella Utente
 INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono)
 VALUES
+    ('Riccardo', 'Polazzi', 'poz', 'poz@example.com', 'pass', 'cliente', NULL, '1234567890'),
     ('Mario', 'Rossi', 'mrossi', 'mrossi@example.com', 'password123', 'cliente', NULL, '1234567890'),
     ('Luigi', 'Verdi', 'lverdi', 'lverdi@example.com', 'password456', 'cliente', NULL, '0987654321'),
     ('Anna', 'Bianchi', 'abianchi', 'abianchi@example.com', 'password789', 'venditore', 'IT12345678901', '1122334455');
@@ -20,11 +26,11 @@ VALUES
     ('Decorazioni');
 
 -- Popolamento della tabella Prodotto
-INSERT INTO Prodotto (CodiceProdotto, Nome, Prezzo, Descrizione, Materiale, Peso, Altezza, Lunghezza, Profondita, ValutazioneMedia, NumeroRecensioni, Username, NomeAmbiente, NomeCategoria)
+INSERT INTO Prodotto (CodiceProdotto, Nome, Prezzo, Descrizione, Materiale, Peso, Altezza, Lunghezza, Profondita, ValutazioneMedia, NumeroRecensioni, Username, NomeAmbiente, NomeCategoria,Img,Disponibilita)
 VALUES
-    ('P001', 'Frigorifero', '499.99', 'Frigorifero a doppia porta', 'Acciaio', '70kg', '180cm', '70cm', '60cm', '4.5', '120', 'abianchi', 'Cucina', 'Elettrodomestici'),
-    ('P002', 'Divano', '299.99', 'Divano a tre posti', 'Tessuto', '50kg', '90cm', '200cm', '90cm', '4.2', '75', 'abianchi', 'Salotto', 'Arredamento'),
-    ('P003', 'Quadro moderno', '99.99', 'Quadro con cornice in legno', 'Legno', '5kg', '70cm', '100cm', '5cm', '4.8', '50', 'abianchi', 'Salotto', 'Decorazioni');
+    ('P001', 'Frigorifero', '499.99', 'Frigorifero a doppia porta', 'Acciaio', '70kg', '180cm', '70cm', '60cm', '4.5', '120', 'abianchi', 'Cucina', 'Elettrodomestici','upload/poz/img1.png','10'),
+    ('P002', 'Divano', '299.99', 'Divano a tre posti', 'Tessuto', '50kg', '90cm', '200cm', '90cm', '4.2', '75', 'abianchi', 'Salotto', 'Arredamento','upload/poz/img1.png','12'),
+    ('P003', 'Scrivania', '120', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'Legno', '5kg', '70cm', '100cm', '5cm', '4.8', '50', 'poz', 'Salotto', 'Decorazioni','upload/poz/img1.png','13');
 
 -- Popolamento della tabella Carrello
 INSERT INTO Carrello (Username, IDcarrelo)
@@ -43,13 +49,16 @@ VALUES
 INSERT INTO WishList (IDwishlist, Username)
 VALUES
     ('W001', 'mrossi'),
-    ('W002', 'lverdi');
+    ('W002', 'lverdi'),
+    ('WPOZ','poz');
 
 -- Popolamento della tabella DettaglioWishlist
 INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist)
 VALUES
     ('P003', 'W001'),
-    ('P002', 'W002');
+    ('P002', 'W002'),
+    ('P002', 'WPOZ'),
+    ('P001', 'WPOZ');
 
 -- Popolamento della tabella Notifiche
 INSERT INTO Notifiche (IdNotifica, Username, Testo, Data)
@@ -88,3 +97,5 @@ VALUES
     ('Bianco', 'P001'),
     ('Grigio', 'P002'),
     ('Nero', 'P003');
+
+
