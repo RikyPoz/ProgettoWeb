@@ -10,7 +10,7 @@
                             <div class="carousel-item active">
                                 <img src="upload/poz/img1.png" class="d-block img-fluid" alt="Prodotto 1">
                             </div>
-                            <?php foreach ($templateParams["immagini"] as $img): ?>
+                            <?php foreach ($prodotto["img"] as $img): ?>
                             <div class="carousel-item">
                                 <img src="<?php echo $img["img"] ?>" class="d-block img-fluid" alt="<?php echo $img["img"] ?>">
                             </div>
@@ -31,14 +31,14 @@
                 <!-- Descrizione Prodotto-->
                 <div class="col-md-6 h-100">
                     <div class="p-4">
-                        <h2 class="fw-bold"><?php echo $prodotto["nome"]?> </h2>
-                        <span class="fs-5 text-muted "><?php echo $prodotto["prezzo"] ?> €</span>
+                        <h2 class="fw-bold"><?php echo $prodotto["Nome"]?> </h2>
+                        <span class="fs-5 text-muted "><?php echo $prodotto["Prezzo"] ?> €</span>
                         <div class="mb-3">
-                            <span class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
-                            <span><?php echo $prodotto["recensioniTotali"]?></span>
+                            <span class="text-warning"><?php echo getStars((int)$prodotto["ValutazioneMedia"]) ?></span>
+                            <span><?php echo $prodotto["NumeroRecensioni"]?></span>
                         </div>
-                        <p><?php echo $prodotto["descrizione"]?></p>
-                        <p><strong>Disponibilità:</strong> <span class="text-success"><?php echo $prodotto["disponibilità"]?></span></p>
+                        <p><?php echo $prodotto["Descrizione"]?></p>
+                        <p><strong>Disponibilità:</strong> <span class="text-success"><?php echo $prodotto["Disponibilita"]?></span></p>
                         <div class="d-flex align-items-center mb-3">
                             <label for="quantity" class="me-2">Quantità:</label>
                             <input type="number" id="quantity" class="form-control w-25" min="1" value="1">
@@ -57,27 +57,27 @@
                         <tbody>
                             <tr>
                                 <th>Materiale</th>
-                                <td>Legno</td>
+                                <td><?php echo $prodotto["Materiale"]?></td>
                             </tr>
                             <tr>
                                 <th>Colore</th>
-                                <td>Marrone</td>
+                                <td><?php echo $prodotto["Colore"]?></td>
                             </tr>
                             <tr>
                                 <th>Lunghezza</th>
-                                <td>120 cm</td>
+                                <td><?php echo $prodotto["Lunghezza"]?></td>
                             </tr>
                             <tr>
                                 <th>Altezza</th>
-                                <td>75 cm</td>
+                                <td><?php echo $prodotto["Altezza"]?></td>
                             </tr>
                             <tr>
                                 <th>Larghezza</th>
-                                <td>60 cm</td>
+                                <td><?php echo $prodotto["Profondita"]?></td>
                             </tr>
                             <tr>
                                 <th>Peso</th>
-                                <td>15 kg</td>
+                                <td><?php echo $prodotto["Peso"]?></td>
                             </tr>
                         </tbody>
                     </table>

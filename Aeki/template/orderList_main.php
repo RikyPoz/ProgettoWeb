@@ -38,8 +38,8 @@
                             <span class="fs-5 text-muted "><?php echo $prodotto["prezzo"] ?> €</span>
                           </div>
                           <div class = "mt-4">
-                              <button type="button" class="btn btn-primary btn-sm">Visualizza Articolo</button>
-                              <button type="button" class="btn btn-primary btn-sm ">Recensisci Articolo</button>
+                            <a href="singleProduct.php?id=123" class="btn btn-primary btn-sm">Visualizza articolo</a>
+                            <a href="reviewProduct.php?id=123" class="btn btn-primary btn-sm">Recensisci Articolo</a>
                           </div>
                       </div>
                   </div>

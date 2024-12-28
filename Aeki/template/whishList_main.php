@@ -16,7 +16,7 @@
                     <!-- if categoria attiva
                     <a class="nav-link active" aria-current="page" href="#">Divani</a> 
                     else -->
-                    <a class="nav-link" href="#"> <?php echo $categoria["nome"] ?> </a>
+                    <a class="nav-link" href="#"> <?php echo $categoria["NomeCategoria"] ?> </a>
                     <?php endforeach; ?>
                 </div>
                 </div>
@@ -28,14 +28,15 @@
                 <div class = "col-md-4 col-6 p-2">
                     <div class="border rounded bg-light d-flex flex-column p-3 h-100">
                         <div class = "d-flex justify-content-center">
-                            <img src="<?php echo htmlspecialchars($prodotto["img"]); ?>" alt="<?php echo htmlspecialchars($prodotto["nome"]); ?>" class=" img-fluid"> 
+                            <img src="<?php echo htmlspecialchars($prodotto["Img"]); ?>" alt="<?php echo htmlspecialchars($prodotto["Nome"]); ?>" class=" img-fluid"> 
                         </div>
                         <div class = "d-flex flex-column align-items-center mt-auto">
-                            <span class="fw-bold fs-4 mt-2"><?php echo htmlspecialchars($prodotto["nome"]); ?></span>
-                            <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["prezzo"]); ?> €</span>
+                            <span class="fw-bold fs-4 mt-2"><?php echo htmlspecialchars($prodotto["Nome"]); ?></span>
+                            <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["Prezzo"]); ?> €</span>
                             <button class="btn">
                                 <i class="bi bi-heart-fill text-danger fs-3"></i>
                             </button>
+                            <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"] ?>" class="btn border rounded border-dark btn-sm mt-2">Visualizza articolo</a>
                         </div>
                     </div>
                 </div>
