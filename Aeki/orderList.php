@@ -5,47 +5,17 @@ require_once 'bootstrap.php';
 $templateParams["titolo"] = "Aeki - ordini";
 $templateParams["nome"] = "orderList_main.php";
 
-/*$nomeUtente = "";
+$nomeUtente = "poz";
 if(isset($_GET["nomeUtente"])){
     $nomeUtente = $_GET["nomeUtente"];
 }
-$templateParams["ordini"] = $dbh->getOrdiniByUtente($nomeUtente);*/
 
-$ordini = [
-[
-    "idOrdine" => "abcd",
-    "dataOrdine"=>"20/10/2024",
-    "costoTotale"=>"150$"
-],
-[
-    "idOrdine"=>"1234",
-    "dataOrdine"=>"5/12/2024",
-    "costoTotale"=>"10$"
-]
-];
-$templateParams["ordini"] = $ordini;
+$templateParams["ordini"] = $dbh->getOrdini($nomeUtente);
 
-
-$prodotti = [
-[
-    "nome" => "Piantina Verde",
-    "prezzo"=>"10",
-    "img"=>"upload/poz/images.png"
-],
-[
-    "nome" => "Scrivania",
-    "prezzo"=>"135",
-    "img"=>"upload/poz/img1.png"
-],
-[
-    "nome" => "Lampada da tavolo",
-    "prezzo"=>"24",
-    "img"=>"upload/poz/imgLampada.png"
-]
-
-];
-$templateParams["prodotti"] = $prodotti;
-
+foreach ($templateParams["ordini"] as &$ordine) { //& usato per non creare una copia e salvare le modifiche
+    $prodotti = $dbh->getProdottiPerOrdine($ordine["IDordine"]);
+    $ordine["prodotti"] = $prodotti; 
+}
 
 require 'template/base.php';
 ?>

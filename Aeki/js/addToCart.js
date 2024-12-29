@@ -12,7 +12,7 @@ addToCartButton.addEventListener("click", async function () {
 
     try {
         //richiesta AJAX per aggiungere il prodotto al carrello
-        const response = await fetch('api-addToCart.php', {
+        const response = await fetch('Ajax/api-addToCart.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

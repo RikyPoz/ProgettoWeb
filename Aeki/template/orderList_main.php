@@ -26,16 +26,16 @@
             <hr class = "mb-4">
             <!--Product List-->
             <div class = "px-4">
-              <?php foreach ($templateParams["prodotti"] as $prodotto): ?>
+              <?php foreach ($ordine["prodotti"] as $prodotto): ?>
                 <!--Single Product -->
                   <div class = " row justify-content-center bg-light border rounded p-3 mb-3 ">
                       <div class = "col-md-2 col-6 ">
-                          <img src="<?php echo $prodotto["img"] ?>" alt="img" class="img-fluid">
+                          <img src="<?php echo $prodotto["PercorsoImg"] ?>" alt="img" class="img-fluid">
                       </div>
                       <div class = "col-md-10 col-12 flex-column  ps-md-5">
                           <div>
-                            <h2 class="fw-semibold fs-4"><?php echo $prodotto["nome"] ?> </h2>
-                            <span class="fs-5 text-muted "><?php echo $prodotto["prezzo"] ?> €</span>
+                            <h2 class="fw-semibold fs-4"><?php echo $prodotto["Nome"] ?> </h2>
+                            <span class="fs-5 text-muted "><?php echo $prodotto["Prezzo"] ?> €</span>
                           </div>
                           <div class = "mt-4">
                             <a href="singleProduct.php?id=123" class="btn btn-primary btn-sm">Visualizza articolo</a>

@@ -69,13 +69,6 @@ class DatabaseHelper{
     }
 
 
-    public function getProdottoByCategoria(){
-
-    }
-
-    public function getProdottoByAmbiente(){
-
-    }
 
     public function getStarNumber($idProdotto){
         
@@ -212,38 +205,47 @@ class DatabaseHelper{
 
     }
 
-    //seller Query
+    //ORDERS
 
-    public function addProduct($idProdotto){
-
+    public function getOrdini($username){
+        $stmt = $this->db->prepare("SELECT IDordine DataOrdine,CostoTotale FROM Ordini WHERE Username=?");
+        $stmt->bind_param('s',$username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function removeProduct($idProdotto){
+
+    public function getProdottiPerOrdine($idOrdine){
+        $stmt = $this->db->prepare("SELECT CodiceProdotto FROM DettaglioOrdine WHERE IDordine=?");
+        $stmt->bind_param('s',$idOrdine);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $productCodes = [];
+        while ($row = $result->fetch_assoc()) {
+            $productCodes[] = $row['CodiceProdotto'];
+        }
         
+        if (empty($productCodes)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($productCodes), '?')); 
+        $query = "SELECT p.CodiceProdotto, Nome,Prezzo,PercorsoImg  FROM Prodotto as p LEFT JOIN Immagine as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 1 WHERE p.CodiceProdotto IN ($placeholders)";
+        $stmt = $this->db->prepare($query);
+    
+        // Bind dinamico dei parametri
+        $types = str_repeat('s', count($productCodes)); 
+        $stmt->bind_param($types, ...$productCodes);
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function refillProduct($idProdotto, $quantità){
-        
-    }
-
-    public function modifyProductPrice($idProdotto, $newPrice){
-        
-    }
-
-
-    //User Query
-
-    public function getUtente(){
-        
-    }
-
-    public function getOrdiniByUtente(){
-
-    }
-
-    public function getMessaggiByUtente(){
-
-    }
+    
 
 
 
