@@ -17,24 +17,40 @@
 
     <!-- Aggiungi gli stili CSS qui, nella sezione <head> -->
     <style>
-        #categoriesSlider img {
+        #categoriesSlider img,
+        #ambientSlider img {
             width: 300px; /* Larghezza immagine */
             height: 200px; /* Altezza immagine */
             object-fit: contain; /* Mantiene il rapporto dell'immagine */
         }
 
-        #categoriesSlider {
-            transition: transform 0.4s ease-in-out;
-        }
-
-        #ambientSlider img {
-            width: 300px; /* Larghezza immagine */
-            height: 200px; /* Altezza immagine */
-            object-fit: cover; /* Mantiene il rapporto dell'immagine */
-        }
-
+        #categoriesSlider,
         #ambientSlider {
             transition: transform 0.4s ease-in-out;
+        }
+
+        /* Regola i pulsanti di scorrimento */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        #categoriesLeft {
+            left: -40px; /* Sposta il pulsante sinistro all'esterno */
+        }
+
+        #categoriesRight {
+            right: -40px; /* Sposta il pulsante destro all'esterno */
+        }
+
+        #ambientLeft {
+            left: -40px; /* Sposta il pulsante sinistro all'esterno */
+        }
+
+        #ambientRight {
+            right: -40px; /* Sposta il pulsante destro all'esterno */
         }
     </style>
 </head>
@@ -68,7 +84,7 @@
         <h3 class="mt-5">Categorie</h3>
         <div class="position-relative">
             <!-- Freccia sinistra -->
-            <button class="btn btn-outline-secondary btn-sm position-absolute start-0 top-50 translate-middle-y z-3" id="categoriesLeft">
+            <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesLeft">
                 <span class="bi bi-arrow-left"></span>
             </button>
             
@@ -78,13 +94,13 @@
                     <!-- Immagini degli ambienti -->
                     <div class="text-center">
                         <a href="filteredProducts?category=divano" class="btn p-0">
-                            <img src="../upload/homePage/cat_divano.jpeg" class="rounded" alt="Pulsante per accedere alla categoria divani">
+                            <img src="../upload/homePage/cat_divano.png" class="rounded" alt="Pulsante per accedere alla categoria divani">
                             <p class="mt-3 fw-semibold">Divani</p>
                         </a>
                     </div>
                     <div class="text-center">
                         <a href="filteredProducts?category=letto" class="btn p-0">
-                            <img src="../upload/homePage/cat_letto.jpeg" class="rounded" alt="Pulsante per accedere alla categoria letti">
+                            <img src="../upload/homePage/cat_letto.png" class="rounded" alt="Pulsante per accedere alla categoria letto">
                             <p class="mt-3 fw-semibold">Letti</p>
                         </a>
                     </div>
@@ -96,25 +112,25 @@
                     </div>
                     <div class="text-center">
                         <a href="filteredProducts?category=tavolo" class="btn p-0">
-                            <img src="../upload/homePage/cat_tavolo.jpeg" class="rounded" alt="Pulsante per accedere alla categoria tavoli">
+                            <img src="../upload/homePage/cat_tavolo.png" class="rounded" alt="Pulsante per accedere alla categoria tavoli">
                             <p class="mt-3 fw-semibold">Tavoli</p>
                         </a>
                     </div>
                     <div class="text-center">
                         <a href="filteredProducts?category=sedia" class="btn p-0">
-                            <img src="../upload/homePage/cat_sedia.jpeg" class="rounded" alt="Pulsante per accedere alla categoria sedie">
+                            <img src="../upload/homePage/cat_sedia.png" class="rounded" alt="Pulsante per accedere alla categoria sedie">
                             <p class="mt-3 fw-semibold">Sedie</p>
                         </a>
                     </div>
                     <div class="text-center">
                         <a href="filteredProducts?category=libreria" class="btn p-0">
-                            <img src="../upload/homePage/cat_libreria.jpeg" class="rounded" alt="Pulsante per accedere alla categoria librerie e scaffali">
+                            <img src="../upload/homePage/cat_libreria.png" class="rounded" alt="Pulsante per accedere alla categoria librerie e scaffali">
                             <p class="mt-3 fw-semibold">Librerie e scaffali</p>
                         </a>
                     </div>
                     <div class="text-center">
                         <a href="filteredProducts?category=cassettiera" class="btn p-0">
-                            <img src="../upload/homePage/cat_cassettiera.jpeg" class="rounded" alt="Pulsante per accedere alla categoria cassettiere">
+                            <img src="../upload/homePage/cat_cassettiera.png" class="rounded" alt="Pulsante per accedere alla categoria cassettiere">
                             <p class="mt-3 fw-semibold">Cassettiere</p>
                         </a>
                     </div>
@@ -122,7 +138,7 @@
             </div>
 
             <!-- Freccia destra -->
-            <button class="btn btn-outline-secondary btn-sm position-absolute end-0 top-50 translate-middle-y z-3" id="categoriesRight">
+            <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesRight">
                 <span class="bi bi-arrow-right"></span>
             </button>
         </div>
@@ -132,7 +148,7 @@
         <h3 class="mt-5">Ambienti</h3>
         <div class="position-relative">
             <!-- Freccia sinistra -->
-            <button class="btn btn-outline-secondary btn-sm position-absolute start-0 top-50 translate-middle-y z-3" id="ambientLeft">
+            <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientLeft">
                 <span class="bi bi-arrow-left"></span>
             </button>
             
@@ -180,7 +196,7 @@
             </div>
 
             <!-- Freccia destra -->
-            <button class="btn btn-outline-secondary btn-sm position-absolute end-0 top-50 translate-middle-y z-3" id="ambientRight">
+            <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientRight">
                 <span class="bi bi-arrow-right"></span>
             </button>
         </div>
