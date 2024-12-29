@@ -15,14 +15,20 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Aggiungi gli stili CSS qui, nella sezione <head> -->
+    <!-- Stili CSS -->
     <style>
-        #categoriesSlider img,
-        #ambientSlider img {
-            width: 300px; /* Larghezza immagine */
-            height: 200px; /* Altezza immagine */
-            object-fit: contain; /* Mantiene il rapporto dell'immagine */
+        #categoriesSlider img {
+            width: 300px; /* Imposta una larghezza fissa per le immagini nella sezione categorie */
+            height: 200px; /* Imposta un'altezza fissa per le immagini nella sezione categorie */
+            object-fit: contain; /* Mostra l'intera immagine all'interno delle dimensioni */
         }
+
+        #ambientSlider img {
+            width: 300px; /* Imposta una larghezza fissa per le immagini nella sezione ambienti */
+            height: 200px; /* Imposta un'altezza fissa per le immagini nella sezione ambienti */
+            object-fit: cover; /* Mantiene le proporzioni dell'immagine riempiendo interamente il contenitore */
+        }
+
 
         #categoriesSlider,
         #ambientSlider {
@@ -91,49 +97,14 @@
             <!-- Contenitore slider -->
             <div class="overflow-hidden">
                 <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
-                    <!-- Immagini degli ambienti -->
-                    <div class="text-center">
-                        <a href="filteredProducts?category=divano" class="btn p-0">
-                            <img src="../upload/homePage/cat_divano.png" class="rounded" alt="Pulsante per accedere alla categoria divani">
-                            <p class="mt-3 fw-semibold">Divani</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?category=letto" class="btn p-0">
-                            <img src="../upload/homePage/cat_letto.png" class="rounded" alt="Pulsante per accedere alla categoria letto">
-                            <p class="mt-3 fw-semibold">Letti</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?category=armadio" class="btn p-0">
-                            <img src="../upload/homePage/cat_armadio.png" class="rounded" alt="Pulsante per accedere alla categoria armadi">
-                            <p class="mt-3 fw-semibold">Armadi</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?category=tavolo" class="btn p-0">
-                            <img src="../upload/homePage/cat_tavolo.png" class="rounded" alt="Pulsante per accedere alla categoria tavoli">
-                            <p class="mt-3 fw-semibold">Tavoli</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?category=sedia" class="btn p-0">
-                            <img src="../upload/homePage/cat_sedia.png" class="rounded" alt="Pulsante per accedere alla categoria sedie">
-                            <p class="mt-3 fw-semibold">Sedie</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?category=libreria" class="btn p-0">
-                            <img src="../upload/homePage/cat_libreria.png" class="rounded" alt="Pulsante per accedere alla categoria librerie e scaffali">
-                            <p class="mt-3 fw-semibold">Librerie e scaffali</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?category=cassettiera" class="btn p-0">
-                            <img src="../upload/homePage/cat_cassettiera.png" class="rounded" alt="Pulsante per accedere alla categoria cassettiere">
-                            <p class="mt-3 fw-semibold">Cassettiere</p>
-                        </a>
-                    </div>
+                    <?php foreach ($templateParams['categorie'] as $categoria): ?>
+                        <div class="text-center">
+                            <a href="filteredProducts?category=<?php echo htmlspecialchars($categoria['nome']); ?>" class="btn p-0">
+                                <img src="<?php echo htmlspecialchars($categoria['immagine']); ?>" class="rounded" alt="Categoria <?php echo htmlspecialchars($categoria['nome']); ?>">
+                                <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($categoria['nome']); ?></p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -155,43 +126,14 @@
             <!-- Contenitore slider -->
             <div class="overflow-hidden">
                 <div class="d-flex flex-nowrap gap-3" id="ambientSlider">
-                    <!-- Immagini degli ambienti -->
-                    <div class="text-center">
-                        <a href="filteredProducts?ambient=soggiorno" class="btn p-0">
-                            <img src="../upload/homePage/amb_soggiorno.jpg" class="rounded" alt="Pulsante per accedere all'ambiente soggiorno">
-                            <p class="mt-3 fw-semibold">Soggiorno</p>
-                        </a>
-                    </div>                    
-                    <div class="text-center">
-                        <a href="filteredProducts?ambient=cameradaletto" class="btn p-0">
-                            <img src="../upload/homePage/amb_cameradaletto.jpg" class="rounded" alt="Pulsante per accedere all'ambiente camera da letto">
-                            <p class="mt-3 fw-semibold">Camera da letto</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?cambient=saladapranzo" class="btn p-0">
-                            <img src="../upload/homePage/amb_saladapranzo.jpg" class="rounded" alt="Pulsante per accedere all'ambiente sala da pranzo">
-                            <p class="mt-3 fw-semibold">Sala da pranzo</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?ambient=cucina" class="btn p-0">
-                            <img src="../upload/homePage/amb_cucina.jpg" class="rounded" alt="Pulsante per accedere all'ambiente cucina">
-                            <p class="mt-3 fw-semibold">Cucina</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?ambient=bagno" class="btn p-0">
-                            <img src="../upload/homePage/amb_bagno.jpg" class="rounded" alt="Pulsante per accedere all'ambiente bagno">
-                            <p class="mt-3 fw-semibold">Bagno</p>
-                        </a>
-                    </div>
-                    <div class="text-center">
-                        <a href="filteredProducts?ambient=studio" class="btn p-0">
-                            <img src="../upload/homePage/amb_studio.jpg" class="rounded" alt="Pulsante per accedere all'ambiente studio">
-                            <p class="mt-3 fw-semibold">Studio</p>
-                        </a>
-                    </div>
+                    <?php foreach ($templateParams['ambienti'] as $ambiente): ?>
+                        <div class="text-center">
+                            <a href="filteredProducts?ambient=<?php echo htmlspecialchars($ambiente['nome']); ?>" class="btn p-0">
+                                <img src="<?php echo htmlspecialchars($ambiente['immagine']); ?>" class="rounded" alt="Ambiente <?php echo htmlspecialchars($ambiente['nome']); ?>">
+                                <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($ambiente['nome']); ?></p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
