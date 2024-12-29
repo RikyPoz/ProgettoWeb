@@ -1,4 +1,4 @@
-<?php foreach ($templateParams["prodotto"] as $prodotto):?>
+<?php $prodotto = $templateParams["prodotto"];?>
 <div class="row d-flex justify-content-center">
         <div class = "col-9 border rounded shadow bg-light p-4">
             <div class="row d-flex align-items-stretch">
@@ -7,13 +7,16 @@
                 <div class="col-md-6">
                     <div id="productCarousel" class="carousel slide p-2" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="upload/poz/img1.png" class="d-block img-fluid" alt="Prodotto 1">
-                            </div>
-                            <?php foreach ($prodotto["img"] as $img): ?>
-                            <div class="carousel-item">
-                                <img src="<?php echo $img["img"] ?>" class="d-block img-fluid" alt="<?php echo $img["img"] ?>">
-                            </div>
+                            <?php foreach ($templateParams["immagini"] as $img): ?>
+                                <?php if ($img["Icona"] == 1):?>
+                                    <div class="carousel-item active">
+                                        <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
+                                    </div>
+                                <?php else : ?>
+                                <div class="carousel-item">
+                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
+                                </div>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
@@ -43,7 +46,7 @@
                             <label for="quantity" class="me-2">Quantità:</label>
                             <input type="number" id="quantity" class="form-control w-25" min="1" value="1">
                         </div>
-                        <button class="btn btn-primary w-100">Aggiungi al carrello</button>
+                        <button id="addToCartButton" class="btn btn-primary w-100">Aggiungi al carrello</button>
                     </div>
                 </div>
                 
@@ -61,18 +64,26 @@
                             </tr>
                             <tr>
                                 <th>Colore</th>
-                                <td><?php echo $prodotto["Colore"]?></td>
+                                <td>
+                                    <?php 
+                                        $colors = [];
+                                        foreach ($templateParams["colori"] as $colore) {
+                                            $colors[] = $colore["NomeColore"];
+                                        }
+                                        echo implode(", ", $colors);
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
-                                <th>Lunghezza</th>
-                                <td><?php echo $prodotto["Lunghezza"]?></td>
+                                <th>Largezza</th>
+                                <td><?php echo $prodotto["Larghezza"]?></td>
                             </tr>
                             <tr>
                                 <th>Altezza</th>
                                 <td><?php echo $prodotto["Altezza"]?></td>
                             </tr>
                             <tr>
-                                <th>Larghezza</th>
+                                <th>Profondità</th>
                                 <td><?php echo $prodotto["Profondita"]?></td>
                             </tr>
                             <tr>
@@ -136,4 +147,4 @@
             </div>
         </div>
 </div>
-<?php endforeach; ?>
+
