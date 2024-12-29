@@ -28,6 +28,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getColors(){
+        $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ORDER BY NomeColore");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     //Products Query
 
     public function getProdotto($idProdotto){
@@ -52,6 +60,41 @@ class DatabaseHelper{
     public function getStarNumber($idProdotto){
         
     }
+
+    function getProductsList($filters = [], $orderBy = 'Prezzo ASC') {
+        $query = "SELECT p.Nome, p.Prezzo, p.ValutazioneMedia, p.NumeroRecensioni, i.PercorsoImg 
+                FROM Prodotto p
+                JOIN Immagine i ON p.CodiceProdotto = i.CodiceProdotto
+                WHERE i.Icona = TRUE";
+
+        $queryParams = [];
+        $queryTypes = '';
+
+        foreach ($filters as $key => $value) {
+        if (!is_array($value)) {
+            $query .= " AND p.$key = ?";
+            $queryParams[] = $value;
+            $queryTypes .= is_numeric($value) ? 'd' : 's';
+        } elseif (isset($value['min']) && isset($value['max'])) {
+            $query .= " AND p.$key BETWEEN ? AND ?";
+            $queryParams[] = $value['min'];
+            $queryParams[] = $value['max'];
+            $queryTypes .= is_numeric($value['min']) ? 'd' : 's';
+            $queryTypes .= is_numeric($value['max']) ? 'd' : 's';
+        }
+        }
+
+        $query .= " ORDER BY p.$orderBy";
+        
+        $stmt = $this->db->prepare($query);
+        if (!empty($queryParams)) {
+            $stmt->bind_param($queryTypes, ...$queryParams);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
 
     //TO-DO
     public function writeReview($username,$idProdotto,$valutazione,$testo){
@@ -112,8 +155,9 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     
+
     
-    
+
     public function addWhishListProduct($username , $idProdotto){
         $idWishList = $this->getWishListId($username);
         // Aggiungiamo il prodotto nella wishlist

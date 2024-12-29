@@ -1,15 +1,4 @@
-
-    <!-- Filtro -->
-    <div class="row mb-4 justify-content-center">
-      <div class="col-12 col-xl-10 p-4 bg-white rounded-3 shadow-sm">
-        <div class="row g-4">
-          
-        </div>
-        
-      </div>
-    </div>
-
-    
+   
 
   <!--
   <script>
@@ -47,8 +36,8 @@
           foreach ($templateParams["colors"] as $color) {
             echo "<div class='col'>
                     <div class='form-check'>
-                      <input class='form-check-input' type='checkbox' id='$color'>
-                      <label class='form-check-label' for='$color'>" . ucfirst($color) . "</label>
+                      <input class='form-check-input' type='checkbox' id='{$color['NomeColore']}'>
+                      <label class='form-check-label' for='{$color['NomeColore']}'>" . ucfirst($color["NomeColore"]) . "</label>
                     </div>
                   </div>";
           }
@@ -104,18 +93,16 @@
       <!-- Lista Prodotti -->
       <div class="row g-4">
         <?php
-          // Supponiamo che getProducts() restituisca un array di prodotti
-
           foreach ($templateParams["lista_prodotti"] as $product) {
             echo "<div class='col-6 col-md-4 col-lg-3'>
                     <div class='card text-center shadow-sm border-0'>
-                      <img src='{$product['image']}' class='card-img-top rounded-3' alt='Prodotto'>
+                      <img src='{$product['PercorsoImg']}' class='card-img-top rounded-3' alt='Prodotto'>
                       <div class='card-body'>
-                        <h6 class='card-title text-dark fw-semibold'>{$product['name']}</h6>
-                        <p class='text-success fw-bold'>€" . number_format($product['price'], 2) . "</p>
+                        <h6 class='card-title text-dark fw-semibold'>{$product['Nome']}</h6>
+                        <p class='text-success fw-bold'>€" . number_format($product['Prezzo'], 2) . "</p>
                         <div class='d-flex justify-content-center align-items-center'>
-                          <span class='text-warning fs-4'>" . getStars($product["rating"]) . "</span>
-                          <span class='text-muted ms-1 small'>({$product['reviews']})</span>
+                          <span class='text-warning fs-4'>" . getStars($product["ValutazioneMedia"]) . "</span>
+                          <span class='text-muted ms-1 small'>({$product['NumeroRecensioni']})</span>
                         </div>
                       </div>
                     </div>
