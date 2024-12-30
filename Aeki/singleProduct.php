@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Aeki - SingleProduct";
 $templateParams["nome"] = "singleProduct_main.php";
 //Home Template
 
-$idprodotto = "";
+$idprodotto = "PROD1";
 
 if(isset($_GET["id"])){
     $idprodotto = $_GET["id"];

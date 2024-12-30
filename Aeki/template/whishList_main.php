@@ -33,8 +33,8 @@
                         <div class = "d-flex flex-column align-items-center mt-auto">
                             <span class="fw-bold fs-4 mt-2"><?php echo htmlspecialchars($prodotto["Nome"]); ?></span>
                             <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["Prezzo"]); ?> €</span>
-                            <button class="btn">
-                                <i class="bi bi-heart-fill text-danger fs-3"></i>
+                            <button class="btn" id="heartButton" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>">
+                                <i class="bi bi-heart-fill text-danger fs-3" ></i>
                             </button>
                             <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"] ?>" class="btn border rounded border-dark btn-sm mt-2">Visualizza articolo</a>
                         </div>

@@ -18,9 +18,9 @@
         <div class=" my-3 border rounded shadow">
             <!--Order Info-->
             <div class = "d-flex flex-column flex-md-row ms-3 justify-content-md-around ms-md-0 my-4">
-                <span class ="fs-5">ID Ordine: <span class = "fw-semibold"><?php echo $ordine["idOrdine"] ?></span></span> 
-                <span class ="fs-5">Costo Totale: <span class = "fw-semibold"><?php echo $ordine["costoTotale"] ?></span></span> 
-                <span class ="fs-5">Data Ordine: <span class = "fw-semibold"><?php echo $ordine["dataOrdine"] ?></span></span>
+                <span class ="fs-5">ID Ordine: <span class = "fw-semibold"><?php echo $ordine["IDordine"] ?></span></span> 
+                <span class ="fs-5">Costo Totale: <span class = "fw-semibold"><?php echo $ordine["CostoTotale"] ?></span>€</span> 
+                <span class ="fs-5">Data Ordine: <span class = "fw-semibold"><?php echo $ordine["Data"] ?></span></span>
             </div>
             <!--Separator-->
             <hr class = "mb-4">
@@ -35,10 +35,11 @@
                       <div class = "col-md-10 col-12 flex-column  ps-md-5">
                           <div>
                             <h2 class="fw-semibold fs-4"><?php echo $prodotto["Nome"] ?> </h2>
-                            <span class="fs-5 text-muted "><?php echo $prodotto["Prezzo"] ?> €</span>
+                            <span class="fs-5 me-4">Quantità : <?php echo $prodotto["Quantita"] ?></span>
+                            <span class="fs-5 text-muted "><?php echo $prodotto["PrezzoPagato"] ?> €</span>
                           </div>
                           <div class = "mt-4">
-                            <a href="singleProduct.php?id=123" class="btn btn-primary btn-sm">Visualizza articolo</a>
+                            <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary btn-sm">Visualizza articolo</a>
                             <a href="reviewProduct.php?id=123" class="btn btn-primary btn-sm">Recensisci Articolo</a>
                           </div>
                       </div>

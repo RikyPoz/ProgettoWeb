@@ -94,30 +94,13 @@ class DatabaseHelper{
             return []; 
         }
         // Otteniamo tutti i codiciProdotti all'interno della wishlist
-        $stmt = $this->db->prepare("SELECT CodiceProdotto FROM DettaglioWishlist WHERE IDwishlist = ?");
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto ,p.Nome,p.Prezzo,i.PercorsoImg
+                                    FROM DettaglioWishlist as d
+                                    JOIN Prodotto as p ON d.CodiceProdotto = p.CodiceProdotto
+                                    LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
+                                    WHERE IDwishlist = ?");
         $stmt->bind_param('s', $idWishList);
         $stmt->execute();
-        $result = $stmt->get_result();
-    
-        $productCodes = [];
-        while ($row = $result->fetch_assoc()) {
-            $productCodes[] = $row['CodiceProdotto'];
-        }
-        
-        if (empty($productCodes)) {
-            return [];
-        }
-    
-        // Prepariamo una query per ottenere tutti i dettagli dei prodotti
-        $placeholders = implode(',', array_fill(0, count($productCodes), '?')); //restituisce la stringa con tanti ? quanti sono i codici
-        $query = "SELECT p.CodiceProdotto, Nome,Prezzo,PercorsoImg  FROM Prodotto as p LEFT JOIN Immagine as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 1 WHERE p.CodiceProdotto IN ($placeholders)";
-        $stmt = $this->db->prepare($query);
-    
-        // Bind dinamico dei parametri
-        $types = str_repeat('s', count($productCodes)); //restituisce la stringa con tanti 's' quanti sono i codici
-        $stmt->bind_param($types, ...$productCodes);
-        $stmt->execute();
-    
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -197,7 +180,7 @@ class DatabaseHelper{
     //ORDERS
 
     public function getOrdini($username){
-        $stmt = $this->db->prepare("SELECT IDordine DataOrdine,CostoTotale FROM Ordini WHERE Username=?");
+        $stmt = $this->db->prepare("SELECT IDordine ,Data FROM Ordine WHERE Username=?");
         $stmt->bind_param('s',$username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -205,37 +188,28 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-
     public function getProdottiPerOrdine($idOrdine){
-        $stmt = $this->db->prepare("SELECT CodiceProdotto FROM DettaglioOrdine WHERE IDordine=?");
+        $stmt = $this->db->prepare("SELECT 
+                                    d.CodiceProdotto,
+                                    d.PrezzoPagato,
+                                    d.Quantita,
+                                    p.Nome,
+                                    i.PercorsoImg
+                                FROM 
+                                    DettaglioOrdine AS d
+                                JOIN 
+                                    Prodotto AS p ON d.CodiceProdotto = p.CodiceProdotto
+                                LEFT JOIN 
+                                    ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                                WHERE 
+                                    d.IDordine = ?
+                                ");
         $stmt->bind_param('s',$idOrdine);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $productCodes = [];
-        while ($row = $result->fetch_assoc()) {
-            $productCodes[] = $row['CodiceProdotto'];
-        }
-        
-        if (empty($productCodes)) {
-            return [];
-        }
-
-        $placeholders = implode(',', array_fill(0, count($productCodes), '?')); 
-        $query = "SELECT p.CodiceProdotto, Nome,Prezzo,PercorsoImg  FROM Prodotto as p LEFT JOIN Immagine as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 1 WHERE p.CodiceProdotto IN ($placeholders)";
-        $stmt = $this->db->prepare($query);
-    
-        // Bind dinamico dei parametri
-        $types = str_repeat('s', count($productCodes)); 
-        $stmt->bind_param($types, ...$productCodes);
-        $stmt->execute();
-    
-        $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-
-    
-
 
 
 }
