@@ -1,87 +1,94 @@
--- Popola Ambiente
-INSERT INTO Ambiente (NomeAmbiente) VALUES
-('Cucina'),
-('Salotto'),
-('Camera da letto'),
-('Bagno');
-
--- Popola Categoria
-INSERT INTO Categoria (NomeCategoria) VALUES
-('Mobili'),
-('Elettrodomestici'),
-('Decorazioni'),
-('Illuminazione');
-
--- Popola Utente
+-- Populating Utente table
 INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono) VALUES
-('Riccardo', 'Polazzi', 'poz', 'poz@example.com', 'pass', 'Cliente', NULL, '111111'),
-('Pietro', 'Pasini', 'paso', 'paso@example.com', 'pass', 'Cliente', NULL, '111111'),
-('Gaia', 'Pojaghi', 'gaa', 'gaa@example.com', 'pass', 'Cliente', NULL, '111111'),
-('Luca', 'Bianchi', 'lbianchi', 'luca.bianchi@example.com', 'pass', 'Venditore', 'IT12345678901', '1122334455');
+('Mario', 'Rossi', 'user1', 'mario.rossi@example.com', 'password123', 'Cliente', NULL, '1234567890'),
+('Luigi', 'Verdi', 'user2', 'luigi.verdi@example.com', 'password123', 'Cliente', NULL, '0987654321'),
+('Anna', 'Bianchi', 'user3', 'anna.bianchi@example.com', 'password123', 'Venditore', '12345678901', '1122334455');
 
--- Popola Carrello
-INSERT INTO Carrello (IDcarrello, Username) VALUES
-('CART1', 'poz'),
-('CART2', 'paso');
+-- Populating Ambiente table
+INSERT INTO Ambiente (NomeAmbiente, PercorsoImmagine) VALUES
+('Salotto', 'upload/homePage/salotto.png'),
+('Cucina', 'upload/homePage/cucina.png'),
+('Camera', 'upload/homePage/camera.png');
 
--- Popola WishList
-INSERT INTO WishList (IDwishlist, Username) VALUES
-('WISH1', 'poz'),
-('WISH2', 'paso');
+-- Populating Categoria table
+INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
+('Mobili', 'upload/homePage/mobili.png'),
+('Decorazioni', 'upload/homePage/decorazioni.png'),
+('Illuminazione', 'upload/homePage/illuminazione.png');
 
--- Popola Prodotto
-INSERT INTO Prodotto (CodiceProdotto, Nome, Prezzo, Descrizione, Materiale, Peso, Disponibilita, Altezza, Larghezza, Profondita, ValutazioneMedia, NumeroRecensioni, Username, NomeAmbiente, NomeCategoria) VALUES
-('P001', 'Scrivania', 299.99, 'Tavolo in legno massello', 'Legno', 30.5, 10, 75, 150, 90, 4.5, 20, 'lbianchi', 'Cucina', 'Mobili'),
-('P002', 'Lampada da terra', 89.99, 'Lampada moderna in metallo', 'Metallo', 5.0, 15, 160, 30, 30, 4.8, 35, 'lbianchi', 'Salotto', 'Illuminazione'),
-('P003', 'Poltrona', 129.99, 'Poltrona in tessuto con imbottitura', 'Tessuto', 20.0, 5, 90, 80, 85, 4.3, 10, 'lbianchi', 'Salotto', 'Mobili');
+-- Populating Prodotto table
+INSERT INTO Prodotto (CodiceProdotto, Nome, Prezzo, Descrizione, Materiale, Peso, Disponibilita, Altezza, Larghezza, Profondita, ValutazioneMedia, NumeroRecensioni, NomeAmbiente, NomeCategoria, Username) VALUES
+('PROD1', 'Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0, 10, 90.0, 45.0, 45.0, 4.5, 20, 'Salotto', 'Mobili', 'user1'),
+('PROD2', 'Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 5, 75.0, 150.0, 75.0, 4.8, 15, 'Cucina', 'Mobili', 'user2'),
+('PROD3', 'Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 8, 180.0, 50.0, 50.0, 4.2, 30, 'Camera', 'Illuminazione', 'user3');
 
--- Popola Colorazione
+-- Populating Immagine table
+INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
+('upload/products/img1.png', 'Y', 'PROD1'),
+('upload/products/img2.png', 'N', 'PROD1'),
+('upload/products/img3.png', 'N', 'PROD1'),
+('upload/products/imgLampada.png', 'Y', 'PROD2'),
+('upload/products/images.png', 'Y', 'PROD3');
+
+-- Populating Carrello table
+INSERT INTO Carrello (IDcarrelo, Username) VALUES
+('CAR1', 'user1'),
+('CAR2', 'user2'),
+('CAR3', 'user3');
+
+
+-- Populating Colore table
 INSERT INTO Colore (NomeColore) VALUES
-('Bianco'),
-('Nero'),
-('Marrone');
+('Rosso'),
+('Blu'),
+('Verde');
 
+-- Populating Colorazione table
 INSERT INTO Colorazione (NomeColore, CodiceProdotto) VALUES
-('Bianco', 'P001'),
-('Nero', 'P002'),
-('Marrone', 'P003');
+('Rosso', 'PROD1'),
+('Blu', 'PROD2'),
+('Verde', 'PROD3');
 
--- Popola DettaglioCarrello
-INSERT INTO DettaglioCarrello (IDcarrello, CodiceProdotto, Quantita) VALUES
-('CART1', 'P001', 1),
-('CART1', 'P003', 2),
-('CART2', 'P002', 1);
 
--- Popola DettaglioWishlist
-INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
-('P001', 'WISH1'),
-('P002', 'WISH1'),
-('P003', 'WISH2');
-
--- Popola Ordine
-INSERT INTO Ordine (IDordine, Username) VALUES
-('ORD1', 'poz'),
-('ORD2', 'paso');
-
--- Popola DettaglioOrdine
-INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita) VALUES
-('ORD1', 'P001', 1),
-('ORD1', 'P003', 1),
-('ORD2', 'P002', 2);
-
--- Popola Recensione
-INSERT INTO Recensione (Testo, stelle, IDrecensione, CodiceProdotto, Username) VALUES
-('Ottimo prodotto, consigliato!', 5, 'REV1', 'P001', 'poz'),
-('Buona qualità, ma prezzo alto.', 4, 'REV2', 'P002', 'paso'),
-('Comodo e di design.', 5, 'REV3', 'P003', 'poz');
-
--- Popola Immagine
-INSERT INTO Immagine (PercorsoImg, Icona, CodiceProdotto) VALUES
-('upload/poz/img1.png', 1, 'P001'),
-('upload/poz/img2.png', 0, 'P001'),
-('upload/poz/img3.png', 0, 'P001');
-
--- Popola Notifiche
+-- Populating Notifiche table
 INSERT INTO Notifiche (IdNotifica, Username, Testo, Data) VALUES
-('NOT1', 'poz', 'Il tuo ordine è stato spedito.', '2024-12-20'),
-('NOT2', 'paso', 'Il prodotto è tornato disponibile.', '2024-12-21');
+('NOT1', 'user1', 'Ordine Spedito', '2024-12-01'),
+('NOT2', 'user2', 'Nuovo Messaggio', '2024-12-02'),
+('NOT3', 'user3', 'Promozione Attiva', '2024-12-03');
+
+-- Populating Ordine table
+INSERT INTO Ordine (IDordine, Data, Username) VALUES
+('ORD1', '2024-12-01', 'user1'),
+('ORD2', '2024-12-02', 'user2'),
+('ORD3', '2024-12-03', 'user3');
+
+
+-- Populating Recensione table
+INSERT INTO Recensione (Testo, stelle, IDrecensione, CodiceProdotto, Username) VALUES
+('Ottimo prodotto', 5, 'REC1', 'PROD1', 'user1'),
+('Molto buono', 4, 'REC2', 'PROD2', 'user2'),
+('Soddisfatto', 4, 'REC3', 'PROD3', 'user3');
+
+-- Populating WishList table
+INSERT INTO WishList (IDwishlist, Username) VALUES
+('WISH1', 'user1'),
+('WISH2', 'user2'),
+('WISH3', 'user3');
+
+-- Populating DettaglioCarrello table
+INSERT INTO DettaglioCarrello (IDcarrelo, CodiceProdotto, Quantita) VALUES
+('CAR1', 'PROD1', '2'),
+('CAR2', 'PROD2', '1'),
+('CAR3', 'PROD3', '4');
+
+-- Populating DettaglioOrdine table
+INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita, PrezzoPagato) VALUES
+('ORD1', 'PROD1', '2', 150.0),
+('ORD2', 'PROD2', '1', 75.0),
+('ORD3', 'PROD3', '4', 300.0);
+
+-- Populating DettaglioWishlist table
+INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
+('PROD1', 'WISH1'),
+('PROD2', 'WISH2'),
+('PROD3', 'WISH3');

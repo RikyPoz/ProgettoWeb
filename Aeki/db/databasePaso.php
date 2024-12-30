@@ -28,28 +28,19 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getColors(){
+        $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ORDER BY NomeColore");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     //Products Query
 
     public function getProdotto($idProdotto){
-        $stmt = $this->db->prepare("SELECT * FROM Prodotto WHERE CodiceProdotto=?");
-        $stmt->bind_param('s',$idProdotto);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        return $result->fetch_assoc();
-    }
-
-    public function getProdottoImages($idProdotto){
-        $stmt = $this->db->prepare("SELECT PercorsoImg, Icona FROM ImmagineProdotto WHERE CodiceProdotto=?");
-        $stmt->bind_param('s',$idProdotto);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getProdottoColori($idProdotto){
-        $stmt = $this->db->prepare("SELECT NomeColore FROM Colorazione WHERE CodiceProdotto=?");
+        //Problema:come ritorna tutte le immagini 
+        $stmt = $this->db->prepare("SELECT * FROM Prodotto as p JOIN Immagine as i ON p.CodiceProdotto = i.CodiceProdotto AND CodiceProdotto=?");
         $stmt->bind_param('s',$idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -58,10 +49,52 @@ class DatabaseHelper{
     }
 
 
+    public function getProdottoByCategoria(){
+
+    }
+
+    public function getProdottoByAmbiente(){
+
+    }
 
     public function getStarNumber($idProdotto){
         
     }
+
+    function getProductsList($filters = [], $orderBy = 'Prezzo ASC') {
+        $query = "SELECT p.Nome, p.Prezzo, p.ValutazioneMedia, p.NumeroRecensioni, i.PercorsoImg 
+                FROM Prodotto p
+                JOIN Immagine i ON p.CodiceProdotto = i.CodiceProdotto
+                WHERE i.Icona = TRUE";
+
+        $queryParams = [];
+        $queryTypes = '';
+
+        foreach ($filters as $key => $value) {
+        if (!is_array($value)) {
+            $query .= " AND p.$key = ?";
+            $queryParams[] = $value;
+            $queryTypes .= is_numeric($value) ? 'd' : 's';
+        } elseif (isset($value['min']) && isset($value['max'])) {
+            $query .= " AND p.$key BETWEEN ? AND ?";
+            $queryParams[] = $value['min'];
+            $queryParams[] = $value['max'];
+            $queryTypes .= is_numeric($value['min']) ? 'd' : 's';
+            $queryTypes .= is_numeric($value['max']) ? 'd' : 's';
+        }
+        }
+
+        $query .= " ORDER BY p.$orderBy";
+        
+        $stmt = $this->db->prepare($query);
+        if (!empty($queryParams)) {
+            $stmt->bind_param($queryTypes, ...$queryParams);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
 
     //TO-DO
     public function writeReview($username,$idProdotto,$valutazione,$testo){
@@ -122,8 +155,9 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     
+
     
-    
+
     public function addWhishListProduct($username , $idProdotto){
         $idWishList = $this->getWishListId($username);
         // Aggiungiamo il prodotto nella wishlist
@@ -156,31 +190,9 @@ class DatabaseHelper{
     
     //shoppingCart
 
-    public function addProductToCart($userId, $productId, $quantity){
-        $cartId = $this->getCartId();
-        $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?,?,?");
-        $stmt->bind_param('ssi',$cartId,$idProdotto,$quantity);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($stmt->affected_rows > 0) {
-            return true; 
-        } else {
-            return false; 
-        }
+    public function addProductToShoppingCart(){
     
     }
-
-    public function getCartId($userId){
-        $stmt = $this->db->prepare("SELECT IDCarrello FROM Carrello WHERE Username=?");
-        $stmt->bind_param('s',$userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        return $result->fetch_assoc();
-    }
-
-    
 
     public function removeProductToShoppingCart(){
         
@@ -194,47 +206,38 @@ class DatabaseHelper{
 
     }
 
-    //ORDERS
+    //seller Query
 
-    public function getOrdini($username){
-        $stmt = $this->db->prepare("SELECT IDordine DataOrdine,CostoTotale FROM Ordini WHERE Username=?");
-        $stmt->bind_param('s',$username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        return $result->fetch_all(MYSQLI_ASSOC);
+    public function addProduct($idProdotto){
+
     }
 
-
-    public function getProdottiPerOrdine($idOrdine){
-        $stmt = $this->db->prepare("SELECT CodiceProdotto FROM DettaglioOrdine WHERE IDordine=?");
-        $stmt->bind_param('s',$idOrdine);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $productCodes = [];
-        while ($row = $result->fetch_assoc()) {
-            $productCodes[] = $row['CodiceProdotto'];
-        }
+    public function removeProduct($idProdotto){
         
-        if (empty($productCodes)) {
-            return [];
-        }
-
-        $placeholders = implode(',', array_fill(0, count($productCodes), '?')); 
-        $query = "SELECT p.CodiceProdotto, Nome,Prezzo,PercorsoImg  FROM Prodotto as p LEFT JOIN Immagine as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 1 WHERE p.CodiceProdotto IN ($placeholders)";
-        $stmt = $this->db->prepare($query);
-    
-        // Bind dinamico dei parametri
-        $types = str_repeat('s', count($productCodes)); 
-        $stmt->bind_param($types, ...$productCodes);
-        $stmt->execute();
-    
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    
+    public function refillProduct($idProdotto, $quantità){
+        
+    }
+
+    public function modifyProductPrice($idProdotto, $newPrice){
+        
+    }
+
+
+    //User Query
+
+    public function getUtente(){
+        
+    }
+
+    public function getOrdiniByUtente(){
+
+    }
+
+    public function getMessaggiByUtente(){
+
+    }
 
 
 

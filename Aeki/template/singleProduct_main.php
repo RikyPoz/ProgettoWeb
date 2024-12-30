@@ -8,7 +8,7 @@
                     <div id="productCarousel" class="carousel slide p-2" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <?php foreach ($templateParams["immagini"] as $img): ?>
-                                <?php if ($img["Icona"] == 1):?>
+                                <?php if ($img["Icona"] == 'Y'):?>
                                     <div class="carousel-item active">
                                         <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
                                     </div>
