@@ -1,5 +1,5 @@
 <?php
-require_once 'bootstrap.php';
+require_once '../bootstrap.php';
 
 // Imposta l'intestazione per ricevere JSON
 header('Content-Type: application/json');

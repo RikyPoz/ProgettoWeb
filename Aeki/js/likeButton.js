@@ -1,4 +1,3 @@
-// il codice viene eseguito dopo che il DOM è stato caricato
 document.addEventListener("DOMContentLoaded", function () {
     addLikeBtnListener();
 });
@@ -12,24 +11,35 @@ function addLikeBtnListener() {
             const prodottoId = button.getAttribute("data-id");
 
             if (heartIcon.classList.contains("text-danger")) {
-                heartIcon.classList.remove("text-danger");
-                heartIcon.classList.add("text-white");
-                rimuoviDalDatabase(prodottoId);
+                rimuoviDaWishlist(prodottoId).then(success => {
+                    if (success) {
+                        heartIcon.classList.remove("text-danger");
+                        heartIcon.classList.add("text-white");
+                    }
+                });
             } else {
-                heartIcon.classList.remove("text-white");
-                heartIcon.classList.add("text-danger");
-                aggiungiAlDatabase(prodottoId);
+                aggiungiAWishlist(prodottoId).then(success => {
+                    if (success) {
+                        heartIcon.classList.remove("text-white");
+                        heartIcon.classList.add("text-danger");
+                    }
+                });
             }
         });
     });
 }
 
+
 async function rimuoviDaWishlist(prodottoId) {
     try {
-        const response = await fetch('/rimuoviProdotto', {
+        const sendingData = {
+            productId: prodottoId,
+            type: "remove"
+        };
+        const response = await fetch('Ajax/api-likeButton.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prodottoId })
+            body: JSON.stringify(sendingData)
         });
 
         if (!response.ok) {
@@ -39,6 +49,7 @@ async function rimuoviDaWishlist(prodottoId) {
         const data = await response.json();
         if (data.success) {
             console.log('Prodotto rimosso:', data);
+            return true;
         } else {
             console.error('Errore specifico:', data.message);
             if (data.error === 'not_logged_in') {
@@ -46,21 +57,25 @@ async function rimuoviDaWishlist(prodottoId) {
             } else {
                 alert('Errore: ' + data.message);
             }
+            return false;
         }
+
     } catch (error) {
         console.error('Errore nella rimozione del prodotto:', error);
+        return false;
     }
 }
 
-
-
-
 async function aggiungiAWishlist(prodottoId) {
     try {
-        const response = await fetch('/aggiungiProdotto', {
+        const sendingData = {
+            productId: prodottoId,
+            type: "add"
+        };
+        const response = await fetch('Ajax/api-likeButton.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prodottoId })
+            body: JSON.stringify(sendingData)
         });
 
         if (!response.ok) {
@@ -71,6 +86,7 @@ async function aggiungiAWishlist(prodottoId) {
 
         if (data.success) {
             console.log('Prodotto aggiunto:', data);
+            return true;
         } else {
             console.error('Errore specifico:', data.message);
             if (data.error === 'not_logged_in') {
@@ -78,9 +94,10 @@ async function aggiungiAWishlist(prodottoId) {
             } else {
                 alert('Errore: ' + data.message);
             }
+            return false;
         }
     } catch (error) {
-        console.error('Errore generale:', error);
+        console.error('Errore nell aggiunta del prodotto :', error);
+        return false;
     }
 }
-

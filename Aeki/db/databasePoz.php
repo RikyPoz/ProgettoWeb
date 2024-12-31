@@ -107,7 +107,7 @@ class DatabaseHelper{
     
     
     
-    public function addWhishListProduct($username , $idProdotto){
+    public function addWishListProduct($username , $idProdotto){
         $idWishList = $this->getWishListId($username);
         // Aggiungiamo il prodotto nella wishlist
         $stmt = $this->db->prepare("INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES(?, ?)");
@@ -122,7 +122,7 @@ class DatabaseHelper{
     }
     
     
-    public function removeWhishListProduct($username, $idProdotto){
+    public function removeWishListProduct($username, $idProdotto){
         $idWishList = $this->getWishListId($username);
         // Rimuoviamo il prodotto dalla wishlist
         $stmt = $this->db->prepare("DELETE FROM DettaglioWishlist WHERE CodiceProdotto = ? AND IDwishlist = ?");
