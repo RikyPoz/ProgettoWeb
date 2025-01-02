@@ -11,7 +11,7 @@ class DatabaseHelper{
     }
 
     public function getCategorie(){
-        $stmt = $this->db->prepare("SELECT NomeCategoria FROM Categoria ORDER BY nomecategoria");
+        $stmt = $this->db->prepare("SELECT NomeCategoria, PercorsoImmagine FROM Categoria ORDER BY NomeCategoria");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -19,30 +19,43 @@ class DatabaseHelper{
     }
 
     public function getAmbienti(){
-        $stmt = $this->db->prepare("SELECT NomeAmbiente FROM Ambiente ORDER BY NomeAmbiente");
+        $stmt = $this->db->prepare("SELECT NomeAmbiente, PercorsoImmagine FROM Ambiente ORDER BY NomeAmbiente");
         $stmt->execute();
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getImmagineCategoria($nomeCategoria){
-        $stmt = $this->db->prepare("SELECT PercorsoImmagine FROM Categoria WHERE NomeCategoria = ?");
-        $stmt->bind_param("s", $nomeCategoria);
+    public function getUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Utente WHERE Username = ?");
+        $stmt->bind_param("s", $username); 
         $stmt->execute();
         $result = $stmt->get_result();
         
         return $result->fetch_assoc();
     }
-
-    public function getImmagineAmbiente($nomeAmbiente){
-        $stmt = $this->db->prepare("SELECT PercorsoImmagine FROM Ambiente WHERE NomeAmbiente = ?");
-        $stmt->bind_param("s", $nomeAmbiente);
+    
+    
+    public function getOrdiniByUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Ordine WHERE Username = ? ORDER BY Data DESC");
+        $stmt->bind_param("s", $username);  
         $stmt->execute();
         $result = $stmt->get_result();
         
-        return $result->fetch_assoc();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
+    
+    
+    public function getMessaggiByUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Notifiche WHERE Username = ? ORDER BY Data DESC");
+        $stmt->bind_param("s", $username);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    
 
 }
 ?>

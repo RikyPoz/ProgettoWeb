@@ -95,15 +95,12 @@
                 <!-- Contenitore slider -->
                 <div class="overflow-hidden">
                     <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
-                        <?php foreach ($templateParams["categorie"] as $categoria): ?>
+                        <?php foreach ($templateParams["categoria"] as $categoria): ?>
                             <div class="text-center">
-                                <?php
-                                    // Recupera il percorso dell'immagine per la categoria
-                                    $immagineCategoria = htmlspecialchars($categoria['PercorsoImmagine']);
-                                ?>
-                                <a href="filteredProducts?category=<?php echo urlencode($categoria['NomeCategoria']); ?>" class="btn p-0">
-                                    <img src="<?php echo $immagineCategoria; ?>" alt="Categoria <?php echo htmlspecialchars($categoria['NomeCategoria']); ?>">
-                                    <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($categoria['NomeCategoria']); ?></p>
+                                <?php $immagineCategoria = $categoria['PercorsoImmagine'];?>
+                                <a href="filteredProducts?category=<?php echo $categoria['NomeCategoria']; ?>" class="btn p-0">
+                                    <img src="<?php echo $immagineCategoria; ?>" alt="Categoria <?php echo $categoria['NomeCategoria']; ?>">
+                                    <p class="mt-3 fw-semibold"><?php echo $categoria['NomeCategoria']; ?></p>
                                 </a>
                             </div>
                         <?php endforeach; ?>
@@ -122,7 +119,7 @@
         <!-- Sezione Ambienti -->
         <h3 class="mt-5">Ambienti</h3>
         <div class="position-relative">
-            <?php if (!empty($templateParams["ambienti"])): ?>    
+             <?php if (!empty($templateParams["ambienti"])): ?>
                 <!-- Freccia sinistra -->
                 <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientLeft">
                     <span class="bi bi-arrow-left"></span>
@@ -133,9 +130,9 @@
                     <div class="d-flex flex-nowrap gap-3" id="ambientSlider">
                         <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
                             <div class="text-center">
-                                <a href="filteredProducts?ambient=<?php echo urlencode($ambiente['NomeAmbiente']); ?>" class="btn p-0">
-                                    <img src="<?php echo htmlspecialchars($ambiente['PercorsoImmagine']); ?>" class="rounded" alt="Ambiente <?php echo htmlspecialchars($ambiente['NomeAmbiente']); ?>">
-                                    <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($ambiente['NomeAmbiente']); ?></p>
+                                <a href="filteredProducts?ambient=<?php echo$ambiente['NomeAmbiente']; ?>" class="btn p-0">
+                                    <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo htmlspecialchars($ambiente['NomeAmbiente']); ?>">
+                                    <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
                                 </a>
                             </div>
                         <?php endforeach; ?>
