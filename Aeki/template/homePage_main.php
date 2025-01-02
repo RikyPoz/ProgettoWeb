@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="it">
 <head>
-    <meta charset="UTF-8">
+    <!-- DA ELIMINARE QUANDO SI USA BASE.PHP -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Icone Bootstrap -->
@@ -28,7 +26,6 @@
             height: 200px; /* Imposta un'altezza fissa per le immagini nella sezione ambienti */
             object-fit: cover; /* Mantiene le proporzioni dell'immagine riempiendo interamente il contenitore */
         }
-
 
         #categoriesSlider,
         #ambientSlider {
@@ -60,8 +57,8 @@
         }
     </style>
 </head>
-<body>
 
+<body>
     <!-- Sezione principale -->
     <div class="container mt-4">
         <div class="row mb-4">
@@ -81,127 +78,128 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="../upload/homePage/presentazione.jpg" alt="" class="img-fluid">
+                <img src="../upload/homePage/presentazione.png" alt="" class="img-fluid">
             </div>
         </div>
-    
 
         <!-- Sezione Categorie -->
-        <h3 class="mt-5">Categorie</h3>
+        <h3 class="mt-5">Categorie </h3>
         <div class="position-relative">
-            <!-- Freccia sinistra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesLeft">
-                <span class="bi bi-arrow-left"></span>
-            </button>
-            
-            <!-- Contenitore slider -->
-            <div class="overflow-hidden">
-                <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
-                    <?php foreach ($templateParams['categorie'] as $categoria): ?>
-                        <div class="text-center">
-                            <a href="filteredProducts?category=<?php echo htmlspecialchars($categoria['nome']); ?>" class="btn p-0">
-                                <img src="<?php echo htmlspecialchars($categoria['immagine']); ?>" class="rounded" alt="Categoria <?php echo htmlspecialchars($categoria['nome']); ?>">
-                                <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($categoria['nome']); ?></p>
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
+            <?php if (!empty($templateParams["categorie"])): ?>    
+                
+                <!-- Freccia sinistra -->
+                <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesLeft">
+                    <span class="bi bi-arrow-left"></span>
+                </button>
+                
+                <!-- Contenitore slider -->
+                <div class="overflow-hidden">
+                    <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
+                        <?php foreach ($templateParams["categorie"] as $categoria): ?>
+                            <div class="text-center">
+                                <?php
+                                    // Recupera il percorso dell'immagine per la categoria
+                                    $immagineCategoria = htmlspecialchars($categoria['PercorsoImmagine']);
+                                ?>
+                                <a href="filteredProducts?category=<?php echo urlencode($categoria['NomeCategoria']); ?>" class="btn p-0">
+                                    <img src="<?php echo $immagineCategoria; ?>" alt="Categoria <?php echo htmlspecialchars($categoria['NomeCategoria']); ?>">
+                                    <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($categoria['NomeCategoria']); ?></p>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Freccia destra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesRight">
-                <span class="bi bi-arrow-right"></span>
-            </button>
+                <!-- Freccia destra -->
+                <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesRight">
+                    <span class="bi bi-arrow-right"></span>
+                </button>
+            <?php else: ?>
+                <p>Nessuna categoria disponibile.</p>
+            <?php endif; ?>
         </div>
-
 
         <!-- Sezione Ambienti -->
         <h3 class="mt-5">Ambienti</h3>
         <div class="position-relative">
-            <!-- Freccia sinistra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientLeft">
-                <span class="bi bi-arrow-left"></span>
-            </button>
-            
-            <!-- Contenitore slider -->
-            <div class="overflow-hidden">
-                <div class="d-flex flex-nowrap gap-3" id="ambientSlider">
-                    <?php foreach ($templateParams['ambienti'] as $ambiente): ?>
-                        <div class="text-center">
-                            <a href="filteredProducts?ambient=<?php echo htmlspecialchars($ambiente['nome']); ?>" class="btn p-0">
-                                <img src="<?php echo htmlspecialchars($ambiente['immagine']); ?>" class="rounded" alt="Ambiente <?php echo htmlspecialchars($ambiente['nome']); ?>">
-                                <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($ambiente['nome']); ?></p>
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
+            <?php if (!empty($templateParams["ambienti"])): ?>    
+                <!-- Freccia sinistra -->
+                <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientLeft">
+                    <span class="bi bi-arrow-left"></span>
+                </button>
+                
+                <!-- Contenitore slider -->
+                <div class="overflow-hidden">
+                    <div class="d-flex flex-nowrap gap-3" id="ambientSlider">
+                        <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
+                            <div class="text-center">
+                                <a href="filteredProducts?ambient=<?php echo urlencode($ambiente['NomeAmbiente']); ?>" class="btn p-0">
+                                    <img src="<?php echo htmlspecialchars($ambiente['PercorsoImmagine']); ?>" class="rounded" alt="Ambiente <?php echo htmlspecialchars($ambiente['NomeAmbiente']); ?>">
+                                    <p class="mt-3 fw-semibold"><?php echo htmlspecialchars($ambiente['NomeAmbiente']); ?></p>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Freccia destra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientRight">
-                <span class="bi bi-arrow-right"></span>
-            </button>
+                <!-- Freccia destra -->
+                <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientRight">
+                    <span class="bi bi-arrow-right"></span>
+                </button>
+            <?php else: ?>
+                <p>Nessun ambiente disponibile.</p>
+            <?php endif; ?>
         </div>
     </div>
 
-      <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
-        function enableHorizontalScroll(sliderId, leftButtonId, rightButtonId) {
-            const slider = document.getElementById(sliderId);
-            const leftButton = document.getElementById(leftButtonId);
-            const rightButton = document.getElementById(rightButtonId);
-            let currentScrollPosition = 0;
-            const scrollAmount = 300; // Di quanto si scorrere ogni volta
-            
-            // Aggiornare lo stato dei pulsanti
-            function updateButtonState() {
-                // Calcolare la larghezza massima di scorrimento
-                const maxScroll = slider.scrollWidth - slider.offsetWidth;
+            function enableHorizontalScroll(sliderId, leftButtonId, rightButtonId) {
+                const slider = document.getElementById(sliderId);
+                const leftButton = document.getElementById(leftButtonId);
+                const rightButton = document.getElementById(rightButtonId);
+                let currentScrollPosition = 0;
+                const scrollAmount = 300; // Di quanto si scorre ogni volta
+                
+                // Aggiornare lo stato dei pulsanti
+                function updateButtonState() {
+                    const maxScroll = slider.scrollWidth - slider.offsetWidth;
 
-                // Disabilitare il pulsante sinistro se non si può più scorrere a sinistra
-                leftButton.disabled = currentScrollPosition <= 0;
+                    leftButton.disabled = currentScrollPosition <= 0;
+                    rightButton.disabled = currentScrollPosition >= maxScroll;
+                }
 
-                // Disabilitare il pulsante destro se non si può più scorrere a destra
-                rightButton.disabled = currentScrollPosition >= maxScroll;
+                updateButtonState();
+
+                rightButton.addEventListener("click", function () {
+                    const maxScroll = slider.scrollWidth - slider.offsetWidth;
+                    if (currentScrollPosition < maxScroll) {
+                        currentScrollPosition += scrollAmount;
+                        if (currentScrollPosition > maxScroll) {
+                            currentScrollPosition = maxScroll;
+                        }
+                        slider.style.transform = `translateX(-${currentScrollPosition}px)`;
+                    }
+                    updateButtonState();
+                });
+
+                leftButton.addEventListener("click", function () {
+                    if (currentScrollPosition > 0) {
+                        currentScrollPosition -= scrollAmount;
+                        if (currentScrollPosition < 0) {
+                            currentScrollPosition = 0;
+                        }
+                        slider.style.transform = `translateX(-${currentScrollPosition}px)`;
+                    }
+                    updateButtonState();
+                });
             }
 
-            // Inizializzare lo stato dei pulsanti
-            updateButtonState();
-
-            // Scorrimento a destra
-            rightButton.addEventListener("click", function () {
-                const maxScroll = slider.scrollWidth - slider.offsetWidth;
-                if (currentScrollPosition < maxScroll) {
-                    currentScrollPosition += scrollAmount;
-                    if (currentScrollPosition > maxScroll) {
-                        currentScrollPosition = maxScroll;
-                    }
-                    slider.style.transform = `translateX(-${currentScrollPosition}px)`;
-                }
-                updateButtonState();
-            });
-
-            // Scorrimento a sinistra
-            leftButton.addEventListener("click", function () {
-                if (currentScrollPosition > 0) {
-                    currentScrollPosition -= scrollAmount;
-                    if (currentScrollPosition < 0) {
-                        currentScrollPosition = 0;
-                    }
-                    slider.style.transform = `translateX(-${currentScrollPosition}px)`;
-                }
-                updateButtonState();
-            });
-        }
-
-        // Abilitare lo scorrimento per Categorie
-        enableHorizontalScroll("categoriesSlider", "categoriesLeft", "categoriesRight");
-        // Abilitare lo scorrimento per Ambienti
-        enableHorizontalScroll("ambientSlider", "ambientLeft", "ambientRight");
-    });
+            // Abilitare lo scorrimento per Categorie
+            enableHorizontalScroll("categoriesSlider", "categoriesLeft", "categoriesRight");
+            // Abilitare lo scorrimento per Ambienti
+            enableHorizontalScroll("ambientSlider", "ambientLeft", "ambientRight");
+        });
     </script>
-
 </body>
 </html>
-
-

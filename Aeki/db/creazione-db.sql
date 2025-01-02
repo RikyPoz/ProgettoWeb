@@ -308,4 +308,3 @@ create unique index ID_WishList_IND
 
 create unique index FKha_IND
      on WishList (Username);
-
