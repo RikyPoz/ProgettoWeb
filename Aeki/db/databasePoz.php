@@ -1,4 +1,13 @@
 <?php
+/*
+create table Recensione (
+    IDrecensione int AUTO_INCREMENT,
+     Testo VARCHAR(50) not null,
+     stelle int not null,
+     CodiceProdotto VARCHAR(50) not null,
+     Username VARCHAR(50) not null,
+     constraint ID_Recensione_ID primary key (IDrecensione);
+*/
 class DatabaseHelper{
     private $db;
 
@@ -47,6 +56,14 @@ class DatabaseHelper{
     
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    public function getProdottoIcon($idProdotto){
+        $stmt = $this->db->prepare("SELECT PercorsoImg FROM ImmagineProdotto WHERE CodiceProdotto=? AND Icona='Y'");
+        $stmt->bind_param('s',$idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        return $result->fetch_assoc();
+    }
 
     public function getProdottoColori($idProdotto){
         $stmt = $this->db->prepare("SELECT NomeColore FROM Colorazione WHERE CodiceProdotto=?");
@@ -65,8 +82,8 @@ class DatabaseHelper{
 
     //TO-DO
     public function writeReview($username,$idProdotto,$valutazione,$testo){
-        $stmt = $this->db->prepare("INSERT INTO `Recensione`(`Testo`, `stelle`, `IDrecensione`, `Username`, `CodiceProdotto`) VALUES (?,?,?,?,?)");
-        $stmt->bind_param('sssss', $testo,$valutazione,$idRecensione,$username,$idProdotto); 
+        $stmt = $this->db->prepare("INSERT INTO `Recensione`(`Testo`, `stelle`, `Username`, `CodiceProdotto`) VALUES (?,?,?,?)");
+        $stmt->bind_param('siss', $testo,$valutazione,$username,$idProdotto); 
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {
@@ -126,7 +143,7 @@ class DatabaseHelper{
         $idWishList = $this->getWishListId($username);
         // Rimuoviamo il prodotto dalla wishlist
         $stmt = $this->db->prepare("DELETE FROM DettaglioWishlist WHERE CodiceProdotto = ? AND IDwishlist = ?");
-        $stmt->bind_param('ii', $idProdotto, $idWishList);  // Usa 'i' per interi
+        $stmt->bind_param('ss', $idProdotto, $idWishList);  // Usa 'i' per interi
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {

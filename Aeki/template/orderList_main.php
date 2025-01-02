@@ -40,7 +40,7 @@
                           </div>
                           <div class = "mt-4">
                             <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary btn-sm">Visualizza articolo</a>
-                            <a href="reviewProduct.php?id=123" class="btn btn-primary btn-sm">Recensisci Articolo</a>
+                            <a href="review.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary btn-sm">Recensisci Articolo</a>
                           </div>
                       </div>
                   </div>
