@@ -46,15 +46,15 @@
                 <span>Profilo</span>
             </li>
             <li class="nav-item d-flex flex-column align-items-center mx-3">
-                <button class="btn btn-light">
+              <a href="whishlist.php" class="btn btn-light text-center">
                 <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
-                </button>
+              </a>
                 <span>Preferiti</span>
             </li>
             <li class="nav-item d-flex flex-column align-items-center">
-                <button class="btn btn-light">
+              <a href="shoppingCart.php" class="btn btn-light text-center">
                 <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
-                </button>
+              </a>
                 <span>Carrello</span>
             </li>
             </ul>

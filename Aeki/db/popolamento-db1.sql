@@ -61,6 +61,7 @@ INSERT INTO Notifiche (IdNotifica, Username, Testo, Data) VALUES
 -- Populating Ordine table
 INSERT INTO Ordine (IDordine, Data, Username) VALUES
 ('ORD1', '2024-12-01', 'user1'),
+('ORD4', '2024-12-12', 'user1'),
 ('ORD2', '2024-12-02', 'user2'),
 ('ORD3', '2024-12-03', 'user3');
 
@@ -86,11 +87,15 @@ INSERT INTO DettaglioCarrello (IDcarrelo, CodiceProdotto, Quantita) VALUES
 -- Populating DettaglioOrdine table
 INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita, PrezzoPagato) VALUES
 ('ORD1', 'PROD1', '2', 150.0),
+('ORD4', 'PROD2', '2', 80.0),
+('ORD4', 'PROD3', '2', 60.0),
 ('ORD2', 'PROD2', '1', 75.0),
 ('ORD3', 'PROD3', '4', 300.0);
 
 -- Populating DettaglioWishlist table
 INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
 ('PROD1', 'WISH1'),
+('PROD2', 'WISH1'),
+('PROD3', 'WISH1'),
 ('PROD2', 'WISH2'),
 ('PROD3', 'WISH3');

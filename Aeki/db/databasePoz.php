@@ -1,13 +1,5 @@
 <?php
-/*
-create table Recensione (
-    IDrecensione int AUTO_INCREMENT,
-     Testo VARCHAR(50) not null,
-     stelle int not null,
-     CodiceProdotto VARCHAR(50) not null,
-     Username VARCHAR(50) not null,
-     constraint ID_Recensione_ID primary key (IDrecensione);
-*/
+
 class DatabaseHelper{
     private $db;
 

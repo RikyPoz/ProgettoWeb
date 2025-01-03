@@ -26,9 +26,9 @@ create table Ambiente (
      constraint ID_Ambiente_ID primary key (NomeAmbiente));
 
 create table Carrello (
-     IDcarrelo VARCHAR(50) not null,
+     IDcarrello VARCHAR(50) not null,
      Username VARCHAR(50) not null,
-     constraint ID_Carrello_ID primary key (IDcarrelo),
+     constraint ID_Carrello_ID primary key (IDcarrello),
      constraint FKpossiede_ID unique (Username));
 
 create table Categoria (
@@ -46,10 +46,10 @@ create table Colore (
      constraint ID_Colore_ID primary key (NomeColore));
 
 create table DettaglioCarrello (
-     IDcarrelo VARCHAR(50) not null,
+     IDcarrello VARCHAR(50) not null,
      CodiceProdotto VARCHAR(50) not null,
      Quantita VARCHAR(50) not null,
-     constraint ID_DettaglioCarrello_ID primary key (CodiceProdotto, IDcarrelo));
+     constraint ID_DettaglioCarrello_ID primary key (CodiceProdotto, IDcarrello));
 
 create table DettaglioOrdine (
      IDordine VARCHAR(50) not null,
@@ -102,13 +102,12 @@ create table Prodotto (
      constraint ID_Prodotto_ID primary key (CodiceProdotto));
 
 create table Recensione (
+    IDrecensione int AUTO_INCREMENT,
      Testo VARCHAR(50) not null,
      stelle int not null,
-     IDrecensione VARCHAR(50) not null,
      CodiceProdotto VARCHAR(50) not null,
      Username VARCHAR(50) not null,
-     constraint ID_Recensione_ID primary key (IDrecensione),
-     constraint SID_Recensione_ID unique (CodiceProdotto, Username, IDrecensione));
+     constraint ID_Recensione_ID primary key (IDrecensione));
 
 create table Utente (
      Nome VARCHAR(50) not null,
@@ -148,8 +147,8 @@ alter table DettaglioCarrello add constraint FKR_3_Pro
      references Prodotto (CodiceProdotto);
 
 alter table DettaglioCarrello add constraint FKR_3_Car_FK
-     foreign key (IDcarrelo)
-     references Carrello (IDcarrelo);
+     foreign key (IDcarrello)
+     references Carrello (IDcarrello);
 
 alter table DettaglioOrdine add constraint FKR_4_Pro
      foreign key (CodiceProdotto)
@@ -226,7 +225,7 @@ create unique index ID_Ambiente_IND
      on Ambiente (NomeAmbiente);
 
 create unique index ID_Carrello_IND
-     on Carrello (IDcarrelo);
+     on Carrello (IDcarrello);
 
 create unique index FKpossiede_IND
      on Carrello (Username);
@@ -244,10 +243,10 @@ create unique index ID_Colore_IND
      on Colore (NomeColore);
 
 create unique index ID_DettaglioCarrello_IND
-     on DettaglioCarrello (CodiceProdotto, IDcarrelo);
+     on DettaglioCarrello (CodiceProdotto, IDcarrello);
 
 create index FKR_3_Car_IND
-     on DettaglioCarrello (IDcarrelo);
+     on DettaglioCarrello (IDcarrello);
 
 create unique index ID_DettaglioOrdine_IND
      on DettaglioOrdine (CodiceProdotto, IDordine);
