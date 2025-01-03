@@ -34,8 +34,16 @@
                 <!-- Descrizione Prodotto-->
                 <div class="col-md-6 h-100">
                     <div class="p-4">
-                        <h2 class="fw-bold"><?php echo $prodotto["Nome"]?> </h2>
-                        <span class="fs-5 text-muted "><?php echo $prodotto["Prezzo"] ?> €</span>
+                        <span class="fw-bold fs-2 me-4"><?php echo $prodotto["Nome"]?> </span>
+                        <?php if($prodotto["InWishlist"] == "true"): ?>
+                            <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
+                            <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                        <?php else: ?>
+                            <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                            <i class="bi bi-heart  fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
+                        <?php endif; ?>
+
+                        <p class="fs-5 text-muted mt-2"><?php echo $prodotto["Prezzo"] ?> €</p>
                         <div class="mb-3">
                             <span class="text-warning"><?php echo getStars((int)$prodotto["ValutazioneMedia"]) ?></span>
                             <span><?php echo $prodotto["NumeroRecensioni"]?></span>

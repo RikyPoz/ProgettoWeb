@@ -147,8 +147,19 @@ class DatabaseHelper{
         }
     }
 
-    public function alreadyInWishList($productId,$username){
-
+    public function inWishList($productId,$username){
+        $idWishList = $this->getWishListId($username);
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM DettaglioWishlist WHERE CodiceProdotto = ? AND IDwishlist = ?");
+        $stmt->bind_param('ss', $productId, $idWishList);  // Usa 'i' per interi
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     

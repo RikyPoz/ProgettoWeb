@@ -3,25 +3,26 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function addLikeBtnListener() {
-    const heartButtons = document.querySelectorAll(".btn");
+    const heartIcons = document.querySelectorAll(".bi-heart, .bi-heart-fill"); //sia vuote che piene
 
-    heartButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            const heartIcon = button.querySelector("i");
-            const prodottoId = button.getAttribute("data-id");
+    heartIcons.forEach(icon => {
+        icon.addEventListener("click", function () {
+            const prodottoId = icon.getAttribute("data-id");
 
-            if (heartIcon.classList.contains("text-danger")) {
-                rimuoviDaWishlist(prodottoId).then(success => {
+            if (icon.classList.contains("bi-heart")) { //se è vuota
+                aggiungiAWishlist(prodottoId).then(success => {
                     if (success) {
-                        heartIcon.classList.remove("text-danger");
-                        heartIcon.classList.add("text-white");
+                        icon.style.display = "none";
+                        const heartFillIcon = document.querySelector(`.bi-heart-fill[data-id="${prodottoId}"]`);
+                        heartFillIcon.style.display = "inline-block";
                     }
                 });
             } else {
-                aggiungiAWishlist(prodottoId).then(success => {
+                rimuoviDaWishlist(prodottoId).then(success => {
                     if (success) {
-                        heartIcon.classList.remove("text-white");
-                        heartIcon.classList.add("text-danger");
+                        icon.style.display = "none";
+                        const heartIcon = document.querySelector(`.bi-heart[data-id="${prodottoId}"]`);
+                        heartIcon.style.display = "inline-block";
                     }
                 });
             }
@@ -30,12 +31,14 @@ function addLikeBtnListener() {
 }
 
 
+
 async function rimuoviDaWishlist(prodottoId) {
     try {
         const sendingData = {
             productId: prodottoId,
             type: "remove"
         };
+        console.log(sendingData);
         const response = await fetch('Ajax/api-likeButton.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -72,6 +75,7 @@ async function aggiungiAWishlist(prodottoId) {
             productId: prodottoId,
             type: "add"
         };
+        console.log(sendingData);
         const response = await fetch('Ajax/api-likeButton.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
