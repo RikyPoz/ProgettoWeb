@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Aeki - SingleProduct";
 $templateParams["nome"] = "singleProduct_main.php";
 //Home Template
 
-$idprodotto = "PROD1";
+$idprodotto = "";
 
 if(isset($_GET["id"])){
     $idprodotto = $_GET["id"];
@@ -17,8 +17,6 @@ $templateParams["immagini"] = $dbh->getProdottoImages($idprodotto);
 $templateParams["colori"] = $dbh->getProdottoColori($idprodotto);
 
 $templateParams["js"] = array("js/addToCart.js");
-
-
 
 require 'template/base.php';
 ?>

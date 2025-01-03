@@ -46,7 +46,7 @@
                             <label for="quantity" class="me-2">Quantità:</label>
                             <input type="number" id="quantity" class="form-control w-25" min="1" value="1">
                         </div>
-                        <button id="addToCartButton" class="btn btn-primary w-100">Aggiungi al carrello</button>
+                        <button id="addToCartButton" class="btn btn-primary w-100 " data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" >Aggiungi al carrello</button>
                     </div>
                 </div>
                 

@@ -1,16 +1,15 @@
 <?php
 require_once '../bootstrap.php';
 
-// Imposta l'intestazione per ricevere JSON
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['userId'])) {
+/*if (!isset($_SESSION['userId'])) {
     echo json_encode(['success' => false,'error' => 'not_logged_in', 'message' => 'Utente non autenticato']);
     exit;
 }
-$userId = $_SESSION['userId'];
+$userId = $_SESSION['userId'];*/
+$userId = "user1";
 
-//legge i dati inviati dal client
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data["productId"]) && isset($data["quantity"])) {

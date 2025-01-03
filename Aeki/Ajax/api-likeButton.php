@@ -3,13 +3,14 @@ require_once '../bootstrap.php';
 
 header('Content-Type: application/json');
 
-/*if (!isset($_SESSION['userId'])) {
+if (!isset($_SESSION['userId'])) {
     echo json_encode(['success' => false,'error' => 'not_logged_in', 'message' => 'Utente non autenticato']);
     exit;
 }
-$userId = $_SESSION['userId'];*/
+$userId = $_SESSION['userId'];
 
 $userId = "user1";
+echo("ciao");
 
 $data = json_decode(file_get_contents('php://input'), true);
 

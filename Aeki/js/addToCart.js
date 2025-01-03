@@ -1,17 +1,21 @@
+document.addEventListener("DOMContentLoaded", function () {
+    addToCartEventListener();
+});
+
+
 function addToCartEventListener() {
     const addToCartButton = document.querySelector("#addToCartButton");
 
     addToCartButton.addEventListener("click", async function () {
-        const productId = new URLSearchParams(window.location.search).get("id");
+        const productId = addToCartButton.getAttribute("data-id");
         const quantity = document.querySelector("#quantity").value;
-
         const data = {
             productId: productId,
             quantity: quantity
         };
+        console.log(JSON.stringify(data));
 
         try {
-            //richiesta AJAX per aggiungere il prodotto al carrello
             const response = await fetch('Ajax/api-addToCart.php', {
                 method: 'POST',
                 headers: {
@@ -27,14 +31,13 @@ function addToCartEventListener() {
             const json = await response.json();
 
             if (json.success) {
-                aggiornaCarrello(json.carrello);
+                this.aggiornaCarrello(json.carrello);
+                console.log("tutto ok");
             } else {
                 console.log("Errore nell'aggiunta al carrello");
                 if (json.error === 'not_logged_in') {
-                    //per gestire utente non loggato
                     alert(json.message);
                 } else {
-                    //per altri errori
                     alert("Si è verificato un errore: " + json.message);
                 }
             }
@@ -47,8 +50,8 @@ function addToCartEventListener() {
 
 //da modificare, potrebbe anche non mostrare niente
 function aggiornaCarrello(carrello) {
-    document.querySelector("#cart-count").textContent = carrello.numeroProdotti;
-    document.querySelector("#cart-total").textContent = carrello.totale;
+    /*document.querySelector("#cart-count").textContent = carrello.numeroProdotti;
+     document.querySelector("#cart-total").textContent = carrello.totale;*/
 }
 
-addToCartEventListener();
+

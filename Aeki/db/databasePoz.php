@@ -157,28 +157,32 @@ class DatabaseHelper{
     //shoppingCart
 
     public function addProductToCart($userId, $productId, $quantity){
-        $cartId = $this->getCartId();
-        $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?,?,?");
-        $stmt->bind_param('ssi',$cartId,$idProdotto,$quantity);
+        $cartId = $this->getCartId($userId); 
+        if (!$cartId) {
+            return false; 
+        }
+    
+        $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?, ?, ?)");
+        $stmt->bind_param('sss', $cartId, $productId, $quantity); // Usa 'ssi'
         $stmt->execute();
-        $result = $stmt->get_result();
-
+    
         if ($stmt->affected_rows > 0) {
             return true; 
         } else {
             return false; 
         }
-    
     }
-
+    
     public function getCartId($userId){
         $stmt = $this->db->prepare("SELECT IDCarrello FROM Carrello WHERE Username=?");
-        $stmt->bind_param('s',$userId);
+        $stmt->bind_param('s', $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-    
-        return $result->fetch_assoc();
+        $row = $result->fetch_assoc();
+        return $row ? $row['IDCarrello'] : null; 
     }
+    
+    
 
     
 
