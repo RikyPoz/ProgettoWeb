@@ -1,5 +1,7 @@
 <?php
-
+/*
+popolamento: togli attributo id recensioni nell aggiunta,cambia idcarrelo con idcarrello,aggiungi piu dati in ordine e in whishlist
+*/
 class DatabaseHelper{
     private $db;
 
@@ -144,26 +146,39 @@ class DatabaseHelper{
             return false; 
         }
     }
+
+    public function alreadyInWishList($productId,$username){
+
+    }
     
     
     //shoppingCart
 
-    public function addProductToCart($userId, $productId, $quantity){
+    public function addProductToCart($userId, $productId, $quantity) {
         $cartId = $this->getCartId($userId); 
         if (!$cartId) {
-            return false; 
+            return false;  
+        }
+        
+        if ($this->alreadyInShoppingCart($cartId, $productId)) {
+            $stmt = $this->db->prepare("UPDATE `DettaglioCarrello` SET `Quantita` = `Quantita` + ? WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
+            $stmt->bind_param('sss', $quantity, $cartId, $productId); // Usa 'iss' 
+            $stmt->execute();
+        } else {
+            $stmt = $this->db->prepare("INSERT INTO `DettaglioCarrello` (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?, ?, ?)");
+            $stmt->bind_param('sss', $cartId, $productId, $quantity); // Usa 'ssi' 
+            $stmt->execute();
         }
     
-        $stmt = $this->db->prepare("INSERT INTO DettaglioCarrello (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?, ?, ?)");
-        $stmt->bind_param('sss', $cartId, $productId, $quantity); // Usa 'ssi'
-        $stmt->execute();
-    
         if ($stmt->affected_rows > 0) {
-            return true; 
+            return true;
         } else {
             return false; 
         }
     }
+    
+    
+    
     
     public function getCartId($userId){
         $stmt = $this->db->prepare("SELECT IDCarrello FROM Carrello WHERE Username=?");
@@ -182,13 +197,22 @@ class DatabaseHelper{
         
     }
 
-    public function alreadyInShoppingCart(){
-
+    public function alreadyInShoppingCart($cartId, $productId) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM `DettaglioCarrello` WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
+        
+        $stmt->bind_param('ss', $cartId, $productId);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
+    
 
-    public function addQuantityShoppingCart($idProdotto,$quantita){
-
-    }
 
     //ORDERS
 

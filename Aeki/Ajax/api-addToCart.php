@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once '../bootstrap.php';
 
 header('Content-Type: application/json');
@@ -9,7 +12,6 @@ header('Content-Type: application/json');
 }
 $userId = $_SESSION['userId'];*/
 $userId = "user1";
-
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data["productId"]) && isset($data["quantity"])) {

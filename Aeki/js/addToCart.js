@@ -13,7 +13,6 @@ function addToCartEventListener() {
             productId: productId,
             quantity: quantity
         };
-        console.log(JSON.stringify(data));
 
         try {
             const response = await fetch('Ajax/api-addToCart.php', {
@@ -31,8 +30,8 @@ function addToCartEventListener() {
             const json = await response.json();
 
             if (json.success) {
-                this.aggiornaCarrello(json.carrello);
                 console.log("tutto ok");
+                alert("aggiunto");
             } else {
                 console.log("Errore nell'aggiunta al carrello");
                 if (json.error === 'not_logged_in') {
@@ -48,10 +47,5 @@ function addToCartEventListener() {
     });
 }
 
-//da modificare, potrebbe anche non mostrare niente
-function aggiornaCarrello(carrello) {
-    /*document.querySelector("#cart-count").textContent = carrello.numeroProdotti;
-     document.querySelector("#cart-total").textContent = carrello.totale;*/
-}
 
 
