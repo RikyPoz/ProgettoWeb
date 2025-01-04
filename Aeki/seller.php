@@ -15,7 +15,7 @@ if(isset($_SESSION['userId'])){
     $nomeUtente = "user3"; 
     $templateParams["venditore"] = $dbh->getDatiVenditore($nomeUtente);
 
-    $templateParams["js"] = array("js/seller.js?v=" . time());
+    $templateParams["js"] = array("js/seller.js","js/getModal.js","js/seller-product.js");
 
 }
 

@@ -283,6 +283,83 @@ class DatabaseHelper{
         
     }
 
+    public function addProduct($nome, $prezzo, $descrizione, $materiale, $peso, $disponibilita, $altezza, $larghezza, $profondita, $nomeAmbiente, $nomeCategoria, $username) {
+        $stmt = $pdo->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
+                                                     `Disponibilita`, `Altezza`, `Larghezza`, `Profondita`, 
+                                                     `NomeAmbiente`, `NomeCategoria`, `Username`) 
+                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+    
+        $stmt->bind_param('ssssssssssss', 
+            $nome, 
+            $prezzo, 
+            $descrizione, 
+            $materiale, 
+            $peso, 
+            $disponibilita, 
+            $altezza, 
+            $larghezza, 
+            $profondita, 
+            $nomeAmbiente, 
+            $nomeCategoria, 
+            $username
+        );
+    
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            return false; 
+        }
+    }
+    
+
+    public function removeProduct(){
+        
+    }
+
+    public function updateProduct(){
+        
+    }
+
+    public function getMateriali1(){
+        $materials = [
+            ["NomeMateriale" => "Legno"],
+            ["NomeMateriale" => "Plastica"],
+            ["NomeMateriale" => "Metallo"],
+            ["NomeMateriale" => "Vetro"],
+            ["NomeMateriale" => "Ceramica"],
+            ["NomeMateriale" => "Tessuto"],
+            ["NomeMateriale" => "Carta"],
+            ["NomeMateriale" => "Pelle"],
+            ["NomeMateriale" => "Gomma"],
+            ["NomeMateriale" => "Bambù"]
+        ];
+        
+        return $materials;
+    }
+    public function getColori1(){
+        $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    public function getAmbienti1(){
+        $stmt = $this->db->prepare("SELECT NomeAmbiente FROM Ambiente ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    public function getCategorie1(){
+        $stmt = $this->db->prepare("SELECT NomeCategoria FROM Categoria ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     
 
 

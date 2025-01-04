@@ -32,7 +32,7 @@ async function fetchData(action) {
 
         if (json.success) {
             console.log(json.data);
-            updatePageContent(action, json.data)
+            await updatePageContent(action, json.data)
         } else {
             document.getElementById('contentBody').innerHTML = '<p>Errore nel caricamento dei dati dal server.</p>';
             console.log(json.messaage);
@@ -43,14 +43,15 @@ async function fetchData(action) {
     }
 }
 
-function updatePageContent(action, data) {
+async function updatePageContent(action, data) {
     const contentTitle = document.getElementById('contentTitle');
     const contentBody = document.getElementById('contentBody');
 
     switch (action) {
         case 'products':
             contentTitle.textContent = 'I tuoi Prodotti';
-            contentBody.innerHTML = generateProductList(data);
+            contentBody.innerHTML = await generateProductList(data);
+            attachEventListenersToModal();
             break;
         case 'orders':
             contentTitle.textContent = 'I tuoi Ordini';
@@ -73,23 +74,28 @@ function getStars(rating) {
     return fullStars + emptyStars;
 }
 
-function generateProductList(products) {
+async function generateProductList(products) {
     let html = ``;
 
     if (!products || products.length === 0) {
         html += '<p>Nessun prodotto aggiunto.</p>';
     }
 
-    html += `
-    <div id="contentBody" class = "row d-flex align-items-stretch">
-        <div class="col-md-4 col-6 p-2 ">
-            <div class="card d-flex align-items-center justify-content-center shadow border p-4 h-100 bg-light rounded">
-                <div class="text-center">
-                    <i class="bi bi-plus-circle fs-1 mb-3"></i> <!-- Icona "+" -->
-                    <p class="fs-4 fw-semibold text-dark">Aggiungi Prodotto</p>
+    html += `<div id="contentBody" class = "row d-flex align-items-stretch">`;
+    const modalhtml = await getModal();
+    html += modalhtml;
+    html += `<div class="col-md-4 col-6 p-2">
+                <div class=" d-flex align-items-center justify-content-center shadow border p-4 h-100 bg-light rounded" 
+                    style="cursor: pointer;" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addProductModal">
+                    <div class="text-center">
+                        <i class="bi bi-plus-circle fs-1 mb-3"></i> 
+                        <p class="fs-4 fw-semibold text-dark">Aggiungi Prodotto</p>
+                    </div>
                 </div>
-            </div>
-        </div>`
+            </div>`;
+
 
 
     products.forEach(product => {
