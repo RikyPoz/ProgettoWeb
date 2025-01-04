@@ -54,22 +54,14 @@
             <aside class="col-lg-4">
                 <div class="border rounded p-3 mb-4">
                     <h3>Messaggi in arrivo</h3>
-                    <?php if (!empty($templateParams["messaggi"])): ?>
-                        <ul class="list-group">
-                            <?php foreach ($templateParams["messaggi"] as $messaggio): ?>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <?php echo htmlspecialchars($messaggio['contenuto']); ?>
-                                    <span class="text-muted"><?php echo htmlspecialchars($messaggio['dataMessaggio']); ?></span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php else: ?>
-                        <p>Nessun messaggio in arrivo.</p>
-                    <?php endif; ?>
+                    <!-- Contenitore dinamico per i messaggi -->
+                    <ul class="list-group" id="messaggi-container">
+                        <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
+                    </ul>
                 </div>
 
                 <div class="border rounded p-3">
-                    <h3>Recensioni Inviate</h3>
+                    <h4>Recensioni Inviate</h4>
                     <?php if (!empty($templateParams["recensioni"])): ?>
                         <ul class="list-group">
                             <?php foreach ($templateParams["recensioni"] as $recensione): ?>
@@ -162,6 +154,9 @@
             </div>
         </div>
     </div>
-    
+   
+    <!-- Inclusione del file JavaScript per aggiornare i messaggi -->
+    <script src="../js/updateMessages.js"></script>
+
 </body>
 </html>
