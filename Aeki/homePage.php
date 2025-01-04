@@ -9,5 +9,12 @@ $templateParams["nome"] = "homePage_main.php";
 $templateParams["categorie"] = $dbh->getCategorie();
 $templateParams["ambienti"] = $dbh->getAmbienti();
 
+session_start();
+
+if (isset($_SESSION['success_message'])) {
+    echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
+    unset($_SESSION['success_message']);
+}
+
 require 'template/base.php';
 ?>

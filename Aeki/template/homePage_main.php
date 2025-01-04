@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <!-- DA ELIMINARE QUANDO SI USA BASE.PHP -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomePage</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Icone Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Stili CSS -->
+ <!-- Stili CSS -->
     <style>
         #categoriesSlider img {
             width: 300px; /* Imposta una larghezza fissa per le immagini nella sezione categorie */
@@ -100,7 +83,7 @@
                         <?php foreach ($templateParams["categorie"] as $categoria): ?>
                             <div class="text-center">
                                 <a href="filteredProducts?categories=<?php echo$categoria['NomeCategoria']; ?>" class="btn p-0">
-                                    <img src="<?php echo $categoria['PercorsoImmagine']; ?>" class="rounded" alt="Categoria <?php echo htmlspecialchars($ambiente['NomeCategoria']); ?>">
+                                    <img src="<?php echo $categoria['PercorsoImmagine']; ?>" class="rounded" alt="Categoria <?php echo $ambiente['NomeCategoria']; ?>">
                                     <p class="mt-3 fw-semibold"><?php echo $categoria['NomeCategoria']; ?></p>
                                 </a>
                             </div>
@@ -133,7 +116,7 @@
                         <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
                             <div class="text-center">
                                 <a href="filteredProducts?ambient=<?php echo$ambiente['NomeAmbiente']; ?>" class="btn p-0">
-                                    <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo htmlspecialchars($ambiente['NomeAmbiente']); ?>">
+                                    <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo $ambiente['NomeAmbiente']; ?>">
                                     <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
                                 </a>
                             </div>
@@ -155,4 +138,3 @@
     <script src="../js/sliderArrow.js"></script>
 
 </body>
-</html>

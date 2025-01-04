@@ -35,6 +35,14 @@ class DatabaseHelper{
         return $result->fetch_assoc();
     }
     
+    public function getUtenteByEmail($email) {
+        $stmt = $this->db->prepare("SELECT * FROM Utente WHERE Email = ?");
+        $stmt->bind_param("s", $email); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_assoc();
+    }
     
     public function getOrdiniByUtente($username) {
         $stmt = $this->db->prepare("SELECT * FROM Ordine WHERE Username = ? ORDER BY Data DESC");
@@ -53,9 +61,7 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         
         return $result->fetch_all(MYSQLI_ASSOC);
-    }
-    
-    
+    }    
 
 }
 ?>

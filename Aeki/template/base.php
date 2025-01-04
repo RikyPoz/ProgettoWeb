@@ -40,7 +40,7 @@
             <!-- Icons Section -->
             <ul class="navbar-nav ms-auto">
             <li class="nav-item d-flex flex-column align-items-center">
-                <a href="../profile.php" class="btn btn-light text-center">
+                <a href="profile.php" class="btn btn-light text-center">
                     <i class="bi bi-person" style="font-size: 1.5rem;"></i>  
                 </a>
                 <span>Profilo</span>
