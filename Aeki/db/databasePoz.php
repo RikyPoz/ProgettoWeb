@@ -237,27 +237,53 @@ class DatabaseHelper{
     }
 
     public function getProdottiPerOrdine($idOrdine){
-        $stmt = $this->db->prepare("SELECT 
-                                    d.CodiceProdotto,
-                                    d.PrezzoPagato,
-                                    d.Quantita,
-                                    p.Nome,
-                                    i.PercorsoImg
-                                FROM 
-                                    DettaglioOrdine AS d
-                                JOIN 
-                                    Prodotto AS p ON d.CodiceProdotto = p.CodiceProdotto
-                                LEFT JOIN 
-                                    ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
-                                WHERE 
-                                    d.IDordine = ?
-                                ");
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto,d.PrezzoPagato,d.Quantita,p.Nome,i.PercorsoImg
+                                    FROM DettaglioOrdine AS d
+                                    JOIN Prodotto AS p ON d.CodiceProdotto = p.CodiceProdotto
+                                    LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                                    WHERE d.IDordine = ?");
         $stmt->bind_param('s',$idOrdine);
         $stmt->execute();
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    //SELLER
+
+    public function getDatiVenditore($username){
+        $stmt = $this->db->prepare("SELECT Nome, Cognome, Username, Email, PartitaIVA,Telefono
+                                    FROM Utente 
+                                    WHERE username = ?");
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function getSellerProducts($username){
+        $stmt = $this->db->prepare("SELECT p.CodiceProdotto, Nome, Prezzo, ValutazioneMedia, NumeroRecensioni, i.PercorsoImg 
+                                    FROM Prodotto AS p 
+                                    LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                                    WHERE username = ?");
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+        
+    }
+
+    public function getSellerOrders(){
+        
+    }
+
+    public function getSellerStats(){
+        
+    }
+
+    
 
 
 }
