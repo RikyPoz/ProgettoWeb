@@ -51,8 +51,12 @@
                         <ul class="list-group">
                             <?php foreach ($templateParams["recensioni"] as $recensione): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <?php echo $recensione['Testo']; ?> <?php echo $recensione['CodiceProdotto']; ?>
-                                    <span class="text-muted"><?php echo $recensione['stelle']; ?></span>
+                                    <div>
+                                        <p><?php echo $recensione['Testo']; ?></p>
+                                        <small class="text-muted">Codice Prodotto: <?php echo $recensione['CodiceProdotto']; ?></small>
+                                    </div>
+                                    <!-- Usa la funzione getStars per visualizzare le stelle -->
+                                    <span class="text-muted"><?php echo getStars($recensione['stelle']); ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -141,6 +145,6 @@
     </div>
    
     <!-- Inclusione del file JavaScript per aggiornare i messaggi -->
-    <script src="../js/updateMessages.js"></script>
+    <script src="js/updateMessages.js"></script>
 
 </body>

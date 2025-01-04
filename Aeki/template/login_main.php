@@ -8,11 +8,10 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Stile del modale */
     .modal {
         display: none;
         position: fixed;
-        z-index: 1;
+        z-index: 1000;
         left: 0;
         top: 0;
         width: 100%;
@@ -22,37 +21,42 @@
     }
 
     .modal-content {
-        background-color: #fefefe;
+        background-color: #fff;
         margin: 5% auto;
         padding: 20px;
         border-radius: 8px;
-        width: 80%; 
-        max-width: 500px; 
-        box-sizing: border-box; 
+        width: 80%;
+        max-width: 500px;
+        box-sizing: border-box;
     }
 
     .close {
         color: #aaa;
         float: right;
-        font-size: 28px;
+        font-size: 24px;
         font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
         cursor: pointer;
     }
 
+    .close:hover {
+        color: #000;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+    }
 </style>
 
-
 <body>
-    <!-- Main -->
+    <!-- Login -->
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
         <div class="login-container">
             <h2 class="text-center">Login</h2>
+
+            <!-- Messaggi di errore o successo -->
+            <div id="message-box" role="alert" style="display: none;"></div>
+
             <form action="/login" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -66,18 +70,18 @@
                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
                     <label class="form-check-label" for="remember">Ricordami</label>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Accedi</button>
+                <button type="submit" class="btn btn-primary">Accedi</button>
             </form>
             <div class="mt-3 text-center">
-                <p>Non sei registrato? <a href="#" id="openModal">Registrati prima di fare il login.</a></p>
+                <p>Non sei registrato? <a href="#" id="openModal" aria-label="Apri modulo di registrazione">Registrati prima di fare il login.</a></p>
             </div>
         </div>
     </div>
 
     <!-- Modale per la registrazione -->
-    <div id="myModal" class="modal">
+    <div id="myModal" class="modal" aria-hidden="true">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" aria-label="Chiudi">&times;</span>
             <h2>Registrazione</h2>
             <form action="/register" method="POST">
                 <div class="mb-3">
@@ -108,31 +112,37 @@
                     <label for="confirm-password" class="form-label">Ripeti password</label>
                     <input type="password" class="form-control" id="confirm-password" name="confirm-password" required placeholder="Ripeti password">
                 </div>
-                <button type="submit" class="btn btn-success w-100">Registrati</button>
+                <button type="submit" class="btn btn-success">Registrati</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal Script -->
+    <!-- Script per il modale -->
     <script>
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("openModal");
-        var span = document.getElementsByClassName("close")[0];
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("myModal");
+            const btn = document.getElementById("openModal");
+            const span = document.querySelector(".close");
 
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
+            // Mostra il modale
+            btn.onclick = function() {
+                modal.style.display = "block";
+                modal.setAttribute("aria-hidden", "false");
+            };
 
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
+            // Nasconde il modale
+            span.onclick = function() {
                 modal.style.display = "none";
-            }
-        }
+                modal.setAttribute("aria-hidden", "true");
+            };
+
+            // Chiude il modale cliccando all'esterno
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    modal.setAttribute("aria-hidden", "true");
+                }
+            };
+        });
     </script>
-
 </body>
-

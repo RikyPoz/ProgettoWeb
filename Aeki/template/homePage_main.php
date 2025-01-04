@@ -135,6 +135,6 @@
     </div>
 
     <!-- Link al file JavaScript -->
-    <script src="../js/sliderArrow.js"></script>
+    <script src="js/sliderArrow.js"></script>
 
 </body>

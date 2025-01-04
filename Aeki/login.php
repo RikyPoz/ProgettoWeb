@@ -3,18 +3,24 @@ session_start();  // Avvia la sessione
 
 require_once 'bootstrap.php';
 
+// Controllo: se l'utente è già loggato, reindirizza al profilo
+if (isset($_SESSION['user_id'])) {
+    header('Location: profile.php');  // Reindirizza alla pagina personale
+    exit();  // Ferma l'esecuzione del codice
+}
+
 // Template di login
 $templateParams["titolo"] = "Aeki - Login";
 $templateParams["nome"] = "login_main.php";  
 
-// Verifica se la richiesta è di tipo POST 
+// Verifica se la richiesta è di tipo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Recupera i dati del form
+    // Recupera i dati dal form
     $email = $_POST['email'];
     $password = $_POST['password']; 
 
-    // Recupera i dati dell'utente usando l'email
+    // Cerca l'utente nel database
     $user = $dbh->getUtenteByEmail($email);
 
     // Controlla se l'utente esiste
@@ -29,25 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Messaggio di successo nella sessione
             $_SESSION['success_message'] = 'Login effettuato con successo';
 
-            // Reindirizza alla homePage
-            header('Location: homePage.php');  
-            exit();  // Ferma l'esecuzione del codice dopo il reindirizzamento
+            // Reindirizza al profilo
+            header('Location: profile.php');  
+            exit();  // Ferma l'esecuzione del codice
         } else {
             // Password errata
-            $response = ['status' => 'error', 'message' => 'Password errata'];
+            $_SESSION['error_message'] = 'Password errata';
         }
     } else {
         // Utente non trovato
-        $response = ['status' => 'error', 'message' => 'Utente non trovato'];
+        $_SESSION['error_message'] = 'Utente non trovato';
     }
-
-    // Restituisce la risposta JSON in caso di errore
-    if (!isset($response)) {
-        $response = ['status' => 'error', 'message' => 'Si è verificato un errore.'];
-    }
-    echo json_encode($response);
-    exit();
 }
+// Se l'utente non è loggato o ci sono errori, carica il template del modulo di login
 
 require 'template/base.php';
+
 ?>

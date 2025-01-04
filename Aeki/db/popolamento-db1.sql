@@ -9,20 +9,25 @@ INSERT INTO Ambiente (NomeAmbiente, PercorsoImmagine) VALUES
 ('Soggiorno', 'upload/homePage/soggiorno.png'),
 ('Cucina', 'upload/homePage/cucina.png'),
 ('Bagno', 'upload/homePage/bagno.png'),
-('Camera', 'upload/homePage/cameradaletto.png');
+('Camera da letto', 'upload/homePage/cameradaletto.png'),
+('Sala da pranzo', 'upload/homePage/saladapranzo.png'),
+('Studio', 'upload/homePage/studio.png');
 
 -- Populating Categoria table
 INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
 ('Armadi', 'upload/homePage/armadio.png'),
 ('Letti', 'upload/homePage/letto.png'),
 ('Tavoli', 'upload/homePage/tavolo.png'),
-('Sedie', 'upload/homePage/sedia.png');
+('Sedie', 'upload/homePage/sedia.png'),
+('Cassettiere', 'upload/homePage/cassettiera.png'),
+('Divani', 'upload/homePage/divano.png'),
+('Librerie e scaffali', 'upload/homePage/libreria.png');
 
 -- Populating Prodotto table
 INSERT INTO Prodotto (Nome, Prezzo, Descrizione, Materiale, Peso, Disponibilita, Altezza, Larghezza, Profondita, ValutazioneMedia, NumeroRecensioni, NomeAmbiente, NomeCategoria, Username) VALUES
 ('Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0, 10, 90.0, 45.0, 45.0, 4.5, 20, 'Soggiorno', 'Sedie', 'user1'),
 ('Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 5, 75.0, 150.0, 75.0, 4.8, 15, 'Cucina', 'Tavoli', 'user2'),
-('Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 8, 180.0, 50.0, 50.0, 4.2, 30, 'Camera', 'Letti', 'user3');
+('Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 8, 180.0, 50.0, 50.0, 4.2, 30, 'Camera da letto', 'Letti', 'user3');
 
 -- Populating Immagine table
 INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES

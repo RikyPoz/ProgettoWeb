@@ -55,13 +55,22 @@ class DatabaseHelper{
     
     
     public function getMessaggiByUtente($username) {
-        $stmt = $this->db->prepare("SELECT * FROM Notifiche WHERE Username = ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? ORDER BY Data DESC");
         $stmt->bind_param("s", $username);  
         $stmt->execute();
         $result = $stmt->get_result();
         
         return $result->fetch_all(MYSQLI_ASSOC);
-    }    
+    }  
+    
+    public function getRecensioniByUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Recensione WHERE Username = ?");
+        $stmt->bind_param("s", $username);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php';
+include 'database.php';
 
 // Verifica se il form è stato inviato
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -7,17 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cognome = $_POST['cognome'];
     $email = $_POST['email'];
     $telefono = $_POST['telefono'];
-
-    // Controlla che l'utente sia autenticato
-    session_start();
-    if (!isset($_SESSION['utente_id'])) {
-        die('Utente non autenticato');
-    }
+    var_dump($_SESSION);
 
     // Prepara la query di aggiornamento
-    $query = "UPDATE utenti SET nome = ?, cognome = ?, email = ?, telefono = ? WHERE id = ?";
+    $query = "UPDATE Utente SET Nome = ?, Cognome = ?, Email = ?, Telefono = ? WHERE Username = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('ssssi', $nome, $cognome, $email, $telefono, $_SESSION['utente_id']);
+    $stmt->bind_param('ssssi', $nome, $cognome, $email, $telefono, $username);
 
     if ($stmt->execute()) {
         echo "Profilo aggiornato con successo!";
