@@ -9,7 +9,8 @@ $templateParams["titolo"] = "Aeki - Utente";
 $templateParams["nome"] = "profile_main.php";
 
 // Verifica che l'utente sia loggato
-$username = $_SESSION['username'] ?? ''; 
+//$username = $_SESSION['username'] ?? ''; 
+$username = 'user1'; 
 
 // Se l'utente non è loggato viene reindirizzato alla pagina di login
 if (empty($username)) {

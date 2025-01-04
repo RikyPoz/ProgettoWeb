@@ -28,7 +28,7 @@ if(isset($_GET["id"])){
     $templateParams["js"] = array("js/addToCart.js","js/likeButton.js");
 }else{
     //poi da togliere tutto e fare se non c'è id nella get
-    $idprodotto = "PROD1"; 
+    $idprodotto = 1; 
     $templateParams["prodotto"] = $dbh->getProdotto($idprodotto);
 
     $templateParams["immagini"] = $dbh->getProdottoImages($idprodotto);

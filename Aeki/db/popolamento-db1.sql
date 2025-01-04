@@ -6,7 +6,7 @@ INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, 
 
 -- Populating Ambiente table
 INSERT INTO Ambiente (NomeAmbiente, PercorsoImmagine) VALUES
-('Soggiorno', '../upload/homePage/soggiorno.png'),
+('Soggiorno', 'upload/homePage/soggiorno.png'),
 ('Cucina', 'upload/homePage/cucina.png'),
 ('Bagno', 'upload/homePage/bagno.png'),
 ('Camera', 'upload/homePage/cameradaletto.png');
@@ -19,25 +19,18 @@ INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
 ('Sedie', 'upload/homePage/sedia.png');
 
 -- Populating Prodotto table
-INSERT INTO Prodotto (CodiceProdotto, Nome, Prezzo, Descrizione, Materiale, Peso, Disponibilita, Altezza, Larghezza, Profondita, ValutazioneMedia, NumeroRecensioni, NomeAmbiente, NomeCategoria, Username) VALUES
-('PROD1', 'Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0, 10, 90.0, 45.0, 45.0, 4.5, 20, 'Soggiorno', 'Sedie', 'user1'),
-('PROD2', 'Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 5, 75.0, 150.0, 75.0, 4.8, 15, 'Cucina', 'Tavoli', 'user2'),
-('PROD3', 'Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 8, 180.0, 50.0, 50.0, 4.2, 30, 'Camera', 'Letti', 'user3');
+INSERT INTO Prodotto (Nome, Prezzo, Descrizione, Materiale, Peso, Disponibilita, Altezza, Larghezza, Profondita, ValutazioneMedia, NumeroRecensioni, NomeAmbiente, NomeCategoria, Username) VALUES
+('Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0, 10, 90.0, 45.0, 45.0, 4.5, 20, 'Soggiorno', 'Sedie', 'user1'),
+('Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 5, 75.0, 150.0, 75.0, 4.8, 15, 'Cucina', 'Tavoli', 'user2'),
+('Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 8, 180.0, 50.0, 50.0, 4.2, 30, 'Camera', 'Letti', 'user3');
 
 -- Populating Immagine table
 INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
-('upload/products/img1.png', 'Y', 'PROD1'),
-('upload/products/img2.png', 'N', 'PROD1'),
-('upload/products/img3.png', 'N', 'PROD1'),
-('upload/products/imgLampada.png', 'Y', 'PROD2'),
-('upload/products/images.png', 'Y', 'PROD3');
-
--- Populating Carrello table
-INSERT INTO Carrello (IDcarrelo, Username) VALUES
-('CAR1', 'user1'),
-('CAR2', 'user2'),
-('CAR3', 'user3');
-
+('upload/products/img1.png', 'Y', 1),
+('upload/products/img2.png', 'N', 1),
+('upload/products/img3.png', 'N', 1),
+('upload/products/imgLampada.png', 'Y', 2),
+('upload/products/images.png', 'Y', 3);
 
 -- Populating Colore table
 INSERT INTO Colore (NomeColore) VALUES
@@ -47,55 +40,83 @@ INSERT INTO Colore (NomeColore) VALUES
 
 -- Populating Colorazione table
 INSERT INTO Colorazione (NomeColore, CodiceProdotto) VALUES
-('Rosso', 'PROD1'),
-('Blu', 'PROD2'),
-('Verde', 'PROD3');
+('Rosso', 1),
+('Blu', 1),
+('Blu', 2),
+('Verde', 3);
 
-
--- Populating Notifiche table
-INSERT INTO Notifiche (IdNotifica, Username, Testo, Data) VALUES
-('NOT1', 'user1', 'Ordine Spedito', '2024-12-01'),
-('NOT2', 'user2', 'Nuovo Messaggio', '2024-12-02'),
-('NOT3', 'user3', 'Promozione Attiva', '2024-12-03');
-
--- Populating Ordine table
-INSERT INTO Ordine (IDordine, Data, Username) VALUES
-('ORD1', '2024-12-01', 'user1'),
-('ORD4', '2024-12-12', 'user1'),
-('ORD2', '2024-12-02', 'user2'),
-('ORD3', '2024-12-03', 'user3');
-
-
--- Populating Recensione table
-INSERT INTO Recensione (Testo, stelle, IDrecensione, CodiceProdotto, Username) VALUES
-('Ottimo prodotto', 5, 'REC1', 'PROD1', 'user1'),
-('Molto buono', 4, 'REC2', 'PROD2', 'user2'),
-('Soddisfatto', 4, 'REC3', 'PROD3', 'user3');
-
--- Populating WishList table
-INSERT INTO WishList (IDwishlist, Username) VALUES
-('WISH1', 'user1'),
-('WISH2', 'user2'),
-('WISH3', 'user3');
+-- Populating Carrello table
+INSERT INTO Carrello (Username) VALUES
+('user1'),
+('user2'),
+('user3');
 
 -- Populating DettaglioCarrello table
-INSERT INTO DettaglioCarrello (IDcarrelo, CodiceProdotto, Quantita) VALUES
-('CAR1', 'PROD1', '2'),
-('CAR2', 'PROD2', '1'),
-('CAR3', 'PROD3', '4');
+INSERT INTO DettaglioCarrello (IDcarrello, CodiceProdotto, Quantita) VALUES
+(1, 1, 2),
+(2, 2, 1),
+(3, 3, 4);
+
+-- Populating Ordine table
+INSERT INTO Ordine (Data, Username) VALUES
+('2024-12-01', 'user1'),
+('2024-12-12', 'user1'),
+('2024-12-02', 'user2'),
+('2024-12-03', 'user3');
 
 -- Populating DettaglioOrdine table
-INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita, PrezzoPagato) VALUES
-('ORD1', 'PROD1', '2', 150.0),
-('ORD4', 'PROD2', '2', 80.0),
-('ORD4', 'PROD3', '2', 60.0),
-('ORD2', 'PROD2', '1', 75.0),
-('ORD3', 'PROD3', '4', 300.0);
+INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita, PrezzoPagato) VALUES 
+(1, 1, 2, 800.00),
+(1, 2, 2, 500.00),
+(2, 2, 1, 150.00),
+(3, 1, 2, 800.00),
+(4, 2, 1, 150.00);
+
+-- Populating WishList table
+INSERT INTO WishList (Username) VALUES
+('user1'),
+('user2'),
+('user3');
 
 -- Populating DettaglioWishlist table
 INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
-('PROD1', 'WISH1'),
-('PROD2', 'WISH1'),
-('PROD3', 'WISH1'),
-('PROD2', 'WISH2'),
-('PROD3', 'WISH3');
+(1, 1),
+(2, 1),
+(3, 1),
+(2, 2),
+(3, 3);
+
+-- Populating Notifiche table
+INSERT INTO Notifiche (Username, Testo, Data) VALUES
+('user1', 'Ordine Spedito', '2024-12-01'),
+('user2', 'Nuovo Messaggio', '2024-12-02'),
+('user3', 'Promozione Attiva', '2024-12-03');
+
+-- Populating Recensione table
+INSERT INTO Recensione (Testo, stelle, CodiceProdotto, Username) VALUES
+('Ottimo prodotto', 5, 1, 'user1'),
+('Molto buono', 4, 2, 'user2'),
+('Soddisfatto', 4, 3, 'user3');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

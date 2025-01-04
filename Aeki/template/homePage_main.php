@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="../upload/homePage/presentazione.png" alt="" class="img-fluid">
+                <img src="upload/homePage/presentazione.png" alt="" class="img-fluid">
             </div>
         </div>
 
@@ -97,11 +97,10 @@
                 <!-- Contenitore slider -->
                 <div class="overflow-hidden">
                     <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
-                        <?php foreach ($templateParams["categoria"] as $categoria): ?>
+                        <?php foreach ($templateParams["categorie"] as $categoria): ?>
                             <div class="text-center">
-                                <?php $immagineCategoria = $categoria['PercorsoImmagine'];?>
-                                <a href="filteredProducts?category=<?php echo $categoria['NomeCategoria']; ?>" class="btn p-0">
-                                    <img src="<?php echo $immagineCategoria; ?>" alt="Categoria <?php echo $categoria['NomeCategoria']; ?>">
+                                <a href="filteredProducts?categories=<?php echo$categoria['NomeCategoria']; ?>" class="btn p-0">
+                                    <img src="<?php echo $categoria['PercorsoImmagine']; ?>" class="rounded" alt="Categoria <?php echo htmlspecialchars($ambiente['NomeCategoria']); ?>">
                                     <p class="mt-3 fw-semibold"><?php echo $categoria['NomeCategoria']; ?></p>
                                 </a>
                             </div>
@@ -122,6 +121,7 @@
         <h3 class="mt-5">Ambienti</h3>
         <div class="position-relative">
              <?php if (!empty($templateParams["ambienti"])): ?>
+                
                 <!-- Freccia sinistra -->
                 <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientLeft">
                     <span class="bi bi-arrow-left"></span>
@@ -152,7 +152,7 @@
     </div>
 
     <!-- Link al file JavaScript -->
-    <script src="path/to/your/script.js"></script>
+    <script src="../js/sliderArrow.js"></script>
 
 </body>
 </html>

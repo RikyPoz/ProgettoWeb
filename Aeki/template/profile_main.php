@@ -24,19 +24,19 @@
                     <h3>Il tuo profilo</h3>
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" value="<?php echo $templateParams["utente"]['nome']; ?>" readonly>
+                        <input type="text" class="form-control" id="nome" value="<?php echo $templateParams["utente"]['Nome']; ?>" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="cognome" class="form-label">Cognome</label>
-                        <input type="text" class="form-control" id="cognome" value="<?php echo $templateParams["utente"]['cognome']; ?>" readonly>
+                        <input type="text" class="form-control" id="cognome" value="<?php echo $templateParams["utente"]['Cognome']; ?>" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="email" value="<?php echo $templateParams["utente"]['email']; ?>" readonly>
+                        <input type="email" class="form-control" id="email" value="<?php echo $templateParams["utente"]['Email']; ?>" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="telefono" class="form-label">Telefono</label>
-                        <input type="text" class="form-control" id="telefono" value="<?php echo $templateParams["utente"]['telefono']; ?>" readonly>
+                        <input type="text" class="form-control" id="telefono" value="<?php echo $templateParams["utente"]['Telefono']; ?>" readonly>
                     </div>
                     <!-- Pulsante per aprire il modale per modificare il profilo -->
                     <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modificaProfiloModal">Modifica Profilo</button>
@@ -66,8 +66,8 @@
                         <ul class="list-group">
                             <?php foreach ($templateParams["recensioni"] as $recensione): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <?php echo htmlspecialchars($recensione['contenuto']); ?> - #<?php echo htmlspecialchars($recensione['codiceProdotto']); ?>
-                                    <span class="text-muted"><?php echo htmlspecialchars($recensione['dataRecensione']); ?></span>
+                                    <?php echo htmlspecialchars($recensione['Testo']); ?> <?php echo htmlspecialchars($recensione['CodiceProdotto']); ?>
+                                    <span class="text-muted"><?php echo htmlspecialchars($recensione['stelle']); ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

@@ -26,7 +26,7 @@ create table Ambiente (
      constraint ID_Ambiente_ID primary key (NomeAmbiente));
 
 create table Carrello (
-     IDcarrello VARCHAR(50) not null,
+     IDcarrello INT AUTO_INCREMENT,
      Username VARCHAR(50) not null,
      constraint ID_Carrello_ID primary key (IDcarrello),
      constraint FKpossiede_ID unique (Username));
@@ -38,7 +38,7 @@ create table Categoria (
 
 create table Colorazione (
      NomeColore VARCHAR(50) not null,
-     CodiceProdotto VARCHAR(50) not null,
+     CodiceProdotto INT not null,
      constraint ID_Colorazione_ID primary key (NomeColore, CodiceProdotto));
 
 create table Colore (
@@ -46,31 +46,31 @@ create table Colore (
      constraint ID_Colore_ID primary key (NomeColore));
 
 create table DettaglioCarrello (
-     IDcarrello VARCHAR(50) not null,
-     CodiceProdotto VARCHAR(50) not null,
-     Quantita VARCHAR(50) not null,
+     IDcarrello INT not null,
+     CodiceProdotto INT not null,
+     Quantita INT not null,
      constraint ID_DettaglioCarrello_ID primary key (CodiceProdotto, IDcarrello));
 
 create table DettaglioOrdine (
-     IDordine VARCHAR(50) not null,
-     CodiceProdotto VARCHAR(50) not null,
-     Quantita VARCHAR(50) not null,
+     IDordine INT not null,
+     CodiceProdotto INT not null,
+     Quantita INT not null,
      PrezzoPagato float(1) not null,
      constraint ID_DettaglioOrdine_ID primary key (CodiceProdotto, IDordine));
 
 create table DettaglioWishlist (
-     CodiceProdotto VARCHAR(50) not null,
-     IDwishlist VARCHAR(50) not null,
+     CodiceProdotto INT not null,
+     IDwishlist INT not null,
      constraint ID_DettaglioWishlist_ID primary key (CodiceProdotto, IDwishlist));
 
 create table ImmagineProdotto (
      PercorsoImg VARCHAR(50) not null,
      Icona char not null,
-     CodiceProdotto VARCHAR(50) not null,
+     CodiceProdotto INT not null,
      constraint ID_ImmagineProdotto_ID primary key (PercorsoImg));
 
 create table Notifiche (
-     IdNotifica VARCHAR(50) not null,
+     IdNotifica INT AUTO_INCREMENT,
      Username VARCHAR(50) not null,
      Testo VARCHAR(50) not null,
      Data date not null,
@@ -78,13 +78,13 @@ create table Notifiche (
      constraint SID_Notifiche_ID unique (Username, IdNotifica));
 
 create table Ordine (
-     IDordine VARCHAR(50) not null,
+     IDordine INT AUTO_INCREMENT,
      Data date not null,
      Username VARCHAR(50) not null,
      constraint ID_Ordine_ID primary key (IDordine));
 
 create table Prodotto (
-     CodiceProdotto VARCHAR(50) not null,
+     CodiceProdotto INT AUTO_INCREMENT,
      Nome VARCHAR(50) not null,
      Prezzo float(1) not null,
      Descrizione VARCHAR(50) not null,
@@ -102,10 +102,10 @@ create table Prodotto (
      constraint ID_Prodotto_ID primary key (CodiceProdotto));
 
 create table Recensione (
-    IDrecensione int AUTO_INCREMENT,
+    IDrecensione INT AUTO_INCREMENT,
      Testo VARCHAR(50) not null,
-     stelle int not null,
-     CodiceProdotto VARCHAR(50) not null,
+     stelle INT not null,
+     CodiceProdotto INT not null,
      Username VARCHAR(50) not null,
      constraint ID_Recensione_ID primary key (IDrecensione));
 
@@ -121,7 +121,7 @@ create table Utente (
      constraint ID_Utente_ID primary key (Username));
 
 create table WishList (
-     IDwishlist VARCHAR(50) not null,
+     IDwishlist INT AUTO_INCREMENT,
      Username VARCHAR(50) not null,
      constraint ID_WishList_ID primary key (IDwishlist),
      constraint FKha_ID unique (Username));
