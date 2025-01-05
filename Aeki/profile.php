@@ -2,7 +2,7 @@
 require_once 'bootstrap.php';
 
 // Avvia la sessione per accedere ai dati memorizzati in sessione
-session_start();
+//session_start();
 
 //Base Template
 $templateParams["titolo"] = "Aeki - Utente";

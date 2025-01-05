@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+    let ultimaData = null; // Variabile per tracciare la data dell'ultimo messaggio ricevuto
     aggiornaMessaggi(); // Carica i messaggi iniziali
-    setInterval(aggiornaMessaggi, 5000); // Esegue l'aggiornamento ogni 5 secondi
+    setInterval(() => aggiornaMessaggi(ultimaData), 5000); // Esegue l'aggiornamento ogni 5 secondi
 });
 
-async function aggiornaMessaggi() {
+async function aggiornaMessaggi(ultimaData) {
     const data = { ultimaData }; // Prepara i dati con l'ultima data nota
 
     try {
@@ -20,11 +21,19 @@ async function aggiornaMessaggi() {
         }
 
         const json = await response.json();
+        console.log("Risposta dal server:", json);
 
         if (json.success) {
-            aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
-            ultimaData = json.messages[json.messages.length - 1].Data; // Aggiorna l'ultima data
-        } else if (json.error) {
+            if (json.messages && json.messages.length > 0) {
+                aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
+                
+                // Aggiorna ultimaData all'ultimo messaggio ricevuto
+                ultimaData = json.messages[json.messages.length - 1].Data;
+                console.log("Aggiornata ultimaData a:", ultimaData);
+            } else {
+                console.log("Nessun nuovo messaggio trovato.");
+            }
+        } else {
             console.error(`Errore ricevuto dal server: ${json.message}`);
         }
     } catch (error) {
@@ -39,10 +48,18 @@ function aggiornaMessaggiUI(messaggi) {
         return;
     }
 
-    // Log per vedere i messaggi che vengono passati alla funzione
     console.log("Messaggi da aggiungere:", messaggi);
 
     messaggi.forEach(messaggio => {
+        // Controlla se il messaggio esiste giÃ  nella UI
+        const esiste = Array.from(messaggiContainer.children).some(
+            item => item.querySelector('span.text-muted')?.textContent === messaggio.Data
+        );
+        if (esiste) {
+            console.log(`Messaggio già  presente: ${messaggio.Data}`);
+            return; // Salta il messaggio giÃ  esistente
+        }
+
         const listItem = document.createElement('li');
         listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
 

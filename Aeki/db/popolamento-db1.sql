@@ -1,8 +1,8 @@
 -- Populating Utente table
-INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono) VALUES
-('Mario', 'Rossi', 'user1', 'mario.rossi@example.com', 'password123', 'Cliente', NULL, '1234567890'),
-('Luigi', 'Verdi', 'user2', 'luigi.verdi@example.com', 'password123', 'Cliente', NULL, '0987654321'),
-('Anna', 'Bianchi', 'user3', 'anna.bianchi@example.com', 'password123', 'Venditore', '12345678901', '1122334455');
+INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES
+('Mario', 'Rossi', 'user1', 'mario.rossi@example.com', 'password123', 'Cliente', NULL, '1234567890', NULL),
+('Luigi', 'Verdi', 'user2', 'luigi.verdi@example.com', 'password123', 'Cliente', NULL, '0987654321', NULL),
+('Anna', 'Bianchi', 'user3', 'anna.bianchi@example.com', 'password123', 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo.png');
 
 -- Populating Ambiente table
 INSERT INTO Ambiente (NomeAmbiente, PercorsoImmagine) VALUES
@@ -93,35 +93,12 @@ INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
 
 -- Populating Notifiche table
 INSERT INTO Notifiche (Username, Testo, Data) VALUES
-('user1', 'Ordine Spedito', '2024-12-01'),
-('user2', 'Nuovo Messaggio', '2024-12-02'),
-('user3', 'Promozione Attiva', '2024-12-03');
+('user1', 'Ordine Spedito', '2024-12-01 08:30:00'),
+('user2', 'Nuovo Messaggio', '2024-12-02 14:45:00'),
+('user3', 'Promozione Attiva', '2024-12-03 09:15:00');
 
 -- Populating Recensione table
 INSERT INTO Recensione (Testo, stelle, CodiceProdotto, Username) VALUES
 ('Ottimo prodotto', 5, 1, 'user1'),
 ('Molto buono', 4, 2, 'user2'),
 ('Soddisfatto', 4, 3, 'user3');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

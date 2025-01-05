@@ -1,4 +1,4 @@
-<body>
+
     <!-- Contenuto della pagina -->
     <div class="container my-5">
         <div class="row">
@@ -80,19 +80,19 @@
                     <form action="modificaProfilo.php" method="POST">
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nome" name="nome" value="<?php echo $templateParams['utente']['nome']; ?>">
+                            <input type="text" class="form-control" id="nomeUtente" name="nome" value="<?php echo $templateParams['utente']['nome']; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="cognome" class="form-label">Cognome</label>
-                            <input type="text" class="form-control" id="cognome" name="cognome" value="<?php echo $templateParams['utente']['cognome']; ?>">
+                            <input type="text" class="form-control" id="cognomeUtente" name="cognome" value="<?php echo $templateParams['utente']['cognome']; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $templateParams['utente']['email']; ?>">
+                            <input type="email" class="form-control" id="emailUtente" name="email" value="<?php echo $templateParams['utente']['email']; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="telefono" class="form-label">Telefono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono" value="<?php echo $templateParams['utente']['telefono']; ?>">
+                            <input type="text" class="form-control" id="telefonoUtente" name="telefono" value="<?php echo $templateParams['utente']['telefono']; ?>">
                         </div>
                         <button type="submit" class="btn btn-primary">Salva Modifiche</button>
                     </form>
@@ -146,5 +146,3 @@
    
     <!-- Inclusione del file JavaScript per aggiornare i messaggi -->
     <script src="js/updateMessages.js"></script>
-
-</body>

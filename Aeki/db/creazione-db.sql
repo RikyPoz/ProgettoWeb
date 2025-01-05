@@ -73,7 +73,7 @@ create table Notifiche (
      IdNotifica INT AUTO_INCREMENT,
      Username VARCHAR(50) not null,
      Testo VARCHAR(50) not null,
-     Data date not null,
+     Data DATETIME not null,
      constraint ID_Notifiche_ID primary key (IdNotifica),
      constraint SID_Notifiche_ID unique (Username, IdNotifica));
 
@@ -118,6 +118,7 @@ create table Utente (
      Tipo VARCHAR(50) not null,
      PartitaIVA VARCHAR(50),
      Telefono VARCHAR(50) not null,
+     Icona VARCHAR(50),
      constraint ID_Utente_ID primary key (Username));
 
 create table WishList (
