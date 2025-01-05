@@ -14,27 +14,50 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data['action'])) {
     $action = $data['action']; 
+    echo $action;
 
     switch ($action) {
         case 'addProduct':
-            $name = $data['name'] ?? '';
-            $price = $data['price'] ?? '';
-            $image = $data['image'] ?? '';
-            $description = $data['description'] ?? '';
-
-            if (empty($name) || empty($price) || empty($image) || empty($description)) {
-                echo json_encode(['success' => false, 'message' => 'Tutti i campi sono obbligatori.']);
-                exit;
+            $nome = $data['nome'] ?? '';
+            $prezzo = $data['prezzo'] ?? '';
+            $descrizione = $data['descrizione'] ?? '';
+            $percorsoImg = $data['percorsoImg'] ?? '';
+            $larghezza = $data['larghezza'] ?? '';
+            $altezza = $data['altezza'] ?? '';
+            $profondita = $data['profondita'] ?? '';
+            $ambiente = $data['ambiente'] ?? '';
+            $categoria = $data['categoria'] ?? '';
+            $colore = $data['colore'] ?? '';
+            $materiale = $data['materiale'] ?? '';
+        
+            try {
+                $result = $dbh->addProduct(
+                    $userId,
+                    $nome,
+                    $prezzo,
+                    $descrizione,
+                    $percorsoImg,
+                    $larghezza,
+                    $altezza,
+                    $profondita,
+                    $ambiente,
+                    $categoria,
+                    $colore,
+                    $materiale
+                );
+        
+                echo json_encode([
+                    'success' => true,
+                    'data' => $result,
+                ]);
+            } catch (Exception $e) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Errore durante l\'aggiunta del prodotto: ' . $e->getMessage(),
+                ]);
             }
-
-            $result = $dbh->addProduct($userId);
-            
-            echo json_encode([
-                'success' => true,
-                'data' => $result
-            ]);
-
             break;
+        
     
         case 'remove':
 

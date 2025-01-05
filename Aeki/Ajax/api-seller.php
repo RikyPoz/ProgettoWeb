@@ -26,7 +26,11 @@ if (isset($data['action'])) {
         
 
         case 'orders':
-            
+            $result = $dbh->getSellerOrderedProducts($userId);
+            echo json_encode([
+                'success' => true,
+                'data' => $result
+            ]);
             break;
 
         case 'stats':

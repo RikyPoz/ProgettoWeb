@@ -19,24 +19,28 @@ async function attachEventListenersToModal() {
             return;
         }
 
-        const formData = new FormData();
-        formData.append("action", "addProduct");
-        formData.append("nome", nome);
-        formData.append("prezzo", prezzo);
-        formData.append("descrizione", descrizione);
-        formData.append("immagine", immagine);
-        formData.append("materiale", materiale);
-        formData.append("colore", colore);
-        formData.append("ambiente", ambiente);
-        formData.append("categoria", categoria);
-        formData.append("altezza", altezza);
-        formData.append("larghezza", larghezza);
-        formData.append("profondita", profondita);
+        const sendingData = {
+            action: "addProduct",
+            nome: nome,
+            prezzo: prezzo,
+            descrizione: descrizione,
+            percorsoImg: immagine,
+            larghezza: larghezza,
+            altezza: altezza,
+            profondita: profondita,
+            ambiente: ambiente,
+            categoria: categoria,
+            colore: colore,
+            materiale: materiale,
 
+        };
         try {
             const response = await fetch("Ajax/api-seller-product.php", {
                 method: "POST",
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sendingData)
             });
 
             if (!response.ok) {

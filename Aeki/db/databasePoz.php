@@ -275,8 +275,21 @@ class DatabaseHelper{
         
     }
 
-    public function getSellerOrders(){
+    public function getSellerOrderedProducts($username){
+        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, d.PrezzoPagato, d.Quantita, 
+                                    d.CodiceProdotto, p.Nome,i.PercorsoImg 
+                                    FROM Prodotto AS p
+                                    JOIN DettaglioOrdine AS d ON d.CodiceProdotto = p.CodiceProdotto
+                                    JOIN Ordine AS o ON d.IDordine = o.IDordine
+                                    LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                                    WHERE p.username = ?
+                                    ORDER BY o.Data DESC"
+                                    );
         
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getSellerStats(){

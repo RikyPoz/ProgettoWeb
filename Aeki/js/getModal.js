@@ -3,7 +3,6 @@ async function getModal() {
         // richiesta al server per ottenere i dati (materiali, colori, ambienti, categorie)
         const response = await fetch('Ajax/api-getInfo.php');
         const result = await response.json();
-        console.log(result);
 
         if (!result.success) {
             throw new Error('Errore nel recupero dei dati');
@@ -146,7 +145,6 @@ async function getModal() {
                     </div>
                 </div>`;
 
-        console.log(html);
         return html;
 
     } catch (error) {

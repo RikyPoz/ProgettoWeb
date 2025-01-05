@@ -31,7 +31,6 @@ async function fetchData(action) {
         const json = await response.json();
 
         if (json.success) {
-            console.log(json.data);
             await updatePageContent(action, json.data)
         } else {
             document.getElementById('contentBody').innerHTML = '<p>Errore nel caricamento dei dati dal server.</p>';
@@ -129,9 +128,64 @@ async function generateProductList(products) {
 function generateOrderList(orders) {
     if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
 
-    let html = '';
+    let html = `<div id="contentBody" class="row d-flex align-items-stretch">`;
+
+    const groupedOrders = orders.reduce((acc, order) => {
+        if (!acc[order.IDordine]) {
+            acc[order.IDordine] = {
+                IDordine: order.IDordine,
+                Data: order.Data,
+                Cliente: order.Cliente,
+                PrezzoPagato: 0,
+                Prodotti: []
+            };
+        }
+
+        acc[order.IDordine].Prodotti.push({
+            Nome: order.Nome,
+            Quantita: order.Quantita,
+            Prezzo: order.PrezzoPagato,
+            ImmagineProdotto: order.ImmagineProdotto || 'https://via.placeholder.com/150'
+        });
+
+        acc[order.IDordine].PrezzoPagato += parseFloat(order.PrezzoPagato);
+
+        return acc;
+    }, {});
+
+    Object.values(groupedOrders).forEach(order => {
+        html += `
+        <div class="col-md-12 col-6 p-2">
+            <div class="rounded shadow d-flex flex-column bg-light p-3 h-100">
+                <div class="order-header d-flex justify-content-between align-items-center mb-2">
+                    <span class="fw-bold">ID Ordine: ${order.IDordine}</span>
+                    <span class="text-muted small">${order.Data}</span>
+                </div>
+                <div class="order-details">
+                    <p><strong>Cliente:</strong> ${order.Cliente}</p>
+                    <p><strong>Prezzo Totale:</strong> €${order.PrezzoPagato}</p>
+                </div>
+                <div class="order-products">
+                    ${order.Prodotti.map(product => `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p><strong>${product.Nome}</strong></p>
+                            <p>Quantità: ${product.Quantita}</p>
+                            <img src="${product.ImmagineProdotto}" alt="${product.Nome}" class="img-fluid rounded" style="width: 50px; height: 50px;">
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="mt-auto">
+                    <a href="orderDetails.php?id=${order.IDordine}" class="btn btn-primary btn-sm w-100 mt-3">Visualizza Ordine</a>
+                </div>
+            </div>
+        </div>`;
+    });
+
+    html += `</div>`;
     return html;
 }
+
+
 
 function generateStats(stats) {
     if (!stats) return '<p>Errore nel recupero delle statistiche.</p>';
