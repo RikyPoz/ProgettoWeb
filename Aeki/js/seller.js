@@ -53,7 +53,7 @@ async function updatePageContent(action, data) {
             attachEventListenersToModal();
             break;
         case 'orders':
-            contentTitle.textContent = 'I tuoi Ordini';
+            contentTitle.textContent = 'Ordini richiesti';
             contentBody.innerHTML = generateOrderList(data);
             break;
         case 'stats':
@@ -100,18 +100,23 @@ async function generateProductList(products) {
     products.forEach(product => {
         html += `
         <div class = "col-md-4 col-6 p-2">
-            <div class=" rounded shadow d-flex flex-column bg-light p-3 h-100">
-                <img src="${product["PercorsoImg"]}" alt="${product["Nome"]}" class="img-fluid"> 
-                <div class = "d-flex flex-column align-items-center mt-auto">
-                    <span class="fw-bold fs-4 mt-2">${product["Nome"]} </span>
+            <div class="rounded shadow d-flex flex-column bg-light p-3 h-100 ${product["Disponibilita"] === 0 ? 'border-danger' : ''}">
+                <img src="${product["PercorsoImg"]}" alt="${product["Nome"]}" class="img-fluid position-relative">
+                <div class="d-flex flex-column align-items-center mt-auto">
+                    <span class="fw-bold fs-3 mt-2">${product["Nome"]} </span>
                     <span class="text-success fs-5">${product["Prezzo"]}€</span>
-                    <div class = "d-flex align-items-center">
+                    <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}">
+                        Disponibilità: ${product["Disponibilita"]}
+                    </span>
+                    <div class="d-flex align-items-center">
                         <span class='text-warning fs-4'>${getStars(product["ValutazioneMedia"])}</span>
                         <span class='text-muted ms-1 small'>(${product["NumeroRecensioni"]})</span>
                     </div>
-                    <div class = "d-flex align-items-center">
-                        <a href="singleProduct.php?id=${product["CodiceProdotto"]}" class="btn border rounded border-dark btn-sm mt-2">Visualizza articolo</a>
-                        <a href="singleProduct.php?id=${product["CodiceProdotto"]}" class="btn border rounded border-dark btn-sm mt-2 ms-2">Modifica articolo</a>
+                    <div class="d-flex align-items-center">
+                        <a href="singleProduct.php?id=${product["CodiceProdotto"]}" class="btn border rounded border-dark btn-sm mt-2">
+                            Visualizza articolo
+                        </a>
+                        <a href="singleProduct.php?id=${product["CodiceProdotto"]}" class="btn border rounded border-dark btn-sm mt-2 ms-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}">Rifornisci articolo</a>
                     </div>
                 </div>
             </div>
@@ -128,15 +133,16 @@ async function generateProductList(products) {
 function generateOrderList(orders) {
     if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
 
-    let html = `<div id="contentBody" class="row d-flex align-items-stretch">`;
+    let html = `<div id="orders-list">`;
 
+    // Raggruppamento degli ordini per ID
     const groupedOrders = orders.reduce((acc, order) => {
         if (!acc[order.IDordine]) {
             acc[order.IDordine] = {
                 IDordine: order.IDordine,
                 Data: order.Data,
                 Cliente: order.Cliente,
-                PrezzoPagato: 0,
+                PrezzoTotale: 0,
                 Prodotti: []
             };
         }
@@ -144,39 +150,56 @@ function generateOrderList(orders) {
         acc[order.IDordine].Prodotti.push({
             Nome: order.Nome,
             Quantita: order.Quantita,
-            Prezzo: order.PrezzoPagato,
-            ImmagineProdotto: order.ImmagineProdotto || 'https://via.placeholder.com/150'
+            PrezzoPagato: order.PrezzoPagato,
+            CodiceProdotto: order.CodiceProdotto,
+            PercorsoImg: order.PercorsoImg
         });
 
-        acc[order.IDordine].PrezzoPagato += parseFloat(order.PrezzoPagato);
+        acc[order.IDordine].PrezzoTotale += parseFloat(order.PrezzoPagato);
 
         return acc;
     }, {});
 
     Object.values(groupedOrders).forEach(order => {
         html += `
-        <div class="col-md-12 col-6 p-2">
-            <div class="rounded shadow d-flex flex-column bg-light p-3 h-100">
-                <div class="order-header d-flex justify-content-between align-items-center mb-2">
-                    <span class="fw-bold">ID Ordine: ${order.IDordine}</span>
-                    <span class="text-muted small">${order.Data}</span>
-                </div>
-                <div class="order-details">
-                    <p><strong>Cliente:</strong> ${order.Cliente}</p>
-                    <p><strong>Prezzo Totale:</strong> €${order.PrezzoPagato}</p>
-                </div>
-                <div class="order-products">
-                    ${order.Prodotti.map(product => `
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p><strong>${product.Nome}</strong></p>
-                            <p>Quantità: ${product.Quantita}</p>
-                            <img src="${product.ImmagineProdotto}" alt="${product.Nome}" class="img-fluid rounded" style="width: 50px; height: 50px;">
+        <!-- Single Order -->
+        <div class="my-3 border rounded shadow">
+            <!-- Order Info -->
+            <div class="d-flex flex-column flex-md-row ms-3 justify-content-md-around ms-md-0 my-4">
+                <span class="fs-5">ID Ordine: <span class="fw-semibold">${order.IDordine}</span></span>
+                <span class="fs-5">Costo Totale: <span class="fw-semibold">${order.PrezzoTotale.toFixed(2)}</span>€</span>
+                <span class="fs-5">Data Ordine: <span class="fw-semibold">${order.Data}</span></span>
+            </div>
+            <!-- Separator -->
+            <hr class="mb-4">
+            <!-- Product List -->
+            <div class="px-4">`;
+
+        order.Prodotti.forEach(product => {
+            html += `
+                <!-- Single Product -->
+                <div class="row justify-content-center bg-light border rounded p-3 mb-3">
+                    <div class="col-md-2 col-6">
+                        <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
+                    </div>
+                    <div class="col-md-10 col-12 flex-column ps-md-5">
+                        <div>
+                            <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                            <span class="fs-5 me-4">Quantità: ${product.Quantita}</span>
+                            <span class="fs-5 text-muted">${product.PrezzoPagato.toFixed(2)} €</span>
                         </div>
-                    `).join('')}
-                </div>
-                <div class="mt-auto">
-                    <a href="orderDetails.php?id=${order.IDordine}" class="btn btn-primary btn-sm w-100 mt-3">Visualizza Ordine</a>
-                </div>
+                        <div class="mt-4">
+                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary btn-sm">Visualizza articolo</a>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        html += `
+            </div>
+            <!-- Button -->
+            <div class="d-flex justify-content-md-end justify-content-center p-3">
+                <button type="button" class="btn btn-light btn-lg">Spedisci</button>
             </div>
         </div>`;
     });
@@ -184,6 +207,7 @@ function generateOrderList(orders) {
     html += `</div>`;
     return html;
 }
+
 
 
 

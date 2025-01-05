@@ -263,7 +263,7 @@ class DatabaseHelper{
     }
 
     public function getSellerProducts($username){
-        $stmt = $this->db->prepare("SELECT p.CodiceProdotto, Nome, Prezzo, ValutazioneMedia, NumeroRecensioni, i.PercorsoImg 
+        $stmt = $this->db->prepare("SELECT p.CodiceProdotto, Nome, Prezzo, ValutazioneMedia, NumeroRecensioni,Disponibilita, i.PercorsoImg 
                                     FROM Prodotto AS p 
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
                                     WHERE username = ?");
