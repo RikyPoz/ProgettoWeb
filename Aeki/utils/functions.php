@@ -9,8 +9,24 @@ function getIdFromName($name){
     return preg_replace("/[^a-z]/", '', strtolower($name));
 }
 
-function getStars($rating) {
-    return str_repeat('&#9733;', $rating) . str_repeat('&#9734;', 5 - $rating);
-}
 
+function getStars($rating) {
+    $output = "";
+    $fullStars = floor($rating);
+    $halfStar = ($rating - $fullStars) >= 0.5;
+    $emptyStars = 5 - $fullStars - $halfStar;
+
+    for ($i = 0; $i < $fullStars; $i++) {
+        $output .= '<i class="bi bi-star-fill text-warning"></i>';
+    }
+
+    if ($halfStar) {
+        $output .= '<i class="bi bi-star-half text-warning"></i>';
+    }
+
+    for ($i = 0; $i < $emptyStars; $i++) {
+        $output .= '<i class="bi bi-star text-warning"></i>';
+    }
+    return $output;
+}
 ?>

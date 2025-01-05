@@ -1,35 +1,13 @@
-   
-
-  <!--
-  <script>
-    // JavaScript per aggiornare la barra riempita tra i due cursori
-    const minPrice = document.getElementById('minPrice');
-    const maxPrice = document.getElementById('maxPrice');
-    const rangeFill = document.getElementById('rangeFill');
-
-    function updateRange() {
-      const min = parseInt(minPrice.value);
-      const max = parseInt(maxPrice.value);
-      const rangeMin = parseInt(minPrice.min);
-      const rangeMax = parseInt(maxPrice.max);
-      const left = ((min - rangeMin) / (rangeMax - rangeMin)) * 100;
-      const width = ((max - min) / (rangeMax - rangeMin)) * 100;
-      rangeFill.style.left = left + '%';
-      rangeFill.style.width = width + '%';
-    }
-
-    minPrice.addEventListener('input', updateRange);
-    maxPrice.addEventListener('input', updateRange);
-    updateRange();
-  </script>
--->
-
+<?php
+$minPrice = min(array_column($templateParams["lista_prodotti"], 'Prezzo'));
+$maxPrice = max(array_column($templateParams["lista_prodotti"], 'Prezzo'));
+?>
 
 <div class="row d-flex justify-content-center">
   <div class = "col-9 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Colore -->
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-4" data-group="colore">
         <h5 class="fw-semibold mb-3">Colore</h5>
         <div class="row row-cols-2">
           <?php
@@ -49,16 +27,14 @@
       <div class="col-12 col-md-4">
         <h5 class="fw-semibold mb-3">Prezzo</h5>
         <div class="mb-3">
-          <!-- Doppio cursore -->
-          <input type="range" class="form-range" id="minPrice" min="0" max="1000" step="10">
-          <input type="range" class="form-range" id="maxPrice" min="0" max="1000" step="10">
-          <div class="d-flex justify-content-between small">
-            <span>€0</span>
-            <span>€1000</span>
+
+          <div class="d-flex justify-content-between small mb-2">
+            <span id="selectedMinPrice">€<?php echo number_format($minPrice, 2); ?></span>
+            <span id="selectedMaxPrice">€<?php echo number_format($maxPrice, 2); ?></span>
           </div>
-        </div>
-        <div class="range-bar mb-3">
-          <div id="rangeFill" class="range-fill" style="left: 10%; width: 50%;"></div>
+
+          <input type="range" class="form-range" id="minPrice" min="<?php echo log($minPrice); ?>" max="<?php echo log($maxPrice); ?>" step="0.01" value="<?php echo log($minPrice); ?>">
+          <input type="range" class="form-range" id="maxPrice" min="<?php echo log($minPrice); ?>" max="<?php echo log($maxPrice); ?>" step="0.01" value="<?php echo log($maxPrice); ?>">
         </div>
       </div>
 
@@ -80,7 +56,7 @@
       </div>
 
       <div class="text-end mt-3">
-        <button class="btn btn-success"><i class="bi bi-filter"></i> Filtra</button>
+        <button class="btn btn-primary" id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
       </div>
     </div>
   </div>
@@ -91,25 +67,34 @@
   <div class = "col-9 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Lista Prodotti -->
-      <div class="row g-4">
-        <?php
-          foreach ($templateParams["lista_prodotti"] as $product) {
-            echo "<div class='col-6 col-md-4 col-lg-3'>
-                    <div class='card text-center shadow-sm border-0'>
-                      <img src='{$product['PercorsoImg']}' class='card-img-top rounded-3' alt='Prodotto'>
-                      <div class='card-body'>
-                        <h6 class='card-title text-dark fw-semibold'>{$product['Nome']}</h6>
-                        <p class='text-success fw-bold'>€" . number_format($product['Prezzo'], 2) . "</p>
-                        <div class='d-flex justify-content-center align-items-center'>
-                          <span class='text-warning fs-4'>" . getStars($product["ValutazioneMedia"]) . "</span>
-                          <span class='text-muted ms-1 small'>({$product['NumeroRecensioni']})</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>";
-          }
-        ?>
-      </div>
+      <div class="row g-4" id="productsContainer"></div>
     </div>
   </div>
 </div>
+
+<script>
+  const minPriceInput = document.getElementById('minPrice');
+  const maxPriceInput = document.getElementById('maxPrice');
+  const selectedMinPrice = document.getElementById('selectedMinPrice');
+  const selectedMaxPrice = document.getElementById('selectedMaxPrice');
+  const rangeFill = document.getElementById('rangeFill');
+  
+  function updateRange() {
+    const minLogValue = parseFloat(minPriceInput.value);
+    const maxLogValue = parseFloat(maxPriceInput.value);
+
+    if (minLogValue > maxLogValue) {
+      minPriceInput.value = maxLogValue;
+    }
+
+    const minLinearValue = Math.exp(minPriceInput.value).toFixed(2);
+    const maxLinearValue = Math.exp(maxPriceInput.value).toFixed(2);
+
+    selectedMinPrice.textContent = `€${minLinearValue}`;
+    selectedMaxPrice.textContent = `€${maxLinearValue}`;
+  }
+
+  minPriceInput.addEventListener('input', updateRange);
+  maxPriceInput.addEventListener('input', updateRange);
+  updateRange();
+</script>

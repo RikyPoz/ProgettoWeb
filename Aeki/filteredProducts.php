@@ -10,6 +10,7 @@ $templateParams["nome"] = "filteredProducts_main.php";
 $templateParams["lista_prodotti"] = $dbh->getProductsList();
 
 $templateParams["colors"] = $dbh->getColors();
+$templateParams["js"] = array("js/filterProducts.js");
 
 require 'template/base.php';
 
