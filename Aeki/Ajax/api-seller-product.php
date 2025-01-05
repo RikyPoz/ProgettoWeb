@@ -27,13 +27,14 @@ if (isset($data['action'])) {
             $categoria = $data['categoria'] ?? '';
             $colore = $data['colore'] ?? '';
             $materiale = $data['materiale'] ?? '';
+            $peso = $data['peso'] ?? '';
+            
 
-            // Aggiungi controllo per i campi obbligatori
-            if (!$nome || !$prezzo || !$descrizione || !$percorsoImg || !$larghezza || !$altezza || !$profondita || !$ambiente || !$categoria || !$colore || !$materiale) {
+            if (!$nome || !$prezzo || !$descrizione || !$percorsoImg || !$larghezza || !$altezza || !$profondita || !$ambiente || !$categoria || !$colore || !$materiale ||!$peso||!$userId) {
                 echo json_encode(['success' => false, 'message' => 'Dati mancanti o non validi']);
                 exit;
             }
-            $result = $dbh->addProduct($userId,$nome,$prezzo,$descrizione,$percorsoImg,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale);
+            $result = $dbh->addProduct($userId,$nome,$prezzo,$descrizione,$percorsoImg,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso);
             echo $result;
             break;
 

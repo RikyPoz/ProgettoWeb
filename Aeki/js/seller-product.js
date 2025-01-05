@@ -13,43 +13,28 @@ async function addModalEventListener() {
         const altezza = document.getElementById("productHeight").value.trim();
         const larghezza = document.getElementById("productWidth").value.trim();
         const profondita = document.getElementById("productDepth").value.trim();
+        const peso = document.getElementById("productWeight").value.trim();
 
         /*if (!nome || !prezzo || !descrizione || !immagine || !materiale || !colore || !ambiente || !categoria || !altezza || !larghezza || !profondita) {
             alert("Compila tutti i campi prima di salvare il prodotto.");
             return;
         }*/
 
-        /*const sendingData = {
+        const sendingData = {
             action: 'add-product',
             nome: nome,
             prezzo: prezzo,
             descrizione: descrizione,
-            percorsoImg: "upload/products/img1.png",
+            percorsoImg: "upload/seller/profilo.png",
             larghezza: larghezza,
             altezza: altezza,
             profondita: profondita,
             ambiente: ambiente,
             categoria: categoria,
             colore: colore,
-            materiale: materiale
-        };*/
-        const sendingData = {
-            action: 'add-product',
-            nome: 'default',  // Valore di default: 'default'
-            prezzo: 'default',  // Valore di default: 'default'
-            descrizione: 'default',  // Valore di default: 'default'
-            percorsoImg: 'upload/products/img1.png',  // Immagine con valore fisso
-            larghezza: 'default',  // Valore di default: 'default'
-            altezza: 'default',  // Valore di default: 'default'
-            profondita: 'default',  // Valore di default: 'default'
-            ambiente: 'default',  // Valore di default: 'default'
-            categoria: 'default',  // Valore di default: 'default'
-            colore: 'default',  // Valore di default: 'default'
-            materiale: 'default'  // Valore di default: 'default'
+            materiale: materiale,
+            peso: peso
         };
-
-
-        console.log(sendingData);
 
         try {
             const response = await fetch('Ajax/api-seller-product.php', {
@@ -64,8 +49,7 @@ async function addModalEventListener() {
                 throw new Error(`Errore nella richiesta: ${response.status}`);
             }
 
-            const result = await response.text();
-            console.log(result);
+            const result = await response.json();
 
             if (result.success) {
                 alert("Prodotto aggiunto con successo!");

@@ -296,35 +296,43 @@ class DatabaseHelper{
         
     }
 
-    public function addProduct($nome, $prezzo, $descrizione, $materiale, $peso, $disponibilita, $altezza, $larghezza, $profondita, $nomeAmbiente, $nomeCategoria, $username) {
+    public function addProduct($userId,$nome,$prezzo,$descrizione,$percorsoImg,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {
         
-        
-       
         try{
             $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
-                                                     `Disponibilita`, `Altezza`, `Larghezza`, `Profondita`, 
+                                                     `Altezza`, `Larghezza`, `Profondita`, 
                                                      `NomeAmbiente`, `NomeCategoria`, `Username`) 
-                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                                        VALUES (?,?,?,?,?,?,?,?,?,?,?)");
     
-        $stmt->bind_param('ssssssssssss', 
-            $nome, 
-            $prezzo, 
-            $descrizione, 
-            $materiale, 
-            $peso, 
-            $disponibilita, 
-            $altezza, 
-            $larghezza, 
-            $profondita, 
-            $nomeAmbiente, 
-            $nomeCategoria, 
-            $username
-        );
+            $stmt->bind_param('sdssddddsss', 
+                $nome, 
+                $prezzo, 
+                $descrizione, 
+                $materiale, 
+                $peso, 
+                $altezza, 
+                $larghezza, 
+                $profondita, 
+                $ambiente, 
+                $categoria, 
+                $userId
+            );
     
-        $stmt->execute();
+            $stmt->execute();
+            $codiceProdotto = $this->db->insert_id;
+        
+            $stmtImg = $this->db->prepare("INSERT INTO `ImmagineProdotto`(`PercorsoImg`, `Icona`, `CodiceProdotto`) VALUES (?,?,?)");
+            $icona = 'Y';
+            $stmtImg->bind_param('ssi', $percorsoImg,$icona,$codiceProdotto);
+            $stmtImg->execute();
+
+            $stmtColor = $this->db->prepare("INSERT INTO `Colorazione`(`NomeColore`, `CodiceProdotto`) VALUES (?,?)");
+            $stmtColor->bind_param('si', $colore,$codiceProdotto);
+            $stmtColor->execute();
+        
             return json_encode([
                 'success' => true,
-                'message' => 'Prodotto rimosso con successo'
+                'message' => 'Prodotto aggiunto con successo'
             ]);
         } catch (mysqli_sql_exception $e) {
                 return json_encode([

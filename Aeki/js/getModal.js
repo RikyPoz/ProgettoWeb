@@ -87,6 +87,11 @@ async function getAddModal() {
                                                 `).join('')}
                                             </select>
                                         </div>
+                                        <!-- Colonna 3 -->
+                                        <div class="col-md-4 mb-3">
+                                            <label for="productWeight" class="form-label">Peso (kg)</label>
+                                            <input type="number" class="form-control" id="productWeight" min="0" required>
+                                        </div>
 
                                     </div>
 
