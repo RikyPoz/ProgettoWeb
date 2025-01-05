@@ -55,7 +55,7 @@ create table DettaglioOrdine (
      IDordine INT not null,
      CodiceProdotto INT not null,
      Quantita INT not null,
-     PrezzoPagato float(1) not null,
+     PrezzoPagato FLOAT not null,
      constraint ID_DettaglioOrdine_ID primary key (CodiceProdotto, IDordine));
 
 create table DettaglioWishlist (
@@ -83,23 +83,25 @@ create table Ordine (
      Username VARCHAR(50) not null,
      constraint ID_Ordine_ID primary key (IDordine));
 
-create table Prodotto (
-     CodiceProdotto INT AUTO_INCREMENT,
-     Nome VARCHAR(50) not null,
-     Prezzo float(1) not null,
-     Descrizione VARCHAR(50) not null,
-     Materiale VARCHAR(50) not null,
-     Peso float(1) not null,
-     Disponibilita int not null,
-     Altezza float(1) not null,
-     Larghezza float(1) not null,
-     Profondita float(1) not null,
-     ValutazioneMedia float(1) not null,
-     NumeroRecensioni int not null,
-     NomeAmbiente VARCHAR(50) not null,
-     NomeCategoria VARCHAR(50) not null,
-     Username VARCHAR(50) not null,
-     constraint ID_Prodotto_ID primary key (CodiceProdotto));
+CREATE TABLE Prodotto (
+    CodiceProdotto INT AUTO_INCREMENT,
+    Nome VARCHAR(50) NOT NULL,
+    Prezzo FLOAT NOT NULL,
+    Descrizione VARCHAR(50) NOT NULL,
+    Materiale VARCHAR(50) NOT NULL,
+    Peso FLOAT NOT NULL,
+    Disponibilita INT NOT NULL DEFAULT 0,
+    Altezza FLOAT NOT NULL,
+    Larghezza FLOAT NOT NULL,
+    Profondita FLOAT NOT NULL,
+    ValutazioneMedia FLOAT NOT NULL DEFAULT 0,  
+    NumeroRecensioni INT NOT NULL DEFAULT 0,      
+    NomeAmbiente VARCHAR(50) NOT NULL,
+    NomeCategoria VARCHAR(50) NOT NULL,
+    Username VARCHAR(50) NOT NULL,
+    CONSTRAINT ID_Prodotto_ID PRIMARY KEY (CodiceProdotto)
+);
+
 
 create table Recensione (
     IDrecensione INT AUTO_INCREMENT,
