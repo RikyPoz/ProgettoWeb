@@ -2,24 +2,35 @@
 require_once 'bootstrap.php';
 
 // Avvia la sessione per accedere ai dati memorizzati in sessione
-//session_start();
+session_start();
 
-//Base Template
+// Base Template
 $templateParams["titolo"] = "Aeki - Utente";
 $templateParams["nome"] = "profile_main.php";
+
+// Gestione dei messaggi di stato (successo, nessuna modifica, errore)
+if (isset($_GET['status'])) {
+    if ($_GET['status'] == 'success') {
+        echo "<div class='alert alert-success'>Profilo aggiornato con successo!</div>";
+    } elseif ($_GET['status'] == 'no_change') {
+        echo "<div class='alert alert-info'>Nessuna modifica effettuata.</div>";
+    } elseif ($_GET['status'] == 'error') {
+        echo "<div class='alert alert-danger'>Errore durante l'aggiornamento del profilo.</div>";
+    }
+}
+
 /*
 // Verifica se l'utente è loggato
-if(isset($_SESSION['user_id'])){
-    // User Template
+if (isset($_SESSION['user_id'])) {
+    // Recupera i dati dell'utente loggato
     $templateParams["utente"] = $dbh->getUtenteByEmail($_SESSION['email']);  
-    $templateParams["ordini"] = $dbh->getRecensioniByUtente($_SESSION['email']);
+    $templateParams["recensioni"] = $dbh->getRecensioniByUtente($_SESSION['email']);
     $templateParams["messaggi"] = $dbh->getMessaggiByUtente($_SESSION['email']);
-}else {
+} else {
     // Se l'utente non è loggato, reindirizza alla pagina di login
     header('Location: login.php');
     exit();  // Ferma l'esecuzione del codice dopo il reindirizzamento
 }
-
 */
 //PROVA: DA ELIMINARE!
 $username = 'user1'; 
@@ -27,9 +38,9 @@ $username = 'user1';
 $templateParams["utente"] = $dbh->getUtente($username);
 $templateParams["recensioni"] = $dbh->getRecensioniByUtente($username);
 $templateParams["messaggi"] = $dbh->getMessaggiByUtente($username);
-
+/*
 // CONTROLLO COSA CONTENGONO I TEMPLATEPARAMS -> DA ELIMINARE!!!
-/*echo "<pre>";
+echo "<pre>";
 var_dump($templateParams["utente"]);
 var_dump($templateParams["ordini"]);
 var_dump($templateParams["messaggi"]);
@@ -38,5 +49,3 @@ echo "</pre>";
 
 require 'template/base.php';
 ?>
-
-

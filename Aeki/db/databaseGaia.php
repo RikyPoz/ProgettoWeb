@@ -85,6 +85,52 @@ class DatabaseHelper{
     
         return $messaggi;
     }
+
+    public function updateUtente($nome, $cognome, $email, $telefono, $username) {
+        // Prepara i campi da aggiornare e i parametri per il bind
+        $campi = [];
+        $valori = [];
+    
+        if (!empty($nome)) {
+            $campi[] = "Nome = ?";
+            $valori[] = $nome;
+        }
+        if (!empty($cognome)) {
+            $campi[] = "Cognome = ?";
+            $valori[] = $cognome;
+        }
+        if (!empty($email)) {
+            $campi[] = "Email = ?";
+            $valori[] = $email;
+        }
+        if (!empty($telefono)) {
+            $campi[] = "Telefono = ?";
+            $valori[] = $telefono;
+        }
+    
+        // Se non è stato specificato alcun campo da aggiornare interrompe l'esecuzione
+        if (empty($campi)) {
+            return 0; // Nessuna modifica
+        }
+    
+        // Aggiungi l'username alla fine dei parametri
+        $campi[] = "Username = ?";
+        $valori[] = $username;
+    
+        // Crea la query dinamica
+        $sql = "UPDATE Utente SET " . implode(", ", $campi) . " WHERE Username = ?";
+        // Prepara la query
+        $stmt = $this->db->prepare($sql);
+        // Associa i parametri in base al numero di campi
+        $tipi = str_repeat('s', count($valori));
+        $stmt->bind_param($tipi, ...$valori);
+    
+        // Esegue la query
+        $stmt->execute();
+    
+        // Ritorna il numero di righe modificate
+        return $stmt->affected_rows; 
+    }    
     
         
     }
