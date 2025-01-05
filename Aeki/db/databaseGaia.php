@@ -72,5 +72,20 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-}
+    public function getMessaggiByData($username, $data) {
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? AND Data > ? ORDER BY Data DESC");
+        $stmt->bind_param("ss", $username, $data);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $messaggi = $result->fetch_all(MYSQLI_ASSOC);
+    
+        // Libera il risultato e chiude lo statement
+        $result->free();
+        $stmt->close();
+    
+        return $messaggi;
+    }
+    
+        
+    }
 ?>

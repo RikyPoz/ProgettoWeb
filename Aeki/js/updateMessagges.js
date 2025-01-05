@@ -1,37 +1,61 @@
-// Variabile per tracciare l'ultima data di aggiornamento impostata inizialmente a data passata
-let ultimaData = '2000-01-01 00:00:00';  
+document.addEventListener("DOMContentLoaded", function () {
+    aggiornaMessaggi(); // Carica i messaggi iniziali
+    setInterval(aggiornaMessaggi, 5000); // Esegue l'aggiornamento ogni 5 secondi
+});
 
-// Funzione per aggiornare i messaggi
-function aggiornaMessaggi() {
-    // Esegui una richiesta fetch al server per ottenere i messaggi più recenti
-    fetch(`updateMessages.php?ultimaData=${encodeURIComponent(ultimaData)}`)
-        .then(response => response.json())  // Converti la risposta in formato JSON
-        .then(data => {
-            const messaggiContainer = document.querySelector('#messaggi-container'); // Seleziona il contenitore dei messaggi
-            if (!messaggiContainer) {
-                console.error('Contenitore dei messaggi non trovato!');
-            }
-            if (data.length > 0) {
-                // Se ci sono nuovi messaggi
-                data.forEach(messaggio => {
-                    const listItem = document.createElement('li');  // Crea un nuovo elemento di lista
-                    listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                    listItem.innerHTML = `
-                        ${messaggio.testo}  <!-- Mostra il contenuto del messaggio -->
-                        <span class="text-muted">${messaggio.data}</span>  <!-- Mostra la data del messaggio -->
-                    `;
-                    messaggiContainer.prepend(listItem);  // Aggiungi il nuovo messaggio all'inizio della lista
-                });
+async function aggiornaMessaggi() {
+    const data = { ultimaData }; // Prepara i dati con l'ultima data nota
 
-                // Aggiorna la variabile `ultimaData` con la data dell'ultimo messaggio ricevuto
-                ultimaData = data[0].data;
-            }
-        })
-        .catch(error => console.error('Errore:', error));  // Gestisci gli errori
+    try {
+        const response = await fetch('Ajax/api-updateMessages.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+
+        const json = await response.json();
+
+        if (json.success) {
+            aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
+            ultimaData = json.messages[json.messages.length - 1].Data; // Aggiorna l'ultima data
+        } else if (json.error) {
+            console.error(`Errore ricevuto dal server: ${json.message}`);
+        }
+    } catch (error) {
+        console.error(`Errore durante l'aggiornamento dei messaggi: ${error.message}`);
+    }
 }
 
-// Esegui la funzione aggiornaMessaggi ogni 5 secondi (5000 millisecondi)
-setInterval(aggiornaMessaggi, 5000);
+function aggiornaMessaggiUI(messaggi) {
+    const messaggiContainer = document.querySelector('#messaggi-container');
+    if (!messaggiContainer) {
+        console.error('Contenitore dei messaggi non trovato!');
+        return;
+    }
 
-// Carica i messaggi iniziali appena la pagina è pronta
-aggiornaMessaggi();
+    // Log per vedere i messaggi che vengono passati alla funzione
+    console.log("Messaggi da aggiungere:", messaggi);
+
+    messaggi.forEach(messaggio => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+        const testoSpan = document.createElement('span');
+        testoSpan.textContent = messaggio.Testo; 
+
+        const dataSpan = document.createElement('span');
+        dataSpan.classList.add('text-muted');
+        dataSpan.textContent = messaggio.Data; 
+
+        listItem.appendChild(testoSpan);
+        listItem.appendChild(dataSpan);
+
+        messaggiContainer.prepend(listItem); // Aggiunge il nuovo messaggio all'inizio
+    });
+}
