@@ -1,4 +1,4 @@
-async function attachEventListenersToModal() {
+async function addModalEventListener() {
     const saveProductBtn = document.getElementById("saveProductBtn");
 
     saveProductBtn.addEventListener("click", async function () {
@@ -14,29 +14,46 @@ async function attachEventListenersToModal() {
         const larghezza = document.getElementById("productWidth").value.trim();
         const profondita = document.getElementById("productDepth").value.trim();
 
-        if (!nome || !prezzo || !descrizione || !immagine || !materiale || !colore || !ambiente || !categoria || !altezza || !larghezza || !profondita) {
+        /*if (!nome || !prezzo || !descrizione || !immagine || !materiale || !colore || !ambiente || !categoria || !altezza || !larghezza || !profondita) {
             alert("Compila tutti i campi prima di salvare il prodotto.");
             return;
-        }
+        }*/
 
-        const sendingData = {
-            action: "addProduct",
+        /*const sendingData = {
+            action: 'add-product',
             nome: nome,
             prezzo: prezzo,
             descrizione: descrizione,
-            percorsoImg: immagine,
+            percorsoImg: "upload/products/img1.png",
             larghezza: larghezza,
             altezza: altezza,
             profondita: profondita,
             ambiente: ambiente,
             categoria: categoria,
             colore: colore,
-            materiale: materiale,
-
+            materiale: materiale
+        };*/
+        const sendingData = {
+            action: 'add-product',
+            nome: 'default',  // Valore di default: 'default'
+            prezzo: 'default',  // Valore di default: 'default'
+            descrizione: 'default',  // Valore di default: 'default'
+            percorsoImg: 'upload/products/img1.png',  // Immagine con valore fisso
+            larghezza: 'default',  // Valore di default: 'default'
+            altezza: 'default',  // Valore di default: 'default'
+            profondita: 'default',  // Valore di default: 'default'
+            ambiente: 'default',  // Valore di default: 'default'
+            categoria: 'default',  // Valore di default: 'default'
+            colore: 'default',  // Valore di default: 'default'
+            materiale: 'default'  // Valore di default: 'default'
         };
+
+
+        console.log(sendingData);
+
         try {
-            const response = await fetch("Ajax/api-seller-product.php", {
-                method: "POST",
+            const response = await fetch('Ajax/api-seller-product.php', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -47,11 +64,12 @@ async function attachEventListenersToModal() {
                 throw new Error(`Errore nella richiesta: ${response.status}`);
             }
 
-            const result = await response.json();
+            const result = await response.text();
+            console.log(result);
 
             if (result.success) {
                 alert("Prodotto aggiunto con successo!");
-                fetchData("products"); //Per aggiornare la pagina html con il nuovo prodotto
+                fetchData("products");
                 document.getElementById("addProductModalClose").click();
             } else {
                 alert("Errore durante l'aggiunta del prodotto: " + result.message);
@@ -62,3 +80,148 @@ async function attachEventListenersToModal() {
         }
     });
 }
+
+async function updateModalEventListeners(product) {
+    const modals = document.querySelectorAll(`#updateAvailabilityModal-${product.CodiceProdotto}, #deleteProductModal-${product.CodiceProdotto}, #updateProductModal-${product.CodiceProdotto}`);
+
+    const rifornisciButton = modals[0]?.querySelector('.btn-primary');
+    const eliminaButton = modals[1]?.querySelector('.btn-danger');
+    const modificaButton = modals[2]?.querySelector('.btn-primary');
+
+    if (rifornisciButton && eliminaButton && modificaButton) {
+        rifornisciButton.addEventListener('click', () => updateProductAvailability(product));
+        eliminaButton.addEventListener('click', () => deleteProduct(product));
+        modificaButton.addEventListener('click', () => updateProductPrice(product));
+    } else {
+        console.error(`I bottoni per il prodotto ${product.CodiceProdotto} non sono stati trovati`);
+    }
+}
+
+
+async function updateProductAvailability(product) {
+    const newAvailability = document.querySelector(`#newAvailability-${product.CodiceProdotto}`).value;
+    if (!newAvailability) {
+        alert('Seleziona una nuova disponibilità.');
+        return;
+    }
+
+    try {
+
+        const sendingData = {
+            action: 'update-availability',
+            codiceProdotto: product.CodiceProdotto,
+            nuovaDisponibilita: newAvailability
+        };
+
+
+        const response = await fetch('Ajax/api-seller-product.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendingData)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Disponibilità aggiornata');
+            const closeButton = document.querySelector(`#updateAvailabilityModal-${product.CodiceProdotto} .btn-close`);
+            closeButton.click();
+            fetchData("products");
+        } else {
+            alert("Errore durante l'aggiornamento del prodotto: " + result.message);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nel comunicare con il server');
+    }
+}
+
+
+async function deleteProduct(product) {
+    try {
+
+        const sendingData = {
+            action: 'delete-product',
+            codiceProdotto: product.CodiceProdotto,
+        };
+
+        const response = await fetch('Ajax/api-seller-product.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendingData)
+        });
+
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Prodotto eliminato');
+            const closeButton = document.querySelector(`#deleteProductModal-${product.CodiceProdotto} .btn-close`);
+            closeButton.click();
+            fetchData("products");
+        } else {
+            alert('Errore durante l\'eliminazione del prodotto ' + result.message);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nel comunicare con il server');
+    }
+}
+
+
+async function updateProductPrice(product) {
+    const newPrice = document.querySelector(`#newPrice-${product.CodiceProdotto}`).value;
+    if (!newPrice) {
+        alert('Inserisci un nuovo prezzo.');
+        return;
+    }
+
+    try {
+
+        const sendingData = {
+            action: 'update-price',
+            codiceProdotto: product.CodiceProdotto,
+            nuovoPrezzo: newPrice
+        };
+
+        const response = await fetch('Ajax/api-seller-product.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendingData)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+
+        if (result.success) {
+            alert('Prezzo aggiornato');
+            const closeButton = document.querySelector(`#updateProductModal-${product.CodiceProdotto} .btn-close`);
+            closeButton.click();
+            fetchData("products");
+        } else {
+            alert('Errore durante l\'aggiornamento del prezzo' + result.message);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nel comunicare con il server');
+    }
+}
+

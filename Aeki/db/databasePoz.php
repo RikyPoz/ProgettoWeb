@@ -297,7 +297,11 @@ class DatabaseHelper{
     }
 
     public function addProduct($nome, $prezzo, $descrizione, $materiale, $peso, $disponibilita, $altezza, $larghezza, $profondita, $nomeAmbiente, $nomeCategoria, $username) {
-        $stmt = $pdo->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
+        
+        
+       
+        try{
+            $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
                                                      `Disponibilita`, `Altezza`, `Larghezza`, `Profondita`, 
                                                      `NomeAmbiente`, `NomeCategoria`, `Username`) 
                                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -318,22 +322,69 @@ class DatabaseHelper{
         );
     
         $stmt->execute();
-        
-        if ($stmt->affected_rows > 0) {
-            return true;
-        } else {
-            return false; 
+            return json_encode([
+                'success' => true,
+                'message' => 'Prodotto rimosso con successo'
+            ]);
+        } catch (mysqli_sql_exception $e) {
+                return json_encode([
+                    'success' => false,
+                    'message' => 'Errore SQL: ' . $e->getMessage()
+                ]);
+    
         }
     }
     
 
-    public function removeProduct(){
-        
+    public function removeProduct($codiceProdotto) {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM prodotto WHERE CodiceProdotto = ?");
+            $stmt->bind_param('i', $codiceProdotto);
+            $stmt->execute();
+            return json_encode([
+                'success' => true,
+                'message' => 'Prodotto rimosso con successo'
+            ]);
+        } catch (mysqli_sql_exception $e) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Errore SQL: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+
+    public function updateProductPrice($codiceProdotto, $nuovoPrezzo) {
+        try{
+        $stmt = $this->db->prepare("UPDATE Prodotto SET Prezzo = ? WHERE CodiceProdotto = ?");
+        $stmt->bind_param('ss',$nuovoPrezzo,$codiceProdotto);
+        $stmt->execute();
+        return json_encode([
+            'success' => true,
+            'message' => 'Prodotto aggiornato con successo'
+        ]);
+        } catch (mysqli_sql_exception $e) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Errore SQL: ' . $e->getMessage()
+            ]);
+        }
     }
 
-    public function updateProduct(){
+    public function updateProductAvailability($codiceProdotto, $nuovaDisponibilita) {
         
+        try{
+            $stmt = $this->db->prepare("UPDATE Prodotto SET Disponibilita = Disponibilita + ? WHERE CodiceProdotto = ?");
+            $stmt->bind_param('ss', $nuovaDisponibilita,$codiceProdotto);
+            $stmt->execute();   
+            return true;
+        }catch(mysqli_sql_exception $e){
+            return json_encode("sql error". $e->getMessage());
+        }
     }
+    
+    
+    
 
     public function getMateriali1(){
         $materials = [

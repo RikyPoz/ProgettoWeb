@@ -1,4 +1,4 @@
-async function getModal() {
+async function getAddModal() {
     try {
         // richiesta al server per ottenere i dati (materiali, colori, ambienti, categorie)
         const response = await fetch('Ajax/api-getInfo.php');
@@ -152,3 +152,77 @@ async function getModal() {
         return '<p>Errore nel recupero dei dati. Riprova più tardi.</p>';
     }
 }
+
+function getUpdateModal(product) {
+    let html = `
+    <!-- Modale per rifornire -->
+    <div class="modal fade" id="updateAvailabilityModal-${product['CodiceProdotto']}" tabindex="-1" aria-labelledby="updateAvailabilityLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-custom-width">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateAvailabilityLabel">Aggiorna Disponibilità</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-custom-height">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-4 mb-3">
+                            <label for="newAvailability-${product['CodiceProdotto']}" class="form-label">Nuova Disponibilità</label>
+                            <input type="number" class="form-control" id="newAvailability-${product['CodiceProdotto']}" min="1" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-primary" id="updateAvailabilityBtn-${product['CodiceProdotto']}">Salva</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modale per eliminare -->
+    <div class="modal fade" id="deleteProductModal-${product['CodiceProdotto']}" tabindex="-1" aria-labelledby="deleteProductLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-custom-width">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProductLabel">Elimina Prodotto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-custom-height">
+                    <p>Sei sicuro di voler eliminare il prodotto <strong>${product['Nome']}</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-danger" id="deleteProductBtn-${product['CodiceProdotto']}">Elimina</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modale per modificare -->
+    <div class="modal fade" id="updateProductModal-${product['CodiceProdotto']}" tabindex="-1" aria-labelledby="updateProductLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modal-custom-width">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductLabel">Modifica Prezzo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-custom-height">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-4 mb-3">
+                            <label for="newPrice-${product['CodiceProdotto']}" class="form-label">Nuovo Prezzo (€)</label>
+                            <input type="number" class="form-control" id="newPrice-${product['CodiceProdotto']}" min="0.01" step="0.01" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-primary" id="updatePriceBtn-${product['CodiceProdotto']}">Salva</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    return html;
+}
+

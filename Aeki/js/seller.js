@@ -50,7 +50,10 @@ async function updatePageContent(action, data) {
         case 'products':
             contentTitle.textContent = 'I tuoi Prodotti';
             contentBody.innerHTML = await generateProductList(data);
-            attachEventListenersToModal();
+            addModalEventListener();
+            data.forEach(product => {
+                updateModalEventListeners(product);
+            });
             break;
         case 'orders':
             contentTitle.textContent = 'Ordini richiesti';
@@ -81,7 +84,7 @@ async function generateProductList(products) {
     }
 
     html += `<div id="contentBody" class = "row d-flex align-items-stretch">`;
-    const modalhtml = await getModal();
+    const modalhtml = await getAddModal();
     html += modalhtml;
     html += `<div class="col-md-4 col-6 p-2">
                 <div class=" d-flex align-items-center justify-content-center shadow border p-4 h-100 bg-light rounded" 
@@ -99,29 +102,37 @@ async function generateProductList(products) {
 
     products.forEach(product => {
         html += `
-        <div class = "col-md-4 col-6 p-2">
-            <div class="rounded shadow d-flex flex-column bg-light p-3 h-100 ${product["Disponibilita"] === 0 ? 'border-danger' : ''}">
-                <img src="${product["PercorsoImg"]}" alt="${product["Nome"]}" class="img-fluid position-relative">
-                <div class="d-flex flex-column align-items-center mt-auto">
-                    <span class="fw-bold fs-3 mt-2">${product["Nome"]} </span>
-                    <span class="text-success fs-5">${product["Prezzo"]}€</span>
-                    <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}">
-                        Disponibilità: ${product["Disponibilita"]}
-                    </span>
-                    <div class="d-flex align-items-center">
-                        <span class='text-warning fs-4'>${getStars(product["ValutazioneMedia"])}</span>
-                        <span class='text-muted ms-1 small'>(${product["NumeroRecensioni"]})</span>
+                <div class="col-md-4 col-6 p-2">
+                    <div class="rounded shadow d-flex flex-column bg-light p-3 h-100 ${product["Disponibilita"] === 0 ? 'border-danger' : ''}">
+                        <img src="${product["PercorsoImg"]}" alt="${product["Nome"]}" class="img-fluid position-relative">
+                        <div class="d-flex flex-column align-items-center mt-auto">
+                            <span class="fw-bold fs-3 mt-2">${product["Nome"]} </span>
+                            <span class="text-success fs-5">${product["Prezzo"]}€</span>
+                            <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}">
+                                Disponibilità: ${product["Disponibilita"]}
+                            </span>
+                            <div class="d-flex align-items-center">
+                                <span class='text-warning fs-4'>${getStars(product["ValutazioneMedia"])}</span>
+                                <span class='text-muted ms-1 small'>(${product["NumeroRecensioni"]})</span>
+                            </div>
+                            <div class="container mt-2">
+                                <div class="d-flex align-items-center">
+                                    <a href="singleProduct.php?id=${product['CodiceProdotto']}" class="btn border rounded btn-sm me-2 w-100">Visualizza</a>
+                                    <a href="#" class="btn border rounded btn-sm w-100 ${product['Disponibilita'] === 0 ? 'text-danger border-danger' : ''}" data-bs-toggle="modal" data-bs-target="#updateAvailabilityModal-${product['CodiceProdotto']}">Rifornisci</a>
+                                </div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <a href="#" class="btn border rounded btn-sm me-2 w-100" data-bs-toggle="modal" data-bs-target="#deleteProductModal-${product['CodiceProdotto']}">Elimina</a>
+                                    <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Modifica</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <a href="singleProduct.php?id=${product["CodiceProdotto"]}" class="btn border rounded border-dark btn-sm mt-2">
-                            Visualizza articolo
-                        </a>
-                        <a href="singleProduct.php?id=${product["CodiceProdotto"]}" class="btn border rounded border-dark btn-sm mt-2 ms-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}">Rifornisci articolo</a>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+                </div>`;
+        const updatemodalhtml = getUpdateModal(product);
+        html += updatemodalhtml;
     });
+
+
 
     html += `</div>`
 

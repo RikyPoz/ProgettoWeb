@@ -26,7 +26,6 @@ async function aggiornaMessaggi(ultimaData) {
         if (json.success) {
             if (json.messages && json.messages.length > 0) {
                 aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
-                
                 // Aggiorna ultimaData all'ultimo messaggio ricevuto
                 ultimaData = json.messages[json.messages.length - 1].Data;
                 console.log("Aggiornata ultimaData a:", ultimaData);
@@ -64,11 +63,11 @@ function aggiornaMessaggiUI(messaggi) {
         listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
 
         const testoSpan = document.createElement('span');
-        testoSpan.textContent = messaggio.Testo; 
+        testoSpan.textContent = messaggio.Testo;
 
         const dataSpan = document.createElement('span');
         dataSpan.classList.add('text-muted');
-        dataSpan.textContent = messaggio.Data; 
+        dataSpan.textContent = messaggio.Data;
 
         listItem.appendChild(testoSpan);
         listItem.appendChild(dataSpan);
