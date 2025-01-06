@@ -1,16 +1,12 @@
-<head>
-    <link rel="stylesheet" href="./css/login_style.css">
-</head>
+
+<link rel="stylesheet" href="./css/login_style.css">
+
 
 <!-- Login -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="login-container">
         <h2 class="text-center">Login</h2>
-
-        <!-- Messaggi di errore o successo -->
-        <div id="message-box" role="alert" style="display: none;"></div>
-
-        <form action="/login" method="POST">
+        <form id="loginForm">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required placeholder="Inserisci la tua email">
@@ -23,9 +19,9 @@
                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
                 <label class="form-check-label" for="remember">Ricordami</label>
             </div>
-            <button type="submit" class="btn btn-primary">Accedi</button>
+            <button type="button" class="btn btn-primary" id="loginButton">Accedi</button>
         </form>
-
+        <div id="loginMessage" class="mt-3"></div>
         <div class="mt-3 text-center">
             <p>Non sei registrato? <a href="#" id="openModal" aria-label="Apri modulo di registrazione">Registrati prima di fare il login.</a></p>
         </div>
@@ -73,3 +69,5 @@
 
 <!-- Link al file JavaScript -->
 <script src="js/loginModal.js"></script>
+<script src="js/login.js"></script>
+

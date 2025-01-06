@@ -76,7 +76,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="modificaProfilo.php" method="POST">
+                <form id="modificaProfiloForm" action="template/modificaProfilo.php" method="POST">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nomeUtente" name="nome" value="<?php echo $templateParams['utente']['nome']; ?>">
@@ -145,3 +145,7 @@
 
 <!-- Inclusione del file JavaScript per aggiornare i messaggi -->
 <script src="js/updateMessages.js"></script>
+
+<!-- Inclusione del file JavaScript per aggiornare i messaggi -->
+<script src="js/updateProfile.js"></script>
+

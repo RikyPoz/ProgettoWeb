@@ -130,8 +130,6 @@ class DatabaseHelper{
     
         // Ritorna il numero di righe modificate
         return $stmt->affected_rows; 
-    }    
-    
-        
+    }   
     }
 ?>
