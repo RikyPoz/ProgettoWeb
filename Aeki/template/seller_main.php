@@ -5,7 +5,7 @@
         <div class="col-md-3 p-4 border-end">
             <h4>Profilo Venditore</h4>
             <div class="mb-4">
-                <img src="upload/profilo.png" class="img-fluid rounded-circle" alt="Immagine Profilo">
+                <img src="<?php echo $venditore["Icona"]?>" class="img-fluid rounded-circle" alt="Immagine Profilo">
                 <h5 class="mt-2"><?php echo $venditore["Nome"] ; echo " "; echo $venditore["Cognome"]?></h5>
                 <p><strong>Username:</strong> <?php echo $venditore["Username"]?></p>
                 <p><strong>Email:</strong> <?php echo $venditore["Email"]?></p>

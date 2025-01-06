@@ -33,9 +33,63 @@ if (isset($data['action'])) {
             ]);
             break;
 
-        case 'stats':
+            case 'stats':
+                
+                $stats = [];
+                $allSuccess = true; // Variabile per tenere traccia dello stato complessivo delle operazioni
             
-            break;
+                // Chiamata alle funzioni di statistica
+                $totalSales = $dbh->getTotalSales($userId);
+                $topSellingProducts = $dbh->getTopSellingProducts($userId);
+                /*$reviews = json_decode($dbh->getReviewsData($userId), true);
+                $conversionRate = json_decode($dbh->getConversionRate($userId), true);
+                $delayedShipments = json_decode($dbh->getDelayedShipments($userId), true);*/
+                
+            
+                // Verifica se ogni operazione ha avuto successo
+                if ($totalSales === false) {
+                    $allSuccess = false;
+                    $stats['totalSales'] = "sql error -> totaSales";
+                } else {
+                    $stats['totalSales'] = $totalSales;
+                }
+            
+                if ($topSellingProducts === false) {
+                    $allSuccess = false;
+                    $stats['topSellingProducts'] = "sql error -> topSellingProduct";
+                } else {
+                    $stats['topSellingProducts'] = $topSellingProducts;
+                }
+            
+                /*if ($reviews['success'] === false) {
+                    $allSuccess = false;
+                    $stats['reviews'] = $reviews; // Ritorna l'errore se c'è
+                } else {
+                    $stats['reviews'] = $reviews['data'];
+                }
+            
+                if ($conversionRate['success'] === false) {
+                    $allSuccess = false;
+                    $stats['conversionRate'] = $conversionRate; // Ritorna l'errore se c'è
+                } else {
+                    $stats['conversionRate'] = $conversionRate['data'];
+                }
+            
+                if ($delayedShipments['success'] === false) {
+                    $allSuccess = false;
+                    $stats['delayedShipments'] = $delayedShipments; // Ritorna l'errore se c'è
+                } else {
+                    $stats['delayedShipments'] = $delayedShipments['data'];
+                }*/
+            
+                // Ritorna il risultato finale
+                echo json_encode([
+                    'success' => $allSuccess,
+                    'data' => $stats
+                ]);
+                break;
+            
+            
 
         default:
             echo json_encode(["success" => false, "message" => "Azione sconosciuta."]);

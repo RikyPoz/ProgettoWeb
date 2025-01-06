@@ -28,11 +28,18 @@ async function fetchData(action) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }
 
-        const json = await response.json();
+        const text = await response.text();
+        console.log(text);
+
+        const json = JSON.parse(text);
+        console.log(json);
 
         if (json.success) {
             await updatePageContent(action, json.data)
         } else {
+            if (action == "stats") {
+                console.log(json.data);
+            }
             document.getElementById('contentBody').innerHTML = '<p>Errore nel caricamento dei dati dal server.</p>';
             console.log(json.messaage);
         }
@@ -223,8 +230,64 @@ function generateOrderList(orders) {
 
 
 function generateStats(stats) {
-    if (!stats) return '<p>Errore nel recupero delle statistiche.</p>';
+    if (!stats) return '<p>Nessun statistica trovato.</p>';
+    /*if (!stats || typeof stats !== 'object') {
+        return '<p>Errore nel recupero delle statistiche.</p>';
+    }
 
-    let html = '';
+    let errorMessages = [];
+
+    // Verifica ciascun campo delle statistiche
+    if (stats.totalSales && stats.totalSales.success === false) {
+        errorMessages.push('Errore nel recupero delle vendite totali: ' + stats.totalSales.message);
+    }
+    if (stats.topSellingProducts && stats.topSellingProducts.success === false) {
+        errorMessages.push('Errore nel recupero dei prodotti più venduti: ' + stats.topSellingProducts.message);
+    }
+    if (stats.reviews && stats.reviews.success === false) {
+        errorMessages.push('Errore nel recupero delle recensioni: ' + stats.reviews.message);
+    }
+    if (stats.conversionRate && stats.conversionRate.success === false) {
+        errorMessages.push('Errore nel recupero del tasso di conversione: ' + stats.conversionRate.message);
+    }
+    if (stats.delayedShipments && stats.delayedShipments.success === false) {
+        errorMessages.push('Errore nel recupero delle spedizioni ritardate: ' + stats.delayedShipments.message);
+    }
+
+    // Se ci sono errori, restituisci un messaggio di errore con tutti i dettagli
+    if (errorMessages.length > 0) {
+        return '<p>' + errorMessages.join('</p><p>') + '</p>';
+    }*/
+
+    let html = `
+        <div class="row">
+            <!-- Guadagno Totale -->
+            <div class="col-md-4">
+                <div class="card shadow p-3 mb-4">
+                    <h5 class="card-title">Vendite Totali</h5>
+                    <p class="fs-3">${stats.totalSales}€</p>
+                    <p>Vendite totali nel periodo selezionato</p>
+                </div>
+            </div>
+            <!-- Prodotti Più Venduti -->
+            <div class="col-md-4">
+                <div class="card shadow-lg rounded-3 p-4 mb-4">
+                    <h5 class="card-title text-center text-uppercase text-success">Prodotti Più Venduti</h5>
+                    <ul class="list-unstyled">
+                        ${stats.topSellingProducts.length > 0 ? stats.topSellingProducts.map(product => `
+                            <li class="d-flex justify-content-between">
+                                <img src="${product.PercorsoImg}" alt="img prodotto" class="img-fluid">
+                                <span>${product.Nome}</span>
+                                <span class="badge ">${product.quantita} venduti</span>
+                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary btn-sm">Visualizza articolo</a>
+                            </li>
+                        `).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    `;
+
     return html;
 }

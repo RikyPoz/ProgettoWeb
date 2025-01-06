@@ -19,7 +19,7 @@ if (isset($data['action'])) {
             $nome = $data['nome'] ?? '';
             $prezzo = $data['prezzo'] ?? '';
             $descrizione = $data['descrizione'] ?? '';
-            $percorsoImg = $data['percorsoImg'] ?? ''; 
+            $paths = $data['percorsoImgs'] ?? ''; 
             $larghezza = $data['larghezza'] ?? '';
             $altezza = $data['altezza'] ?? '';
             $profondita = $data['profondita'] ?? '';
@@ -30,11 +30,12 @@ if (isset($data['action'])) {
             $peso = $data['peso'] ?? '';
             
 
-            if (!$nome || !$prezzo || !$descrizione || !$percorsoImg || !$larghezza || !$altezza || !$profondita || !$ambiente || !$categoria || !$colore || !$materiale ||!$peso||!$userId) {
+            if (!$nome || !$prezzo || !$descrizione || !$paths || !$larghezza || !$altezza || !$profondita || !$ambiente || !$categoria || !$colore || !$materiale ||!$peso||!$userId) {
                 echo json_encode(['success' => false, 'message' => 'Dati mancanti o non validi']);
                 exit;
             }
-            $result = $dbh->addProduct($userId,$nome,$prezzo,$descrizione,$percorsoImg,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso);
+            
+            $result = $dbh->addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso);
             echo $result;
             break;
 

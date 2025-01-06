@@ -1,6 +1,9 @@
+//per ritornare i modali(in html)al seller per i prodotti, il primo metodo restituisce quello per l aggiunta 
+//di un prodotto (è asyncrono perchè chiede tutti i colori,materiali.... disponibili al db) 
+//mentre l altro quelli per gestirlo
+
 async function getAddModal() {
     try {
-        // richiesta al server per ottenere i dati (materiali, colori, ambienti, categorie)
         const response = await fetch('Ajax/api-getInfo.php');
         const result = await response.json();
 
@@ -8,14 +11,10 @@ async function getAddModal() {
             throw new Error('Errore nel recupero dei dati');
         }
 
-        // Recupera i dati dal risultato
         const materials = result.data.materials;
         const colors = result.data.colors;
         const environments = result.data.environments;
         const categories = result.data.categories;
-
-
-        // Genera l'HTML del modale
 
         let html = `
                 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
@@ -125,20 +124,32 @@ async function getAddModal() {
                                     <div class="row">
                                         <!-- Colonna 1 -->
                                         <div class="col-md-12 mb-3">
-                                            <label for="productDescription" class="form-label">Descrizione</label>
+                                            <label for="productDescription" class="form-label">Descrizione (Max 50 caratteri)</label>
                                             <textarea class="form-control" id="productDescription" rows="4" required></textarea>
                                         </div>
                                     </div>
 
                                     <!-- Sesta riga -->
-                                    <div class="row d-flex justify-content-center">
-                                        <!-- Colonna 1 -->
-                                        <div class="col-md-8 mb-3">
-                                            <label for="productImage" class="form-label">Immagine prodotto</label>
-                                            <input type="file" class="form-control" id="productImage" accept="image/*" required>
+                                    <div class="row d-flex align-items-stretch">
+                                        <!-- Colonna 1: Immagine Principale -->
+                                        <div class="col-md-4 mb-3">
+                                            <label for="productImage1" class="form-label">Immagine Principale</label>
+                                            <p>(obbligatoria)</p>
+                                            <input type="file" class="form-control" id="productImage1" accept="image/*" required>
+                                        </div>
+                                        <!-- Colonna 2: Immagine Secondaria -->
+                                        <div class="col-md-4 mb-3">
+                                            <label for="productImage2" class="form-label">Immagine Secondaria</label>
+                                            <p>(facoltativa)</p>
+                                            <input type="file" class="form-control" id="productImage2" accept="image/*">
+                                        </div>
+                                        <!-- Colonna 3: Immagine Terziaria -->
+                                        <div class="col-md-4 mb-3">
+                                            <label for="productImage3" class="form-label">Immagine Terziaria</label>
+                                            <p>(facoltativa)</p>
+                                            <input type="file" class="form-control" id="productImage3" accept="image/*">
                                         </div>
                                     </div>
-
                                     
                                 </form>
                             </div>

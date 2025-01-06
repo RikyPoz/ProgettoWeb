@@ -5,7 +5,6 @@ async function addModalEventListener() {
         const nome = document.getElementById("productName").value.trim();
         const prezzo = document.getElementById("productPrice").value.trim();
         const descrizione = document.getElementById("productDescription").value.trim();
-        const immagine = document.getElementById("productImage").files[0];
         const materiale = document.getElementById("productMaterial").value.trim();
         const colore = document.getElementById("productColor").value.trim();
         const ambiente = document.getElementById("productEnvironment").value.trim();
@@ -14,18 +13,33 @@ async function addModalEventListener() {
         const larghezza = document.getElementById("productWidth").value.trim();
         const profondita = document.getElementById("productDepth").value.trim();
         const peso = document.getElementById("productWeight").value.trim();
+        const productImage1 = document.getElementById("productImage1").files[0];
 
-        /*if (!nome || !prezzo || !descrizione || !immagine || !materiale || !colore || !ambiente || !categoria || !altezza || !larghezza || !profondita) {
+        if (!nome || !prezzo || !descrizione || !materiale || !colore || !ambiente || !categoria || !altezza || !larghezza || !profondita) {
             alert("Compila tutti i campi prima di salvare il prodotto.");
             return;
-        }*/
+        }
+
+        if (!productImage1) {
+            alert("L'immagine icona è obbligatoria");
+            return;
+        }
+
+        const paths = await insertImages();
+
+        if (paths) {
+            console.log('Percorsi delle immagini:', paths);
+        } else {
+            alert('Errore nel caricamento delle immagini');
+            return;
+        }
 
         const sendingData = {
             action: 'add-product',
             nome: nome,
             prezzo: prezzo,
             descrizione: descrizione,
-            percorsoImg: "upload/seller/profilo.png",
+            percorsoImgs: paths,
             larghezza: larghezza,
             altezza: altezza,
             profondita: profondita,
@@ -208,4 +222,47 @@ async function updateProductPrice(product) {
         alert('Errore nel comunicare con il server');
     }
 }
+
+async function insertImages() {
+    const productImage1 = document.getElementById("productImage1").files[0];
+    const productImage2 = document.getElementById("productImage2").files[0];
+    const productImage3 = document.getElementById("productImage3").files[0];
+
+    const formData = new FormData();
+
+    if (productImage1) {
+        formData.append("productImage1", productImage1);
+    }
+    else {
+        return null;
+    }
+
+    if (productImage2) formData.append("productImage2", productImage2);
+    if (productImage3) formData.append("productImage3", productImage3);
+
+    try {
+        const response = await fetch('uploadImg.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log('Immagini caricate con successo:', data.paths);
+            return data.paths;
+        } else {
+            console.error('Errore nel caricamento delle immagini:', data.message);
+            return null;
+        }
+
+    } catch (error) {
+        console.error('Errore nella comunicazione con il server:', error);
+        return null;
+    }
+}
+
+
+
+
 

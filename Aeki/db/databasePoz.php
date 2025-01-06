@@ -252,7 +252,7 @@ class DatabaseHelper{
     //SELLER
 
     public function getDatiVenditore($username){
-        $stmt = $this->db->prepare("SELECT Nome, Cognome, Username, Email, PartitaIVA,Telefono
+        $stmt = $this->db->prepare("SELECT Nome, Cognome, Username, Email, PartitaIVA,Telefono,Icona
                                     FROM Utente 
                                     WHERE username = ?");
         
@@ -292,11 +292,8 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSellerStats(){
-        
-    }
 
-    public function addProduct($userId,$nome,$prezzo,$descrizione,$percorsoImg,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {
+    public function addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {
         
         try{
             $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
@@ -320,11 +317,18 @@ class DatabaseHelper{
     
             $stmt->execute();
             $codiceProdotto = $this->db->insert_id;
+
+            foreach ($paths as $key => $path) {
+                $stmtImg = $this->db->prepare("INSERT INTO `ImmagineProdotto`(`PercorsoImg`, `Icona`, `CodiceProdotto`) VALUES (?,?,?)");
+                $icona = 'Y';  
+                $stmtImg->bind_param('ssi', $path, $icona, $codiceProdotto);
+                
+                if (!$stmtImg->execute()) {
+                    echo "Errore nell'inserimento dell'immagine: " . $stmtImg->error;
+                }
+            }
         
-            $stmtImg = $this->db->prepare("INSERT INTO `ImmagineProdotto`(`PercorsoImg`, `Icona`, `CodiceProdotto`) VALUES (?,?,?)");
-            $icona = 'Y';
-            $stmtImg->bind_param('ssi', $percorsoImg,$icona,$codiceProdotto);
-            $stmtImg->execute();
+           
 
             $stmtColor = $this->db->prepare("INSERT INTO `Colorazione`(`NomeColore`, `CodiceProdotto`) VALUES (?,?)");
             $stmtColor->bind_param('si', $colore,$codiceProdotto);
@@ -390,6 +394,117 @@ class DatabaseHelper{
             return json_encode("sql error". $e->getMessage());
         }
     }
+
+    public function getTotalSales($username) {
+        try {
+            $stmt = $this->db->prepare("SELECT SUM(do.PrezzoPagato) AS total_sales
+                                        FROM DettaglioOrdine AS do
+                                        JOIN Prodotto AS p ON do.CodiceProdotto = p.CodiceProdotto
+                                        WHERE p.Username = ?");
+            
+            $stmt->bind_param('s', $username);  
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $data = $result->fetch_assoc();
+            $totalSales = isset($data['total_sales']) ? $data['total_sales'] : 0;
+            return $totalSales;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+    
+    
+    
+    public function getTopSellingProducts($username) {
+        try{
+            $stmt = $this->db->prepare("SELECT p.Nome,p.CodiceProdotto,i.PercorsoImg, SUM(do.Quantita) AS quantita
+                                        FROM Prodotto AS p
+                                        JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
+                                        LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
+                                        WHERE p.Username = ?
+                                        GROUP BY p.Nome
+                                        ORDER BY quantita DESC
+                                        LIMIT 5");
+            
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            return $result->fetch_all(MYSQLI_ASSOC);
+            
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+    
+    public function getReviewsData($username) {
+        try{
+            $stmt = $this->db->prepare("SELECT AVG(r.stelle) AS average_rating, COUNT(r.IDrecensione) AS total_reviews
+                                        FROM Recensione AS r
+                                        JOIN Prodotto AS p ON r.CodiceProdotto = p.CodiceProdotto
+                                        WHERE p.Username = ?");
+            
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return json_encode([
+                'success' => true,
+                'data' => $result->fetch_assoc()
+            ]);
+            
+        } catch (mysqli_sql_exception $e) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Errore SQL: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function getConversionRate($username) {
+        try{
+            $stmt = $this->db->prepare("SELECT (COUNT(DISTINCT o.IDordine) / COUNT(DISTINCT v.IDVisita)) * 100 AS conversion_rate
+                                        FROM Visita AS v
+                                        LEFT JOIN Ordine AS o ON v.IDVisita = o.IDVisita
+                                        WHERE o.Username = ?");
+            
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return json_encode([
+                'success' => true,
+                'data' => $result->fetch_assoc()
+            ]);
+        } catch (mysqli_sql_exception $e) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Errore SQL: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function getDelayedShipments($username) {
+        try{
+            $stmt = $this->db->prepare("SELECT (COUNT(*) / (SELECT COUNT(*) FROM Ordine WHERE Username = ?)) * 100 AS delayed_rate
+                                        FROM Ordine AS o
+                                        WHERE o.Username = ? AND o.Data > (SELECT DataPromessaSpedizione FROM DettaglioOrdine WHERE IDordine = o.IDordine)");
+            
+            $stmt->bind_param('ss', $username, $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return json_encode([
+                'success' => true,
+                'data' => $result->fetch_assoc()
+            ]);
+        } catch (mysqli_sql_exception $e) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Errore SQL: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    
     
     
     
