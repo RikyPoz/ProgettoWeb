@@ -67,7 +67,8 @@
     </div>
 </div>
 
-<!-- Link al file JavaScript -->
+<!-- Link ai file JavaScript -->
 <script src="js/loginModal.js"></script>
 <script src="js/login.js"></script>
+<script src="js/remember.js"></script>
 
