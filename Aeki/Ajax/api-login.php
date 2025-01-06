@@ -21,10 +21,10 @@ $user = $dbh->getUtenteByEmail($email);
 if ($user) { // Se l'utente esiste
     // Confronto password 
     if ($password === $user['Password']) {
-        echo json_encode(['success' => true, 'message' => 'Login effettuato con successo!']);
         // Imposta una sessione 
         session_start();
         $_SESSION['user_id'] = $user['Username'];
+        echo json_encode(['success' => true, 'message' => 'Login effettuato con successo!']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Password errata.']);
     }

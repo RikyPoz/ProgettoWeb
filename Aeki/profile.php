@@ -1,9 +1,6 @@
 <?php
 require_once 'bootstrap.php';
 
-// Avvia la sessione per accedere ai dati memorizzati in sessione
-session_start();
-
 // Base Template
 $templateParams["titolo"] = "Aeki - Utente";
 $templateParams["nome"] = "profile_main.php";
@@ -19,19 +16,18 @@ if (isset($_GET['status'])) {
     }
 }
 
-/*
 // Verifica se l'utente è loggato
 if (isset($_SESSION['user_id'])) {
     // Recupera i dati dell'utente loggato
-    $templateParams["utente"] = $dbh->getUtenteByEmail($_SESSION['email']);  
-    $templateParams["recensioni"] = $dbh->getRecensioniByUtente($_SESSION['email']);
-    $templateParams["messaggi"] = $dbh->getMessaggiByUtente($_SESSION['email']);
+    $templateParams["utente"] = $dbh->getUtente($_SESSION['user_id']);  
+    $templateParams["recensioni"] = $dbh->getRecensioniByUtente($_SESSION['user_id']);
+    $templateParams["messaggi"] = $dbh->getMessaggiByUtente($_SESSION['user_id']);
 } else {
     // Se l'utente non è loggato, reindirizza alla pagina di login
     header('Location: login.php');
     exit();  // Ferma l'esecuzione del codice dopo il reindirizzamento
 }
-*/
+/*
 //PROVA: DA ELIMINARE!
 $username = 'user1'; 
 // User Template
