@@ -86,6 +86,22 @@ class DatabaseHelper{
         return $messaggi;
     }
 
+    public function newUtente($firstName, $lastName, $username, $email, $password, $phone) {
+        $tipo = 'cliente'; // Tipo fisso come cliente
+        $partitaIVA = NULL; // PartitaIVA impostata a NULL
+        $icona = NULL; // Icona impostata a NULL
+        $stmt = $this->db->prepare("INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $firstName, $lastName, $username, $email, $password, $tipo, $partitaIVA, $phone, $icona);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        // Controlla se l'inserimento ha avuto successo
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+
     public function updateUtente($nome, $cognome, $email, $telefono, $username) {
         // Prepara i campi da aggiornare e i parametri per il bind
         $campi = [];
@@ -130,6 +146,7 @@ class DatabaseHelper{
     
         // Ritorna il numero di righe modificate
         return $stmt->affected_rows; 
-    }   
+    } 
+    
     }
 ?>

@@ -28,12 +28,16 @@
     </div>
 </div>
 
-<!-- Modale per la registrazione -->
+<!-- Modal per la registrazione -->
 <div id="myModal" class="modal" aria-hidden="true">
     <div class="modal-content">
         <span class="close" aria-label="Chiudi">&times;</span>
         <h2>Registrazione</h2>
-        <form action="/register" method="POST">
+
+        <!-- Contenitore per il messaggio -->
+        <div id="message-container"></div> 
+
+        <form id="registerForm">
             <div class="mb-3">
                 <label for="first-name" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="first-name" name="first-name" required placeholder="Inserisci il tuo nome">
@@ -71,4 +75,5 @@
 <script src="js/loginModal.js"></script>
 <script src="js/login.js"></script>
 <script src="js/remember.js"></script>
+<script src="js/register.js"></script>
 

@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     let ultimaData = null; // Variabile per tracciare la data dell'ultimo messaggio ricevuto
-    aggiornaMessaggi(); // Carica i messaggi iniziali
+    aggiornaMessaggi(ultimaData); // Carica i messaggi iniziali
     setInterval(() => aggiornaMessaggi(ultimaData), 5000); // Esegue l'aggiornamento ogni 5 secondi
 });
 
 async function aggiornaMessaggi(ultimaData) {
-    const data = { ultimaData }; // Prepara i dati con l'ultima data nota
+    // Prepara i dati
+    const data = { 
+        ultimaData 
+    };
 
     try {
         const response = await fetch('Ajax/api-updateMessages.php', {
@@ -50,13 +53,13 @@ function aggiornaMessaggiUI(messaggi) {
     console.log("Messaggi da aggiungere:", messaggi);
 
     messaggi.forEach(messaggio => {
-        // Controlla se il messaggio esiste giÃ  nella UI
+        // Controlla se il messaggio esiste già nella UI
         const esiste = Array.from(messaggiContainer.children).some(
             item => item.querySelector('span.text-muted')?.textContent === messaggio.Data
         );
         if (esiste) {
-            console.log(`Messaggio già  presente: ${messaggio.Data}`);
-            return; // Salta il messaggio giÃ  esistente
+            console.log(`Messaggio già presente: ${messaggio.Data}`);
+            return; // Salta il messaggio già esistente
         }
 
         const listItem = document.createElement('li');
