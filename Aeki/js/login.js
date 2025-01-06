@@ -21,7 +21,10 @@ document.getElementById('loginButton').addEventListener('click', function () {
             if (response.success) {
                 document.getElementById('loginMessage').innerHTML = '<div class="alert alert-success">Login effettuato con successo. Reindirizzamento...</div>';
                 setTimeout(() => {
-                    window.location.href = './profile.php'; // Reindirizza dopo il login
+                    // Redirigi in base al tipo di utente
+                    if (response.redirect) {
+                        window.location.href = response.redirect; // Redirige verso la pagina corretta
+                    }
                 }, 2000);
             } else {
                 document.getElementById('loginMessage').innerHTML = `<div class="alert alert-danger">${response.message}</div>`;
