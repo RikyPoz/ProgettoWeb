@@ -143,6 +143,32 @@ class DatabaseHelper{
         // Ritorna il numero di righe modificate
         return $stmt->affected_rows;
     }
+
+    public function updatePassword($username, $passwordAttuale, $nuovaPassword) {
+        // Verifica la password attuale
+        $stmt = $this->db->prepare("SELECT Password FROM Utente WHERE Username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($passwordAttuale);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    
+        // Verifica se la password attuale è corretta (testo in chiaro)
+        if ($passwordAttuale === $passwordAttuale) {
+            // La password attuale è corretta, aggiorna la password
+            $updateStmt = $this->db->prepare("UPDATE Utente SET Password = ? WHERE Username = ?");
+            $updateStmt->bind_param('ss', $nuovaPassword, $username);
+            $updateStmt->execute();
+    
+            // Se l'aggiornamento ha avuto successo, restituisci true
+            return $updateStmt->affected_rows > 0;
+        }
+
+        // Se la password attuale non è corretta, restituisci false
+        return false;
+    }
+    
     
     public function deleteUtente($username) {
         // Inizia una transazione per garantire consistenza

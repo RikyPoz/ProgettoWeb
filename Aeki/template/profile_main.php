@@ -146,4 +146,5 @@
 <script src="js/updateMessages.js"></script>
 <script src="js/updateProfile.js"></script>
 <script src="js/deleteProfile.js"></script>
+<script src="js/changePassword.js"></script>
 
