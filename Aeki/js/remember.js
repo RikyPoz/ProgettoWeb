@@ -45,7 +45,7 @@ document.getElementById('loginButton').addEventListener('click', function () {
             const response = JSON.parse(xhr.responseText);
 
             if (response.success) {
-                // Se "Ricordami" è selezionato, crea un cookie con email e password
+                // Se "Ricordami" è selezionato crea un cookie con email e password
                 if (rememberMe) {
                     setCookie('userEmail', email, 30); // Imposta il cookie per 30 giorni
                     setCookie('userPassword', password, 30); // Imposta il cookie per la password (non sicuro)

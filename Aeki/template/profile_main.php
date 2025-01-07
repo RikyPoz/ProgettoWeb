@@ -135,9 +135,8 @@
             </div>
             <div class="modal-body">
                 <p>Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.</p>
-                <form action="eliminaAccount.php" method="POST">
-                    <button type="submit" class="btn btn-danger">Elimina Account</button>
-                </form>
+                <button type="button" id="deleteAccountBtn" class="btn btn-danger">Elimina Account</button>
+                <div id="message"></div> <!-- Contenitore per i messaggi di successo o errore -->
             </div>
         </div>
     </div>
@@ -146,4 +145,5 @@
 <!-- Inclusione dei file JavaScript-->
 <script src="js/updateMessages.js"></script>
 <script src="js/updateProfile.js"></script>
+<script src="js/deleteProfile.js"></script>
 

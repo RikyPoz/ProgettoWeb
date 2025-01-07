@@ -144,6 +144,14 @@ class DatabaseHelper{
         return $stmt->affected_rows;
     }
     
+    public function deleteUtente($username) {
+        $stmt = $this->db->prepare("DELETE FROM Utente WHERE Username = ?");
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        
+        // Ritorna il numero di righe eliminate
+        return $stmt->affected_rows; 
+    }
     
     }
 ?>

@@ -4,8 +4,6 @@
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
 -- * Generation date: Mon Dec 30 11:01:53 2024 
--- * LUN file: C:\Users\Pietro\Desktop\ProgeettoWeb - Copy.lun 
--- * Schema: e-commerce/1 
 -- ********************************************* 
 
 
@@ -105,11 +103,11 @@ CREATE TABLE Prodotto (
 
 create table Recensione (
     IDrecensione INT AUTO_INCREMENT,
-     Testo VARCHAR(50) not null,
-     stelle INT not null,
-     CodiceProdotto INT not null,
-     Username VARCHAR(50) not null,
-     constraint ID_Recensione_ID primary key (IDrecensione));
+    Testo VARCHAR(50) not null,
+    stelle INT not null,
+    CodiceProdotto INT not null,
+    Username VARCHAR(50) not null,
+    constraint ID_Recensione_ID primary key (IDrecensione));
 
 create table Utente (
      Nome VARCHAR(50) not null,
@@ -135,7 +133,8 @@ create table WishList (
 
 alter table Carrello add constraint FKpossiede_FK
      foreign key (Username)
-     references Utente (Username);
+     references Utente (Username)
+     on delete cascade;
 
 alter table Colorazione add constraint FKR_2_Pro_FK
      foreign key (CodiceProdotto)
@@ -175,26 +174,13 @@ alter table ImmagineProdotto add constraint FKR_2_FK
 
 alter table Notifiche add constraint FKriceve
      foreign key (Username)
-     references Utente (Username);
-
--- Not implemented
--- alter table Ordine add constraint ID_Ordine_CHK
---     check(exists(select * from DettaglioOrdine
---                  where DettaglioOrdine.IDordine = IDordine)); 
+     references Utente (Username)
+     on delete cascade;
 
 alter table Ordine add constraint FKfa_FK
      foreign key (Username)
-     references Utente (Username);
-
--- Not implemented
--- alter table Prodotto add constraint ID_Prodotto_CHK
---     check(exists(select * from ImmagineProdotto
---                  where ImmagineProdotto.CodiceProdotto = CodiceProdotto)); 
-
--- Not implemented
--- alter table Prodotto add constraint ID_Prodotto_CHK
---     check(exists(select * from Colorazione
---                  where Colorazione.CodiceProdotto = CodiceProdotto)); 
+     references Utente (Username)
+     on delete cascade;
 
 alter table Prodotto add constraint FKR_1_FK
      foreign key (NomeAmbiente)
@@ -206,19 +192,22 @@ alter table Prodotto add constraint FKR_FK
 
 alter table Prodotto add constraint FKaggiunge_FK
      foreign key (Username)
-     references Utente (Username);
+     references Utente (Username)
+     on delete cascade;
+
+alter table Recensione add constraint FKScrive_FK
+     foreign key (Username)
+     references Utente (Username)
+     on delete cascade;
 
 alter table Recensione add constraint FKSuUn
      foreign key (CodiceProdotto)
      references Prodotto (CodiceProdotto);
 
-alter table Recensione add constraint FKScrive_FK
-     foreign key (Username)
-     references Utente (Username);
-
 alter table WishList add constraint FKha_FK
      foreign key (Username)
-     references Utente (Username);
+     references Utente (Username)
+     on delete cascade;
 
 
 -- Index Section
@@ -310,3 +299,4 @@ create unique index ID_WishList_IND
 
 create unique index FKha_IND
      on WishList (Username);
+
