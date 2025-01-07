@@ -17,9 +17,15 @@ $password = $data['password'];
 
 // Verifica che l'email non esista già nel database
 $existingUser = $dbh->getUtenteByEmail($email);
-
 if ($existingUser) {
     echo json_encode(['success' => false, 'message' => 'Email già in uso.']);
+    exit;
+}
+
+// Verifica che l'username non esista già nel database
+$existingUsername = $dbh->getUtente($username);
+if ($existingUsername) {
+    echo json_encode(['success' => false, 'message' => 'Username già in uso.']);
     exit;
 }
 

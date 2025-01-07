@@ -27,21 +27,6 @@ if (isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();  // Ferma l'esecuzione del codice dopo il reindirizzamento
 }
-/*
-//PROVA: DA ELIMINARE!
-$username = 'user1'; 
-// User Template
-$templateParams["utente"] = $dbh->getUtente($username);
-$templateParams["recensioni"] = $dbh->getRecensioniByUtente($username);
-$templateParams["messaggi"] = $dbh->getMessaggiByUtente($username);
-/*
-// CONTROLLO COSA CONTENGONO I TEMPLATEPARAMS -> DA ELIMINARE!!!
-echo "<pre>";
-var_dump($templateParams["utente"]);
-var_dump($templateParams["ordini"]);
-var_dump($templateParams["messaggi"]);
-echo "</pre>";
-*/
 
 require 'template/base.php';
 ?>

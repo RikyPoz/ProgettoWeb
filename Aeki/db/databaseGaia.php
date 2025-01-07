@@ -106,7 +106,7 @@ class DatabaseHelper{
         // Prepara i campi da aggiornare e i parametri per il bind
         $campi = [];
         $valori = [];
-    
+        
         if (!empty($nome)) {
             $campi[] = "Nome = ?";
             $valori[] = $nome;
@@ -123,30 +123,27 @@ class DatabaseHelper{
             $campi[] = "Telefono = ?";
             $valori[] = $telefono;
         }
-    
+        
         // Se non è stato specificato alcun campo da aggiornare interrompe l'esecuzione
         if (empty($campi)) {
-            return 0; // Nessuna modifica
+            return 0; 
         }
-    
-        // Aggiungi l'username alla fine dei parametri
-        $campi[] = "Username = ?";
-        $valori[] = $username;
-    
+        
         // Crea la query dinamica
         $sql = "UPDATE Utente SET " . implode(", ", $campi) . " WHERE Username = ?";
+        $valori[] = $username; // Aggiunge l'username come ultimo parametro
         // Prepara la query
         $stmt = $this->db->prepare($sql);
         // Associa i parametri in base al numero di campi
-        $tipi = str_repeat('s', count($valori));
+        $tipi = str_repeat('s', count($valori)); 
         $stmt->bind_param($tipi, ...$valori);
-    
         // Esegue la query
         $stmt->execute();
     
         // Ritorna il numero di righe modificate
-        return $stmt->affected_rows; 
-    } 
+        return $stmt->affected_rows;
+    }
+    
     
     }
 ?>
