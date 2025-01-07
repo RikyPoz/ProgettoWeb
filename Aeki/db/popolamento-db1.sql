@@ -25,8 +25,8 @@ INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
 
 -- Populating Prodotto table
 INSERT INTO Prodotto (Nome, Prezzo, Descrizione, Materiale, Peso, Altezza, Larghezza, Profondita, NomeAmbiente, NomeCategoria, Username) VALUES
-('Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0,90.0, 45.0, 45.0, 'Soggiorno', 'Sedie', 'user1'),
-('Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 75.0, 150.0, 75.0, 'Cucina', 'Tavoli', 'user2'),
+('Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0,90.0, 45.0, 45.0, 'Soggiorno', 'Sedie', 'user3'),
+('Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 75.0, 150.0, 75.0, 'Cucina', 'Tavoli', 'user3'),
 ('Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 180.0, 50.0, 50.0, 'Camera da letto', 'Letti', 'user3');
 
 -- Populating Immagine table
