@@ -100,7 +100,6 @@ CREATE TABLE Prodotto (
     CONSTRAINT ID_Prodotto_ID PRIMARY KEY (CodiceProdotto)
 );
 
-
 create table Recensione (
     IDrecensione INT AUTO_INCREMENT,
     Testo VARCHAR(50) not null,
@@ -133,8 +132,7 @@ create table WishList (
 
 alter table Carrello add constraint FKpossiede_FK
      foreign key (Username)
-     references Utente (Username)
-     on delete cascade;
+     references Utente (Username);
 
 alter table Colorazione add constraint FKR_2_Pro_FK
      foreign key (CodiceProdotto)
@@ -174,13 +172,11 @@ alter table ImmagineProdotto add constraint FKR_2_FK
 
 alter table Notifiche add constraint FKriceve
      foreign key (Username)
-     references Utente (Username)
-     on delete cascade;
+     references Utente (Username);
 
 alter table Ordine add constraint FKfa_FK
      foreign key (Username)
-     references Utente (Username)
-     on delete cascade;
+     references Utente (Username);
 
 alter table Prodotto add constraint FKR_1_FK
      foreign key (NomeAmbiente)
@@ -192,13 +188,11 @@ alter table Prodotto add constraint FKR_FK
 
 alter table Prodotto add constraint FKaggiunge_FK
      foreign key (Username)
-     references Utente (Username)
-     on delete cascade;
+     references Utente (Username);
 
 alter table Recensione add constraint FKScrive_FK
      foreign key (Username)
-     references Utente (Username)
-     on delete cascade;
+     references Utente (Username);
 
 alter table Recensione add constraint FKSuUn
      foreign key (CodiceProdotto)
@@ -206,8 +200,7 @@ alter table Recensione add constraint FKSuUn
 
 alter table WishList add constraint FKha_FK
      foreign key (Username)
-     references Utente (Username)
-     on delete cascade;
+     references Utente (Username);
 
 
 -- Index Section

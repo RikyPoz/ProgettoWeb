@@ -145,13 +145,69 @@ class DatabaseHelper{
     }
     
     public function deleteUtente($username) {
-        $stmt = $this->db->prepare("DELETE FROM Utente WHERE Username = ?");
+        // Inizia una transazione per garantire consistenza
+        $this->db->begin_transaction();
+    
+        try {
+            // 1. Aggiorna gli ordini dell'utente
+        $stmt = $this->db->prepare("UPDATE Ordine SET Username = 'anonimo' WHERE Username = ?");
         $stmt->bind_param('s', $username);
         $stmt->execute();
-        
-        // Ritorna il numero di righe eliminate
-        return $stmt->affected_rows; 
+        error_log("Aggiornato Ordine: " . $stmt->affected_rows . " righe modificate.");
+
+        // 2. Aggiorna le recensioni dell'utente
+        $stmt = $this->db->prepare("UPDATE Recensione SET Username = 'anonimo' WHERE Username = ?");
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        error_log("Aggiornato Recensione: " . $stmt->affected_rows . " righe modificate.");
+
+    
+            // 3. Elimina i record nella tabella DettaglioWishlist
+            $stmt = $this->db->prepare("DELETE FROM DettaglioWishlist WHERE IDwishlist IN (SELECT IDwishlist FROM WishList WHERE Username = ?)");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 4. Elimina il record nella tabella WishList
+            $stmt = $this->db->prepare("DELETE FROM WishList WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 5. Elimina i record nella tabella DettaglioCarrello
+            $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE IDcarrello IN (SELECT IDcarrello FROM Carrello WHERE Username = ?)");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 6. Elimina il record nella tabella Carrello
+            $stmt = $this->db->prepare("DELETE FROM Carrello WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+
+            // 7. Elimina l'utente dalla tabella Notifiche
+            $stmt = $this->db->prepare("DELETE FROM Notifiche WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 8. Elimina l'utente dalla tabella Utente
+            $stmt = $this->db->prepare("DELETE FROM Utente WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // Commit della transazione
+            $this->db->commit();
+
+            // Ritorna il numero di righe eliminate
+            return $stmt->affected_rows;
+    
+        } catch (Exception $e) {
+            // In caso di errore, esegui il rollback della transazione
+            $this->db->rollback();
+    
+            // Gestione errore: rilancia l'eccezione o ritorna un errore personalizzato
+            throw new Exception("Errore durante l'eliminazione dell'utente: " . $e->getMessage());
+        }
     }
+    
+    
     
     }
 ?>

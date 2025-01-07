@@ -1,5 +1,6 @@
 -- Populating Utente table
 INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES
+('anonimo', 'Anonimo', 'Anonimo', 'anonimo@example.com', 'password', 'cliente', NULL, '0000000000', NULL),
 ('Mario', 'Rossi', 'user1', 'mario.rossi@example.com', 'password123', 'Cliente', NULL, '1234567890', NULL),
 ('Luigi', 'Verdi', 'user2', 'luigi.verdi@example.com', 'password123', 'Cliente', NULL, '0987654321', NULL),
 ('Anna', 'Bianchi', 'user3', 'anna.bianchi@example.com', 'password123', 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo.png');

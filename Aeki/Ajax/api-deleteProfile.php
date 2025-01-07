@@ -3,17 +3,24 @@
 require_once '../bootstrap.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ottiene l'username dell'utente dalla sessione
-    $username = $_SESSION['username'];
-    // Usa il metodo deleteUtente per eliminare l'account
-    $deletedRows = $dbh->deleteUtente($username);
+    // Controlla se l'username è presente nella sessione
+    if (isset($_SESSION['user_id'])) {
+        $username = $_SESSION['user_id'];
 
-    if ($deletedRows > 0) {
-        // Distrugge la sessione dell'utente per disconnetterlo
-        session_destroy();
-        echo json_encode(['success' => true, 'message' => 'Account eliminato con successo!']);
+        // Usa il metodo deleteUtente per eliminare l'account
+        $deletedRows = $dbh->deleteUtente($username);
+
+        if ($deletedRows > 0) {
+            // Distrugge la sessione dell'utente per disconnetterlo
+            session_destroy();
+            echo json_encode(['success' => true, 'message' => 'Account eliminato con successo!']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Errore nell\'eliminazione dell\'account.']);
+        }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Errore nell\'eliminazione dell\'account.']);
+        // Se l'username non è trovato nella sessione
+        echo json_encode(['success' => false, 'message' => 'L\'utente non è autenticato.']);
     }
 }
 ?>
+
