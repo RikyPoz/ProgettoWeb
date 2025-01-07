@@ -17,7 +17,12 @@ if (isset($data['action'])) {
 
     switch ($action) {
         case 'products':
-            $result = $dbh->getSellerProducts($userId);
+            $products = $dbh->getSellerProducts($userId);
+            $productNumber = $dbh->getSellerProductNumber($userId);
+            $result = [
+                'products' => $products,
+                'productNumber' => $productNumber
+            ];
             echo json_encode([
                 'success' => true,
                 'data' => $result
@@ -26,7 +31,12 @@ if (isset($data['action'])) {
         
 
         case 'orders':
-            $result = $dbh->getSellerOrderedProducts($userId);
+            $orders = $dbh->getSellerOrderedProducts($userId);
+            $orderNumber = $dbh->getSellerOrderNumber($userId);
+            $result = [
+                'orders' => $orders,
+                'orderNumber' => $orderNumber
+            ];
             echo json_encode([
                 'success' => true,
                 'data' => $result
@@ -34,19 +44,48 @@ if (isset($data['action'])) {
             break;
 
             case 'stats':
+
+                $periodo = isset($data['periodo']) ? $data['periodo'] : 'all';  
+
+                switch($periodo){
+                    case 'week':
+                        $startDate = date('Y-m-d', strtotime('-7 days'));
+                        break;
+                    case 'month':
+                        $startDate = date('Y-m-d', strtotime('-30 days'));
+                        break;
+                    case 'all':
+                        $startDate = '1970-01-01';
+                        break;
+                    default:
+                        $startDate = '1970-01-01';
+                        break;
+                }
+                
+
                 
                 $stats = [];
                 $allSuccess = true; // Variabile per tenere traccia dello stato complessivo delle operazioni
             
                 // Chiamata alle funzioni di statistica
-                $totalSales = $dbh->getTotalSales($userId);
-                $topSellingProducts = $dbh->getTopSellingProducts($userId);
+                $totalSelledProduct = $dbh->getTotalSelledProduct($userId,$startDate);
+                $totalSelledQuantity = $dbh->getTotalSelledQuantity($userId,$startDate);
+                $totalSales = $dbh->getTotalSales($userId,$startDate);
+                $topSellingProducts = $dbh->getTopSellingProducts($userId,$startDate);
+                $reviewsData = $dbh->getReviewsData($userId);
                 /*$reviews = json_decode($dbh->getReviewsData($userId), true);
                 $conversionRate = json_decode($dbh->getConversionRate($userId), true);
                 $delayedShipments = json_decode($dbh->getDelayedShipments($userId), true);*/
                 
-            
-                // Verifica se ogni operazione ha avuto successo
+                $stats['totalSelledQuantity'] = $totalSelledQuantity;
+                $stats['reviewsData'] = $reviewsData;
+                if ($totalSelledProduct === false) {
+                    $allSuccess = false;
+                    $stats['totalSelledProduct'] = "sql error -> totaSelledProduct";
+                } else {
+                    $stats['totalSelledProduct'] = $totalSelledProduct;
+                }
+
                 if ($totalSales === false) {
                     $allSuccess = false;
                     $stats['totalSales'] = "sql error -> totaSales";
@@ -60,6 +99,8 @@ if (isset($data['action'])) {
                 } else {
                     $stats['topSellingProducts'] = $topSellingProducts;
                 }
+
+                $stats['periodo'] = $periodo;
             
                 /*if ($reviews['success'] === false) {
                     $allSuccess = false;
@@ -90,6 +131,18 @@ if (isset($data['action'])) {
                 break;
             
             
+        case 'reviews':
+            $reviews = $dbh->getSellerReviews($userId);
+            $reviewsNumber = $dbh->getSellerReviewsNumber($userId);
+            $result = [
+                'reviews' => $reviews,
+                'reviewsNumber' => $reviewsNumber
+            ];
+            echo json_encode([
+                'success' => true,
+                'data' => $result
+            ]);
+            break;
 
         default:
             echo json_encode(["success" => false, "message" => "Azione sconosciuta."]);

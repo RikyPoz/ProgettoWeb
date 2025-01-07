@@ -275,6 +275,37 @@ class DatabaseHelper{
         
     }
 
+    public function getSellerProductNumber($username){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS prodottiTotali
+                                    FROM Prodotto AS p 
+                                    WHERE username = ?");
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $productsNumber = isset($data['prodottiTotali']) ? $data['prodottiTotali'] : 0;
+    
+        return $productsNumber;
+    }
+
+    public function getSellerOrderNumber($username){
+        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT IDordine) AS ordiniTotali
+                                    FROM Prodotto AS p 
+                                    JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
+                                    WHERE p.username = ?");
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $ordersNumber = isset($data['ordiniTotali']) ? $data['ordiniTotali'] : 0;
+    
+        return $ordersNumber;
+    }
+
     public function getSellerOrderedProducts($username){
         $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, d.PrezzoPagato, d.Quantita, 
                                     d.CodiceProdotto, p.Nome,i.PercorsoImg 
@@ -383,6 +414,36 @@ class DatabaseHelper{
         }
     }
 
+    public function getSellerReviews($username){
+        $stmt = $this->db->prepare("SELECT p.CodiceProdotto, p.Nome,i.PercorsoImg, r.IDrecensione, r.Testo,r.Stelle,r.Username AS Cliente
+                                    FROM Prodotto AS p 
+                                    LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                                    JOIN Recensione AS r ON r.CodiceProdotto = p.CodiceProdotto
+                                    WHERE p.username = ?
+                                    ORDER BY p.Nome DESC");
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getSellerReviewsNumber($username){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS recensioniTotali
+                                    FROM Prodotto AS p 
+                                    JOIN Recensione AS r ON p.CodiceProdotto = r.CodiceProdotto
+                                    WHERE p.username = ?");
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $data = $result->fetch_assoc();
+        $reviewsNumber = isset($data['recensioniTotali']) ? $data['recensioniTotali'] : 0;
+    
+        return $reviewsNumber;
+    }
+
     public function updateProductAvailability($codiceProdotto, $nuovaDisponibilita) {
         
         try{
@@ -395,14 +456,18 @@ class DatabaseHelper{
         }
     }
 
-    public function getTotalSales($username) {
+    public function getTotalSales($username,$startDate) {
         try {
             $stmt = $this->db->prepare("SELECT SUM(do.PrezzoPagato) AS total_sales
                                         FROM DettaglioOrdine AS do
                                         JOIN Prodotto AS p ON do.CodiceProdotto = p.CodiceProdotto
-                                        WHERE p.Username = ?");
+                                        JOIN Ordine AS o on o.IDordine = do.IDordine
+                                        WHERE p.Username = ?
+                                        AND o.Data > ?");
+
             
-            $stmt->bind_param('s', $username);  
+            
+            $stmt->bind_param('ss', $username,$startDate);  
             $stmt->execute();
             $result = $stmt->get_result();
             
@@ -413,21 +478,64 @@ class DatabaseHelper{
             return false;
         }
     }
+
+    public function getTotalSelledProduct($username,$startDate) {
+        try {
+            $stmt = $this->db->prepare("SELECT COUNT(DISTINCT p.CodiceProdotto) AS totalSelledProduct
+                                        FROM DettaglioOrdine AS do
+                                        JOIN Prodotto AS p ON do.CodiceProdotto = p.CodiceProdotto
+                                        JOIN Ordine AS o on o.IDordine = do.IDordine
+                                        WHERE p.Username = ?
+                                        AND o.Data > ?");
+            
+            $stmt->bind_param('ss', $username,$startDate); 
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $data = $result->fetch_assoc();
+            $totalSelledProduct = isset($data['totalSelledProduct']) ? $data['totalSelledProduct'] : 0;
+            return $totalSelledProduct;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    public function getTotalSelledQuantity($username,$startDate) {
+        try {
+            $stmt = $this->db->prepare("SELECT SUM(do.Quantita) AS totalSelledProduct
+                                        FROM DettaglioOrdine AS do
+                                        JOIN Prodotto AS p ON do.CodiceProdotto = p.CodiceProdotto
+                                        JOIN Ordine AS o on o.IDordine = do.IDordine
+                                        WHERE p.Username = ?
+                                        AND o.Data > ?");
+            
+            $stmt->bind_param('ss', $username,$startDate);   
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $data = $result->fetch_assoc();
+            $totalSelledProduct = isset($data['totalSelledProduct']) ? $data['totalSelledProduct'] : 0;
+            return $totalSelledProduct;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
     
     
     
-    public function getTopSellingProducts($username) {
+    public function getTopSellingProducts($username,$startDate) {
         try{
-            $stmt = $this->db->prepare("SELECT p.Nome,p.CodiceProdotto,i.PercorsoImg, SUM(do.Quantita) AS quantita
-                                        FROM Prodotto AS p
+            $stmt = $this->db->prepare("SELECT p.Nome,p.CodiceProdotto,i.PercorsoImg, SUM(do.Quantita) AS Quantita, SUM(do.PrezzoPagato) AS RicavoTotale                                        FROM Prodotto AS p
                                         JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
                                         LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
+                                        JOIN Ordine AS o on o.IDordine = do.IDordine
                                         WHERE p.Username = ?
+                                        AND o.Data > ?
                                         GROUP BY p.Nome
                                         ORDER BY quantita DESC
-                                        LIMIT 5");
+                                        LIMIT 3");
             
-            $stmt->bind_param('s', $username);
+            $stmt->bind_param('ss', $username,$startDate);
             $stmt->execute();
             $result = $stmt->get_result();
             
@@ -440,7 +548,7 @@ class DatabaseHelper{
     
     public function getReviewsData($username) {
         try{
-            $stmt = $this->db->prepare("SELECT AVG(r.stelle) AS average_rating, COUNT(r.IDrecensione) AS total_reviews
+            $stmt = $this->db->prepare("SELECT AVG(r.stelle) AS averageRating, COUNT(r.IDrecensione) AS totalReviews
                                         FROM Recensione AS r
                                         JOIN Prodotto AS p ON r.CodiceProdotto = p.CodiceProdotto
                                         WHERE p.Username = ?");
@@ -448,16 +556,10 @@ class DatabaseHelper{
             $stmt->bind_param('s', $username);
             $stmt->execute();
             $result = $stmt->get_result();
-            return json_encode([
-                'success' => true,
-                'data' => $result->fetch_assoc()
-            ]);
+            return $result->fetch_assoc();
             
         } catch (mysqli_sql_exception $e) {
-            return json_encode([
-                'success' => false,
-                'message' => 'Errore SQL: ' . $e->getMessage()
-            ]);
+            return false;
         }
     }
     

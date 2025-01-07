@@ -2,20 +2,55 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchData('products');
 
     document.getElementById("viewProductsBtn").addEventListener("click", function () {
-        fetchData('products');
+        let contentTitle = document.getElementById('contentTitle').innerText;
+        if (contentTitle != 'I tuoi Prodotti') {
+            fetchData('products');
+        } else {
+            console.log('gia nella pagina selezionata');
+        }
     });
 
     document.getElementById("viewOrdersBtn").addEventListener("click", function () {
-        fetchData('orders');
+        let contentTitle = document.getElementById('contentTitle').innerText;
+        if (contentTitle != 'Ordini richiesti') {
+            fetchData('orders');
+        } else {
+            console.log('gia nella pagina selezionata');
+        }
     });
 
     document.getElementById("viewStatsBtn").addEventListener("click", function () {
-        fetchData('stats');
+        let contentTitle = document.getElementById('contentTitle').innerText;
+        if (contentTitle != 'Le tue Statistiche') {
+            fetchData('stats');
+        } else {
+            console.log('gia nella pagina selezionata');
+        }
+    });
+
+    document.getElementById("viewReviewsBtn").addEventListener("click", function () {
+        let contentTitle = document.getElementById('contentTitle').innerText;
+        if (contentTitle != 'Le tue Recensioni') {
+            fetchData('reviews');
+        } else {
+            console.log('gia nella pagina selezionata');
+        }
     });
 });
 
 async function fetchData(action) {
-    const sendingData = { action: action };
+    sendingData = {};
+    if (action == "stats" && document.getElementById('timeRange')) {
+        sendingData = {
+            action: action,
+            periodo: document.getElementById('timeRange').value
+        };
+    } else {
+        sendingData = {
+            action: action
+        };
+    }
+
 
     try {
         const response = await fetch('Ajax/api-seller.php', {
@@ -37,11 +72,7 @@ async function fetchData(action) {
         if (json.success) {
             await updatePageContent(action, json.data)
         } else {
-            if (action == "stats") {
-                console.log(json.data);
-            }
             document.getElementById('contentBody').innerHTML = '<p>Errore nel caricamento dei dati dal server.</p>';
-            console.log(json.messaage);
         }
     } catch (error) {
         console.error('Errore nella richiesta AJAX:', error);
@@ -58,7 +89,7 @@ async function updatePageContent(action, data) {
             contentTitle.textContent = 'I tuoi Prodotti';
             contentBody.innerHTML = await generateProductList(data);
             addModalEventListener();
-            data.forEach(product => {
+            data["products"].forEach(product => {
                 updateModalEventListeners(product);
             });
             break;
@@ -69,6 +100,13 @@ async function updatePageContent(action, data) {
         case 'stats':
             contentTitle.textContent = 'Le tue Statistiche';
             contentBody.innerHTML = generateStats(data);
+            document.getElementById('timeRange').value = data["periodo"];
+
+            statsListener();
+            break;
+        case 'reviews':
+            contentTitle.textContent = 'Le tue Recensioni';
+            contentBody.innerHTML = generateReviews(data);
             break;
         default:
             contentTitle.textContent = '';
@@ -83,13 +121,16 @@ function getStars(rating) {
     return fullStars + emptyStars;
 }
 
-async function generateProductList(products) {
+async function generateProductList(data) {
     let html = ``;
+    const products = data["products"];
+    const number = data["productNumber"];
+
 
     if (!products || products.length === 0) {
         html += '<p>Nessun prodotto aggiunto.</p>';
     }
-
+    html += `<h2>(${number})</h2>`;
     html += `<div id="contentBody" class = "row d-flex align-items-stretch">`;
     const modalhtml = await getAddModal();
     html += modalhtml;
@@ -148,10 +189,15 @@ async function generateProductList(products) {
 
 }
 
-function generateOrderList(orders) {
+function generateOrderList(data) {
+    const orders = data["orders"];
+    const number = data["orderNumber"];
     if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
 
-    let html = `<div id="orders-list">`;
+
+    let html = `<h2>(${number})</h2>`;
+
+    html += `<div id="orders-list">`;
 
     // Raggruppamento degli ordini per ID
     const groupedOrders = orders.reduce((acc, order) => {
@@ -181,7 +227,7 @@ function generateOrderList(orders) {
     Object.values(groupedOrders).forEach(order => {
         html += `
         <!-- Single Order -->
-        <div class="my-3 border rounded shadow">
+        <div class="my-3 card shadow">
             <!-- Order Info -->
             <div class="d-flex flex-column flex-md-row ms-3 justify-content-md-around ms-md-0 my-4">
                 <span class="fs-5">ID Ordine: <span class="fw-semibold">${order.IDordine}</span></span>
@@ -196,7 +242,7 @@ function generateOrderList(orders) {
         order.Prodotti.forEach(product => {
             html += `
                 <!-- Single Product -->
-                <div class="row justify-content-center bg-light border rounded p-3 mb-3">
+                <div class="row justify-content-center align-items-center border rounded shadow-sm p-3 mb-3">
                     <div class="col-md-2 col-6">
                         <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
                     </div>
@@ -207,7 +253,7 @@ function generateOrderList(orders) {
                             <span class="fs-5 text-muted">${product.PrezzoPagato.toFixed(2)} €</span>
                         </div>
                         <div class="mt-4">
-                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary btn-sm">Visualizza articolo</a>
+                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
                         </div>
                     </div>
                 </div>`;
@@ -216,8 +262,8 @@ function generateOrderList(orders) {
         html += `
             </div>
             <!-- Button -->
-            <div class="d-flex justify-content-md-end justify-content-center p-3">
-                <button type="button" class="btn btn-light btn-lg">Spedisci</button>
+            <div class="d-flex justify-content-md-end justify-content-center  p-3">
+                <button type="button" class="btn btn-lg border shadow-sm">Spedisci</button>
             </div>
         </div>`;
     });
@@ -231,12 +277,30 @@ function generateOrderList(orders) {
 
 function generateStats(stats) {
     if (!stats) return '<p>Nessun statistica trovato.</p>';
+
+    let html = `
+    <div class = "row my-4">
+        <div class = "col-md-4">
+            <div class="form-group">
+                <div class="input-group">
+                    <select id="timeRange" class="form-select">
+                        <option value="all">Di sempre</option>
+                        <option value="week">Ultima settimana</option>
+                        <option value="month">Ultimo mese</option>
+                        <option value="year">Ultimo anno</option>
+                    </select>
+                    <button class="btn btn-primary ms-2" type="button" id="submitBtn">Invia</button>
+                </div>
+            </div>
+        </div >
+    </div >`
+
     /*if (!stats || typeof stats !== 'object') {
         return '<p>Errore nel recupero delle statistiche.</p>';
     }
-
+ 
     let errorMessages = [];
-
+ 
     // Verifica ciascun campo delle statistiche
     if (stats.totalSales && stats.totalSales.success === false) {
         errorMessages.push('Errore nel recupero delle vendite totali: ' + stats.totalSales.message);
@@ -253,41 +317,164 @@ function generateStats(stats) {
     if (stats.delayedShipments && stats.delayedShipments.success === false) {
         errorMessages.push('Errore nel recupero delle spedizioni ritardate: ' + stats.delayedShipments.message);
     }
-
+ 
     // Se ci sono errori, restituisci un messaggio di errore con tutti i dettagli
     if (errorMessages.length > 0) {
         return '<p>' + errorMessages.join('</p><p>') + '</p>';
     }*/
+    html += `
+            <div class = "row mt-3">
+                <!-- Prodotti Venduti Totale -->
+                <div class="col-md-4">
+                    <div class="card shadow p-3 mb-4">
+                        <h5 class="card-title">Prodotti Distinti Venduti</h5>
+                        <p class="fs-3">${stats.totalSelledProduct}</p>
+                    </div>
+                </div>
+                <!-- Quantita Venduta Totale -->
+                <div class="col-md-4">
+                    <div class="card shadow p-3 mb-4">
+                        <h5 class="card-title">Quantità Totale Venduta</h5>
+                        <p class="fs-3">${stats.totalSelledQuantity}</p>
+                    </div>
+                </div>
+                <!-- Guadagno Totale -->
+                <div class="col-md-4">
+                    <div class="card shadow p-3 mb-4">
+                        <h5 class="card-title">Guadagno Totale</h5>
+                        <p class="fs-3">${stats.totalSales}€</p>
+                    </div>
+                </div>
+                <!-- Recensioni Prodotti -->
+                <div class="col-md-4">
+                    <div class="card shadow p-3 mb-4">
+                        <h5 class="card-title">Recensioni Totali</h5>
+                        <p class="fs-3">${stats.reviewsData["totalReviews"]}</p>
+                        <h5 class="card-title">Valutazione Media</h5>
+                        <span class="fs-3 text-warning">${getStars(stats.reviewsData["averageRating"])} <span class="fs-3 text-dark">${stats.reviewsData["averageRating"]} </span></span>
+                    </div>
+                </div>
+            </div>`
 
-    let html = `
-        <div class="row">
-            <!-- Guadagno Totale -->
-            <div class="col-md-4">
-                <div class="card shadow p-3 mb-4">
-                    <h5 class="card-title">Vendite Totali</h5>
-                    <p class="fs-3">${stats.totalSales}€</p>
-                    <p>Vendite totali nel periodo selezionato</p>
-                </div>
-            </div>
+
+
+    html += `
             <!-- Prodotti Più Venduti -->
-            <div class="col-md-4">
-                <div class="card shadow-lg rounded-3 p-4 mb-4">
-                    <h5 class="card-title text-center text-uppercase text-success">Prodotti Più Venduti</h5>
-                    <ul class="list-unstyled">
-                        ${stats.topSellingProducts.length > 0 ? stats.topSellingProducts.map(product => `
-                            <li class="d-flex justify-content-between">
-                                <img src="${product.PercorsoImg}" alt="img prodotto" class="img-fluid">
-                                <span>${product.Nome}</span>
-                                <span class="badge ">${product.quantita} venduti</span>
-                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary btn-sm">Visualizza articolo</a>
-                            </li>
-                        `).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
-                    </ul>
+            <div class="row ">
+                <div class = "col-md-12 ">
+                    <div class = "card shadow my-3 p-3">
+                        <!-- Title-->
+                        <h5 class="card-title mt-3">Prodotti Più Venduti</h5> 
+                        
+                        <!-- Separator -->
+                        <hr class="mb-4">
+
+                        <!-- Product List -->
+                        <div class="px-3">
+                            <!-- Single Product -->
+                            ${stats.topSellingProducts.length > 0 ? stats.topSellingProducts.map(product => `
+                            <div class="row justify-content-center justify-content-md-start align-items-center border rounded shadow-sm p-3 mb-3">
+                                <div class="col-md-2 col-6  ">
+                                    <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
+                                </div>
+                                <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
+                                    <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                                    <span class="fs-5 me-4">Quantità totale: ${product.Quantita}</span>
+                                    <p class="fs-5 me-4">Ricavo totale: ${product.RicavoTotale} €</p>
+                                    <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                                </div>
+                            </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-    `;
+            </div>`;
 
     return html;
 }
+
+function statsListener() {
+    document.getElementById('submitBtn').addEventListener('click', function () {
+        fetchData("stats");
+    });
+}
+
+
+
+function generateReviews(data) {
+    if (!data || !data.reviews || data.reviews.length === 0) {
+        return '<p>Nessuna recensione trovata.</p>';
+    }
+
+    let reviews = data.reviews;
+
+    let groupedReviews = reviews.reduce((acc, review) => {
+        if (!acc[review.CodiceProdotto]) {
+            acc[review.CodiceProdotto] = {
+                CodiceProdotto: review.CodiceProdotto,
+                Nome: review.Nome,
+                PercorsoImg: review.PercorsoImg,
+                Recensioni: []
+            };
+        }
+        acc[review.CodiceProdotto].Recensioni.push({
+            IDrecensione: review.IDrecensione,
+            Cliente: review.Cliente,
+            Stelle: review.Stelle,
+            Testo: review.Testo
+        });
+
+        return acc;
+    }, {});
+
+    let html = `<h2> (${data.reviews.length})</h2>`;
+
+    Object.values(groupedReviews).forEach(product => {
+        html += `
+        <div class="card shadow mt-4 p-3">
+            <!-- Product Info -->
+            <div class="row d-flex align-items-center">
+                <div class="col-md-2">
+                    <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
+                </div>
+                <div class="col-md-6">
+                    <h3 class="fw-semibold">${product.Nome}</h3>
+                    <span class = "fs-5">Codice Prodotto: <span class = "fw-semibold">${product.CodiceProdotto}</span></span>
+                    <div class="mt-4">
+                        <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--Separator-->
+            <hr class="mb-4">
+            
+            <!-- Reviews for the product -->
+            <div class="px-4">`;
+
+        product.Recensioni.forEach(review => {
+            html += `
+            <div class="card my-4 p-3 shadow-sm">
+                <!-- Review Info -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <span class="fs-5">ID Recensione: <span class = "fw-semibold">${review.IDrecensione}</span></span>
+                        <span class="fs-5 mx-5 ">Cliente: <span class = "fw-semibold">${review.Cliente}</span></span>
+                        <span class="fs-5 me-4 text-warning">${getStars(review.Stelle)} <span class="fs-5 text-dark ">(${review.Stelle})</span></span>
+                        <hr>
+                        <div class="card-body">
+                            <h4> Descrizione: </h4>
+                            <span class = "mt-3">${review.Testo}<span>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        });
+
+        html += `</div> <!-- Fine recensioni per prodotto -->
+        </div>`;
+    });
+
+    return html;
+}
+
+

@@ -64,7 +64,7 @@
             <div class="row mt-5">
                 <div class="col-12">
                     <h3 class="mb-3">Specifiche Prodotto</h3>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-rounded">
                         <tbody>
                             <tr>
                                 <th>Materiale</th>

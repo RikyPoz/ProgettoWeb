@@ -14,15 +14,16 @@
             </div>
 
             <div class="btn-group-vertical w-100">
-                <button class="btn btn-primary" id="viewProductsBtn">Visualizza i Prodotti</button>
-                <button class="btn btn-primary my-1" id="viewOrdersBtn">Visualizza Ordini</button>
-                <button class="btn btn-primary" id="viewStatsBtn">Visualizza Statistiche</button>
+                <button class="btn btn-primary mb-1" id="viewProductsBtn">Visualizza i Prodotti</button>
+                <button class="btn btn-primary mb-1" id="viewOrdersBtn">Visualizza Ordini</button>
+                <button class="btn btn-primary mb-1" id="viewStatsBtn">Visualizza Statistiche</button>
+                <button class="btn btn-primary" id="viewReviewsBtn">Visualizza Recensioni</button>
             </div>
         </div>
 
         <!-- Colonna centrale -->
         <div class="col-md-9 p-4" id="content-area">
-            <h3 id="contentTitle"></h3>
+            <h1 id="contentTitle"></h1>
             <div id="contentBody"></div>
         </div>
     </div>
