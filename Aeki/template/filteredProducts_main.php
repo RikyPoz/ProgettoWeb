@@ -1,6 +1,6 @@
 <?php
-$minPrice = min(array_column($templateParams["lista_prodotti"], 'Prezzo'));
-$maxPrice = max(array_column($templateParams["lista_prodotti"], 'Prezzo'));
+$sliderMin = 0;
+$sliderMax = 100;
 ?>
 
 <div class="row d-flex justify-content-center">
@@ -27,14 +27,15 @@ $maxPrice = max(array_column($templateParams["lista_prodotti"], 'Prezzo'));
       <div class="col-12 col-md-4">
         <h5 class="fw-semibold mb-3">Prezzo</h5>
         <div class="mb-3">
-
+          <!-- Valori selezionati -->
           <div class="d-flex justify-content-between small mb-2">
-            <span id="selectedMinPrice">€<?php echo number_format($minPrice, 2); ?></span>
-            <span id="selectedMaxPrice">€<?php echo number_format($maxPrice, 2); ?></span>
+            <span id="displayMinPrice">€ -</span>
+            <span id="displayMaxPrice">€ -</span>
           </div>
 
-          <input type="range" class="form-range" id="minPrice" min="<?php echo log($minPrice); ?>" max="<?php echo log($maxPrice); ?>" step="0.01" value="<?php echo log($minPrice); ?>">
-          <input type="range" class="form-range" id="maxPrice" min="<?php echo log($minPrice); ?>" max="<?php echo log($maxPrice); ?>" step="0.01" value="<?php echo log($maxPrice); ?>">
+          <!-- Slider -->
+          <input type="range" class="form-range" id="minPriceInput" min="<?php echo $sliderMin; ?>" max="<?php echo $sliderMax; ?>" value="<?php echo $sliderMin; ?>">
+          <input type="range" class="form-range" id="maxPriceInput" min="<?php echo $sliderMin; ?>" max="<?php echo $sliderMax; ?>" value="<?php echo $sliderMax; ?>">
         </div>
       </div>
 
@@ -67,34 +68,11 @@ $maxPrice = max(array_column($templateParams["lista_prodotti"], 'Prezzo'));
   <div class = "col-9 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Lista Prodotti -->
+      <h1 class="fw-semibold mb-3">
+        <span id="filterType" data="<?php echo $templateParams["tipoSelezione"]; ?>"><?php echo $templateParams["nomeSelezione"]; ?></span>
+        <span id="productCount" class="text-muted"></span>
+      </h1>
       <div class="row g-4" id="productsContainer"></div>
     </div>
   </div>
 </div>
-
-<script>
-  const minPriceInput = document.getElementById('minPrice');
-  const maxPriceInput = document.getElementById('maxPrice');
-  const selectedMinPrice = document.getElementById('selectedMinPrice');
-  const selectedMaxPrice = document.getElementById('selectedMaxPrice');
-  const rangeFill = document.getElementById('rangeFill');
-  
-  function updateRange() {
-    const minLogValue = parseFloat(minPriceInput.value);
-    const maxLogValue = parseFloat(maxPriceInput.value);
-
-    if (minLogValue > maxLogValue) {
-      minPriceInput.value = maxLogValue;
-    }
-
-    const minLinearValue = Math.exp(minPriceInput.value).toFixed(2);
-    const maxLinearValue = Math.exp(maxPriceInput.value).toFixed(2);
-
-    selectedMinPrice.textContent = `€${minLinearValue}`;
-    selectedMaxPrice.textContent = `€${maxLinearValue}`;
-  }
-
-  minPriceInput.addEventListener('input', updateRange);
-  maxPriceInput.addEventListener('input', updateRange);
-  updateRange();
-</script>

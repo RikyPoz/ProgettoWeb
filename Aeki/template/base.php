@@ -30,11 +30,11 @@
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <!-- Search Bar -->
-            <form class="d-flex mx-auto" role="search" style="width: 50%;">
-            <input class="form-control me-2" type="search" placeholder="Cerca..." aria-label="Search">
-            <button class="btn btn-outline-secondary" type="submit">
-                <i class="bi bi-search"></i>
-            </button>
+            <form class="d-flex mx-auto" role="search" style="width: 50%;" action="filteredProducts.php" method="get">
+                <input class="form-control me-2" type="search" name="search" placeholder="Cerca..." aria-label="Search" required>
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
             </form>
 
             <!-- Icons Section -->

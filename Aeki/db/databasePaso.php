@@ -51,7 +51,7 @@ class DatabaseHelper{
 
 
     function getProductsList($filters = [], $orderBy = 'Prezzo ASC') {
-        $query = "SELECT p.Nome, p.Prezzo, p.ValutazioneMedia, p.NumeroRecensioni, i.PercorsoImg 
+        $query = "SELECT p.CodiceProdotto, p.Nome, p.Prezzo, p.ValutazioneMedia, p.NumeroRecensioni, i.PercorsoImg 
                 FROM Prodotto p
                 JOIN ImmagineProdotto i ON p.CodiceProdotto = i.CodiceProdotto
                 WHERE i.Icona = 'Y'";
@@ -59,11 +59,17 @@ class DatabaseHelper{
         $queryParams = [];
         $queryTypes = '';
 
+        
         foreach ($filters as $key => $value) {
         if (!is_array($value)) {
-            $query .= " AND p.$key = ?";
-            $queryParams[] = $value;
-            $queryTypes .= is_numeric($value) ? 'd' : 's';
+            if ($key == "Nome") {
+                $query .= " AND p.$key LIKE ?";
+                $queryParams[] = "%$value%";
+            } else {
+                $query .= " AND p.$key = ?";
+                $queryParams[] = $value;
+            }
+            $queryTypes .= 's';
         } elseif (isset($value['min']) && isset($value['max'])) {
             $query .= " AND p.$key BETWEEN ? AND ?";
             $queryParams[] = $value['min'];
@@ -82,7 +88,21 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
 
+    public function getPriceMinMax($filterType, $filterValue) {
+        $query = "SELECT MIN(p.Prezzo) AS min, MAX(p.Prezzo) AS max FROM Prodotto AS p WHERE ";
+        if ($filterType == "Nome") {
+            $query .= "p.$filterType LIKE ?";
+            $queryParams = "%$filterValue%";
+        } else {
+            $query .= "p.$filterType = ?";
+            $queryParams = $filterValue;
+        }
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $queryParams);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>
