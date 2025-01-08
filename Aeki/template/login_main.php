@@ -11,9 +11,14 @@
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required placeholder="Inserisci la tua email">
             </div>
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required placeholder="Inserisci la tua password">
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="Inserisci la tua password">
+                    <span class="input-group-text" id="togglePassword" style="cursor: pointer;" aria-label="Mostra password">
+                        <i class="bi bi-eye" id="toggleIcon"></i>
+                    </span>
+                </div>
             </div>
             <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
@@ -76,4 +81,5 @@
 <script src="js/login.js"></script>
 <script src="js/remember.js"></script>
 <script src="js/register.js"></script>
+<script src="js/viewPassword.js"></script>
 
