@@ -71,6 +71,18 @@ class DatabaseHelper{
 
 
     public function getStarNumber($idProdotto){
+        // Dato un username ritorna  l'ID della sua wishlist 
+        $stmt = $this->db->prepare("SELECT r.stelle,COUNT(r.IDrecensione) AS numeroRecensioni
+                                    FROM Recensione r
+                                    WHERE r.CodiceProdotto = ?  
+                                    GROUP BY r.stelle
+                                    ORDER BY r.stelle DESC");
+                                    
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
         
     }
 
@@ -85,6 +97,26 @@ class DatabaseHelper{
         } else {
             return false; 
         }
+    }
+
+    public function updateProductReview($productId){
+        $stmt = $this->db->prepare("SELECT AVG(r.stelle) AS averageRating, COUNT(r.IDrecensione) AS totalReviews
+                                        FROM Recensione AS r
+                                        JOIN Prodotto AS p ON r.CodiceProdotto = p.CodiceProdotto
+                                        WHERE p.CodiceProdotto = ?");
+            
+        $stmt->bind_param('i', $productId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $averageRating = $result["averageRating"] !== null ? $result["averageRating"] : 0;
+        $totalReviews = $result["totalReviews"] !== null ? $result["totalReviews"] : 0;
+
+        $stmt1 = $this->db->prepare("UPDATE `Prodotto` 
+                                    SET `ValutazioneMedia` = ?  , `NumeroRecensioni` = ?
+                                    WHERE CodiceProdotto = ?");
+            
+        $stmt1->bind_param('dii', $averageRating,$totalReviews,$productId);
+        $stmt1->execute();
     }
 
     //WISHLIST QUERY

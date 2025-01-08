@@ -35,7 +35,6 @@ function addToCartEventListener() {
             } else {
                 console.log("Errore nell'aggiunta al carrello");
                 if (json.error === 'not_logged_in') {
-                    //mettere cosa fa se clicchi su aggiungi al carrello ma non sei loggato
                     alert(json.message);
                 } else {
                     alert("Si è verificato un errore: " + json.message);

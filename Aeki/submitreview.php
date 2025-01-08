@@ -31,6 +31,7 @@
     $comment = htmlspecialchars($comment);
 
     $result = $dbh->writeReview($userId, $productId, $rating, $comment);
+    $dbh->updateProductReview($productId);
 
     if ($result) {
         echo json_encode(['success' => true, 'message' => 'Recensione inviata con successo']);

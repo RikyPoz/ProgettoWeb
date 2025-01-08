@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            ratingText.textContent = `Valutazione: ${selectedValue}`;
+            ratingText.textContent = `${selectedValue}`;
             ratingValueInput.value = selectedValue;
         });
     });
@@ -35,8 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
             rating: formObject["rating"],
             comment: formObject["comment"]
         };
-        console.log(formObject);
-        console.log(sendingData);
 
         try {
             const response = await fetch('submitreview.php', {

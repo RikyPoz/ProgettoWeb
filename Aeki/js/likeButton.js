@@ -56,7 +56,7 @@ async function rimuoviDaWishlist(prodottoId) {
         } else {
             console.error('Errore specifico:', data.message);
             if (data.error === 'not_logged_in') {
-                alert('Utente non loggato. Effettua il login.');
+                alert(data.message);
             } else {
                 alert('Errore: ' + data.message);
             }

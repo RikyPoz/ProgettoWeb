@@ -3,12 +3,11 @@ require_once '../bootstrap.php';
 
 header('Content-Type: application/json');
 
-/*if (!isset($_SESSION['userId'])) {
+if (!isset($_SESSION['userId'])) {
     echo json_encode(['success' => false,'error' => 'not_logged_in', 'message' => 'Utente non autenticato']);
     exit;
 }
-$userId = $_SESSION['userId'];*/
-$userId = "user3";
+$seller = $_SESSION['userId'];
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -17,8 +16,8 @@ if (isset($data['action'])) {
 
     switch ($action) {
         case 'products':
-            $products = $dbh->getSellerProducts($userId);
-            $productNumber = $dbh->getSellerProductNumber($userId);
+            $products = $dbh->getSellerProducts($seller);
+            $productNumber = $dbh->getSellerProductNumber($seller);
             $result = [
                 'products' => $products,
                 'productNumber' => $productNumber
@@ -31,8 +30,8 @@ if (isset($data['action'])) {
         
 
         case 'orders':
-            $orders = $dbh->getSellerOrderedProducts($userId);
-            $orderNumber = $dbh->getSellerOrderNumber($userId);
+            $orders = $dbh->getSellerOrderedProducts($seller);
+            $orderNumber = $dbh->getSellerOrderNumber($seller);
             $result = [
                 'orders' => $orders,
                 'orderNumber' => $orderNumber
@@ -68,11 +67,11 @@ if (isset($data['action'])) {
                 $allSuccess = true; // Variabile per tenere traccia dello stato complessivo delle operazioni
             
                 // Chiamata alle funzioni di statistica
-                $totalSelledProduct = $dbh->getTotalSelledProduct($userId,$startDate);
-                $totalSelledQuantity = $dbh->getTotalSelledQuantity($userId,$startDate);
-                $totalSales = $dbh->getTotalSales($userId,$startDate);
-                $topSellingProducts = $dbh->getTopSellingProducts($userId,$startDate);
-                $reviewsData = $dbh->getReviewsData($userId);
+                $totalSelledProduct = $dbh->getTotalSelledProduct($seller,$startDate);
+                $totalSelledQuantity = $dbh->getTotalSelledQuantity($seller,$startDate);
+                $totalSales = $dbh->getTotalSales($seller,$startDate);
+                $topSellingProducts = $dbh->getTopSellingProducts($seller,$startDate);
+                $reviewsData = $dbh->getReviewsData($seller);
                 /*$reviews = json_decode($dbh->getReviewsData($userId), true);
                 $conversionRate = json_decode($dbh->getConversionRate($userId), true);
                 $delayedShipments = json_decode($dbh->getDelayedShipments($userId), true);*/
@@ -132,8 +131,8 @@ if (isset($data['action'])) {
             
             
         case 'reviews':
-            $reviews = $dbh->getSellerReviews($userId);
-            $reviewsNumber = $dbh->getSellerReviewsNumber($userId);
+            $reviews = $dbh->getSellerReviews($seller);
+            $reviewsNumber = $dbh->getSellerReviewsNumber($seller);
             $result = [
                 'reviews' => $reviews,
                 'reviewsNumber' => $reviewsNumber

@@ -3,11 +3,11 @@ require_once '../bootstrap.php';
 
 header('Content-Type: application/json');
 
-/*if (!isset($_SESSION['userId'])) {
+if (!isset($_SESSION['userId'])) {
     echo json_encode(['success' => false,'error' => 'not_logged_in', 'message' => 'Utente non autenticato']);
     exit;
-}*/
-$userId = "user3";  
+} 
+$seller = $_SESSION['userId'];
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -30,12 +30,12 @@ if (isset($data['action'])) {
             $peso = $data['peso'] ?? '';
             
 
-            if (!$nome || !$prezzo || !$descrizione || !$paths || !$larghezza || !$altezza || !$profondita || !$ambiente || !$categoria || !$colore || !$materiale ||!$peso||!$userId) {
+            if (!$nome || !$prezzo || !$descrizione || !$paths || !$larghezza || !$altezza || !$profondita || !$ambiente || !$categoria || !$colore || !$materiale ||!$peso||!$seller) {
                 echo json_encode(['success' => false, 'message' => 'Dati mancanti o non validi']);
                 exit;
             }
             
-            $result = $dbh->addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso);
+            $result = $dbh->addProduct($seller,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso);
             echo $result;
             break;
 
