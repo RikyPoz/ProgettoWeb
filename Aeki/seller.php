@@ -5,18 +5,14 @@ require_once 'bootstrap.php';
 $templateParams["titolo"] = "Aeki - seller";
 $templateParams["nome"] = "seller_main.php";
 
-if(isset($_SESSION['userId'])){
-    $nomeUtente = $_SESSION['userId'];
+if(isset($_SESSION['user_id'])){
+    $nomeUtente = $_SESSION['user_id'];
     $templateParams["venditore"] = $dbh->getDatiVenditore($nomeUtente);
 
     $templateParams["js"] = array("js/likeButton.js");
 }else{
-    //da togliere tutto e mettere cosa fa se non è loggato 
-    $nomeUtente = "user3"; 
-    $templateParams["venditore"] = $dbh->getDatiVenditore($nomeUtente);
-
-    $templateParams["js"] = array("js/seller.js","js/getModal.js","js/seller-product.js");
-
+    header("Location: login.php");
+    exit;
 }
 
 require 'template/base.php';

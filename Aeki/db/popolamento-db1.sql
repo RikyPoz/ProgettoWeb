@@ -26,8 +26,8 @@ INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
 
 -- Populating Prodotto table
 INSERT INTO Prodotto (Nome, Prezzo, Descrizione, Materiale, Peso, Altezza, Larghezza, Profondita, NomeAmbiente, NomeCategoria, Username) VALUES
-('Sedia', 75.0, 'Sedia in legno', 'Legno', 5.0,90.0, 45.0, 45.0, 'Soggiorno', 'Sedie', 'user3'),
-('Tavolo', 150.0, 'Tavolo da pranzo', 'Metallo', 20.0, 75.0, 150.0, 75.0, 'Cucina', 'Tavoli', 'user3'),
+('Sedia', 75.0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 'Legno', 5.0,90.0, 45.0, 45.0, 'Soggiorno', 'Sedie', 'user3'),
+('Tavolo', 150.0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 'Metallo', 20.0, 75.0, 150.0, 75.0, 'Cucina', 'Tavoli', 'user3'),
 ('Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 180.0, 50.0, 50.0, 'Camera da letto', 'Letti', 'user3');
 
 -- Populating Immagine table
@@ -100,6 +100,6 @@ INSERT INTO Notifiche (Username, Testo, Data) VALUES
 
 -- Populating Recensione table
 INSERT INTO Recensione (Testo, stelle, CodiceProdotto, Username) VALUES
-('Ottimo prodotto', 5, 1, 'user1'),
-('Molto buono', 4, 2, 'user2'),
+('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 5, 1, 'user1'),
+('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 4, 2, 'user2'),
 ('Soddisfatto', 4, 3, 'user3');

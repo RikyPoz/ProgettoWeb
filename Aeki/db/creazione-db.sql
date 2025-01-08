@@ -85,7 +85,7 @@ CREATE TABLE Prodotto (
     CodiceProdotto INT AUTO_INCREMENT,
     Nome VARCHAR(50) NOT NULL,
     Prezzo FLOAT NOT NULL,
-    Descrizione VARCHAR(50) NOT NULL,
+    Descrizione VARCHAR(200) NOT NULL,
     Materiale VARCHAR(50) NOT NULL,
     Peso FLOAT NOT NULL,
     Disponibilita INT NOT NULL DEFAULT 0,
@@ -102,7 +102,7 @@ CREATE TABLE Prodotto (
 
 create table Recensione (
     IDrecensione INT AUTO_INCREMENT,
-    Testo VARCHAR(50) not null,
+    Testo VARCHAR(200) not null,
     stelle INT not null,
     CodiceProdotto INT not null,
     Username VARCHAR(50) not null,
