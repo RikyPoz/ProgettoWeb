@@ -104,5 +104,40 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getIdCarrello($username){
+        $stmt = $this->db->prepare("SELECT IDcarrello FROM Carrello WHERE Username = ?");
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row ? $row['IDcarrello'] : null;
+    }
+
+    public function getCarrello($username){
+        $idCarrello = $this->getIdCarrello($username);
+        if (is_null($idCarrello)) {
+            return []; 
+        }
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto, d.Quantita ,p.Nome,p.Prezzo,i.PercorsoImg
+                                    FROM DettaglioCarrello as d
+                                    JOIN Prodotto as p ON d.CodiceProdotto = p.CodiceProdotto
+                                    LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
+                                    WHERE IDcarrello = ?");
+        $stmt->bind_param('s', $idCarrello);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPricesFromSelected($selectedProducts) {
+        $placeholders = implode(',', array_fill(0, count($selectedProducts), '?'));
+        $stmt = $this->db->prepare("SELECT CodiceProdotto, Prezzo FROM prodotto WHERE CodiceProdotto IN ($placeholders)");
+        $types = str_repeat('s', count($selectedProducts));
+        $stmt->bind_param($types, ...$selectedProducts);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>
