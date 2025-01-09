@@ -115,10 +115,10 @@ class DatabaseHelper{
             $campi[] = "Cognome = ?";
             $valori[] = $cognome;
         }
-        if (!empty($email)) {
+        if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $campi[] = "Email = ?";
             $valori[] = $email;
-        }
+        }        
         if (!empty($telefono)) {
             $campi[] = "Telefono = ?";
             $valori[] = $telefono;
@@ -131,15 +131,19 @@ class DatabaseHelper{
         
         // Crea la query dinamica
         $sql = "UPDATE Utente SET " . implode(", ", $campi) . " WHERE Username = ?";
-        $valori[] = $username; // Aggiunge l'username come ultimo parametro
+        // Aggiunge username come ultimo parametro
+        $valori[] = $username; 
+        error_log("SQL: $sql");
+        error_log("Parametri: " . implode(", ", $valori));
         // Prepara la query
         $stmt = $this->db->prepare($sql);
+
         // Associa i parametri in base al numero di campi
         $tipi = str_repeat('s', count($valori)); 
         $stmt->bind_param($tipi, ...$valori);
         // Esegue la query
-        $stmt->execute();
-    
+        $stmt->execute();      
+
         // Ritorna il numero di righe modificate
         return $stmt->affected_rows;
     }

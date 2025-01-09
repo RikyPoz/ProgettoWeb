@@ -7,16 +7,16 @@ header('Content-Type: application/json');
 
 try {
     // Leggi il corpo della richiesta
-    $input = json_decode(file_get_contents('php://input'), true);
-    if (!$input) {
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (!$data) {
         throw new Exception('Richiesta non valida.');
     }
 
     // Estrai i dati dal JSON
-    $nome = isset($input['nome']) ? trim($input['nome']) : null;
-    $cognome = isset($input['cognome']) ? trim($input['cognome']) : null;
-    $email = isset($input['email']) ? trim($input['email']) : null;
-    $telefono = isset($input['telefono']) ? trim($input['telefono']) : null;
+    $nome = isset($data['nome']) ? trim($data['nome']) : null;
+    $cognome = isset($data['cognome']) ? trim($data['cognome']) : null;
+    $email = isset($data['email']) ? trim($data['email']) : null;
+    $telefono = isset($data['telefono']) ? trim($data['telefono']) : null;
 
     // Verifica che almeno un campo sia stato inviato
     if (empty($nome) && empty($cognome) && empty($email) && empty($telefono)) {
@@ -24,7 +24,7 @@ try {
     }
 
     // Ottieni l'username dalla sessione
-    $username = $_SESSION['username'];
+    $username = $_SESSION['user_id'];
 
     // Aggiorna i dati nel database
     $rowsUpdated = $dbh->updateUtente($nome, $cognome, $email, $telefono, $username);
