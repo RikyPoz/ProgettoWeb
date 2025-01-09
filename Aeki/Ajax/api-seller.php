@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false,'error' => 'not_logged_in', 'message' => 'Utente non autenticato']);
     exit;
 }
-$seller = $_SESSION['userId'];
+$seller = $_SESSION['user_id'];
 
 $data = json_decode(file_get_contents('php://input'), true);
 

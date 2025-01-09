@@ -6,8 +6,8 @@ $templateParams["titolo"] = "Aeki - recensione";
 $templateParams["nome"] = "review_main.php";
 
 
-if(isset($_SESSION['userId']) && isset($_GET["id"])){
-    $nomeUtente = $_SESSION['userId'];
+if(isset($_SESSION['user_id']) && isset($_GET["id"])){
+    $nomeUtente = $_SESSION['user_id'];
     $idprodotto = $_GET["id"];
 
     $templateParams["prodotto"] = $dbh->getProdotto($idprodotto);

@@ -40,7 +40,7 @@
                 <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
                     <?php foreach ($templateParams["categorie"] as $categoria): ?>
                         <div class="text-center">
-                            <a href="filteredProducts?categories=<?php echo $categoria['NomeCategoria']; ?>" class="btn p-0">
+                            <a href="filteredProducts.php?categories=<?php echo $categoria['NomeCategoria']; ?>" class="btn p-0">
                                 <img src="<?php echo $categoria['PercorsoImmagine']; ?>" class="rounded" alt="Categoria <?php echo $categoria['NomeCategoria']; ?>">
                                 <p class="mt-3 fw-semibold"><?php echo $categoria['NomeCategoria']; ?></p>
                             </a>
@@ -73,7 +73,7 @@
                 <div class="d-flex flex-nowrap gap-3" id="ambientSlider">
                     <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
                         <div class="text-center">
-                            <a href="filteredProducts?ambient=<?php echo $ambiente['NomeAmbiente']; ?>" class="btn p-0">
+                            <a href="filteredProducts.php?ambient=<?php echo $ambiente['NomeAmbiente']; ?>" class="btn p-0">
                                 <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo $ambiente['NomeAmbiente']; ?>">
                                 <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
                             </a>

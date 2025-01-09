@@ -45,7 +45,7 @@ async function aggiornaProfilo(data) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         });
-
+        console.log(response.text());
         if (!response.ok) {
             if (response.status === 400) {
                 alert("Errore nella richiesta. Controlla i dati inseriti.");
@@ -56,7 +56,7 @@ async function aggiornaProfilo(data) {
             }
             return;
         }
-
+        
         const result = await response.json();
         if (result.success) {
             alert("Profilo aggiornato con successo!");

@@ -12,8 +12,8 @@ if(isset($_GET["id"])){
     $templateParams["prodotto"]["InWishlist"] = "false";  
     
 
-    if (isset($_SESSION['userId'])) {
-        $userId = $_SESSION['userId'];  
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];  
         if ($dbh->inWishList($idprodotto, $userId)) {
             $templateParams["prodotto"]["InWishlist"] = "true";  
         }

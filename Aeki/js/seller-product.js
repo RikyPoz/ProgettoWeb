@@ -64,7 +64,7 @@ async function addModalEventListener() {
             }
 
             const result = await response.json();
-
+            console.log(result);
             if (result.success) {
                 alert("Prodotto aggiunto con successo!");
                 fetchData("products");

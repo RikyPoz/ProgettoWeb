@@ -3,8 +3,8 @@
 require_once 'bootstrap.php';
 
 
-if(isset($_SESSION['userId'])){
-    $nomeUtente = $_SESSION['userId'];
+if(isset($_SESSION['user_id'])){
+    $nomeUtente = $_SESSION['user_id'];
     $templateParams["ordini"] = $dbh->getOrdini($nomeUtente);
 
     foreach ($templateParams["ordini"] as &$ordine) { //& usato per non creare una copia e salvare le modifiche

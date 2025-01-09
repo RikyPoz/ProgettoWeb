@@ -34,11 +34,6 @@ create table Categoria (
      PercorsoImmagine VARCHAR(50) not null,
      constraint ID_Categoria_ID primary key (NomeCategoria));
 
-create table Colorazione (
-     NomeColore VARCHAR(50) not null,
-     CodiceProdotto INT not null,
-     constraint ID_Colorazione_ID primary key (NomeColore, CodiceProdotto));
-
 create table Colore (
      NomeColore VARCHAR(50) not null,
      constraint ID_Colore_ID primary key (NomeColore));
@@ -87,6 +82,7 @@ CREATE TABLE Prodotto (
     Prezzo FLOAT NOT NULL,
     Descrizione VARCHAR(200) NOT NULL,
     Materiale VARCHAR(50) NOT NULL,
+    NomeColore VARCHAR(50) not null,
     Peso FLOAT NOT NULL,
     Disponibilita INT NOT NULL DEFAULT 0,
     Altezza FLOAT NOT NULL,
@@ -133,14 +129,6 @@ create table WishList (
 alter table Carrello add constraint FKpossiede_FK
      foreign key (Username)
      references Utente (Username);
-
-alter table Colorazione add constraint FKR_2_Pro_FK
-     foreign key (CodiceProdotto)
-     references Prodotto (CodiceProdotto);
-
-alter table Colorazione add constraint FKR_2_Col
-     foreign key (NomeColore)
-     references Colore (NomeColore);
 
 alter table DettaglioCarrello add constraint FKR_3_Pro
      foreign key (CodiceProdotto)
@@ -190,6 +178,10 @@ alter table Prodotto add constraint FKaggiunge_FK
      foreign key (Username)
      references Utente (Username);
 
+alter table Prodotto add constraint FKhaColore_FK
+     foreign key (NomeColore)
+     references Colore (NomeColore);
+
 alter table Recensione add constraint FKScrive_FK
      foreign key (Username)
      references Utente (Username);
@@ -217,12 +209,6 @@ create unique index FKpossiede_IND
 
 create unique index ID_Categoria_IND
      on Categoria (NomeCategoria);
-
-create unique index ID_Colorazione_IND
-     on Colorazione (NomeColore, CodiceProdotto);
-
-create index FKR_2_Pro_IND
-     on Colorazione (CodiceProdotto);
 
 create unique index ID_Colore_IND
      on Colore (NomeColore);
@@ -271,6 +257,9 @@ create index FKR_1_IND
 
 create index FKR_IND
      on Prodotto (NomeCategoria);
+
+create index FKhaColore_IND
+     on Prodotto (NomeColore);
 
 create index FKaggiunge_IND
      on Prodotto (Username);

@@ -16,7 +16,7 @@ if (isset($_GET['ambient'])) {
     $templateParams["nomeSelezione"] = $_GET['search'];
 }
 
-$templateParams["colors"] = $dbh->getColors();
+$templateParams["colors"] = $dbh->getColori1();
 
 $templateParams["js"] = array("js/filterProducts.js");
 require 'template/base.php';

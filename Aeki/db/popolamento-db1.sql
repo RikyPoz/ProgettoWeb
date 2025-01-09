@@ -25,31 +25,20 @@ INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
 ('Librerie e scaffali', 'upload/homePage/libreria.png');
 
 -- Populating Prodotto table
-INSERT INTO Prodotto (Nome, Prezzo, Descrizione, Materiale, Peso, Altezza, Larghezza, Profondita, NomeAmbiente, NomeCategoria, Username) VALUES
-('Sedia', 75.0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 'Legno', 5.0,90.0, 45.0, 45.0, 'Soggiorno', 'Sedie', 'user3'),
-('Tavolo', 150.0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 'Metallo', 20.0, 75.0, 150.0, 75.0, 'Cucina', 'Tavoli', 'user3'),
-('Lampada', 50.0, 'Lampada da terra', 'Plastica', 3.0, 180.0, 50.0, 50.0, 'Camera da letto', 'Letti', 'user3');
+INSERT INTO Prodotto (Nome, Prezzo, Descrizione, Materiale, Peso, NomeColore, Altezza, Larghezza, Profondita, NomeAmbiente, NomeCategoria, Username) VALUES
+('Sedia', 75.0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 'Legno', 5.0, 'Blu',90.0, 45.0, 45.0, 'Soggiorno', 'Sedie', 'user3');
 
 -- Populating Immagine table
 INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
 ('upload/products/img1.png', 'Y', 1),
 ('upload/products/img2.png', 'N', 1),
-('upload/products/img3.png', 'N', 1),
-('upload/products/imgLampada.png', 'Y', 2),
-('upload/products/images.png', 'Y', 3);
+('upload/products/img3.png', 'N', 1);
 
 -- Populating Colore table
 INSERT INTO Colore (NomeColore) VALUES
 ('Rosso'),
 ('Blu'),
 ('Verde');
-
--- Populating Colorazione table
-INSERT INTO Colorazione (NomeColore, CodiceProdotto) VALUES
-('Rosso', 1),
-('Blu', 1),
-('Blu', 2),
-('Verde', 3);
 
 -- Populating Carrello table
 INSERT INTO Carrello (Username) VALUES

@@ -2,12 +2,9 @@
 <?php
 require_once 'bootstrap.php';
 
-
-
-if(isset($_SESSION['userId'])){
-    $nomeUtente = $_SESSION['userId'];
+if(isset($_SESSION['user_id'])){
+    $nomeUtente = $_SESSION['user_id'];
     $templateParams["prodotti"] = $dbh->getWishListProducts($nomeUtente);
-    $templateParams["categorie"] = $dbh->getCategorie();
 
     $templateParams["titolo"] = "Aeki - whishlist";
     $templateParams["nome"] = "whishList_main.php";

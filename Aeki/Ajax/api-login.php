@@ -22,7 +22,6 @@ if ($user) { // Se l'utente esiste
     // Confronto password 
     if ($password === $user['Password']) {
         // Imposta una sessione 
-        session_start();
         $_SESSION['user_id'] = $user['Username'];
         
         // Controlla il tipo di utente

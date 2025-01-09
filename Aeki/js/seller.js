@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("pippo");
     fetchData('products');
 
     document.getElementById("viewProductsBtn").addEventListener("click", function () {

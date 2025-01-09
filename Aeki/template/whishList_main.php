@@ -3,25 +3,6 @@
         <div class = "d-flex justify-content-center justify-content-md-start">
             <h1>Preferiti</h1>
         </div>
-        <!--Navbar-->
-        <nav class="navbar navbar-expand-lg border rounded bg-light my-4">
-            <div class="container-fluid ">
-                <a class="navbar-brand fs-4" href="#">Categorie</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <?php foreach($templateParams["categorie"] as $categoria):?>
-                    <!-- if categoria attiva
-                    <a class="nav-link active" aria-current="page" href="#">Divani</a> 
-                    else -->
-                    <a class="nav-link" href="#"> <?php echo $categoria["NomeCategoria"] ?> </a>
-                    <?php endforeach; ?>
-                </div>
-                </div>
-            </div>
-        </nav>
         <!--Prodotti-->
         <div class="row d-flex align-items-stretch">
             <?php foreach($templateParams["prodotti"] as $prodotto): ?>

@@ -79,19 +79,19 @@
                 <form id="modificaProfiloForm">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nomeUtente" name="nome" value="<?php echo $templateParams["utente"]['nome']; ?>">
+                        <input type="text" class="form-control" id="nomeUtente" name="nome" value="<?php echo $templateParams["utente"]['Nome']; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="cognome" class="form-label">Cognome</label>
-                        <input type="text" class="form-control" id="cognomeUtente" name="cognome" value="<?php echo $templateParams["utente"]['cognome']; ?>">
+                        <input type="text" class="form-control" id="cognomeUtente" name="cognome" value="<?php echo $templateParams["utente"]['Cognome']; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="emailUtente" name="email" value="<?php echo $templateParams["utente"]['email']; ?>">
+                        <input type="email" class="form-control" id="emailUtente" name="email" value="<?php echo $templateParams["utente"]['Email']; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="telefono" class="form-label">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoUtente" name="telefono" value="<?php echo $templateParams["utente"]['telefono']; ?>">
+                        <input type="text" class="form-control" id="telefonoUtente" name="telefono" value="<?php echo $templateParams["utente"]['Telefono']; ?>">
                     </div>
                     <button type="submit" class="btn btn-primary">Salva Modifiche</button>
                 </form>
