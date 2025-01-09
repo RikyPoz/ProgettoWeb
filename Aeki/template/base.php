@@ -18,14 +18,14 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-light shadow">
-        <div class="container-fluid d-flex justify-content-between">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
         <div>
             <!-- Hamburger Menu -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <!-- Brand Logo -->
-            <a class="navbar-brand" href="#"><img src="logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">Tuo Sito</a>
+            <a class="navbar-brand" href="homePage.php"><img src="upload/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"></a>
         </div>
         
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,7 +38,7 @@
             </form>
 
             <!-- Icons Section -->
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto d-flex justify-content-around align-items-center">
             <li class="nav-item d-flex flex-column align-items-center">
                 <a href="profile.php" class="btn btn-light text-center">
                     <i class="bi bi-person" style="font-size: 1.5rem;"></i>  
@@ -46,15 +46,15 @@
                 <span>Profilo</span>
             </li>
             <li class="nav-item d-flex flex-column align-items-center mx-3">
-              <a href="whishlist.php" class="btn btn-light text-center">
-                <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
-              </a>
+                <a href="whishlist.php" class="btn btn-light text-center">
+                    <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
+                </a>
                 <span>Preferiti</span>
             </li>
             <li class="nav-item d-flex flex-column align-items-center">
-              <a href="shoppingCart.php" class="btn btn-light text-center">
-                <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
-              </a>
+                <a href="shoppingCart.php" class="btn btn-light text-center">
+                    <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
+                </a>
                 <span>Carrello</span>
             </li>
             </ul>
@@ -71,56 +71,46 @@
     </main>
 
     <!-- Footer -->
-    <footer style="background-color: #000000; color: #fff; padding: 40px 20px;">
-    <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
-      <!-- Informazioni aziendali -->
-      <div style="flex: 1 1 300px; margin-bottom: 20px;">
-        <h3 style="color: #fff; margin-bottom: 10px;">[Nome Azienda]</h3>
-        <p>P.IVA: 1234567890</p>
-        <p>Via Roma, 10 - 00100 Roma, Italia</p>
-        <p>Email: <a href="mailto:supporto@tuoecommerce.it" style="color: #4CAF50;">supporto@tuoecommerce.it</a></p>
-        <p>Tel: +39 123 456 789</p>
+    <footer style="background-color: #FFFFFF; color: #000000; padding: 40px 20px;">
+      <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
+          <!-- Informazioni aziendali -->
+          <div style="flex: 1 1 300px; margin-bottom: 20px;">
+              <h3 style="color: #000000; margin-bottom: 10px;">AEKI</h3>
+              <p>Via dell'Universita, 18 - 47521 Cesena FC, Italia</p>
+              <p>Email: supporto@aeki.it</p>
+              <p>Tel: +39 123 456 789</p>
+          </div>
+      
+          <!-- Navigazione utile -->
+          <div style="flex: 1 1 200px; margin-bottom: 20px; text-align: center;"> <!-- Allineamento centrato -->
+              <h4 style="color: #000000; margin-bottom: 10px;">Navigazione</h4>
+              <ul style="list-style: none; padding: 0; text-align: center; display: inline-block;"> <!-- Centrare contenuto -->
+                  <li><a href="homePage.php" style="color: #4CAF50; text-decoration: none;">Home</a></li>
+                  <li><a href="profile.php" style="color: #4CAF50; text-decoration: none;">Profilo personale</a></li>
+                  <li><a href="orderList.php" style="color: #4CAF50; text-decoration: none;">Ordini</a></li>
+                  <li><a href="whishlist.php" style="color: #4CAF50; text-decoration: none;">Preferiti</a></li>
+              </ul>
+          </div>
+      
+          <!-- Social media e metodi di pagamento -->
+          <div style="flex: 1 1 300px; margin-bottom: 20px; text-align: center;">
+              <h4 style="color: #000000; margin-bottom: 10px;">Seguici su</h4>
+              <a href="#" style="margin-right: 10px;"><img src="upload/footer/facebook.png" alt="Facebook" width="30"></a>
+              <a href="#" style="margin-right: 10px;"><img src="upload/footer/instagram.png" alt="Instagram" width="30"></a>
+              <a href="#" style="margin-right: 10px;"><img src="upload/footer/x.png" alt="X" width="30"></a>
+              <h4 style="color: #000000; margin-top: 20px;">Pagamenti Accettati</h4>
+              <img src="upload/footer/visa.png" alt="Visa" width="50" style="margin-right: 10px;">
+              <img src="upload/footer/mastercard.png" alt="Mastercard" width="50" style="margin-right: 10px;">
+              <img src="upload/footer/paypal.png" alt="PayPal" width="50">
+          </div>
       </div>
-  
-      <!-- Navigazione utile -->
-      <div style="flex: 1 1 200px; margin-bottom: 20px;">
-        <h4 style="color: #fff; margin-bottom: 10px;">Navigazione</h4>
-        <ul style="list-style: none; padding: 0;">
-          <li><a href="/" style="color: #4CAF50; text-decoration: none;">Home</a></li>
-          <li><a href="/prodotti" style="color: #4CAF50; text-decoration: none;">Prodotti</a></li>
-          <li><a href="/offerte" style="color: #4CAF50; text-decoration: none;">Offerte</a></li>
-          <li><a href="/faq" style="color: #4CAF50; text-decoration: none;">FAQ</a></li>
-        </ul>
+      
+      <!-- Copyright -->
+      <div style="text-align: center; margin-top: 20px; border-top: 1px solid #555; padding-top: 10px; font-size: 14px;">
+          © 2025 [AEKI]. Tutti i diritti non riservati.
       </div>
-  
-      <!-- Privacy e termini legali -->
-      <div style="flex: 1 1 200px; margin-bottom: 20px;">
-        <h4 style="color: #fff; margin-bottom: 10px;">Informazioni Legali</h4>
-        <ul style="list-style: none; padding: 0;">
-          <li><a href="/termini-condizioni" style="color: #4CAF50; text-decoration: none;">Termini e Condizioni</a></li>
-          <li><a href="/privacy" style="color: #4CAF50; text-decoration: none;">Privacy Policy</a></li>
-          <li><a href="/cookie-policy" style="color: #4CAF50; text-decoration: none;">Cookie Policy</a></li>
-        </ul>
-      </div>
-  
-      <!-- Social media e metodi di pagamento -->
-      <div style="flex: 1 1 300px; margin-bottom: 20px; text-align: center;">
-        <h4 style="color: #fff; margin-bottom: 10px;">Seguici su</h4>
-        <a href="#" style="margin-right: 10px;"><img src="icon-facebook.png" alt="Facebook" width="30"></a>
-        <a href="#" style="margin-right: 10px;"><img src="icon-instagram.png" alt="Instagram" width="30"></a>
-        <a href="#"><img src="icon-twitter.png" alt="Twitter" width="30"></a>
-        <h4 style="color: #fff; margin-top: 20px;">Pagamenti Accettati</h4>
-        <img src="icon-visa.png" alt="Visa" width="50" style="margin-right: 10px;">
-        <img src="icon-mastercard.png" alt="Mastercard" width="50" style="margin-right: 10px;">
-        <img src="icon-paypal.png" alt="PayPal" width="50">
-      </div>
-    </div>
-  
-    <!-- Copyright -->
-    <div style="text-align: center; margin-top: 20px; border-top: 1px solid #555; padding-top: 10px; font-size: 14px;">
-      © 2024 [Nome Azienda]. Tutti i diritti riservati.
-    </div>
-  </footer>
+    </footer>
+
 
   <?php
     if(isset($templateParams["js"])):

@@ -262,17 +262,6 @@ class DatabaseHelper{
         return $result->fetch_assoc();
     }
 
-    public function getProdottoColori($idProdotto){
-        $stmt = $this->db->prepare("SELECT NomeColore FROM Colorazione WHERE CodiceProdotto=?");
-        $stmt->bind_param('s',$idProdotto);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-
-
     public function getStarNumber($idProdotto){
         // Dato un username ritorna  l'ID della sua wishlist 
         $stmt = $this->db->prepare("SELECT r.stelle,COUNT(r.IDrecensione) AS numeroRecensioni
@@ -562,17 +551,18 @@ class DatabaseHelper{
     public function addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {
         
         try{
-            $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
+            $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`, `NomeColore`,
                                                      `Altezza`, `Larghezza`, `Profondita`, 
                                                      `NomeAmbiente`, `NomeCategoria`, `Username`) 
                                         VALUES (?,?,?,?,?,?,?,?,?,?,?)");
     
-            $stmt->bind_param('sdssddddsss', 
+            $stmt->bind_param('sdssdsdddsss', 
                 $nome, 
                 $prezzo, 
                 $descrizione, 
                 $materiale, 
-                $peso, 
+                $peso,
+                $colore, 
                 $altezza, 
                 $larghezza, 
                 $profondita, 
@@ -593,12 +583,6 @@ class DatabaseHelper{
                     echo "Errore nell'inserimento dell'immagine: " . $stmtImg->error;
                 }
             }
-        
-           
-
-            $stmtColor = $this->db->prepare("INSERT INTO `Colorazione`(`NomeColore`, `CodiceProdotto`) VALUES (?,?)");
-            $stmtColor->bind_param('si', $colore,$codiceProdotto);
-            $stmtColor->execute();
         
             return json_encode([
                 'success' => true,
@@ -840,21 +824,13 @@ class DatabaseHelper{
     }
     
     public function getMateriali1(){
-        $materials = [
-            ["NomeMateriale" => "Legno"],
-            ["NomeMateriale" => "Plastica"],
-            ["NomeMateriale" => "Metallo"],
-            ["NomeMateriale" => "Vetro"],
-            ["NomeMateriale" => "Ceramica"],
-            ["NomeMateriale" => "Tessuto"],
-            ["NomeMateriale" => "Carta"],
-            ["NomeMateriale" => "Pelle"],
-            ["NomeMateriale" => "Gomma"],
-            ["NomeMateriale" => "Bambù"]
-        ];
-        
-        return $materials;
+        $stmt = $this->db->prepare("SELECT NomeMateriale FROM Materiale ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
+
     public function getColori1(){
         $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ");
         $stmt->execute();
@@ -862,6 +838,7 @@ class DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    
     public function getAmbienti1(){
         $stmt = $this->db->prepare("SELECT NomeAmbiente FROM Ambiente ");
         $stmt->execute();
@@ -869,6 +846,7 @@ class DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
     public function getCategorie1(){
         $stmt = $this->db->prepare("SELECT NomeCategoria FROM Categoria ");
         $stmt->execute();

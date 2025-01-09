@@ -7,7 +7,6 @@ if(isset($_GET["id"])){
 
     $templateParams["prodotto"] = $dbh->getProdotto($idprodotto);
     $templateParams["immagini"] = $dbh->getProdottoImages($idprodotto);
-    $templateParams["colori"] = $dbh->getProdottoColori($idprodotto);
     $templateParams["reviews"] = $dbh->getStarNumber($idprodotto);
     $templateParams["prodotto"]["InWishlist"] = "false";  
     

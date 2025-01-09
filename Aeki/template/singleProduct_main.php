@@ -75,15 +75,7 @@
                         </tr>
                         <tr>
                             <th>Colore</th>
-                            <td>
-                                <?php 
-                                    $colors = [];
-                                    foreach ($templateParams["colori"] as $colore) {
-                                        $colors[] = $colore["NomeColore"];
-                                    }
-                                    echo implode(", ", $colors);
-                                ?>
-                            </td>
+                            <td><?php echo $prodotto["NomeColore"]?></td>
                         </tr>
                         <tr>
                             <th>Largezza</th>

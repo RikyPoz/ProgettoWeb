@@ -4,7 +4,7 @@ $sliderMax = 100;
 ?>
 
 <div class="row d-flex justify-content-center">
-  <div class = "col-9 border rounded shadow bg-light p-4">
+  <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Colore -->
       <div class="col-12 col-md-4" data-group="colore">
@@ -65,7 +65,7 @@ $sliderMax = 100;
 
 
 <div class="row d-flex justify-content-center">
-  <div class = "col-9 border rounded shadow bg-light p-4">
+  <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Lista Prodotti -->
       <h1 class="fw-semibold mb-3">

@@ -38,6 +38,10 @@ create table Colore (
      NomeColore VARCHAR(50) not null,
      constraint ID_Colore_ID primary key (NomeColore));
 
+create table Materiale (
+     NomeMateriale VARCHAR(50) not null,
+     constraint ID_Materiale_ID primary key (NomeMateriale));
+
 create table DettaglioCarrello (
      IDcarrello INT not null,
      CodiceProdotto INT not null,
@@ -74,6 +78,7 @@ create table Ordine (
      IDordine INT AUTO_INCREMENT,
      Data date not null,
      Username VARCHAR(50) not null,
+     Spedito char not null,
      constraint ID_Ordine_ID primary key (IDordine));
 
 CREATE TABLE Prodotto (
@@ -81,7 +86,7 @@ CREATE TABLE Prodotto (
     Nome VARCHAR(50) NOT NULL,
     Prezzo FLOAT NOT NULL,
     Descrizione VARCHAR(200) NOT NULL,
-    Materiale VARCHAR(50) NOT NULL,
+    NomeMateriale VARCHAR(50) not null,
     NomeColore VARCHAR(50) not null,
     Peso FLOAT NOT NULL,
     Disponibilita INT NOT NULL DEFAULT 0,
@@ -182,6 +187,10 @@ alter table Prodotto add constraint FKhaColore_FK
      foreign key (NomeColore)
      references Colore (NomeColore);
 
+alter table Prodotto add constraint FKhaMateriale_FK
+     foreign key (NomeMateriale)
+     references Materiale (NomeMateriale);
+
 alter table Recensione add constraint FKScrive_FK
      foreign key (Username)
      references Utente (Username);
@@ -260,6 +269,9 @@ create index FKR_IND
 
 create index FKhaColore_IND
      on Prodotto (NomeColore);
+     
+create index FKhaMateriale_IND
+     on Prodotto (NomeMateriale);
 
 create index FKaggiunge_IND
      on Prodotto (Username);
