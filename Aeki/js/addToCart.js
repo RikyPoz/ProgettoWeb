@@ -9,6 +9,12 @@ function addToCartEventListener() {
     addToCartButton.addEventListener("click", async function () {
         const productId = addToCartButton.getAttribute("data-id");
         const quantity = document.querySelector("#quantity").value;
+        const userType = document.querySelector("#userType").getAttribute("data-user-type");
+
+        if (userType === "Venditore") {
+            alert("Sei Un Venditore")
+            return;
+        }
         const data = {
             productId: productId,
             quantity: quantity

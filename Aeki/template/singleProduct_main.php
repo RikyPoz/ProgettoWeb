@@ -1,6 +1,6 @@
 <?php $prodotto = $templateParams["prodotto"];?>
 <div class="row d-flex justify-content-center">
-    <div class = "col-9 rounded shadow p-4">
+    <div class = "col-md-10 col-12 rounded shadow p-4">
         <div class="row d-flex align-items-stretch rounded border shadow-sm bg-light">
             <!--img-->
             <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -57,9 +57,10 @@
                     <label for="quantity" class="me-2 fs-5">Quantità:</label>
                     <input type="number" id="quantity" class="form-control w-25" min="0" max="<?php echo $prodotto["Disponibilita"]; ?>" value="0">
                 </div>
-                <button id="addToCartButton" class="btn btn-primary w-100 py-2 fs-5 hover-shadow" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>">
+                <button id="addToCartButton" class="btn btn-primary w-100 py-2 fs-5 hover-shadow" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?> ">
                     Aggiungi al carrello
                 </button>
+                <div id="userType" data-user-type="<?php echo $templateParams["isCustomer"]?>" style="display: none;"></div>
             </div>
         </div>
         
@@ -71,7 +72,7 @@
                     <tbody>
                         <tr>
                             <th>Materiale</th>
-                            <td><?php echo $prodotto["Materiale"]?></td>
+                            <td><?php echo $prodotto["NomeMateriale"]?></td>
                         </tr>
                         <tr>
                             <th>Colore</th>

@@ -66,16 +66,16 @@ if (isset($data['action'])) {
                 $stats = [];
                 $allSuccess = true; // Variabile per tenere traccia dello stato complessivo delle operazioni
             
-                // Chiamata alle funzioni di statistica
                 $totalSelledProduct = $dbh->getTotalSelledProduct($seller,$startDate);
                 $totalSelledQuantity = $dbh->getTotalSelledQuantity($seller,$startDate);
                 $totalSales = $dbh->getTotalSales($seller,$startDate);
                 $topSellingProducts = $dbh->getTopSellingProducts($seller,$startDate);
+                $topLikedProducts = $dbh->getTopLikedProducts($seller);
+                $totalLikeReceived = $dbh->getTotalLikeReceived($seller);
                 $reviewsData = $dbh->getReviewsData($seller);
-                /*$reviews = json_decode($dbh->getReviewsData($userId), true);
-                $conversionRate = json_decode($dbh->getConversionRate($userId), true);
-                $delayedShipments = json_decode($dbh->getDelayedShipments($userId), true);*/
                 
+                $stats['totalLikeReceived'] = $totalLikeReceived;
+                $stats['topLikedProducts'] = $topLikedProducts;
                 $stats['totalSelledQuantity'] = $totalSelledQuantity;
                 $stats['reviewsData'] = $reviewsData;
                 if ($totalSelledProduct === false) {

@@ -8,6 +8,12 @@ function addLikeBtnListener() {
     heartIcons.forEach(icon => {
         icon.addEventListener("click", function () {
             const prodottoId = icon.getAttribute("data-id");
+            const userType = document.querySelector("#userType").getAttribute("data-user-type");
+
+            if (userType === "Venditore") {
+                alert("Sei Un Venditore")
+                return;
+            }
 
             if (icon.classList.contains("bi-heart")) { //se è vuota
                 aggiungiAWishlist(prodottoId).then(success => {

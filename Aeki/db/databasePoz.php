@@ -13,10 +13,8 @@ class DatabaseHelper{
         }        
     }
 
-    //HomePage Query
-
     public function getCategorie(){
-        $stmt = $this->db->prepare("SELECT NomeCategoria FROM Categoria ORDER BY nomecategoria");
+        $stmt = $this->db->prepare("SELECT NomeCategoria, PercorsoImmagine FROM Categoria ORDER BY NomeCategoria");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -24,14 +22,235 @@ class DatabaseHelper{
     }
 
     public function getAmbienti(){
-        $stmt = $this->db->prepare("SELECT NomeAmbiente, ImgAmbiente FROM Ambiente ORDER BY NomeAmbiente");
+        $stmt = $this->db->prepare("SELECT NomeAmbiente, PercorsoImmagine FROM Ambiente ORDER BY NomeAmbiente");
         $stmt->execute();
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    //Products Query
+    public function getUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Utente WHERE Username = ?");
+        $stmt->bind_param("s", $username); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_assoc();
+    }
+    
+    public function getUtenteByEmail($email) {
+        $stmt = $this->db->prepare("SELECT * FROM Utente WHERE Email = ?");
+        $stmt->bind_param("s", $email); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_assoc();
+    }
+    
+    public function getOrdiniByUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Ordine WHERE Username = ? ORDER BY Data DESC");
+        $stmt->bind_param("s", $username);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    
+    public function getMessaggiByUtente($username) {
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? ORDER BY Data DESC");
+        $stmt->bind_param("s", $username);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }  
+    
+    public function getRecensioniByUtente($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Recensione WHERE Username = ?");
+        $stmt->bind_param("s", $username);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getMessaggiByData($username, $data) {
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? AND Data > ? ORDER BY Data DESC");
+        $stmt->bind_param("ss", $username, $data);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $messaggi = $result->fetch_all(MYSQLI_ASSOC);
+    
+        // Libera il risultato e chiude lo statement
+        $result->free();
+        $stmt->close();
+    
+        return $messaggi;
+    }
+
+    public function newUtente($firstName, $lastName, $username, $email, $password, $phone) {
+        $tipo = 'cliente'; // Tipo fisso come cliente
+        $partitaIVA = NULL; // PartitaIVA impostata a NULL
+        $icona = NULL; // Icona impostata a NULL
+        $stmt = $this->db->prepare("INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $firstName, $lastName, $username, $email, $password, $tipo, $partitaIVA, $phone, $icona);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        // Controlla se l'inserimento ha avuto successo
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+
+    public function updateUtente($nome, $cognome, $email, $telefono, $username) {
+        // Prepara i campi da aggiornare e i parametri per il bind
+        $campi = [];
+        $valori = [];
+        
+        if (!empty($nome)) {
+            $campi[] = "Nome = ?";
+            $valori[] = $nome;
+        }
+        if (!empty($cognome)) {
+            $campi[] = "Cognome = ?";
+            $valori[] = $cognome;
+        }
+        if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $campi[] = "Email = ?";
+            $valori[] = $email;
+        }        
+        if (!empty($telefono)) {
+            $campi[] = "Telefono = ?";
+            $valori[] = $telefono;
+        }
+        
+        // Se non è stato specificato alcun campo da aggiornare interrompe l'esecuzione
+        if (empty($campi)) {
+            return 0; 
+        }
+        
+        // Crea la query dinamica
+        $sql = "UPDATE Utente SET " . implode(", ", $campi) . " WHERE Username = ?";
+        // Aggiunge username come ultimo parametro
+        $valori[] = $username; 
+        error_log("SQL: $sql");
+        error_log("Parametri: " . implode(", ", $valori));
+        // Prepara la query
+        $stmt = $this->db->prepare($sql);
+
+        // Associa i parametri in base al numero di campi
+        $tipi = str_repeat('s', count($valori)); 
+        $stmt->bind_param($tipi, ...$valori);
+        // Esegue la query
+        $stmt->execute();      
+
+        // Ritorna il numero di righe modificate
+        return $stmt->affected_rows;
+    }
+
+    public function updatePassword($username, $passwordAttuale, $nuovaPassword) {
+        // Verifica la password attuale
+        $stmt = $this->db->prepare("SELECT Password FROM Utente WHERE Username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($passwordAttuale);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    
+        // Verifica se la password attuale è corretta (testo in chiaro)
+        if ($passwordAttuale === $passwordAttuale) {
+            // La password attuale è corretta, aggiorna la password
+            $updateStmt = $this->db->prepare("UPDATE Utente SET Password = ? WHERE Username = ?");
+            $updateStmt->bind_param('ss', $nuovaPassword, $username);
+            $updateStmt->execute();
+    
+            // Se l'aggiornamento ha avuto successo, restituisci true
+            return $updateStmt->affected_rows > 0;
+        }
+
+        // Se la password attuale non è corretta, restituisci false
+        return false;
+    }
+    
+    
+    public function deleteUtente($username) {
+        // Inizia una transazione per garantire consistenza
+        $this->db->begin_transaction();
+    
+        try {
+                // 1. Aggiorna gli ordini dell'utente
+            $stmt = $this->db->prepare("UPDATE Ordine SET Username = 'anonimo' WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            error_log("Aggiornato Ordine: " . $stmt->affected_rows . " righe modificate.");
+
+            // 2. Aggiorna le recensioni dell'utente
+            $stmt = $this->db->prepare("UPDATE Recensione SET Username = 'anonimo' WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            error_log("Aggiornato Recensione: " . $stmt->affected_rows . " righe modificate.");
+
+            // 3. Elimina i record nella tabella DettaglioWishlist
+            $stmt = $this->db->prepare("DELETE FROM DettaglioWishlist WHERE IDwishlist IN (SELECT IDwishlist FROM WishList WHERE Username = ?)");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 4. Elimina il record nella tabella WishList
+            $stmt = $this->db->prepare("DELETE FROM WishList WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 5. Elimina i record nella tabella DettaglioCarrello
+            $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE IDcarrello IN (SELECT IDcarrello FROM Carrello WHERE Username = ?)");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 6. Elimina il record nella tabella Carrello
+            $stmt = $this->db->prepare("DELETE FROM Carrello WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+
+            // 7. Elimina l'utente dalla tabella Notifiche
+            $stmt = $this->db->prepare("DELETE FROM Notifiche WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // 8. Elimina l'utente dalla tabella Utente
+            $stmt = $this->db->prepare("DELETE FROM Utente WHERE Username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+    
+            // Commit della transazione
+            $this->db->commit();
+
+            // Ritorna il numero di righe eliminate
+            return $stmt->affected_rows;
+    
+        } catch (Exception $e) {
+            // In caso di errore, esegui il rollback della transazione
+            $this->db->rollback();
+    
+            // Gestione errore: rilancia l'eccezione o ritorna un errore personalizzato
+            throw new Exception("Errore durante l'eliminazione dell'utente: " . $e->getMessage());
+        }
+    }
+
+    public function isCustomer($username){
+        $stmt = $this->db->prepare("SELECT Tipo FROM Utente WHERE username=?");
+        $stmt->bind_param('s',$username);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        
+        $row = $result["Tipo"];
+    
+        return $row;
+    }
+
+    //PRODOTTO
 
     public function getProdotto($idProdotto){
         $stmt = $this->db->prepare("SELECT * FROM Prodotto WHERE CodiceProdotto=?");
@@ -59,19 +278,7 @@ class DatabaseHelper{
         return $result->fetch_assoc();
     }
 
-    public function getProdottoColori($idProdotto){
-        $stmt = $this->db->prepare("SELECT NomeColore FROM Colorazione WHERE CodiceProdotto=?");
-        $stmt->bind_param('s',$idProdotto);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-
-
     public function getStarNumber($idProdotto){
-        // Dato un username ritorna  l'ID della sua wishlist 
         $stmt = $this->db->prepare("SELECT r.stelle,COUNT(r.IDrecensione) AS numeroRecensioni
                                     FROM Recensione r
                                     WHERE r.CodiceProdotto = ?  
@@ -86,19 +293,19 @@ class DatabaseHelper{
         
     }
 
-    //TO-DO
     public function writeReview($username,$idProdotto,$valutazione,$testo){
         $stmt = $this->db->prepare("INSERT INTO `Recensione`(`Testo`, `stelle`, `Username`, `CodiceProdotto`) VALUES (?,?,?,?)");
         $stmt->bind_param('siss', $testo,$valutazione,$username,$idProdotto); 
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {
-            return true; // Recensione aggiunta
+            return true; 
         } else {
             return false; 
         }
     }
 
+    //una volta aggiunta una nuova recensione il prodotto deve aggiornare i suoi attributi interni
     public function updateProductReview($productId){
         $stmt = $this->db->prepare("SELECT AVG(r.stelle) AS averageRating, COUNT(r.IDrecensione) AS totalReviews
                                         FROM Recensione AS r
@@ -119,7 +326,7 @@ class DatabaseHelper{
         $stmt1->execute();
     }
 
-    //WISHLIST QUERY
+    //WISHLIST 
 
     public function getWishListId($username){
         // Dato un username ritorna  l'ID della sua wishlist 
@@ -158,7 +365,7 @@ class DatabaseHelper{
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {
-            return true; // Prodotto aggiunto con successo
+            return true; 
         } else {
             return false; 
         }
@@ -173,7 +380,7 @@ class DatabaseHelper{
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {
-            return true; // Prodotto rimosso con successo
+            return true; 
         } else {
             return false; 
         }
@@ -232,13 +439,7 @@ class DatabaseHelper{
         return $row ? $row['IDCarrello'] : null; 
     }
     
-    
 
-    
-
-    public function removeProductToShoppingCart(){
-        
-    }
 
     public function alreadyInShoppingCart($cartId, $productId) {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM `DettaglioCarrello` WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
@@ -322,6 +523,25 @@ class DatabaseHelper{
         return $productsNumber;
     }
 
+    //restituisce tutti i prodotti ordinati dai clienti
+    public function getSellerOrderedProducts($username){
+        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, d.PrezzoPagato, d.Quantita, 
+                                    d.CodiceProdotto, p.Nome,i.PercorsoImg
+                                    FROM Prodotto AS p
+                                    JOIN DettaglioOrdine AS d ON d.CodiceProdotto = p.CodiceProdotto
+                                    JOIN Ordine AS o ON d.IDordine = o.IDordine
+                                    LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                                    WHERE p.username = ?
+                                    AND o.Spedito = 'N'
+                                    ORDER BY o.Data DESC"
+                                    );
+        
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getSellerOrderNumber($username){
         $stmt = $this->db->prepare("SELECT COUNT(DISTINCT IDordine) AS ordiniTotali
                                     FROM Prodotto AS p 
@@ -338,38 +558,23 @@ class DatabaseHelper{
         return $ordersNumber;
     }
 
-    public function getSellerOrderedProducts($username){
-        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, d.PrezzoPagato, d.Quantita, 
-                                    d.CodiceProdotto, p.Nome,i.PercorsoImg 
-                                    FROM Prodotto AS p
-                                    JOIN DettaglioOrdine AS d ON d.CodiceProdotto = p.CodiceProdotto
-                                    JOIN Ordine AS o ON d.IDordine = o.IDordine
-                                    LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
-                                    WHERE p.username = ?
-                                    ORDER BY o.Data DESC"
-                                    );
-        
-        $stmt->bind_param('s', $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
 
 
     public function addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {
         
         try{
-            $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`,
+            $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`, `NomeColore`,
                                                      `Altezza`, `Larghezza`, `Profondita`, 
                                                      `NomeAmbiente`, `NomeCategoria`, `Username`) 
                                         VALUES (?,?,?,?,?,?,?,?,?,?,?)");
     
-            $stmt->bind_param('sdssddddsss', 
+            $stmt->bind_param('sdssdsdddsss', 
                 $nome, 
                 $prezzo, 
                 $descrizione, 
                 $materiale, 
-                $peso, 
+                $peso,
+                $colore, 
                 $altezza, 
                 $larghezza, 
                 $profondita, 
@@ -383,19 +588,13 @@ class DatabaseHelper{
 
             foreach ($paths as $key => $path) {
                 $stmtImg = $this->db->prepare("INSERT INTO `ImmagineProdotto`(`PercorsoImg`, `Icona`, `CodiceProdotto`) VALUES (?,?,?)");
-                $icona = 'Y';  
+                $icona = 'Y';  //solo la prima è icona
                 $stmtImg->bind_param('ssi', $path, $icona, $codiceProdotto);
                 
                 if (!$stmtImg->execute()) {
                     echo "Errore nell'inserimento dell'immagine: " . $stmtImg->error;
                 }
             }
-        
-           
-
-            $stmtColor = $this->db->prepare("INSERT INTO `Colorazione`(`NomeColore`, `CodiceProdotto`) VALUES (?,?)");
-            $stmtColor->bind_param('si', $colore,$codiceProdotto);
-            $stmtColor->execute();
         
             return json_encode([
                 'success' => true,
@@ -410,7 +609,7 @@ class DatabaseHelper{
         }
     }
     
-
+    //deve togliere anche tutte le sue referenze
     public function removeProduct($codiceProdotto) {
         try {
             $stmt = $this->db->prepare("DELETE FROM prodotto WHERE CodiceProdotto = ?");
@@ -446,6 +645,18 @@ class DatabaseHelper{
         }
     }
 
+    public function updateProductAvailability($codiceProdotto, $nuovaDisponibilita) {
+        
+        try{
+            $stmt = $this->db->prepare("UPDATE Prodotto SET Disponibilita = Disponibilita + ? WHERE CodiceProdotto = ?");
+            $stmt->bind_param('ss', $nuovaDisponibilita,$codiceProdotto);
+            $stmt->execute();   
+            return true;
+        }catch(mysqli_sql_exception $e){
+            return json_encode("sql error". $e->getMessage());
+        }
+    }
+
     public function getSellerReviews($username){
         $stmt = $this->db->prepare("SELECT p.CodiceProdotto, p.Nome,i.PercorsoImg, r.IDrecensione, r.Testo,r.Stelle,r.Username AS Cliente
                                     FROM Prodotto AS p 
@@ -476,17 +687,6 @@ class DatabaseHelper{
         return $reviewsNumber;
     }
 
-    public function updateProductAvailability($codiceProdotto, $nuovaDisponibilita) {
-        
-        try{
-            $stmt = $this->db->prepare("UPDATE Prodotto SET Disponibilita = Disponibilita + ? WHERE CodiceProdotto = ?");
-            $stmt->bind_param('ss', $nuovaDisponibilita,$codiceProdotto);
-            $stmt->execute();   
-            return true;
-        }catch(mysqli_sql_exception $e){
-            return json_encode("sql error". $e->getMessage());
-        }
-    }
 
     public function getTotalSales($username,$startDate) {
         try {
@@ -552,8 +752,47 @@ class DatabaseHelper{
             return false;
         }
     }
-    
-    
+
+    public function getTotalLikeReceived($username) {
+        try {
+            $stmt = $this->db->prepare("SELECT COUNT(*) AS totalLikeReceived
+                                        FROM DettaglioWishlist AS dw
+                                        JOIN Prodotto AS p ON dw.CodiceProdotto = p.CodiceProdotto
+                                        WHERE p.Username = ?");
+            
+            $stmt->bind_param('s', $username);   
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $data = $result->fetch_assoc();
+            $totalLikeReceived = isset($data['totalLikeReceived']) ? $data['totalLikeReceived'] : 0;
+            return $totalLikeReceived;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    public function getTopLikedProducts($username) {
+        try{
+            $stmt = $this->db->prepare("SELECT p.CodiceProdotto,p.Nome,i.PercorsoImg, COUNT(dw.CodiceProdotto) AS likeTotali
+                                        FROM Prodotto AS p
+                                        JOIN DettaglioWishlist AS dw ON p.CodiceProdotto = dw.CodiceProdotto
+                                        LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
+                                        WHERE p.Username = ?
+                                        GROUP BY p.CodiceProdotto
+                                        ORDER BY likeTotali DESC
+                                        LIMIT 3");
+            
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            return $result->fetch_all(MYSQLI_ASSOC);
+            
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
     
     public function getTopSellingProducts($username,$startDate) {
         try{
@@ -595,70 +834,15 @@ class DatabaseHelper{
         }
     }
     
-    public function getConversionRate($username) {
-        try{
-            $stmt = $this->db->prepare("SELECT (COUNT(DISTINCT o.IDordine) / COUNT(DISTINCT v.IDVisita)) * 100 AS conversion_rate
-                                        FROM Visita AS v
-                                        LEFT JOIN Ordine AS o ON v.IDVisita = o.IDVisita
-                                        WHERE o.Username = ?");
-            
-            $stmt->bind_param('s', $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return json_encode([
-                'success' => true,
-                'data' => $result->fetch_assoc()
-            ]);
-        } catch (mysqli_sql_exception $e) {
-            return json_encode([
-                'success' => false,
-                'message' => 'Errore SQL: ' . $e->getMessage()
-            ]);
-        }
-    }
     
-    public function getDelayedShipments($username) {
-        try{
-            $stmt = $this->db->prepare("SELECT (COUNT(*) / (SELECT COUNT(*) FROM Ordine WHERE Username = ?)) * 100 AS delayed_rate
-                                        FROM Ordine AS o
-                                        WHERE o.Username = ? AND o.Data > (SELECT DataPromessaSpedizione FROM DettaglioOrdine WHERE IDordine = o.IDordine)");
-            
-            $stmt->bind_param('ss', $username, $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return json_encode([
-                'success' => true,
-                'data' => $result->fetch_assoc()
-            ]);
-        } catch (mysqli_sql_exception $e) {
-            return json_encode([
-                'success' => false,
-                'message' => 'Errore SQL: ' . $e->getMessage()
-            ]);
-        }
-    }
-    
-    
-    
-    
-    
-
     public function getMateriali1(){
-        $materials = [
-            ["NomeMateriale" => "Legno"],
-            ["NomeMateriale" => "Plastica"],
-            ["NomeMateriale" => "Metallo"],
-            ["NomeMateriale" => "Vetro"],
-            ["NomeMateriale" => "Ceramica"],
-            ["NomeMateriale" => "Tessuto"],
-            ["NomeMateriale" => "Carta"],
-            ["NomeMateriale" => "Pelle"],
-            ["NomeMateriale" => "Gomma"],
-            ["NomeMateriale" => "Bambù"]
-        ];
-        
-        return $materials;
+        $stmt = $this->db->prepare("SELECT NomeMateriale FROM Materiale ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
+
     public function getColori1(){
         $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ");
         $stmt->execute();
@@ -666,6 +850,7 @@ class DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    
     public function getAmbienti1(){
         $stmt = $this->db->prepare("SELECT NomeAmbiente FROM Ambiente ");
         $stmt->execute();
@@ -673,6 +858,7 @@ class DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
     public function getCategorie1(){
         $stmt = $this->db->prepare("SELECT NomeCategoria FROM Categoria ");
         $stmt->execute();
@@ -681,7 +867,96 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    
+    function getProductsList($filters = [], $orderBy = 'Prezzo ASC') {
+        $query = "SELECT p.CodiceProdotto, p.Nome, p.Prezzo, p.ValutazioneMedia, p.NumeroRecensioni, i.PercorsoImg 
+                FROM Prodotto p
+                JOIN ImmagineProdotto i ON p.CodiceProdotto = i.CodiceProdotto
+                WHERE i.Icona = 'Y'";
+
+        $queryParams = [];
+        $queryTypes = '';
+
+        
+        foreach ($filters as $key => $value) {
+        if (!is_array($value)) {
+            if ($key == "Nome") {
+                $query .= " AND p.$key LIKE ?";
+                $queryParams[] = "%$value%";
+            } else {
+                $query .= " AND p.$key = ?";
+                $queryParams[] = $value;
+            }
+            $queryTypes .= 's';
+        } elseif (isset($value['min']) && isset($value['max'])) {
+            $query .= " AND p.$key BETWEEN ? AND ?";
+            $queryParams[] = $value['min'];
+            $queryParams[] = $value['max'];
+            $queryTypes .= 'dd';
+        }
+        }
+
+        $query .= " ORDER BY p.$orderBy";
+        
+        $stmt = $this->db->prepare($query);
+        if (!empty($queryParams)) {
+            $stmt->bind_param($queryTypes, ...$queryParams);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPriceMinMax($filterType, $filterValue) {
+        $query = "SELECT MIN(p.Prezzo) AS min, MAX(p.Prezzo) AS max FROM Prodotto AS p WHERE ";
+        if ($filterType == "Nome") {
+            $query .= "p.$filterType LIKE ?";
+            $queryParams = "%$filterValue%";
+        } else {
+            $query .= "p.$filterType = ?";
+            $queryParams = $filterValue;
+        }
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $queryParams);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getIdCarrello($username){
+        $stmt = $this->db->prepare("SELECT IDcarrello FROM Carrello WHERE Username = ?");
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row ? $row['IDcarrello'] : null;
+    }
+
+    public function getCarrello($username){
+        $idCarrello = $this->getIdCarrello($username);
+        if (is_null($idCarrello)) {
+            return []; 
+        }
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto, d.Quantita ,p.Nome,p.Prezzo,i.PercorsoImg
+                                    FROM DettaglioCarrello as d
+                                    JOIN Prodotto as p ON d.CodiceProdotto = p.CodiceProdotto
+                                    LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
+                                    WHERE IDcarrello = ?");
+        $stmt->bind_param('s', $idCarrello);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPricesFromSelected($selectedProducts) {
+        $placeholders = implode(',', array_fill(0, count($selectedProducts), '?'));
+        $stmt = $this->db->prepare("SELECT CodiceProdotto, Prezzo FROM prodotto WHERE CodiceProdotto IN ($placeholders)");
+        $types = str_repeat('s', count($selectedProducts));
+        $stmt->bind_param($types, ...$selectedProducts);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 
 
 }
