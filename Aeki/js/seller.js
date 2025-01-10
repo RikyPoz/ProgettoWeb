@@ -250,6 +250,7 @@ function generateOrderList(data) {
                     <div class="col-md-10 col-12 flex-column ps-md-5">
                         <div>
                             <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                            ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
                             <span class="fs-5 me-4">Quantità: ${product.Quantita}</span>
                             <span class="fs-5 text-muted">${product.PrezzoPagato.toFixed(2)} €</span>
                         </div>
@@ -396,6 +397,7 @@ function generateStats(stats) {
                                 </div>
                                 <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
                                     <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                                    ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
                                     <span class="fs-5 me-4">Quantità totale venduta: ${product.Quantita}</span>
                                     <p class="fs-5 me-4">Ricavo totale: ${product.RicavoTotale} €</p>
                                     <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
@@ -427,6 +429,7 @@ function generateStats(stats) {
                                 </div>
                                 <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
                                     <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                                    ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
                                     <p class="fs-5 me-4"> Mi piace totali: ${product.likeTotali}</p>
                                     <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
                                 </div>
@@ -485,6 +488,7 @@ function generateReviews(data) {
                 </div>
                 <div class="col-md-6">
                     <h3 class="fw-semibold">${product.Nome}</h3>
+                    ${product.Rimosso === 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
                     <span class = "fs-5">Codice Prodotto: <span class = "fw-semibold">${product.CodiceProdotto}</span></span>
                     <div class="mt-4">
                         <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>

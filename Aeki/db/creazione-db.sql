@@ -66,13 +66,13 @@ create table ImmagineProdotto (
      CodiceProdotto INT not null,
      constraint ID_ImmagineProdotto_ID primary key (PercorsoImg));
 
-create table Notifiche (
+create table Notifica (
      IdNotifica INT AUTO_INCREMENT,
      Username VARCHAR(50) not null,
      Testo VARCHAR(50) not null,
      Data DATETIME not null,
-     constraint ID_Notifiche_ID primary key (IdNotifica),
-     constraint SID_Notifiche_ID unique (Username, IdNotifica));
+     constraint ID_Notifica_ID primary key (IdNotifica),
+     constraint SID_Notifica_ID unique (Username, IdNotifica));
 
 create table Ordine (
      IDordine INT AUTO_INCREMENT,
@@ -98,6 +98,7 @@ CREATE TABLE Prodotto (
     NomeAmbiente VARCHAR(50) NOT NULL,
     NomeCategoria VARCHAR(50) NOT NULL,
     Username VARCHAR(50) NOT NULL,
+    Rimosso char NOT NUlL,
     CONSTRAINT ID_Prodotto_ID PRIMARY KEY (CodiceProdotto)
 );
 
@@ -163,7 +164,7 @@ alter table ImmagineProdotto add constraint FKR_2_FK
      foreign key (CodiceProdotto)
      references Prodotto (CodiceProdotto);
 
-alter table Notifiche add constraint FKriceve
+alter table Notifica add constraint FKriceve
      foreign key (Username)
      references Utente (Username);
 
@@ -246,11 +247,11 @@ create unique index ID_ImmagineProdotto_IND
 create index FKR_2_IND
      on ImmagineProdotto (CodiceProdotto);
 
-create unique index ID_Notifiche_IND
-     on Notifiche (IdNotifica);
+create unique index ID_Notifica_IND
+     on Notifica (IdNotifica);
 
-create unique index SID_Notifiche_IND
-     on Notifiche (Username, IdNotifica);
+create unique index SID_Notifica_IND
+     on Notifica (Username, IdNotifica);
 
 create unique index ID_Ordine_IND
      on Ordine (IDordine);

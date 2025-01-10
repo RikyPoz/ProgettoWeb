@@ -386,6 +386,18 @@ class DatabaseHelper{
         }
     }
 
+    public function removeFromAllWishLists($idProdotto){
+        $stmt = $this->db->prepare("DELETE FROM DettaglioWishlist WHERE CodiceProdotto = ?");
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+    }
+
+    public function removeFromAllCarts($idProdotto){
+        $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodiceProdotto = ?");
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+    }
+
     public function inWishList($productId,$username){
         $idWishList = $this->getWishListId($username);
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM DettaglioWishlist WHERE CodiceProdotto = ? AND IDwishlist = ?");
@@ -499,7 +511,8 @@ class DatabaseHelper{
         $stmt = $this->db->prepare("SELECT p.CodiceProdotto, Nome, Prezzo, ValutazioneMedia, NumeroRecensioni,Disponibilita, i.PercorsoImg 
                                     FROM Prodotto AS p 
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
-                                    WHERE username = ?");
+                                    WHERE username = ?
+                                    AND p.Rimosso = 'N' ");
         
         $stmt->bind_param('s', $username);
         $stmt->execute();
@@ -511,7 +524,8 @@ class DatabaseHelper{
     public function getSellerProductNumber($username){
         $stmt = $this->db->prepare("SELECT COUNT(*) AS prodottiTotali
                                     FROM Prodotto AS p 
-                                    WHERE username = ?");
+                                    WHERE username = ?
+                                    AND p.Rimosso = 'N'");
         
         $stmt->bind_param('s', $username);
         $stmt->execute();
@@ -526,7 +540,7 @@ class DatabaseHelper{
     //restituisce tutti i prodotti ordinati dai clienti
     public function getSellerOrderedProducts($username){
         $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, d.PrezzoPagato, d.Quantita, 
-                                    d.CodiceProdotto, p.Nome,i.PercorsoImg
+                                    d.CodiceProdotto, p.Nome,i.PercorsoImg,p.Rimosso
                                     FROM Prodotto AS p
                                     JOIN DettaglioOrdine AS d ON d.CodiceProdotto = p.CodiceProdotto
                                     JOIN Ordine AS o ON d.IDordine = o.IDordine
@@ -565,8 +579,8 @@ class DatabaseHelper{
         try{
             $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`, `NomeColore`,
                                                      `Altezza`, `Larghezza`, `Profondita`, 
-                                                     `NomeAmbiente`, `NomeCategoria`, `Username`) 
-                                        VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                                                     `NomeAmbiente`, `NomeCategoria`, `Username`,`Rimosso`) 
+                                        VALUES (?,?,?,?,?,?,?,?,?,?,?,'N')");
     
             $stmt->bind_param('sdssdsdddsss', 
                 $nome, 
@@ -612,9 +626,14 @@ class DatabaseHelper{
     //deve togliere anche tutte le sue referenze
     public function removeProduct($codiceProdotto) {
         try {
-            $stmt = $this->db->prepare("DELETE FROM prodotto WHERE CodiceProdotto = ?");
+            $stmt = $this->db->prepare("UPDATE Prodotto SET Rimosso = 'Y' WHERE CodiceProdotto = ?");
             $stmt->bind_param('i', $codiceProdotto);
             $stmt->execute();
+
+            $this->notifyUsersDeletedProduct($codiceProdotto);
+            $this->removeFromAllCarts($codiceProdotto);
+            $this->removeFromAllWishLists($codiceProdotto);
+
             return json_encode([
                 'success' => true,
                 'message' => 'Prodotto rimosso con successo'
@@ -626,6 +645,36 @@ class DatabaseHelper{
             ]);
         }
     }
+   
+    public function notifyUsersDeletedProduct($codiceProdotto) {
+        $testoWishlist = "Il prodotto $codiceProdotto è stato rimosso dalla tua wishList";
+        $testoCarrello = "Il prodotto $codiceProdotto è stato rimosso dal tuo carrello";
+        $data = date('Y-m-d H:i:s');
+    
+        $stmtWishlist = $this->db->prepare("
+            INSERT INTO `Notifica` (`Username`, `Testo`, `Data`)
+            SELECT w.Username, ?, ?
+            FROM DettaglioWishlist AS dw
+            JOIN WishList AS w ON w.IDwishlist = dw.IDwishlist
+            WHERE dw.CodiceProdotto = ?
+        ");
+        $stmtWishlist->bind_param('ssi', $testoWishlist, $data, $codiceProdotto);
+        $stmtWishlist->execute();
+
+        $stmtCarrello = $this->db->prepare("
+            INSERT INTO `Notifica` (`Username`, `Testo`, `Data`)
+            SELECT c.Username, ?, ?
+            FROM DettaglioCarrello AS dc
+            JOIN Carrello AS c ON c.IDcarrello = dc.IDcarrello
+            WHERE dc.CodiceProdotto = ?
+        ");
+        $stmtCarrello->bind_param('ssi', $testoCarrello, $data, $codiceProdotto);
+        $stmtCarrello->execute();
+
+    
+    }
+    
+    
     
 
     public function updateProductPrice($codiceProdotto, $nuovoPrezzo) {
@@ -658,7 +707,7 @@ class DatabaseHelper{
     }
 
     public function getSellerReviews($username){
-        $stmt = $this->db->prepare("SELECT p.CodiceProdotto, p.Nome,i.PercorsoImg, r.IDrecensione, r.Testo,r.Stelle,r.Username AS Cliente
+        $stmt = $this->db->prepare("SELECT p.CodiceProdotto, p.Nome,p.Rimosso,i.PercorsoImg, r.IDrecensione, r.Testo,r.Stelle,r.Username AS Cliente
                                     FROM Prodotto AS p 
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
                                     JOIN Recensione AS r ON r.CodiceProdotto = p.CodiceProdotto
