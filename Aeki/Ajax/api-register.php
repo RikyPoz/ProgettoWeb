@@ -33,7 +33,16 @@ if ($existingUsername) {
 $insertSuccess = $dbh->newUtente($firstName, $lastName, $username, $email, $password, $phone);
 
 if ($insertSuccess) {
-    echo json_encode(['success' => true, 'message' => 'Registrazione completata con successo!']);
+    // Crea il carrello per il nuovo utente
+    $cartCreated = $dbh->createCart($username);
+    // Crea la wishlist per il nuovo utente
+    $wishlistCreated = $dbh->createWishlist($username);
+
+    if ($cartCreated && $wishlistCreated) {
+        echo json_encode(['success' => true, 'message' => 'Registrazione completata con successo!']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Errore durante la creazione del carrello o della wishlist.']);
+    }
 } else {
     echo json_encode(['success' => false, 'message' => 'Errore durante la registrazione.']);
 }

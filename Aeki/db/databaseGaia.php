@@ -236,8 +236,22 @@ class DatabaseHelper{
             throw new Exception("Errore durante l'eliminazione dell'utente: " . $e->getMessage());
         }
     }
+
+    public function createCart($username) {
+        $query = "INSERT INTO Carrello (Username) VALUES (?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $username);
     
+        return $stmt->execute();
+    }
+
+    public function createWishlist($username) {
+        $query = "INSERT INTO WishList (Username) VALUES (?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $username);
     
+        return $stmt->execute();
+    }
     
     }
 ?>

@@ -1,7 +1,5 @@
 <?php
 
-session_start();  // Avvia la sessione
-
 require_once 'bootstrap.php';
 
 // Template di login
