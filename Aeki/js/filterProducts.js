@@ -43,7 +43,6 @@ async function getPriceMinMax() {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json);
         minPrice = json[0]["min"];
         maxPrice = json[0]["max"];
         updatePriceRange();
@@ -111,7 +110,6 @@ async function updateProductList() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(filters)
         });
-
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }

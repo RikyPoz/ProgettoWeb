@@ -48,6 +48,24 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getColori1(){
+        $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCartId($userId){
+        $stmt = $this->db->prepare("SELECT IDCarrello FROM Carrello WHERE Username=?");
+        $stmt->bind_param('s', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row ? $row['IDCarrello'] : null; 
+    }
+    
+
 
 
     function getProductsList($filters = [], $orderBy = 'Prezzo ASC') {
@@ -70,16 +88,21 @@ class DatabaseHelper{
                 $queryParams[] = $value;
             }
             $queryTypes .= 's';
-        } elseif (isset($value['min']) && isset($value['max'])) {
-            $query .= " AND p.$key BETWEEN ? AND ?";
-            $queryParams[] = $value['min'];
-            $queryParams[] = $value['max'];
-            $queryTypes .= 'dd';
+            } elseif (isset($value['min']) && isset($value['max'])) {
+                $query .= " AND p.$key BETWEEN ? AND ?";
+                $queryParams[] = $value['min'];
+                $queryParams[] = $value['max'];
+                $queryTypes .= 'dd';
+            } elseif (isset($value[0])) {
+                $placeholders = implode(',', array_fill(0, count($value), '?'));
+                $query .= " AND p.NomeColore IN ($placeholders)";
+                foreach ($value as $color) {
+                    $queryParams[] = $color;
+                    $queryTypes .= 's';
+                }
+            }
         }
-        }
-
         $query .= " ORDER BY p.$orderBy";
-        
         $stmt = $this->db->prepare($query);
         if (!empty($queryParams)) {
             $stmt->bind_param($queryTypes, ...$queryParams);
@@ -105,21 +128,12 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getIdCarrello($username){
-        $stmt = $this->db->prepare("SELECT IDcarrello FROM Carrello WHERE Username = ?");
-        $stmt->bind_param('s', $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row ? $row['IDcarrello'] : null;
-    }
-
     public function getCarrello($username){
-        $idCarrello = $this->getIdCarrello($username);
+        $idCarrello = $this->getCartId($username);
         if (is_null($idCarrello)) {
             return []; 
         }
-        $stmt = $this->db->prepare("SELECT d.CodiceProdotto, d.Quantita ,p.Nome,p.Prezzo,i.PercorsoImg
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto, d.Quantita ,p.Nome,p.Prezzo,i.PercorsoImg, p.Disponibilita
                                     FROM DettaglioCarrello as d
                                     JOIN Prodotto as p ON d.CodiceProdotto = p.CodiceProdotto
                                     LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
@@ -131,6 +145,9 @@ class DatabaseHelper{
     }
 
     public function getPricesFromSelected($selectedProducts) {
+        if (empty($selectedProducts)) {
+            return [];
+        }
         $placeholders = implode(',', array_fill(0, count($selectedProducts), '?'));
         $stmt = $this->db->prepare("SELECT CodiceProdotto, Prezzo FROM prodotto WHERE CodiceProdotto IN ($placeholders)");
         $types = str_repeat('s', count($selectedProducts));
@@ -138,6 +155,19 @@ class DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function removeProductToCart($username, $idProdotto){
+        $idCarrello = $this->getCartId($username);
+        // Rimuoviamo il prodotto dalla wishlist
+        $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodiceProdotto = ? AND IDcarrello = ?");
+        $stmt->bind_param('ss', $idProdotto, $idCarrello);  // Usa 'i' per interi
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            return true; 
+        } else {
+            return false; 
+        }
     }
 }
 ?>
