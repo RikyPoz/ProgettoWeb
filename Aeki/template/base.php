@@ -40,11 +40,26 @@
             <!-- Icons Section -->
             <ul class="navbar-nav ms-auto d-flex justify-content-around align-items-center">
             <li class="nav-item d-flex flex-column align-items-center">
-                <a href="profile.php" class="btn btn-light text-center">
-                    <i class="bi bi-person" style="font-size: 1.5rem;"></i>  
-                </a>
-                <span>Profilo</span>
-            </li>
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <div class="dropdown">
+        <button class="btn btn-light text-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-person" style="font-size: 1.5rem;"></i>
+</button>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow rounded" aria-labelledby="profileDropdown">
+                <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profilo</a></li>
+                <li><a class="dropdown-item" href="orderList.php"><i class="bi bi-list-check me-2"></i>Ordini</a></li>
+                <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+        </div>
+    <?php else: ?>
+        <a href="login.php" class="btn btn-light text-center">
+            <i class="bi bi-person" style="font-size: 1.5rem;"></i>
+        </a>
+    <?php endif; ?>
+    <span>Profilo</span>
+</li>
+
             <li class="nav-item d-flex flex-column align-items-center mx-3">
                 <a href="whishlist.php" class="btn btn-light text-center">
                     <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
@@ -110,7 +125,6 @@
           © 2025 [AEKI]. Tutti i diritti non riservati.
       </div>
     </footer>
-
 
   <?php
     if(isset($templateParams["js"])):
