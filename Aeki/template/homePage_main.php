@@ -91,6 +91,3 @@
         <?php endif; ?>
     </div>
 </div>
-
-<!-- Link al file JavaScript -->
-<script src="js/sliderArrow.js"></script>

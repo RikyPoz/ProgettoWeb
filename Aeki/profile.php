@@ -4,6 +4,12 @@ require_once 'bootstrap.php';
 // Base Template
 $templateParams["titolo"] = "Aeki - Utente";
 $templateParams["nome"] = "profile_main.php";
+$templateParams["js"] = array(
+    "js/updateMessages.js",
+    "js/updateProfile.js",
+    "js/deleteProfile.js",
+    "js/changePassword.js"
+);
 
 // Gestione dei messaggi di stato (successo, nessuna modifica, errore)
 if (isset($_GET['status'])) {

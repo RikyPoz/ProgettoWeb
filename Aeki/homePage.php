@@ -4,6 +4,7 @@ require_once 'bootstrap.php';
 //Base Template
 $templateParams["titolo"] = "Aeki - HomePage";
 $templateParams["nome"] = "homePage_main.php";
+$templateParams["js"] = array("js/sliderArrow.js");
 
 //Home Template
 $templateParams["categorie"] = $dbh->getCategorie();

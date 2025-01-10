@@ -75,11 +75,3 @@
         </form>
     </div>
 </div>
-
-<!-- Link ai file JavaScript -->
-<script src="js/loginModal.js"></script>
-<script src="js/login.js"></script>
-<script src="js/remember.js"></script>
-<script src="js/register.js"></script>
-<script src="js/viewPassword.js"></script>
-
