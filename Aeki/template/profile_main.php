@@ -1,3 +1,7 @@
+<head>
+    <link rel="stylesheet" href="./css/profile_style.css">
+</head>
+
 <!-- Contenuto della pagina -->
 <div class="container my-5">
     <div class="row">
@@ -36,15 +40,14 @@
 
         <!-- Sezione Messaggi e Recensioni -->
         <aside class="col-lg-4">
-            <div class="border rounded p-3 mb-4">
+            <div class="border rounded p-3 mb-4" style="max-height: 300px; overflow-y: auto;">
                 <h3>Messaggi in arrivo</h3>
-                <!-- Contenitore dinamico per i messaggi -->
                 <ul class="list-group" id="messaggi-container">
                     <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
                 </ul>
             </div>
 
-            <div class="border rounded p-3">
+            <div class="border rounded p-3" style="max-height: 300px; overflow-y: auto;">
                 <h4>Recensioni Inviate</h4>
                 <?php if (!empty($templateParams["recensioni"])): ?>
                     <ul class="list-group">
@@ -54,8 +57,8 @@
                                     <p><?php echo $recensione['Testo']; ?></p>
                                     <small class="text-muted">Codice Prodotto: <?php echo $recensione['CodiceProdotto']; ?></small>
                                 </div>
-                                <!-- Usa la funzione getStars per visualizzare le stelle -->
-                                <span class="text-muted"><?php echo getStars($recensione['stelle']); ?></span>
+                                <span class="text-muted" style="display: flex; white-space: nowrap;"><?php echo getStars($recensione['stelle']); ?></span>
+
                             </li>
                         <?php endforeach; ?>
                     </ul>

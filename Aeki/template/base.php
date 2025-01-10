@@ -108,9 +108,9 @@
           <!-- Social media e metodi di pagamento -->
           <div style="flex: 1 1 300px; margin-bottom: 20px; text-align: center;">
               <h4 style="color: #000000; margin-bottom: 10px;">Seguici su</h4>
-              <a href="#" style="margin-right: 10px;"><img src="upload/footer/facebook.png" alt="Facebook" width="30"></a>
-              <a href="#" style="margin-right: 10px;"><img src="upload/footer/instagram.png" alt="Instagram" width="30"></a>
-              <a href="#" style="margin-right: 10px;"><img src="upload/footer/x.png" alt="X" width="30"></a>
+              <a style="margin-right: 10px;"><img src="upload/footer/facebook.png" alt="Facebook" width="30"></a>
+              <a style="margin-right: 10px;"><img src="upload/footer/instagram.png" alt="Instagram" width="30"></a>
+              <a style="margin-right: 10px;"><img src="upload/footer/x.png" alt="X" width="30"></a>
               <h4 style="color: #000000; margin-top: 20px;">Pagamenti Accettati</h4>
               <img src="upload/footer/visa.png" alt="Visa" width="50" style="margin-right: 10px;">
               <img src="upload/footer/mastercard.png" alt="Mastercard" width="50" style="margin-right: 10px;">
