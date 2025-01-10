@@ -132,7 +132,7 @@ INSERT INTO Prodotto (Nome, Prezzo, Descrizione, NomeMateriale, Peso, NomeColore
  
 -- Immagini per prodotti
 INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
-('upload/products/armadio_moderno_1.png', 'Y', 1),      -- GAIA
+('upload/products/armadio_moderno_1.png', 'Y', 1),      
 ('upload/products/armadio_moderno_2.png', 'N', 1),
 ('upload/products/divano_angolare_1.png', 'Y', 2),
 ('upload/products/divano_angolare_2.png', 'N', 2),
@@ -176,7 +176,7 @@ INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
 ('upload/products/tavolo_ovale_2.png', 'N', 21),
 ('upload/products/sedia_elegante_1.png', 'Y', 22),
 ('upload/products/sedia_elegante_2.png', 'N', 22),  
-('upload/products/credenza_classica_1.png', 'Y', 23),       -- PASO
+('upload/products/credenza_classica_1.png', 'Y', 23),     
 ('upload/products/credenza_classica_2.png', 'N', 23),       
 ('upload/products/cassettiera_vintage_1.png', 'Y', 24),
 ('upload/products/cassettiera_vintage_2.png', 'N', 24),
@@ -220,7 +220,7 @@ INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
 ('upload/products/tavolino_soggiorno_2.png', 'N', 43),
 ('upload/products/tavolo_cucina_1.png', 'Y', 44),
 ('upload/products/tavolo_cucina_2.png', 'N', 44),
-('upload/products/tavolo_pieghevole_1.png', 'Y', 45),       --POZ
+('upload/products/tavolo_pieghevole_1.png', 'Y', 45),  
 ('upload/products/tavolo_pieghevole_2.png', 'N', 45),
 ('upload/products/sedia_soggiorno_1.png', 'Y', 46),
 ('upload/products/sedia_soggiorno_2.png', 'N', 46),
