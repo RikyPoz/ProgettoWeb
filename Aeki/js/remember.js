@@ -23,6 +23,13 @@ function clearCookie(name) {
     document.cookie = `${name}=; max-age=0; path=/`; // Impostando max-age a 0 si elimina il cookie
 }
 
+// Funzione per effettuare il logout e rimuovere i cookie
+function logout() {
+    clearCookie('userEmail');
+    clearCookie('userPassword');
+    window.location.href = '/login'; // Reindirizza alla pagina di login
+}
+
 // Gestisce il login con la selezione "Ricordami"
 document.getElementById('loginButton').addEventListener('click', function () {
     const email = document.getElementById('email').value;
@@ -78,9 +85,37 @@ window.onload = function() {
     }
 };
 
-// Funzione per effettuare il logout e rimuovere i cookie
-function logout() {
-    clearCookie('userEmail');
-    clearCookie('userPassword');
-    window.location.href = '/login'; // Reindirizza alla pagina di login
-}
+// Gestisce la cancellazione dell'account
+document.getElementById("deleteAccountBtn").addEventListener("click", function () {
+    if (!confirm("Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.")) {
+        return;
+    }
+
+    // Crea una richiesta AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "Ajax/api-deleteProfile.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+
+            if (response.success) {
+                // Elimina i cookie utilizzando la funzione clearCookie
+                clearCookie('userEmail');
+                clearCookie('userPassword');
+
+                document.getElementById("message").innerHTML = `<p style="color: green;">${response.message}</p>`;
+                setTimeout(() => {
+                    window.location.href = "/ProgettoWeb/Aeki/homePage.php"; // Reindirizza alla homepage
+                }, 2000);
+            } else {
+                document.getElementById("message").innerHTML = `<p style="color: red;">${response.message}</p>`;
+            }
+        } else {
+            document.getElementById("message").innerHTML = '<p style="color: red;">Errore del server. Riprova più tardi.</p>';
+        }
+    };
+
+    xhr.send();
+});

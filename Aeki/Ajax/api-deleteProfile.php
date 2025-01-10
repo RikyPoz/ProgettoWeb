@@ -13,6 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($deletedRows > 0) {
             // Distrugge la sessione dell'utente per disconnetterlo
             session_destroy();
+
+            // Elimina i cookie relativi all'utente
+            if (isset($_COOKIE['userEmail'])) {
+                setcookie('userEmail', '', time() - 3600, '/'); // Elimina il cookie con scadenza nel passato
+            }
+            if (isset($_COOKIE['userPassword'])) {
+                setcookie('userPassword', '', time() - 3600, '/'); // Elimina il cookie con scadenza nel passato
+            }
+
+            // Risponde con successo
             echo json_encode(['success' => true, 'message' => 'Account eliminato con successo!']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Errore nell\'eliminazione dell\'account.']);
@@ -23,4 +33,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-

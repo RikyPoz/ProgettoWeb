@@ -87,7 +87,7 @@ class DatabaseHelper{
     }
 
     public function newUtente($firstName, $lastName, $username, $email, $password, $phone) {
-        $tipo = 'cliente'; // Tipo fisso come cliente
+        $tipo = 'Cliente'; // Tipo fisso come cliente
         $partitaIVA = NULL; // PartitaIVA impostata a NULL
         $icona = NULL; // Icona impostata a NULL
         $stmt = $this->db->prepare("INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
