@@ -2,7 +2,7 @@
 <style>
 .carousel-inner img {
     max-width: 100%;
-    max-height: 300px;
+    max-height: 400px;
     object-fit: contain;
 }
 
@@ -30,11 +30,11 @@
                         <?php foreach ($templateParams["immagini"] as $img): ?>
                             <?php if ($img["Icona"] == 'Y'):?>
                                 <div class="carousel-item active">
-                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
+                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid rounded" alt="<?php echo $img["PercorsoImg"] ?>">
                                 </div>
                             <?php else : ?>
                                 <div class="carousel-item">
-                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
+                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid rounded " alt="<?php echo $img["PercorsoImg"] ?>">
                                 </div>
                             <?php endif; ?>
                         <?php endforeach; ?>

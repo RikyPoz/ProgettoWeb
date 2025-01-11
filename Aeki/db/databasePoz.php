@@ -909,7 +909,16 @@ class DatabaseHelper{
             $stmt->bind_param('s', $username);
             $stmt->execute();
             $result = $stmt->get_result();
-            return $result->fetch_assoc();
+            $data = $result->fetch_assoc();
+
+            $averageRating = isset($data['averageRating']) ? $data['averageRating'] : '0';
+            $totalReviews = isset($data['totalReviews']) ? $data['totalReviews'] : '0';
+
+            return [
+                'averageRating' => $averageRating,
+                'totalReviews' => $totalReviews
+            ];
+            
             
         } catch (mysqli_sql_exception $e) {
             return false;
