@@ -71,6 +71,7 @@ create table Notifica (
      Username VARCHAR(50) not null,
      Testo VARCHAR(50) not null,
      Data DATETIME not null,
+     Letta char(1) not null default 'N',
      constraint ID_Notifica_ID primary key (IdNotifica),
      constraint SID_Notifica_ID unique (Username, IdNotifica));
 
@@ -294,4 +295,3 @@ create unique index ID_WishList_IND
 
 create unique index FKha_IND
      on WishList (Username);
-

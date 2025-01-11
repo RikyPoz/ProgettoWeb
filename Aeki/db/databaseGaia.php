@@ -55,7 +55,7 @@ class DatabaseHelper{
     
     
     public function getMessaggiByUtente($username) {
-        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? ORDER BY Data DESC");
         $stmt->bind_param("s", $username);  
         $stmt->execute();
         $result = $stmt->get_result();
@@ -73,7 +73,7 @@ class DatabaseHelper{
     }
 
     public function getMessaggiByData($username, $data) {
-        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? AND Data > ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? AND Data > ? ORDER BY Data DESC");
         $stmt->bind_param("ss", $username, $data);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -85,6 +85,18 @@ class DatabaseHelper{
     
         return $messaggi;
     }
+
+    public function getNumeroNotifiche($username) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM Notifica WHERE Username = ? AND Letta = 'N'");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($unread_count);
+        $stmt->fetch();
+        $stmt->close();
+    
+        return $unread_count;  // Restituisce il numero di notifiche non lette
+    }
+    
 
     public function newUtente($firstName, $lastName, $username, $email, $password, $phone) {
         $tipo = 'Cliente'; // Tipo fisso come cliente
@@ -212,8 +224,8 @@ class DatabaseHelper{
             $stmt->bind_param('s', $username);
             $stmt->execute();
 
-            // 7. Elimina l'utente dalla tabella Notifiche
-            $stmt = $this->db->prepare("DELETE FROM Notifiche WHERE Username = ?");
+            // 7. Elimina l'utente dalla tabella Notifica
+            $stmt = $this->db->prepare("DELETE FROM Notifica WHERE Username = ?");
             $stmt->bind_param('s', $username);
             $stmt->execute();
     

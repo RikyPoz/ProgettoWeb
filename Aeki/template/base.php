@@ -19,60 +19,68 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-light shadow">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-        <div>
-            <!-- Hamburger Menu -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Brand Logo -->
-            <a class="navbar-brand" href="homePage.php"><img src="upload/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"></a>
-        </div>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- Search Bar -->
-            <form class="d-flex mx-auto" role="search" style="width: 50%;" action="filteredProducts.php" method="get">
-                <input class="form-control me-2" type="search" name="search" placeholder="Cerca..." aria-label="Search" required>
-                <button class="btn btn-outline-secondary" type="submit">
-                    <i class="bi bi-search"></i>
+            <div>
+                <!-- Hamburger Menu -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-            </form>
+                <!-- Brand Logo -->
+                <a class="navbar-brand" href="homePage.php"><img src="upload/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"></a>
+            </div>
 
-            <!-- Icons Section -->
-            <ul class="navbar-nav ms-auto d-flex justify-content-around align-items-center">
-                <li class="nav-item d-flex flex-column align-items-center">
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                    <div class="dropdown">
-                        <button class="btn btn-light text-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Search Bar -->
+                <form class="d-flex mx-auto" role="search" style="width: 50%;" action="filteredProducts.php" method="get">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Cerca..." aria-label="Search" required>
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+
+                <!-- Icons Section -->
+                <ul class="navbar-nav ms-auto d-flex justify-content-around align-items-center">
+                    <li class="nav-item d-flex flex-column align-items-center">
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php
+                            $user_id = $_SESSION['user_id'];
+                            $unread_count = $dbh->getNumeroNotifiche($user_id); 
+                        ?>
+                        <div class="dropdown">
+                            <button class="btn btn-light text-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person" style="font-size: 1.5rem;"></i>
+                                <!-- Punto rosso per notifiche non lette -->
+                                <?php if ($unread_count > 0): ?>
+                                    <span class="badge bg-danger" style="position: absolute; top: -5px; right: -5px; font-size: 0.8rem;"><?php echo $unread_count; ?></span>
+                                <?php endif; ?>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow rounded" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profilo</a></li>
+                                <li><a class="dropdown-item" href="orderList.php"><i class="bi bi-list-check me-2"></i>Ordini</a></li>
+                                <li><a class="dropdown-item text-danger logout-button" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                        <?php else: ?>
+                        <a href="login.php" class="btn btn-light text-center">
                             <i class="bi bi-person" style="font-size: 1.5rem;"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow rounded" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profilo</a></li>
-                            <li><a class="dropdown-item" href="orderList.php"><i class="bi bi-list-check me-2"></i>Ordini</a></li>
-                            <li><a class="dropdown-item text-danger logout-button" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
-                    <?php else: ?>
-                    <a href="login.php" class="btn btn-light text-center">
-                        <i class="bi bi-person" style="font-size: 1.5rem;"></i>
-                    </a>
-                    <?php endif; ?>
-                    <span>Profilo</span>
-                </li>
-                <li class="nav-item d-flex flex-column align-items-center mx-3">
-                    <a href="whishlist.php" class="btn btn-light text-center">
-                        <i class="bi bi-house-heart" style="font-size: 1.5rem;"></i>
-                    </a>
-                    <span>Preferiti</span>
-                </li>
-                <li class="nav-item d-flex flex-column align-items-center">
-                    <a href="shoppingCart.php" class="btn btn-light text-center">
-                        <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
-                    </a>
-                    <span>Carrello</span>
-                </li>
-            </ul>
+                        </a>
+                        <?php endif; ?>
+                        <span>Profilo</span>
+                    </li>
+                    <li class="nav-item d-flex flex-column align-items-center mx-3">
+                        <a href="whishlist.php" class="btn btn-light text-center">
+                            <i class="bi bi-house-heart" style="font-size: 1.5rem;"></i>
+                        </a>
+                        <span>Preferiti</span>
+                    </li>
+                    <li class="nav-item d-flex flex-column align-items-center">
+                        <a href="shoppingCart.php" class="btn btn-light text-center">
+                            <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
+                        </a>
+                        <span>Carrello</span>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
     </nav>
     <!-- Main -->
     <main>

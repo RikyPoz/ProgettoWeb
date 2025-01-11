@@ -310,8 +310,11 @@ INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
 -- Populating Notifiche table
 INSERT INTO Notifica (Username, Testo, Data) VALUES
 ('user1', 'Ordine Spedito', '2024-12-01 08:30:00'),
-('user2', 'Nuovo Messaggio', '2024-12-02 14:45:00'),
-('user2', 'Promozione Attiva', '2024-12-03 09:15:00');
+('user2', 'Ordine Effettuato', '2024-12-02 14:45:00'),
+('user2', 'Promozione Attiva', '2024-12-03 09:15:00'),
+('user1', 'Ordine In Arrivo', '2024-12-08 11:30:00'),
+('user2', 'Nuovo Messaggio', '2024-12-11 17:45:00'),
+('user2', 'Prodotto non più disponibile', '2024-12-13 18:15:00');
 
 -- Populating Recensione table
 INSERT INTO Recensione (Testo, stelle, CodiceProdotto, Username) VALUES
