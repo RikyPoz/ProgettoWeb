@@ -2,7 +2,6 @@
     <link rel="stylesheet" href="./css/homePage_style.css">
 </head>
 
-<!-- Sezione principale -->
 <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-md-6 d-flex">
@@ -12,8 +11,6 @@
                 <p style="text-align: justify;">
                     Scopri il design e la funzionalità che trasformano ogni spazio in un luogo unico. 
                     Aeki è il tuo partner ideale per arredare con gusto e praticità, grazie a una vasta gamma di mobili e complementi d'arredo progettati per rispondere a ogni tua esigenza.
-                    Dalla zona giorno alla camera da letto, passando per cucina e bagno, ti offriamo soluzioni su misura per ogni necessità. 
-                    Lasciati ispirare dalla nostra collezione e vivi l'emozione di trasformare i tuoi spazi in luoghi che raccontano la tua storia. 
                 </p>
                 <p style="text-align: center;">
                     Con Aeki arredare casa diventa un’esperienza unica e creativa!
@@ -26,18 +23,16 @@
     </div>
 
     <!-- Sezione Categorie -->
-    <h3 class="mt-5">Categorie </h3>
-    <div class="position-relative">
+    <h3 class="mt-5">Categorie</h3>
+    <div class="slider-container position-relative">
         <?php if (!empty($templateParams["categorie"])): ?>    
 
-            <!-- Freccia sinistra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesLeft">
+            <button class="btn btn-outline-secondary btn-sm slider-button slider-button-left">
                 <span class="bi bi-arrow-left"></span>
             </button>
 
-            <!-- Contenitore slider -->
-            <div class="overflow-hidden">
-                <div class="d-flex flex-nowrap gap-3" id="categoriesSlider">
+            <div class="overflow-hidden slider-wrapper categories-slider">
+                <div class="d-flex flex-nowrap gap-3 slider-track">
                     <?php foreach ($templateParams["categorie"] as $categoria): ?>
                         <div class="text-center">
                             <a href="filteredProducts.php?categories=<?php echo $categoria['NomeCategoria']; ?>" class="btn p-0">
@@ -49,8 +44,7 @@
                 </div>
             </div>
 
-            <!-- Freccia destra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="categoriesRight">
+            <button class="btn btn-outline-secondary btn-sm slider-button slider-button-right">
                 <span class="bi bi-arrow-right"></span>
             </button>
         <?php else: ?>
@@ -59,35 +53,33 @@
     </div>
 
     <!-- Sezione Ambienti -->
-    <h3 class="mt-5">Ambienti</h3>
-    <div class="position-relative">
-        <?php if (!empty($templateParams["ambienti"])): ?>
+<h3 class="mt-5">Ambienti</h3>
+<div class="slider-container position-relative">
+    <?php if (!empty($templateParams["ambienti"])): ?>
 
-            <!-- Freccia sinistra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientLeft">
-                <span class="bi bi-arrow-left"></span>
-            </button>
+        <button class="btn btn-outline-secondary btn-sm slider-button slider-button-left">
+            <span class="bi bi-arrow-left"></span>
+        </button>
 
-            <!-- Contenitore slider -->
-            <div class="overflow-hidden">
-                <div class="d-flex flex-nowrap gap-3" id="ambientSlider">
-                    <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
-                        <div class="text-center">
-                            <a href="filteredProducts.php?ambient=<?php echo $ambiente['NomeAmbiente']; ?>" class="btn p-0">
-                                <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo $ambiente['NomeAmbiente']; ?>">
-                                <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+        <div class="overflow-hidden slider-wrapper ambient-slider"> 
+            <div class="d-flex flex-nowrap gap-3 slider-track">
+                <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
+                    <div class="text-center">
+                        <a href="filteredProducts.php?ambient=<?php echo $ambiente['NomeAmbiente']; ?>" class="btn p-0">
+                            <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo $ambiente['NomeAmbiente']; ?>">
+                            <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
             </div>
+        </div>
 
-            <!-- Freccia destra -->
-            <button class="btn btn-outline-secondary btn-sm slider-button" id="ambientRight">
-                <span class="bi bi-arrow-right"></span>
-            </button>
-        <?php else: ?>
-            <p>Nessun ambiente disponibile.</p>
-        <?php endif; ?>
-    </div>
+        <button class="btn btn-outline-secondary btn-sm slider-button slider-button-right">
+            <span class="bi bi-arrow-right"></span>
+        </button>
+    <?php else: ?>
+        <p>Nessun ambiente disponibile.</p>
+    <?php endif; ?>
+</div>
+
 </div>

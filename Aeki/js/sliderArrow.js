@@ -1,15 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-    function enableHorizontalScroll(sliderId, leftButtonId, rightButtonId) {
-        const slider = document.getElementById(sliderId);
-        const leftButton = document.getElementById(leftButtonId);
-        const rightButton = document.getElementById(rightButtonId);
+    function enableHorizontalScroll(sliderContainer) {
+        const slider = sliderContainer.querySelector(".slider-track");
+        const leftButton = sliderContainer.querySelector(".slider-button-left");
+        const rightButton = sliderContainer.querySelector(".slider-button-right");
         let currentScrollPosition = 0;
-        const scrollAmount = 300; // Di quanto si scorre ogni volta
-        
-        // Aggiornare lo stato dei pulsanti
+        const scrollAmount = 300;
+
         function updateButtonState() {
             const maxScroll = slider.scrollWidth - slider.offsetWidth;
-
             leftButton.disabled = currentScrollPosition <= 0;
             rightButton.disabled = currentScrollPosition >= maxScroll;
         }
@@ -40,8 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Abilitare lo scorrimento per Categorie
-    enableHorizontalScroll("categoriesSlider", "categoriesLeft", "categoriesRight");
-    // Abilitare lo scorrimento per Ambienti
-    enableHorizontalScroll("ambientSlider", "ambientLeft", "ambientRight");
+    const sliderContainers = document.querySelectorAll(".slider-container");
+    sliderContainers.forEach(enableHorizontalScroll);
 });

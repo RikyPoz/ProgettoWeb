@@ -1,40 +1,41 @@
-#categoriesSlider img {
-    width: 300px; /* Imposta una larghezza fissa per le immagini nella sezione categorie */
-    height: 200px; /* Imposta un'altezza fissa per le immagini nella sezione categorie */
-    object-fit: contain; /* Mostra l'intera immagine all'interno delle dimensioni */
+/* Immagini nella sezione categorie */
+.slider-wrapper.categories-slider img {
+    width: 300px; 
+    height: 200px; 
+    object-fit: contain; /* Mostra l'intera immagine all'interno delle dimensioni senza distorsioni */
 }
 
-#ambientSlider img {
-    width: 300px; /* Imposta una larghezza fissa per le immagini nella sezione ambienti */
-    height: 200px; /* Imposta un'altezza fissa per le immagini nella sezione ambienti */
+/* Immagini nella sezione ambienti */
+.slider-wrapper.ambient-slider img {
+    width: 300px; 
+    height: 200px; 
     object-fit: cover; /* Mantiene le proporzioni dell'immagine riempiendo interamente il contenitore */
 }
 
-#categoriesSlider,
-#ambientSlider {
-    transition: transform 0.4s ease-in-out;
-}
-
-/* Regola i pulsanti di scorrimento */
+/* Stili per i pulsanti di navigazione */
 .slider-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 3;
+    position: absolute; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    background: transparent; 
+    border: none; 
+    cursor: pointer; /* Mostra la mano quando l'utente passa sopra il pulsante */
+    padding: 5px; 
 }
 
-#categoriesLeft {
-    left: -40px; /* Sposta il pulsante sinistro all'esterno */
+/* Posizione specifica del pulsante sinistro */
+.slider-button-left {
+    left: -40px; 
 }
 
-#categoriesRight {
-    right: -40px; /* Sposta il pulsante destro all'esterno */
+/* Posizione specifica del pulsante destro */
+.slider-button-right {
+    right: -40px; 
 }
 
-#ambientLeft {
-    left: -40px; /* Sposta il pulsante sinistro all'esterno */
+/* Stile per i pulsanti disabilitati (quando non ci sono più immagini da scorrere) */
+.slider-button:disabled {
+    color: #ccc; 
+    cursor: not-allowed; 
 }
 
-#ambientRight {
-    right: -40px; /* Sposta il pulsante destro all'esterno */
-}
