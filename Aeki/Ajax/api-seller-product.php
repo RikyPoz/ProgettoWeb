@@ -39,29 +39,6 @@ if (isset($data['action'])) {
             echo $result;
             break;
 
-        case 'update-availability':
-            if (isset($data['codiceProdotto']) && isset($data['nuovaDisponibilita'])) {
-                $codiceProdotto = $data['codiceProdotto'];
-                $nuovaDisponibilita = $data['nuovaDisponibilita'];
-
-                try {
-                    $result = $dbh->updateProductAvailability($codiceProdotto, $nuovaDisponibilita);
-                    echo json_encode([
-                        'success' => true,
-                        'data' => $result,
-                    ]);
-                } catch (Exception $e) {
-                    echo json_encode([
-                        'success' => false,
-                        'message' => 'Errore durante la modifica del prodotto: ' . $e->getMessage(),
-                    ]);
-                }
-
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Errore Dati non sufficienti']);
-            }
-            break;
-
         case 'delete-product':
             if (isset($data['codiceProdotto'])) {
                 $codiceProdotto = $data['codiceProdotto'];
@@ -72,12 +49,33 @@ if (isset($data['action'])) {
             }
             break;
 
+        case 'update-availability':
+            if (isset($data['codiceProdotto']) && isset($data['nuovaDisponibilita']) && isset($data['vecchiaDisponibilita'])) {
+                $codiceProdotto = $data['codiceProdotto'];
+                $nuovaDisponibilita = $data['nuovaDisponibilita'];
+
+                $result = $dbh->updateProductAvailability($codiceProdotto, $nuovaDisponibilita);
+
+                if($data['vecchiaDisponibilita'] == 0){
+                    $testo = "Il prodotto $codiceProdotto è tornato disponibile!";
+                    $dbh->notifyCartChange($codiceProdotto,$testo);
+                }
+               
+                echo $result;
+
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Errore Dati non sufficienti']);
+            }
+            break;
+
         case 'update-price':
             if (isset($data['codiceProdotto']) && isset($data['nuovoPrezzo'])) {
                 $codiceProdotto = $data['codiceProdotto'];
                 $nuovoPrezzo = $data['nuovoPrezzo'];
+                $testo = "Il prodotto $codiceProdotto ha subito una variazione di prezzo!";
 
                 $result = $dbh->updateProductPrice($codiceProdotto, $nuovoPrezzo);
+                $dbh->notifyCartChange($codiceProdotto,$testo);
                 echo $result;
             } else {
                 echo json_encode(['success' => false, 'message' => 'Dati insufficienti']);

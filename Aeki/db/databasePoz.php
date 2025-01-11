@@ -482,7 +482,7 @@ class DatabaseHelper{
     }
 
     public function getProdottiPerOrdine($idOrdine){
-        $stmt = $this->db->prepare("SELECT d.CodiceProdotto,d.PrezzoPagato,d.Quantita,p.Nome,i.PercorsoImg
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto,d.PrezzoPagato,d.Quantita,p.Nome,i.PercorsoImg,p.Rimosso
                                     FROM DettaglioOrdine AS d
                                     JOIN Prodotto AS p ON d.CodiceProdotto = p.CodiceProdotto
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
@@ -674,7 +674,21 @@ class DatabaseHelper{
     
     }
     
-    
+    //invia un anotifica a chiunque abbia il prodotto nel carrello (prezzo cambiato)
+    public function notifyCartChange($codiceProdotto,$testo){
+        $data = date('Y-m-d H:i:s');
+
+        $stmt = $this->db->prepare("
+            INSERT INTO `Notifica` (`Username`, `Testo`, `Data`)
+            SELECT c.Username, ?, ?
+            FROM DettaglioCarrello AS dc
+            JOIN Carrello AS c ON c.IDcarrello = dc.IDcarrello
+            WHERE dc.CodiceProdotto = ?
+        ");
+        $stmt->bind_param('ssi', $testo, $data, $codiceProdotto);
+        $stmt->execute();
+    }
+
     
 
     public function updateProductPrice($codiceProdotto, $nuovoPrezzo) {
@@ -700,9 +714,15 @@ class DatabaseHelper{
             $stmt = $this->db->prepare("UPDATE Prodotto SET Disponibilita = Disponibilita + ? WHERE CodiceProdotto = ?");
             $stmt->bind_param('ss', $nuovaDisponibilita,$codiceProdotto);
             $stmt->execute();   
-            return true;
-        }catch(mysqli_sql_exception $e){
-            return json_encode("sql error". $e->getMessage());
+            return json_encode([
+                'success' => true,
+                'message' => 'Prodotto aggiornato con successo'
+            ]);
+        } catch (mysqli_sql_exception $e) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Errore SQL: ' . $e->getMessage()
+            ]);
         }
     }
 
@@ -823,7 +843,7 @@ class DatabaseHelper{
 
     public function getTopLikedProducts($username) {
         try{
-            $stmt = $this->db->prepare("SELECT p.CodiceProdotto,p.Nome,i.PercorsoImg, COUNT(dw.CodiceProdotto) AS likeTotali
+            $stmt = $this->db->prepare("SELECT p.CodiceProdotto,p.Nome,i.PercorsoImg,p.Rimosso, COUNT(dw.CodiceProdotto) AS likeTotali
                                         FROM Prodotto AS p
                                         JOIN DettaglioWishlist AS dw ON p.CodiceProdotto = dw.CodiceProdotto
                                         LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
@@ -845,7 +865,7 @@ class DatabaseHelper{
     
     public function getTopSellingProducts($username,$startDate) {
         try{
-            $stmt = $this->db->prepare("SELECT p.Nome,p.CodiceProdotto,i.PercorsoImg, SUM(do.Quantita) AS Quantita, SUM(do.PrezzoPagato) AS RicavoTotale                                        FROM Prodotto AS p
+            $stmt = $this->db->prepare("SELECT p.Nome,p.CodiceProdotto,i.PercorsoImg,p.Rimosso, SUM(do.Quantita) AS Quantita, SUM(do.PrezzoPagato) AS RicavoTotale                                        FROM Prodotto AS p
                                         JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
                                         LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
                                         JOIN Ordine AS o on o.IDordine = do.IDordine
