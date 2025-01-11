@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Riepilogo</h5>
-                    
+                    <ul class="list-group list-group-flush" id="recapTableMobile"></ul>
                     <button class="btn btn-success w-100 mt-3">Procedi all'Acquisto</button>
                 </div>
             </div>
@@ -24,8 +24,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Riepilogo</h5>
-                        <ul class="list-group list-group-flush" id="recapTable">    
-                        </ul>
+                        <ul class="list-group list-group-flush" id="recapTable"></ul>
                         <button class="btn btn-success w-100 mt-3">Procedi all'Acquisto</button>
                     </div>
                 </div>
@@ -55,11 +54,3 @@
         }
     }
 </style>
-
-<script>
-    
-
-    function aggiornaQuantita(idProdotto, nuovaQuantità) {
-        console.log(`Aggiorna quantità prodotto con ID: ${idProdotto}, nuova quantità: ${nuovaQuantità}`);
-    }
-</script>

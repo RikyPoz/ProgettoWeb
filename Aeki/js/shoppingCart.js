@@ -17,19 +17,26 @@ function getResoconto(prices)  {
             </li>`
 }
 
+function aggiornaPrezziQuantita(codiceProdotto) {
+    quantita = document.getElementById(codiceProdotto).value;
+    document.getElementById(codiceProdotto+"Prezzo").textContent = quantita > 1 ? " x "+quantita : "";
+    aggiornaRiepilogo();
+}
+
 function getCarrello(products) {
     let result = "";
     for(let i=0; i < products.length; i++){
         let quantitaHTML;
         const codiceProdotto = products[i]["CodiceProdotto"];
         const disponibilita = products[i]["Disponibilita"];
+        const quantita = products[i]["Quantita"];
 
         if (disponibilita > 0) {
             quantitaHTML = `<input type="number" class="form-control form-control-sm w-auto text-center"
                             id="${codiceProdotto}"
-                            value="${products[i]["Quantita"]}" 
+                            value="${quantita}" 
                             max="${disponibilita}"
-                            onchange="aggiornaRiepilogo()"
+                            onchange="aggiornaPrezziQuantita(${codiceProdotto})"
                             min="1" style="max-width: 60px;"
                             onkeydown="return false;"/>`;
         } else {
@@ -58,7 +65,10 @@ function getCarrello(products) {
                                                 onchange="aggiornaRiepilogo()"
                                                 data-id="${codiceProdotto}"
                                                 ${disponibilita > 0 ? "checked" : "disabled"}/>
-                                            <p class="mb-0 text-success fw-bold">€${products[i]["Prezzo"]}</p>
+                                            <p class="mb-0 text-success fw-bold">
+                                                €${products[i]["Prezzo"]} 
+                                                <span id="${codiceProdotto}Prezzo">${quantita > 1 ? " x "+quantita : ""}</span>
+                                            </p>
                                         </div>
                                     </div>
 
@@ -98,7 +108,10 @@ async function aggiornaRiepilogo() {
         const json = await response.json();
         document.getElementById("summary").textContent = `Totale (${json["numArticoli"]} articoli): €${json["tot"]}`;
         const recapTable = document.getElementById("recapTable");
-        recapTable.innerHTML = getResoconto(json);
+        const recapTableMobile = document.getElementById("recapTableMobile");
+        const resocontoHTML = getResoconto(json);
+        recapTableMobile.innerHTML = resocontoHTML;
+        recapTable.innerHTML = resocontoHTML;
         
     } catch (error) {
         console.log("Errore durante il caricamento del riepilogo carrello:", error.message);
