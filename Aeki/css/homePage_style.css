@@ -39,3 +39,26 @@
     cursor: not-allowed; 
 }
 
+/* Media query per schermi piccoli */
+@media (max-width: 768px) {
+    /* Ridurre le dimensioni delle immagini per schermi più piccoli */
+    .slider-wrapper.categories-slider img, 
+    .slider-wrapper.ambient-slider img {
+        width: 200px; 
+        height: 150px; 
+    }
+
+    /* Abilitare lo scorrimento orizzontale */
+    .slider-wrapper.categories-slider,
+    .slider-wrapper.ambient-slider {
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; 
+        white-space: nowrap; 
+    }
+
+    /* Assicurarsi che le immagini siano affiancate orizzontalmente */
+    .slider-wrapper.categories-slider .slider-track,
+    .slider-wrapper.ambient-slider .slider-track {
+        display: inline-flex; 
+    }
+}

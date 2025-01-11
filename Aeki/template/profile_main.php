@@ -38,35 +38,35 @@
             </div>
         </section>
 
-        <!-- Sezione Messaggi e Recensioni -->
-<aside class="col-lg-4">
-    <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
-        <h3>Messaggi in arrivo</h3>
-        <ul class="list-group" id="messaggi-container">
-            <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
-        </ul>
-    </div>
-
-    <div class="border rounded p-3" style="height: 300px; overflow-y: auto;">
-        <h4>Recensioni Inviate</h4>
-        <?php if (!empty($templateParams["recensioni"])): ?>
-            <ul class="list-group">
-                <?php foreach ($templateParams["recensioni"] as $recensione): ?>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <p><?php echo $recensione['Testo']; ?></p>
-                            <small class="text-muted">Codice Prodotto: <?php echo $recensione['CodiceProdotto']; ?></small>
-                        </div>
-                        <span class="text-muted" style="display: flex; white-space: nowrap;"><?php echo getStars($recensione['stelle']); ?></span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>Nessuna recensione inviata.</p>
-        <?php endif; ?>
-    </div>
-</aside>
-
+        <!-- Aside -->
+        <aside class="col-lg-4">
+            <!-- Sezione Messaggi -->
+            <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
+                <h3>Messaggi in arrivo</h3>
+                <ul class="list-group" id="messaggi-container">
+                    <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
+                </ul>
+            </div>
+            <!-- Sezione Recensioni -->
+            <div class="border rounded p-3" style="height: 300px; overflow-y: auto;">
+                <h4>Recensioni Inviate</h4>
+                <?php if (!empty($templateParams["recensioni"])): ?>
+                    <ul class="list-group">
+                        <?php foreach ($templateParams["recensioni"] as $recensione): ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p><?php echo $recensione['Testo']; ?></p>
+                                    <small class="text-muted">Codice Prodotto: <?php echo $recensione['CodiceProdotto']; ?></small>
+                                </div>
+                                <span class="text-muted" style="display: flex; white-space: nowrap;"><?php echo getStars($recensione['stelle']); ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>Nessuna recensione inviata.</p>
+                <?php endif; ?>
+            </div>
+        </aside>
     </div>
 </div>
 

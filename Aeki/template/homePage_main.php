@@ -9,8 +9,10 @@
                 <h2><strong>Benvenuto su Aeki!</strong></h2>
                 <h3><em>Arredamento per la tua casa</em></h3>
                 <p style="text-align: justify;">
-                    Scopri il design e la funzionalità che trasformano ogni spazio in un luogo unico. 
-                    Aeki è il tuo partner ideale per arredare con gusto e praticità, grazie a una vasta gamma di mobili e complementi d'arredo progettati per rispondere a ogni tua esigenza.
+                Scopri il design e la funzionalità che trasformano ogni spazio in un luogo unico. 
+                Aeki è il tuo partner ideale per arredare con gusto e praticità, grazie a una vasta gamma di mobili e complementi d'arredo progettati per rispondere a ogni tua esigenza. 
+                Dalla zona giorno alla camera da letto, passando per cucina e bagno, ti offriamo soluzioni su misura per ogni necessità. 
+                Lasciati ispirare dalla nostra collezione e vivi l'emozione di trasformare i tuoi spazi in luoghi che raccontano la tua storia. 
                 </p>
                 <p style="text-align: center;">
                     Con Aeki arredare casa diventa un’esperienza unica e creativa!
