@@ -1,7 +1,28 @@
 <?php $prodotto = $templateParams["prodotto"];?>
+<style>
+.carousel-inner img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.carousel-item img {
+    transition: transform 0.1s ease, box-shadow 0.1s ease; 
+    cursor: zoom-in; 
+    object-fit: contain; 
+}
+
+.carousel-item img:hover {
+    transform: scale(1.2); 
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); 
+}
+
+
+
+</style>
 <div class="row d-flex justify-content-center">
     <div class = "col-md-10 col-12 rounded shadow p-4">
-        <div class="row d-flex align-items-stretch rounded border shadow-sm bg-light">
+        <div class="row d-flex align-items-stretch rounded shadow-sm">
             <!--img-->
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <div id="productCarousel" class="carousel slide p-2" data-bs-ride="carousel">
@@ -31,37 +52,40 @@
 
 
             <!-- Descrizione Prodotto -->
-            <div class="col-md-6 p-4 d-flex flex-column ">
-                <div class="d-flex align-items-center mb-3">
-                    <h1 class="fw-semibold flex-grow-1"><?php echo $prodotto["Nome"]; ?></h1>
+            <div class="col-md-6 p-4 d-flex flex-column rounded border-start shadow-sm">
+                <div class="d-flex align-items-center mb-2">
+                    <h1 class="fw-bold flex-grow-1 display-6"><?php echo $prodotto["Nome"]; ?></h1>
                     <div>
                         <?php if ($prodotto["InWishlist"] == "true"): ?>
-                            <i class="bi bi-heart-fill text-danger fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
-                            <i class="bi bi-heart fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                            <i class="bi bi-heart-fill text-danger fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>"></i>
                         <?php else: ?>
-                            <i class="bi bi-heart-fill text-danger fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
-                            <i class="bi bi-heart fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
+                            <i class="bi bi-heart fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>"></i>
                         <?php endif; ?>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <span class="fs-4 mt-2">Prezzo: <span class="fw-semibold"><?php echo $prodotto["Prezzo"]; ?> €</span></span>
-                    <p class="fs-4">Disponibilità: <span class="fw-semibold"><?php echo $prodotto["Disponibilita"]; ?></span></p>
+                    <span class="fs-4 fw-semibold"><?php echo $prodotto["Prezzo"]; ?> €</span>
                 </div>
-                
-                <div class="card p-1 mb-5">
-                <span class="fs-4 card-title">Descrizione:</span>
-                    <p class="fs-5 text-muted card-text"><?php echo $prodotto["Descrizione"]; ?></p>
+                <div class="card p-3 mb-5">
+                    <h5 class="card-title fs-5"><i class="bi bi-info-circle me-2"></i>Descrizione:</h5>
+                    <p class="fs-6 text-muted"><?php echo $prodotto["Descrizione"]; ?></p>
                 </div>
                 <div class="d-flex align-items-center mb-3">
-                    <label for="quantity" class="me-2 fs-5">Quantità:</label>
-                    <input type="number" id="quantity" class="form-control w-25" min="0" max="<?php echo $prodotto["Disponibilita"]; ?>" value="0">
+                    <label for="quantity" class="me-3 fs-5">Quantità:</label>
+                    <input type="number" id="quantity" class="form-control w-25 me-3 rounded-pill px-4 text-center shadow-sm" min="0" max="<?php echo $prodotto["Disponibilita"]; ?>" value="0">
+                    <span class="text-muted fs-6">Disponibilità: 
+                        <span class="fw-semibold <?php echo $prodotto["Disponibilita"] < 5 ? 'text-danger' : ''; ?>">
+                            <?php echo $prodotto["Disponibilita"]; ?>
+                        </span>
+                    </span>
                 </div>
-                <button id="addToCartButton" class="btn btn-primary w-100 py-2 fs-5 hover-shadow" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?> ">
-                    Aggiungi al carrello
+                <button id="addToCartButton" class="btn btn-primary rounded-pill w-100 py-2 fs-5 hover-shadow" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?> ">
+                    <i class="bi bi-cart-plus me-2"></i>Aggiungi al carrello
                 </button>
                 <div id="userType" data-user-type="<?php echo $templateParams["isCustomer"]?>" style="display: none;"></div>
             </div>
+
+
         </div>
         
         <!-- Tabella con informazioni -->

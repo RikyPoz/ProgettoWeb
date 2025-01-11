@@ -308,7 +308,7 @@ INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
 (3, 2);
 
 -- Populating Notifiche table
-INSERT INTO Notifiche (Username, Testo, Data) VALUES
+INSERT INTO Notifica (Username, Testo, Data) VALUES
 ('user1', 'Ordine Spedito', '2024-12-01 08:30:00'),
 ('user2', 'Nuovo Messaggio', '2024-12-02 14:45:00'),
 ('user2', 'Promozione Attiva', '2024-12-03 09:15:00');

@@ -30,6 +30,88 @@ function logout() {
     window.location.href = '/login'; // Reindirizza alla pagina di login
 }
 
+// Mostra il messaggio di informativa sui cookie
+function showCookieNotice() {
+    if (getCookie('cookieConsent')) return; // Non mostrare se già accettato
+
+    const notice = document.createElement('div');
+    notice.id = 'cookieNotice';
+    notice.innerHTML = `
+        <div class="alert alert-info" style="position: fixed; top: 10px; left: 10px; right: 10px; z-index: 1000; background-color: white; color: black; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            <p><strong>Informativa sull'uso dei cookie</strong></p>
+            <p>Utilizziamo i cookie per offrirti la migliore esperienza possibile sul nostro sito web. 
+            Hai la possibilità di accettare tutti i cookie o rifiutarli secondo le tue preferenze. 
+            Per saperne di più su come utilizziamo i cookie e su come puoi modificarne le impostazioni, consulta la nostra Informativa sui Cookie. 
+            Cliccando su "Accetta", acconsenti all'utilizzo di tutti i cookie.</p>
+            <div style="display: flex; gap: 10px;">
+                <button id="acceptCookies" class="btn btn-success btn-sm" style="background-color: #28a745; border-color: #28a745; font-size: 12px; padding: 8px 16px;">Accetta</button>
+                <button id="rejectCookies" class="btn btn-danger btn-sm" style="background-color: #dc3545; border-color: #dc3545; font-size: 12px; padding: 8px 16px;">Rifiuta</button>
+            </div>
+        </div>
+    `;
+
+    // Crea un overlay sfocato sotto il messaggio
+    const overlay = document.createElement('div');
+    overlay.id = 'cookieOverlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.right = '0';
+    overlay.style.bottom = '0';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+    overlay.style.filter = 'blur(5px)'; // Applica la sfocatura
+    overlay.style.zIndex = '999'; // Posiziona l'overlay sotto il messaggio
+
+    // Applica l'overlay sopra la pagina
+    document.body.appendChild(overlay);
+
+    // Mostra l'informativa sui cookie
+    document.body.appendChild(notice);
+
+    // Rimuovi l'overlay e il messaggio quando l'utente interagisce
+    document.getElementById('acceptCookies').addEventListener('click', function() {
+        document.body.removeChild(overlay); // Rimuove l'overlay
+        document.getElementById('cookieNotice').remove(); // Rimuovi il messaggio
+    });
+
+    document.getElementById('rejectCookies').addEventListener('click', function() {
+        document.body.removeChild(overlay); // Rimuove l'overlay
+        document.getElementById('cookieNotice').remove(); // Rimuovi il messaggio
+    });
+
+    // Gestisci l'accettazione dei cookie
+    document.getElementById('acceptCookies').addEventListener('click', function () {
+        setCookie('cookieConsent', 'accepted', 365); // Memorizza il consenso
+        document.getElementById('remember').checked = true; // Mantieni la spunta
+        document.body.removeChild(notice); // Rimuovi il messaggio
+    });
+
+    // Gestisci il rifiuto dei cookie
+    document.getElementById('rejectCookies').addEventListener('click', function () {
+        document.getElementById('remember').checked = false; // Rimuovi la spunta
+        document.body.removeChild(notice); // Rimuovi il messaggio
+    });
+}
+
+// Aggiungi un event listener alla casella "Ricordami"
+document.getElementById('remember').addEventListener('change', function () {
+    if (this.checked) {
+        showCookieNotice(); // Mostra l'informativa sui cookie
+    }
+});
+
+// Se esiste il cookie, pre-compilare il modulo di login con il cookie
+window.onload = function() {
+    const emailCookie = getCookie('userEmail');
+    const passwordCookie = getCookie('userPassword');
+    
+    if (emailCookie && passwordCookie) {
+        document.getElementById('email').value = emailCookie;
+        document.getElementById('password').value = passwordCookie; // Pre-compila anche la password
+        document.getElementById('remember').checked = true; // Se c'è un cookie, la casella "Ricordami" è selezionata
+    }
+};
+
 // Gestisce il login con la selezione "Ricordami"
 document.getElementById('loginButton').addEventListener('click', function () {
     const email = document.getElementById('email').value;
@@ -72,18 +154,6 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
     xhr.send(JSON.stringify({ email: email, password: password }));
 });
-
-// Se esiste il cookie, pre-compilare il modulo di login con il cookie
-window.onload = function() {
-    const emailCookie = getCookie('userEmail');
-    const passwordCookie = getCookie('userPassword');
-    
-    if (emailCookie && passwordCookie) {
-        document.getElementById('email').value = emailCookie;
-        document.getElementById('password').value = passwordCookie; // Pre-compila anche la password
-        document.getElementById('remember').checked = true; // Se c'è un cookie, la casella "Ricordami" è selezionata
-    }
-};
 
 // Gestisce la cancellazione dell'account
 document.getElementById("deleteAccountBtn").addEventListener("click", function () {

@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Recupera i dati POST
 $data = json_decode(file_get_contents('php://input'), true);
-$username = $_SESSION['user_id']; // Ottieni il nome utente dalla sessione
+$username = $_SESSION['user_id']; // Ottiene il nome utente dalla sessione
 $passwordAttuale = $data['passwordAttuale'];
 $nuovaPassword = $data['nuovaPassword'];
 
@@ -23,7 +23,7 @@ $result = $dbh->updatePassword($username, $passwordAttuale, $nuovaPassword);
 
 // Verifica il risultato e invia una risposta al client
 if ($result) {
-    echo json_encode(["success" => true, "message" => "Password cambiata con successo!"]);
+    echo json_encode(["success" => true, "message" => "Password cambiata con successo! Reindirizzamento in corso..."]);
 } else {
     echo json_encode(["success" => false, "message" => "La password attuale non è corretta."]);
 }

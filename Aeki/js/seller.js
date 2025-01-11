@@ -157,7 +157,7 @@ async function generateProductList(data) {
                         <div class="d-flex flex-column align-items-center mt-auto">
                             <span class="fw-bold fs-3 mt-2">${product["Nome"]} </span>
                             <span class="text-success fs-5">${product["Prezzo"]}€</span>
-                            <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}">
+                            <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}" id="productAvailability-${product["CodiceProdotto"]}" data-availability="${product["Disponibilita"]}">
                                 Disponibilità: ${product["Disponibilita"]}
                             </span>
                             <div class="d-flex align-items-center">
@@ -200,7 +200,6 @@ function generateOrderList(data) {
 
     html += `<div id="orders-list">`;
 
-    // Raggruppamento degli ordini per ID
     const groupedOrders = orders.reduce((acc, order) => {
         if (!acc[order.IDordine]) {
             acc[order.IDordine] = {
@@ -217,7 +216,8 @@ function generateOrderList(data) {
             Quantita: order.Quantita,
             PrezzoPagato: order.PrezzoPagato,
             CodiceProdotto: order.CodiceProdotto,
-            PercorsoImg: order.PercorsoImg
+            PercorsoImg: order.PercorsoImg,
+            Rimosso: order.Rimosso
         });
 
         acc[order.IDordine].PrezzoTotale += parseFloat(order.PrezzoPagato);
@@ -250,7 +250,7 @@ function generateOrderList(data) {
                     <div class="col-md-10 col-12 flex-column ps-md-5">
                         <div>
                             <h2 class="fw-semibold fs-4">${product.Nome}</h2>
-                            ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
+                            ${product.Rimosso === 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
                             <span class="fs-5 me-4">Quantità: ${product.Quantita}</span>
                             <span class="fs-5 text-muted">${product.PrezzoPagato.toFixed(2)} €</span>
                         </div>
@@ -275,8 +275,6 @@ function generateOrderList(data) {
 }
 
 
-
-
 function generateStats(stats) {
     if (!stats) return '<p>Nessun statistica trovato.</p>';
 
@@ -297,147 +295,118 @@ function generateStats(stats) {
         </div >
     </div >`
 
-    /*if (!stats || typeof stats !== 'object') {
-        return '<p>Errore nel recupero delle statistiche.</p>';
-    }
- 
-    let errorMessages = [];
- 
-    // Verifica ciascun campo delle statistiche
-    if (stats.totalSales && stats.totalSales.success === false) {
-        errorMessages.push('Errore nel recupero delle vendite totali: ' + stats.totalSales.message);
-    }
-    if (stats.topSellingProducts && stats.topSellingProducts.success === false) {
-        errorMessages.push('Errore nel recupero dei prodotti più venduti: ' + stats.topSellingProducts.message);
-    }
-    if (stats.reviews && stats.reviews.success === false) {
-        errorMessages.push('Errore nel recupero delle recensioni: ' + stats.reviews.message);
-    }
-    if (stats.conversionRate && stats.conversionRate.success === false) {
-        errorMessages.push('Errore nel recupero del tasso di conversione: ' + stats.conversionRate.message);
-    }
-    if (stats.delayedShipments && stats.delayedShipments.success === false) {
-        errorMessages.push('Errore nel recupero delle spedizioni ritardate: ' + stats.delayedShipments.message);
-    }
- 
-    // Se ci sono errori, restituisci un messaggio di errore con tutti i dettagli
-    if (errorMessages.length > 0) {
-        return '<p>' + errorMessages.join('</p><p>') + '</p>';
-    }*/
-    html += `
-    <div class="row row-cols-2 row-cols-md-3 g-4 mt-3">
-    <!-- Prodotti Venduti Totale -->
-    <div class="col">
-        <div class="card shadow h-100 p-3">
-            <h5 class="card-title">Prodotti Distinti Venduti</h5>
-            <p class="fs-3">${stats.totalSelledProduct}</p>
-        </div>
-    </div>
-    <!-- Quantità Venduta Totale -->
-    <div class="col">
-        <div class="card shadow h-100 p-3">
-            <h5 class="card-title">Quantità Totale Venduta</h5>
-            <p class="fs-3">${stats.totalSelledQuantity}</p>
-        </div>
-    </div>
-    <!-- Guadagno Totale -->
-    <div class="col">
-        <div class="card shadow h-100 p-3">
-            <h5 class="card-title">Guadagno Totale</h5>
-            <p class="fs-3">${stats.totalSales}€</p>
-        </div>
-    </div>
-    <!-- Like Totali -->
-    <div class="col">
-        <div class="card shadow h-100 p-3">
-            <h5 class="card-title">Mi Piace Totali</h5>
-            <p class="fs-3">${stats.totalLikeReceived}</p>
-        </div>
-    </div>
-    <!-- Recensioni Prodotti -->
-    <div class="col">
-        <div class="card shadow h-100 p-3">
-            <h5 class="card-title">Recensioni Totali</h5>
-            <p class="fs-3">${stats.reviewsData["totalReviews"]}</p>
-        </div>
-    </div>
-    <!-- Valutazione Media -->
-    <div class="col">
-        <div class="card shadow h-100 p-3">
-            <h5 class="card-title">Valutazione Media</h5>
-            <span class="fs-3 text-warning">
-                ${getStars(stats.reviewsData["averageRating"])} 
-                <span class="fs-3 text-dark">${stats.reviewsData["averageRating"].slice(0, 3)}</span>
-            </span>
-        </div>
-    </div>
-</div>
-`
-
-
 
     html += `
-            <!-- Prodotti Più Venduti -->
-            <div class="row ">
-                <div class = "col-md-12 ">
-                    <div class = "card shadow my-3 p-3">
-                        <!-- Title-->
-                        <h5 class="card-title mt-3">Prodotti Più Venduti</h5> 
-                        
-                        <!-- Separator -->
-                        <hr class="mb-4">
+        <div class="row row-cols-2 row-cols-md-3 g-4 mt-3">
+            <!-- Prodotti Venduti Totale -->
+            <div class="col">
+                <div class="card shadow h-100 p-3">
+                    <h5 class="card-title">Prodotti Distinti Venduti</h5>
+                    <p class="fs-3">${stats.totalSelledProduct}</p>
+                </div>
+            </div>
+            <!-- Quantità Venduta Totale -->
+            <div class="col">
+                <div class="card shadow h-100 p-3">
+                    <h5 class="card-title">Quantità Totale Venduta</h5>
+                    <p class="fs-3">${stats.totalSelledQuantity}</p>
+                </div>
+            </div>
+            <!-- Guadagno Totale -->
+            <div class="col">
+                <div class="card shadow h-100 p-3">
+                    <h5 class="card-title">Guadagno Totale</h5>
+                    <p class="fs-3">${stats.totalSales}€</p>
+                </div>
+            </div>
+            <!-- Like Totali -->
+            <div class="col">
+                <div class="card shadow h-100 p-3">
+                    <h5 class="card-title">Mi Piace Totali</h5>
+                    <p class="fs-3">${stats.totalLikeReceived}</p>
+                </div>
+            </div>
+            <!-- Recensioni Prodotti -->
+            <div class="col">
+                <div class="card shadow h-100 p-3">
+                    <h5 class="card-title">Recensioni Totali</h5>
+                    <p class="fs-3">${stats.reviewsData["totalReviews"]}</p>
+                </div>
+            </div>
+            <!-- Valutazione Media -->
+            <div class="col">
+                <div class="card shadow h-100 p-3">
+                    <h5 class="card-title">Valutazione Media</h5>
+                    <span class="fs-3 text-warning">
+                        ${getStars(stats.reviewsData["averageRating"])} 
+                        <span class="fs-3 text-dark">${stats.reviewsData["averageRating"].slice(0, 3)}</span>
+                    </span>
+                </div>
+            </div>
+        </div>`
 
-                        <!-- Product List -->
-                        <div class="px-3">
-                            <!-- Single Product -->
-                            ${stats.topSellingProducts.length > 0 ? stats.topSellingProducts.map(product => `
-                            <div class="row justify-content-center justify-content-md-start align-items-center border rounded shadow-sm p-3 mb-3">
-                                <div class="col-md-2 col-6  ">
-                                    <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
-                                </div>
-                                <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
-                                    <h2 class="fw-semibold fs-4">${product.Nome}</h2>
-                                    ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
-                                    <span class="fs-5 me-4">Quantità totale venduta: ${product.Quantita}</span>
-                                    <p class="fs-5 me-4">Ricavo totale: ${product.RicavoTotale} €</p>
-                                    <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
-                                </div>
-                            </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
-                        </div>
+    html += `
+        <!-- Prodotti Più Venduti -->
+        <div class="row ">
+            <div class = "col-md-12 ">
+                <div class = "card shadow my-3 p-3">
+                    <!-- Title-->
+                    <h5 class="card-title mt-3">Prodotti Più Venduti</h5> 
+                    
+                    <!-- Separator -->
+                    <hr class="mb-4">
+
+                    <!-- Product List -->
+                    <div class="px-3">
+                        <!-- Single Product -->
+                        ${stats.topSellingProducts.length > 0 ? stats.topSellingProducts.map(product => `
+                        <div class="row justify-content-center justify-content-md-start align-items-center border rounded shadow-sm p-3 mb-3">
+                            <div class="col-md-2 col-6  ">
+                                <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
+                            </div>
+                            <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
+                                <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                                ${product.Rimosso == 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
+                                <span class="fs-5 me-4">Quantità totale venduta: ${product.Quantita}</span>
+                                <p class="fs-5 me-4">Ricavo totale: ${product.RicavoTotale} €</p>
+                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                            </div>
+                        </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
                     </div>
                 </div>
-            </div>`;
+            </div>
+        </div>`;
 
     html += `
-            <!-- Prodotti con piu like -->
-            <div class="row ">
-                <div class = "col-md-12 ">
-                    <div class = "card shadow my-3 p-3">
-                        <!-- Title-->
-                        <h5 class="card-title mt-3">Prodotti Più Piaciuti</h5> 
-                        
-                        <!-- Separator -->
-                        <hr class="mb-4">
+        <!-- Prodotti con piu like -->
+        <div class="row ">
+            <div class = "col-md-12 ">
+                <div class = "card shadow my-3 p-3">
+                    <!-- Title-->
+                    <h5 class="card-title mt-3">Prodotti Più Piaciuti</h5> 
+                    
+                    <!-- Separator -->
+                    <hr class="mb-4">
 
-                        <!-- Product List -->
-                        <div class="px-3">
-                            <!-- Single Product -->
-                            ${stats.topLikedProducts.length > 0 ? stats.topLikedProducts.map(product => `
-                            <div class="row justify-content-center justify-content-md-start align-items-center border rounded shadow-sm p-3 mb-3">
-                                <div class="col-md-2 col-6  ">
-                                    <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
-                                </div>
-                                <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
-                                    <h2 class="fw-semibold fs-4">${product.Nome}</h2>
-                                    ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
-                                    <p class="fs-5 me-4"> Mi piace totali: ${product.likeTotali}</p>
-                                    <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
-                                </div>
-                            </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
-                        </div>
+                    <!-- Product List -->
+                    <div class="px-3">
+                        <!-- Single Product -->
+                        ${stats.topLikedProducts.length > 0 ? stats.topLikedProducts.map(product => `
+                        <div class="row justify-content-center justify-content-md-start align-items-center border rounded shadow-sm p-3 mb-3">
+                            <div class="col-md-2 col-6  ">
+                                <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
+                            </div>
+                            <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
+                                <h2 class="fw-semibold fs-4">${product.Nome}</h2>
+                                ${product.Rimosso == 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
+                                <p class="fs-5 me-4"> Mi piace totali: ${product.likeTotali}</p>
+                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                            </div>
+                        </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
                     </div>
                 </div>
-            </div>`;
+            </div>
+        </div>`;
 
     return html;
 }
@@ -463,6 +432,7 @@ function generateReviews(data) {
                 CodiceProdotto: review.CodiceProdotto,
                 Nome: review.Nome,
                 PercorsoImg: review.PercorsoImg,
+                Rimosso: review.Rimosso,
                 Recensioni: []
             };
         }
@@ -480,7 +450,7 @@ function generateReviews(data) {
 
     Object.values(groupedReviews).forEach(product => {
         html += `
-        <div class="card shadow mt-4 p-3">
+        <div class="card shadow mt-5 p-3">
             <!-- Product Info -->
             <div class="row d-flex align-items-center">
                 <div class="col-md-2">
@@ -488,7 +458,7 @@ function generateReviews(data) {
                 </div>
                 <div class="col-md-6">
                     <h3 class="fw-semibold">${product.Nome}</h3>
-                    ${product.Rimosso === 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
+                    ${product.Rimosso == 'Y' ? '<h4 class="fw-semibold fs-4">(Prodotto Rimosso)</h4>' : ''}
                     <span class = "fs-5">Codice Prodotto: <span class = "fw-semibold">${product.CodiceProdotto}</span></span>
                     <div class="mt-4">
                         <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>

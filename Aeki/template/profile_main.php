@@ -38,35 +38,35 @@
             </div>
         </section>
 
-        <!-- Sezione Messaggi e Recensioni -->
-<aside class="col-lg-4">
-    <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
-        <h3>Messaggi in arrivo</h3>
-        <ul class="list-group" id="messaggi-container">
-            <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
-        </ul>
-    </div>
-
-    <div class="border rounded p-3" style="height: 300px; overflow-y: auto;">
-        <h4>Recensioni Inviate</h4>
-        <?php if (!empty($templateParams["recensioni"])): ?>
-            <ul class="list-group">
-                <?php foreach ($templateParams["recensioni"] as $recensione): ?>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <p><?php echo $recensione['Testo']; ?></p>
-                            <small class="text-muted">Codice Prodotto: <?php echo $recensione['CodiceProdotto']; ?></small>
-                        </div>
-                        <span class="text-muted" style="display: flex; white-space: nowrap;"><?php echo getStars($recensione['stelle']); ?></span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>Nessuna recensione inviata.</p>
-        <?php endif; ?>
-    </div>
-</aside>
-
+        <!-- Aside -->
+        <aside class="col-lg-4">
+            <!-- Sezione Messaggi -->
+            <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
+                <h3>Messaggi in arrivo</h3>
+                <ul class="list-group" id="messaggi-container">
+                    <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
+                </ul>
+            </div>
+            <!-- Sezione Recensioni -->
+            <div class="border rounded p-3" style="height: 300px; overflow-y: auto;">
+                <h4>Recensioni Inviate</h4>
+                <?php if (!empty($templateParams["recensioni"])): ?>
+                    <ul class="list-group">
+                        <?php foreach ($templateParams["recensioni"] as $recensione): ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p><?php echo $recensione['Testo']; ?></p>
+                                    <small class="text-muted">Codice Prodotto: <?php echo $recensione['CodiceProdotto']; ?></small>
+                                </div>
+                                <span class="text-muted" style="display: flex; white-space: nowrap;"><?php echo getStars($recensione['stelle']); ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>Nessuna recensione inviata.</p>
+                <?php endif; ?>
+            </div>
+        </aside>
     </div>
 </div>
 
@@ -79,7 +79,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="modificaProfiloForm">
+                <form id="modificaProfiloForm"> 
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nomeUtente" name="nome" value="<?php echo $templateParams["utente"]['Nome']; ?>">
@@ -112,14 +112,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="cambiaPassword.php" method="POST">
+                <!-- Contenitore per il messaggio di errore -->
+                <div id="message-container" style="margin-bottom: 15px;"></div>
+                <form id="cambiaPasswordForm">
+                    <!-- Password Attuale -->
                     <div class="mb-3">
                         <label for="passwordAttuale" class="form-label">Password Attuale</label>
-                        <input type="password" class="form-control" id="passwordAttuale" name="passwordAttuale" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="passwordAttuale" name="passwordAttuale" required>
+                            <button type="button" class="btn btn-outline-secondary" id="togglePasswordAttuale">
+                                <i id="toggleIconAttuale" class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
+                    <!-- Nuova Password -->
                     <div class="mb-3">
                         <label for="nuovaPassword" class="form-label">Nuova Password</label>
-                        <input type="password" class="form-control" id="nuovaPassword" name="nuovaPassword" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="nuovaPassword" name="nuovaPassword" required>
+                            <button type="button" class="btn btn-outline-secondary" id="togglePasswordNuova">
+                                <i id="toggleIconNuova" class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Conferma Nuova Password -->
+                    <div class="mb-3">
+                        <label for="confermaNuovaPassword" class="form-label">Conferma Nuova Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="confermaNuovaPassword" name="confermaNuovaPassword" required>
+                            <button type="button" class="btn btn-outline-secondary" id="togglePasswordConferma">
+                                <i id="toggleIconConferma" class="bi bi-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Cambia Password</button>
                 </form>

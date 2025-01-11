@@ -95,52 +95,6 @@ async function updateModalEventListeners(product) {
     }
 }
 
-
-async function updateProductAvailability(product) {
-    const newAvailability = document.querySelector(`#newAvailability-${product.CodiceProdotto}`).value;
-    if (!newAvailability) {
-        alert('Seleziona una nuova disponibilità.');
-        return;
-    }
-
-    try {
-
-        const sendingData = {
-            action: 'update-availability',
-            codiceProdotto: product.CodiceProdotto,
-            nuovaDisponibilita: newAvailability
-        };
-
-
-        const response = await fetch('Ajax/api-seller-product.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(sendingData)
-        });
-
-        if (!response.ok) {
-            throw new Error(`Errore nella richiesta: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.success) {
-            alert('Disponibilità aggiornata');
-            const closeButton = document.querySelector(`#updateAvailabilityModal-${product.CodiceProdotto} .btn-close`);
-            closeButton.click();
-            fetchData("products");
-        } else {
-            alert("Errore durante l'aggiornamento del prodotto: " + result.message);
-        }
-    } catch (error) {
-        console.error('Errore nella richiesta:', error);
-        alert('Errore nel comunicare con il server');
-    }
-}
-
-
 async function deleteProduct(product) {
     try {
 
@@ -171,6 +125,54 @@ async function deleteProduct(product) {
             fetchData("products");
         } else {
             alert('Errore durante l\'eliminazione del prodotto ' + result.message);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nel comunicare con il server');
+    }
+}
+
+
+async function updateProductAvailability(product) {
+    const newAvailability = document.querySelector(`#newAvailability-${product.CodiceProdotto}`).value;
+    const oldAvailability = document.querySelector(`#productAvailability-${product.CodiceProdotto}`).dataset.availability;
+
+    if (!newAvailability) {
+        alert('Seleziona una nuova disponibilità.');
+        return;
+    }
+
+    try {
+
+        const sendingData = {
+            action: 'update-availability',
+            codiceProdotto: product.CodiceProdotto,
+            nuovaDisponibilita: newAvailability,
+            vecchiaDisponibilita: oldAvailability
+        };
+
+
+        const response = await fetch('Ajax/api-seller-product.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendingData)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Disponibilità aggiornata');
+            const closeButton = document.querySelector(`#updateAvailabilityModal-${product.CodiceProdotto} .btn-close`);
+            closeButton.click();
+            fetchData("products");
+        } else {
+            alert("Errore durante l'aggiornamento del prodotto: " + result.message);
         }
     } catch (error) {
         console.error('Errore nella richiesta:', error);

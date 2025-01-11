@@ -18,7 +18,6 @@
             </div>
 
             <div class="btn-group-vertical w-100">
-                <button class="btn btn-primary mb-1" id="viewProfileBtn">Visualizza Profilo</button>
                 <button class="btn btn-primary mb-1" id="viewProductsBtn">Visualizza i Prodotti</button>
                 <button class="btn btn-primary mb-1" id="viewOrdersBtn">Visualizza Ordini</button>
                 <button class="btn btn-primary mb-1" id="viewStatsBtn">Visualizza Statistiche</button>

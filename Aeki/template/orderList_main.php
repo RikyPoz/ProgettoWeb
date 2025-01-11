@@ -1,18 +1,12 @@
 <div class = "row justify-content-center">
   <div class="col-md-10 col-12 mt-4">
     <!-- Titolo e filtro -->
-    <div class="d-flex flex-column flex-md-row align-items-center mb-4">
+    <div class="d-flex justify-content-center justify-content-md-start">
       <h1>I miei Ordini</h1>
-      <div class = "d-inline-flex ms-md-5">
-        <select id="order-sort" class="form-select">
-          <option value = "Date" >Data Ordine</option>
-          <option value = "Price" >Costo Totale</option>
-        </select>
-      </div>
     </div>
 
     <!--Order List-->
-    <?php if (!empty($templateParams["prodotti"])): ?>
+    <?php if (!empty($templateParams["ordini"])): ?>
       <div id="orders-list ">
         <?php foreach($templateParams["ordini"] as $ordine): ?>
           <!--Single Order-->
@@ -34,15 +28,19 @@
                         <img src="<?php echo $prodotto["PercorsoImg"] ?>" alt="img" class="img-fluid">
                     </div>
                     <div class = "col-md-10 col-12 flex-column  ps-md-5">
-                        <div class = "d-flex flex-column">
+                        <div class = "d-flex flex-column mb-4">
                           <h2><?php echo $prodotto["Nome"] ?> </h2>
                           <span class="fs-4 me-4">Quantità : <span class = "fw-semibold"><?php echo $prodotto["Quantita"] ?></span></span>
                           <span class="fs-4 ">Prezzo Pagato: <span class = "fw-semibold"><?php echo $prodotto["PrezzoPagato"] ?> €</span></span>
                         </div>
-                        <div class = "mt-4">
-                          <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary">Visualizza articolo</a>
-                          <a href="review.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary">Recensisci Articolo</a>
-                        </div>
+                        <?php if($prodotto["Rimosso"] == 'N'):?>
+                          <div>
+                            <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary">Visualizza articolo</a>
+                            <a href="review.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary">Recensisci Articolo</a>
+                          </div>
+                        <?php else: ?>
+                            <span class = "fs-5 text-muted">(Questo prodotto è stato rimosso dal venditore)</span>
+                        <?php endif;?>
                     </div>
                 </div>
                 <?php endforeach; ?>

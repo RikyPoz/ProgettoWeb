@@ -60,7 +60,7 @@
                 </li>
                 <li class="nav-item d-flex flex-column align-items-center mx-3">
                     <a href="whishlist.php" class="btn btn-light text-center">
-                        <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
+                        <i class="bi bi-house-heart" style="font-size: 1.5rem;"></i>
                     </a>
                     <span>Preferiti</span>
                 </li>

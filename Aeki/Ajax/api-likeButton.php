@@ -32,6 +32,6 @@ if (isset($data["productId"]) && isset($data["type"])) {
         }
     }
 } else {
-    echo json_encode(["success" => false, "message" => "Dati mancanti."]);
+    echo json_encode(["success" => false, "message" => "Dati mancanti ciao."]);
 }
 ?>
