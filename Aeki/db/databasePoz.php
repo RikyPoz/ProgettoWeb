@@ -13,6 +13,17 @@ class DatabaseHelper{
         }        
     }
 
+    public function getNumeroNotifiche($username) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM Notifica WHERE Username = ? AND Letta = 'N'");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($unread_count);
+        $stmt->fetch();
+        $stmt->close();
+    
+        return $unread_count;  // Restituisce il numero di notifiche non lette
+    }
+
     public function getCategorie(){
         $stmt = $this->db->prepare("SELECT NomeCategoria, PercorsoImmagine FROM Categoria ORDER BY NomeCategoria");
         $stmt->execute();
@@ -57,8 +68,10 @@ class DatabaseHelper{
     }
     
     
+    
+    
     public function getMessaggiByUtente($username) {
-        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? ORDER BY Data DESC");
         $stmt->bind_param("s", $username);  
         $stmt->execute();
         $result = $stmt->get_result();
@@ -76,7 +89,7 @@ class DatabaseHelper{
     }
 
     public function getMessaggiByData($username, $data) {
-        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifiche WHERE Username = ? AND Data > ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? AND Data > ? ORDER BY Data DESC");
         $stmt->bind_param("ss", $username, $data);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -239,7 +252,7 @@ class DatabaseHelper{
         }
     }
 
-    public function isCustomer($username){
+    public function userType($username){
         $stmt = $this->db->prepare("SELECT Tipo FROM Utente WHERE username=?");
         $stmt->bind_param('s',$username);
         $stmt->execute();

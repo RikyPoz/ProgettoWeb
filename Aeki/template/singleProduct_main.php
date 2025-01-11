@@ -82,7 +82,7 @@
                 <button id="addToCartButton" class="btn btn-primary rounded-pill w-100 py-2 fs-5 hover-shadow" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?> ">
                     <i class="bi bi-cart-plus me-2"></i>Aggiungi al carrello
                 </button>
-                <div id="userType" data-user-type="<?php echo $templateParams["isCustomer"]?>" style="display: none;"></div>
+                <div id="userType" data-user-type="<?php echo $templateParams["userType"]?>" style="display: none;"></div>
             </div>
 
 

@@ -35,8 +35,8 @@
                         </div>
                         <?php if($prodotto["Rimosso"] == 'N'):?>
                           <div>
-                            <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary">Visualizza articolo</a>
-                            <a href="review.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary">Recensisci Articolo</a>
+                            <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary rounded-pill me-1"><i class="bi bi-eye me-2"></i>Visualizza </a>
+                            <a href="review.php?id=<?php echo $prodotto["CodiceProdotto"]?>" class="btn btn-primary rounded-pill"><i class="bi bi-pen me-2"></i>Recensisci </a>
                           </div>
                         <?php else: ?>
                             <span class = "fs-5 text-muted">(Questo prodotto è stato rimosso dal venditore)</span>
