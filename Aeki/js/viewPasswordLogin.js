@@ -1,3 +1,4 @@
+// Gestisce la visualizzazione della password per 'password'
 document.getElementById('togglePassword').addEventListener('click', function () {
     const passwordField = document.getElementById('password');
     const toggleIcon = document.getElementById('toggleIcon');

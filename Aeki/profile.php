@@ -5,6 +5,7 @@ require_once 'bootstrap.php';
 $templateParams["titolo"] = "Aeki - Utente";
 $templateParams["nome"] = "profile_main.php";
 $templateParams["js"] = array(
+    "js/viewPasswordProfile.js",
     "js/updateMessages.js",
     "js/updateProfile.js",
     "js/deleteProfile.js",

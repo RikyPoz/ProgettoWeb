@@ -153,23 +153,23 @@ class DatabaseHelper{
         $stmt = $this->db->prepare("SELECT Password FROM Utente WHERE Username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
-        $stmt->bind_result($passwordAttuale);
+        $stmt->bind_result($passwordDB);
         $stmt->fetch();
         $stmt->free_result();
         $stmt->close();
     
-        // Verifica se la password attuale è corretta (testo in chiaro)
-        if ($passwordAttuale === $passwordAttuale) {
-            // La password attuale è corretta, aggiorna la password
+        // Verifica se la password attuale è corretta 
+        if ($passwordAttuale === $passwordDB) {
+            // Se password attuale è corretta aggiorna la password
             $updateStmt = $this->db->prepare("UPDATE Utente SET Password = ? WHERE Username = ?");
             $updateStmt->bind_param('ss', $nuovaPassword, $username);
             $updateStmt->execute();
     
-            // Se l'aggiornamento ha avuto successo, restituisci true
+            // Se l'aggiornamento ha avuto successo restituisce true
             return $updateStmt->affected_rows > 0;
         }
 
-        // Se la password attuale non è corretta, restituisci false
+        // Se la password attuale non è corretta restituisce false
         return false;
     }
     
