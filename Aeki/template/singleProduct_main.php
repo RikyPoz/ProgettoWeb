@@ -2,7 +2,7 @@
 <style>
 .carousel-inner img {
     max-width: 100%;
-    max-height: 300px;
+    max-height: 400px;
     object-fit: contain;
 }
 
@@ -30,11 +30,11 @@
                         <?php foreach ($templateParams["immagini"] as $img): ?>
                             <?php if ($img["Icona"] == 'Y'):?>
                                 <div class="carousel-item active">
-                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
+                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid rounded" alt="<?php echo $img["PercorsoImg"] ?>">
                                 </div>
                             <?php else : ?>
                                 <div class="carousel-item">
-                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid" alt="<?php echo $img["PercorsoImg"] ?>">
+                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid rounded " alt="<?php echo $img["PercorsoImg"] ?>">
                                 </div>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -82,7 +82,7 @@
                 <button id="addToCartButton" class="btn btn-primary rounded-pill w-100 py-2 fs-5 hover-shadow" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?> ">
                     <i class="bi bi-cart-plus me-2"></i>Aggiungi al carrello
                 </button>
-                <div id="userType" data-user-type="<?php echo $templateParams["isCustomer"]?>" style="display: none;"></div>
+                <div id="userType" data-user-type="<?php echo $templateParams["userType"]?>" style="display: none;"></div>
             </div>
 
 

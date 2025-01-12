@@ -14,10 +14,10 @@
                             </div>
                             <div class="d-flex flex-column align-items-center mt-auto">
                                 <span class="fw-bold fs-4 mt-2"><?php echo htmlspecialchars($prodotto["Nome"]); ?></span>
-                                <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["Prezzo"]); ?> €</span>
+                                <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["Prezzo"]); ?>€</span>
                                 <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
                                 <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
-                                <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"] ?>" class="btn border rounded border-dark btn-sm mt-2">Visualizza articolo</a>
+                                <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"] ?>" class="btn border border-dark btn-sm mt-2 rounded-pill me-1"><i class="bi bi-eye me-2"></i>Visualizza </a>
                             </div>
                         </div>
                     </div>

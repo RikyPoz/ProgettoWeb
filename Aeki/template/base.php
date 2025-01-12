@@ -16,26 +16,36 @@
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
 </head>
 <body>
+    
+<?php 
+if (isset($_SESSION['user_id'])): 
+    $user_id = $_SESSION['user_id'];
+    $userType = $dbh->userType($user_id);
+else:
+    $userType = "Cliente";
+endif; 
+?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-light shadow">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <div>
+            <div class = "d-flex align-items-center">
                 <!-- Hamburger Menu -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Brand Logo -->
-                <a class="navbar-brand" href="homePage.php"><img src="upload/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"></a>
+                <a class="navbar-brand" href="homePage.php"><img src="upload/logo.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top"></a>
             </div>
 
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto" role="search" style="width: 50%;" action="filteredProducts.php" method="get">
+                <input class="form-control me-2" type="search" name="search" placeholder="Cerca..." aria-label="Search" required>
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Search Bar -->
-                <form class="d-flex mx-auto" role="search" style="width: 50%;" action="filteredProducts.php" method="get">
-                    <input class="form-control me-2" type="search" name="search" placeholder="Cerca..." aria-label="Search" required>
-                    <button class="btn btn-outline-secondary" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
 
                 <!-- Icons Section -->
                 <ul class="navbar-nav ms-auto d-flex justify-content-around align-items-center">
@@ -63,6 +73,7 @@
                         <?php endif; ?>
                         <span>Profilo</span>
                     </li>
+                    <?php if($userType === "Cliente"): ?>
                     <li class="nav-item d-flex flex-column align-items-center mx-3">
                         <a href="whishlist.php" class="btn btn-light text-center">
                             <i class="bi bi-house-heart" style="font-size: 1.5rem;"></i>
@@ -75,6 +86,15 @@
                         </a>
                         <span>Carrello</span>
                     </li>
+                    <?php else: ?>
+                    <li class="nav-item d-flex flex-column align-items-center mx-3">
+                        <a href="seller.php" class="btn btn-light text-center">
+                            <i class="bi bi-briefcase" style="font-size: 1.5rem;"></i>
+                        </a>
+                        <span>Hub</span>
+                    </li>
+
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -87,7 +107,7 @@
             }
         ?>
     </main>
-
+    <?php if($userType === "Cliente"): ?>
     <!-- Footer -->
     <footer style="background-color: #FFFFFF; color: #000000; padding: 40px 20px;">
       <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
@@ -128,6 +148,7 @@
           © 2025 [AEKI]. Tutti i diritti non riservati.
       </div>
     </footer>
+    <?php endif; ?>
 
   <?php
     if(isset($templateParams["js"])):
@@ -139,6 +160,7 @@
     endif;
     ?>
 </body>
+
 </html>
 
 <script src="js/logout.js"></script>

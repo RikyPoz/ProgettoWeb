@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'])) {
     if ($dbh->inWishList($idprodotto, $userId)) {
         $templateParams["prodotto"]["InWishlist"] = "true";  
     }
-    $templateParams["isCustomer"] = $dbh->isCustomer($userId);
+    $templateParams["userType"] = $dbh->userType($userId);
 }
 
 
