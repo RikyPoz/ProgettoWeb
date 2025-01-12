@@ -11,23 +11,32 @@ document.getElementById('loginButton').addEventListener('click', function () {
     // Invio dati al server tramite AJAX
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'Ajax/api-login.php', true);
-    console.log('Invio richiesta a:', '/api-login.php');
+    console.log('Invio richiesta a:', 'Ajax/api-login.php');
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
+            // Log per vedere la risposta grezza dal server
+            console.log(xhr.responseText); // Aggiungi il log per vedere cosa ricevi dal server
 
-            if (response.success) {
-                document.getElementById('loginMessage').innerHTML = '<div class="alert alert-success">Login effettuato con successo. Reindirizzamento...</div>';
-                setTimeout(() => {
-                    // Redirigi in base al tipo di utente
-                    if (response.redirect) {
-                        window.location.href = response.redirect; // Redirige verso la pagina corretta
-                    }
-                }, 2000);
-            } else {
-                document.getElementById('loginMessage').innerHTML = `<div class="alert alert-danger">${response.message}</div>`;
+            try {
+                const response = JSON.parse(xhr.responseText); // Parsing della risposta come JSON
+
+                if (response.success) {
+                    document.getElementById('loginMessage').innerHTML = '<div class="alert alert-success">Login effettuato con successo. Reindirizzamento...</div>';
+                    setTimeout(() => {
+                        // Redirigi in base al tipo di utente
+                        if (response.redirect) {
+                            window.location.href = response.redirect; // Redirige verso la pagina corretta
+                        }
+                    }, 2000);
+                } else {
+                    document.getElementById('loginMessage').innerHTML = `<div class="alert alert-danger">${response.message}</div>`;
+                }
+            } catch (error) {
+                // Se non riesce a fare il parsing, mostra un messaggio di errore
+                console.error('Errore di parsing JSON:', error);
+                document.getElementById('loginMessage').innerHTML = '<div class="alert alert-danger">Errore nella risposta del server. Riprova più tardi.</div>';
             }
         } else {
             document.getElementById('loginMessage').innerHTML = '<div class="alert alert-danger">Errore del server. Riprova più tardi.</div>';
