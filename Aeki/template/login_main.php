@@ -5,7 +5,10 @@
 <!-- Login -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="login-container">
-        <h2 class="text-center">Login</h2>
+        <h2 class="text-center d-flex align-items-center justify-content-center">
+            Login
+            <img src="upload/logo.png" alt="Logo del sito" style="width: 60px; height: 60px;">
+        </h2>
         <form id="loginForm">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -24,11 +27,11 @@
                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
                 <label class="form-check-label" for="remember">Ricordami</label>
             </div>
-            <button type="button" class="btn btn-primary" id="loginButton">Accedi</button>
+            <button type="button" class="btn btn-primary" style="background-color: #000060" id="loginButton">Accedi</button>
         </form>
         <div id="loginMessage" class="mt-3"></div>
         <div class="mt-3 text-center">
-            <p>Non sei registrato? <a href="#" id="openModal" aria-label="Apri modulo di registrazione">Registrati prima di fare il login.</a></p>
+            <p>Non sei registrato? <a href="#" id="openModal" aria-label="Apri modulo di registrazione" style="color: #000070">Registrati prima di fare il login.</a></p>
         </div>
     </div>
 </div>
@@ -71,7 +74,7 @@
                 <label for="confirm-password" class="form-label">Ripeti password</label>
                 <input type="password" class="form-control" id="confirm-password" name="confirm-password" required placeholder="Ripeti password">
             </div>
-            <button type="submit" class="btn btn-success">Registrati</button>
+            <button type="submit" class="btn btn-success" style="background-color: #000060">Registrati</button>
         </form>
     </div>
 </div>
