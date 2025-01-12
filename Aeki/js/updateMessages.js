@@ -65,6 +65,15 @@ function aggiornaMessaggiUI(messaggi) {
     const existingMessageIds = Array.from(messaggiContainer.children).map(item => item.querySelector('span.message-id')?.textContent);
 
     messaggi.forEach(messaggio => {
+        // Verifica che l'ID del messaggio sia presente
+        if (!messaggio.IdNotifica) {
+            console.error("ID del messaggio mancante:", messaggio);
+            return; // Salta il messaggio se l'ID non è valido
+        }
+
+        console.log("Messaggio:", messaggio); // Mostra il messaggio intero
+        console.log("Stato del messaggio:", messaggio.Letta); // Mostra lo stato di 'Letta'        
+
         // Controlla se il messaggio esiste già nella UI (utilizzando sia l'ID che la Data)
         if (existingMessageIds.includes(messaggio.IdNotifica)) {
             console.log(`Messaggio già presente: ${messaggio.Data} on ID ${messaggio.IdNotifica}`);
@@ -76,6 +85,12 @@ function aggiornaMessaggiUI(messaggi) {
 
         const testoSpan = document.createElement('span');
         testoSpan.textContent = messaggio.Testo;
+
+        // Se il messaggio non è letto (Letta = 'N'), applica il grassetto
+        if (messaggio.Letta === 'N') {
+            testoSpan.style.fontWeight = 'bold';
+            listItem.addEventListener('click', () => leggiMessaggio(messaggio.IdNotifica, listItem, testoSpan));
+        }
 
         const dataSpan = document.createElement('span');
         dataSpan.classList.add('text-muted');
@@ -92,4 +107,42 @@ function aggiornaMessaggiUI(messaggi) {
 
         messaggiContainer.prepend(listItem); // Aggiunge il nuovo messaggio all'inizio
     });
+}
+
+async function leggiMessaggio(idNotifica, listItem, testoSpan) {
+    // Verifica che l'ID del messaggio sia valido
+    if (!idNotifica) {
+        console.error("ID del messaggio mancante durante la lettura:", idNotifica);
+        return; // Interrompe l'esecuzione se l'ID non è valido
+    }
+
+    // Invia una richiesta al server per segnare il messaggio come letto
+    try {
+        const response = await fetch('Ajax/api-markAsRead.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idNotifica })  // Assicurati che l'ID sia passato correttamente
+        });
+
+        const json = await response.json();
+        console.log("Risposta dal server:", json);  // Log della risposta dal server
+
+        if (!json) {
+            console.error("Risposta del server mancante o non valida");
+            return;
+        }
+
+        if (json.success) {
+            // Rimuove il grassetto dal testo
+            testoSpan.style.fontWeight = 'normal';
+            listItem.removeEventListener('click', () => leggiMessaggio(idNotifica, listItem, testoSpan)); // Rimuove l'event listener dopo che è stato letto
+            console.log(`Messaggio ${idNotifica} marcato come letto`);
+        } else {
+            console.error(`Errore nel marcare il messaggio come letto: ${json.message}`);
+        }
+    } catch (error) {
+        console.error(`Errore durante l'aggiornamento del messaggio: ${error.message}`);
+    }
 }

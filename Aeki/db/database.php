@@ -73,7 +73,7 @@ class DatabaseHelper{
     }
 
     public function getMessaggiByData($username, $data) {
-        $stmt = $this->db->prepare("SELECT Testo, Data, IdNotifica FROM Notifica WHERE Username = ? AND Data >= ? ORDER BY Data ASC, IdNotifica ASC");
+        $stmt = $this->db->prepare("SELECT Testo, Data, IdNotifica, Letta FROM Notifica WHERE Username = ? AND Data >= ? ORDER BY Data ASC, IdNotifica ASC");
         $stmt->bind_param("ss", $username, $data);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -86,6 +86,15 @@ class DatabaseHelper{
         return $messaggi;
     }
     
+    public function updateLettaNotifica($idNotifica) {
+        $query = "UPDATE Notifica SET Letta = 'Y' WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $idNotifica);
+        $stmt->execute();
+    
+        // Restituisce true se almeno una riga è stata modificata, altrimenti false
+        return $stmt->affected_rows > 0;
+    }   
 
     public function getNumeroNotifiche($username) {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM Notifica WHERE Username = ? AND Letta = 'N'");
