@@ -73,7 +73,7 @@ class DatabaseHelper{
     }
 
     public function getMessaggiByData($username, $data) {
-        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? AND Data >= ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data, IdNotifica FROM Notifica WHERE Username = ? AND Data >= ? ORDER BY Data ASC, IdNotifica ASC");
         $stmt->bind_param("ss", $username, $data);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -85,6 +85,7 @@ class DatabaseHelper{
     
         return $messaggi;
     }
+    
 
     public function getNumeroNotifiche($username) {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM Notifica WHERE Username = ? AND Letta = 'N'");

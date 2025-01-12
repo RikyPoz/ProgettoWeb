@@ -16,18 +16,16 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            // Log per vedere la risposta grezza dal server
-            console.log(xhr.responseText); // Aggiungi il log per vedere cosa ricevi dal server
 
             try {
-                const response = JSON.parse(xhr.responseText); // Parsing della risposta come JSON
+                const response = JSON.parse(xhr.responseText); 
 
                 if (response.success) {
                     document.getElementById('loginMessage').innerHTML = '<div class="alert alert-success">Login effettuato con successo. Reindirizzamento...</div>';
                     setTimeout(() => {
-                        // Redirigi in base al tipo di utente
+                        // Redirige in base al tipo di utente
                         if (response.redirect) {
-                            window.location.href = response.redirect; // Redirige verso la pagina corretta
+                            window.location.href = response.redirect;
                         }
                     }, 2000);
                 } else {

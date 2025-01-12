@@ -1,10 +1,11 @@
+let ultimaData = null; // Variabile globale per tracciare la data dell'ultimo messaggio ricevuto
+
 document.addEventListener("DOMContentLoaded", function () {
-    let ultimaData = null; // Variabile per tracciare la data dell'ultimo messaggio ricevuto
-    aggiornaMessaggi(ultimaData); // Carica i messaggi iniziali
-    setInterval(() => aggiornaMessaggi(ultimaData), 5000); // Esegue l'aggiornamento ogni 5 secondi
+    aggiornaMessaggi(); // Carica i messaggi iniziali 
+    setInterval(() => aggiornaMessaggi(), 5000); // Esegue l'aggiornamento ogni 5 secondi
 });
 
-async function aggiornaMessaggi(ultimaData) {
+async function aggiornaMessaggi() {
     // Prepara i dati
     const data = { 
         ultimaData 
@@ -28,12 +29,20 @@ async function aggiornaMessaggi(ultimaData) {
 
         if (json.success) {
             if (json.messages && json.messages.length > 0) {
-                aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
-                // Aggiorna ultimaData all'ultimo messaggio ricevuto
-                ultimaData = json.messages[json.messages.length - 1].Data;
-                console.log("Aggiornata ultimaData a:", ultimaData);
+                // Trova il messaggio più recente
+                const messaggioPiuRecente = json.messages[json.messages.length - 1];
+                console.log("Messaggio più recente:", messaggioPiuRecente);
+
+                // Confronta la data dell'ultimo messaggio con ultimaData
+                if (ultimaData === null || messaggioPiuRecente.Data > ultimaData) {
+                    aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
+                    ultimaData = messaggioPiuRecente.Data; // Aggiorna ultimaData solo se il nuovo messaggio è più recente
+                    console.log("Aggiornata ultimaData a:", ultimaData);
+                } else {
+                    console.log("Nessun nuovo messaggio trovato.");
+                }
             } else {
-                console.log("Nessun nuovo messaggio trovato.");
+                console.log("Nessun messaggio trovato.");
             }
         } else {
             console.error(`Errore ricevuto dal server: ${json.message}`);
@@ -52,13 +61,13 @@ function aggiornaMessaggiUI(messaggi) {
 
     console.log("Messaggi da aggiungere:", messaggi);
 
+    // Ottieni gli ID dei messaggi già presenti nella UI per evitare duplicati
+    const existingMessageIds = Array.from(messaggiContainer.children).map(item => item.querySelector('span.message-id')?.textContent);
+
     messaggi.forEach(messaggio => {
-        // Controlla se il messaggio esiste già nella UI
-        const esiste = Array.from(messaggiContainer.children).some(
-            item => item.querySelector('span.text-muted')?.textContent === messaggio.Data
-        );
-        if (esiste) {
-            console.log(`Messaggio già presente: ${messaggio.Data}`);
+        // Controlla se il messaggio esiste già nella UI (utilizzando sia l'ID che la Data)
+        if (existingMessageIds.includes(messaggio.IdNotifica)) {
+            console.log(`Messaggio già presente: ${messaggio.Data} on ID ${messaggio.IdNotifica}`);
             return; // Salta il messaggio già esistente
         }
 
@@ -72,8 +81,14 @@ function aggiornaMessaggiUI(messaggi) {
         dataSpan.classList.add('text-muted');
         dataSpan.textContent = messaggio.Data;
 
+        const idSpan = document.createElement('span');
+        idSpan.classList.add('message-id');
+        idSpan.style.display = 'none';  
+        idSpan.textContent = messaggio.IdNotifica;
+
         listItem.appendChild(testoSpan);
         listItem.appendChild(dataSpan);
+        listItem.appendChild(idSpan);
 
         messaggiContainer.prepend(listItem); // Aggiunge il nuovo messaggio all'inizio
     });
