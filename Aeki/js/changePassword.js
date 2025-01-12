@@ -6,64 +6,98 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
     const nuovaPassword = document.getElementById("nuovaPassword").value;
     const confermaNuovaPassword = document.getElementById("confermaNuovaPassword").value;
 
+    // Reset del messaggio di errore
+    document.querySelector(".message-container").innerHTML = '';
+
     // Verifica che i campi non siano vuoti
     if (!passwordAttuale || !nuovaPassword || !confermaNuovaPassword) {
-        document.getElementById("message-container").innerHTML = `<p style="color: red;">Tutti i campi sono richiesti.</p>`;
+        document.querySelector(".message-container").innerHTML = `<p style="color: red;">Tutti i campi sono richiesti.</p>`;
         return; // Ferma l'esecuzione se i campi sono vuoti
     }
 
     // Verifica che le nuove password coincidano
     if (nuovaPassword !== confermaNuovaPassword) {
-        document.getElementById("message-container").innerHTML = `<p style="color: red;">Le nuove password non coincidono.</p>`;
-        return; // Ferma l'esecuzione se le password non corrispondono
+        document.querySelector(".message-container").innerHTML = `<p style="color: red;">Le nuove password non corrispondono.</p>`;
+        return;
     }
 
-    // Crea l'oggetto dei dati da inviare
-    const data = {
-        passwordAttuale: passwordAttuale,
-        nuovaPassword: nuovaPassword
-    };
+    // Aggiungi la logica per inviare i dati al server
+    fetch('Ajax/api-changePassword.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            passwordAttuale: passwordAttuale,
+            nuovaPassword: nuovaPassword
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Messaggio di successo
+            document.querySelector(".message-container").innerHTML = `<p style="color: green;">Password cambiata con successo! Reindirizzamento in corso...</p>`;
+            // Ritardo di 2 secondi (2000 millisecondi) prima di chiudere il modal e reindirizzare
+            setTimeout(function() {
+                document.getElementById("cambiaPasswordModal").style.display = "none";
+            }, 2000); // Attendere 2 secondi prima del reindirizzamento
+            // Chiedi conferma per aggiornare i cookie
+            setTimeout(function() {
+                // Mostra un messaggio per chiedere se l'utente vuole aggiornare i cookie
+                const cookieUpdateMessage = document.createElement('div');
+                cookieUpdateMessage.innerHTML = `
+                    <div class="alert alert-info" style="position: fixed; top: 10px; left: 10px; right: 10px; z-index: 1050; background-color: white; color: black; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                        <p><strong>Vuoi memorizzare la nuova password nei cookie?</strong></p>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="acceptCookieUpdate" class="btn btn-success btn-sm">Accetta</button>
+                            <button id="rejectCookieUpdate" class="btn btn-danger btn-sm">Rifiuta</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(cookieUpdateMessage);
 
-    // Crea una richiesta AJAX
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "Ajax/api-changePassword.php", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
+                // Aggiungi l'overlay sfocato
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.right = '0';
+                overlay.style.bottom = '0';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+                overlay.style.filter = 'blur(5px)';
+                overlay.style.zIndex = '999';  // Il valore è inferiore rispetto al messaggio
+                document.body.appendChild(overlay);
 
-    // Gestisce la risposta dal server
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            try {
-                const response = JSON.parse(xhr.responseText);
-    
-                // Mostra il messaggio di successo o errore
-                const messageElement = document.getElementById("message-container");
-                if (response.success) {
-                    messageElement.innerHTML = `<p style="color: green;">${response.message}</p>`;
-                    // Ritardo di 2 secondi (2000 millisecondi) prima di chiudere il modal e reindirizzare
+                // Gestisci l'accettazione dei cookie
+                document.getElementById('acceptCookieUpdate').addEventListener('click', function() {
+                    setCookie('userPassword', nuovaPassword, 30); // Memorizza la nuova password nei cookie per 30 giorni
+                    // Rimuovi il messaggio e l'overlay
+                    document.body.removeChild(cookieUpdateMessage);
+                    document.body.removeChild(overlay);
+                    // Procedi con il reindirizzamento
+                    document.getElementById("cambiaPasswordModal").style.display = "none";
+                    window.location.href = "login.php";
+                });
+
+                // Gestisci il rifiuto dei cookie
+                document.getElementById('rejectCookieUpdate').addEventListener('click', function() {
+                    clearCookie('userPassword'); // Elimina il cookie della password
+                    // Rimuovi il messaggio e l'overlay
+                    document.body.removeChild(cookieUpdateMessage);
+                    document.body.removeChild(overlay);
+                    // Procedi con il reindirizzamento
                     setTimeout(function() {
                         document.getElementById("cambiaPasswordModal").style.display = "none";
-                        // Reindirizza alla pagina di login
                         window.location.href = "login.php";
-                    }, 2000); // Attendere 2 secondi prima del reindirizzamento
-                } else {
-                    messageElement.innerHTML = `<p style="color: red;">${response.message}</p>`;
-                }
-            } catch (e) {
-                document.getElementById("message-container").innerHTML = `<p style="color: red;">Errore di parsing della risposta: ${e.message}</p>`;
-                console.error('Errore di parsing JSON:', e);
-            }
+                    }, 2000);
+                });
+                
+            }, 2000); // Mostra il messaggio di conferma dopo 2 secondi
         } else {
-            document.getElementById("message-container").innerHTML = `<p style="color: red;">Errore del server. Riprova piÃ¹ tardi.</p>`;
-            console.error('Errore durante la richiesta AJAX:', xhr.status, xhr.statusText);
+            document.querySelector(".message-container").innerHTML = `<p style="color: red;">${data.message}</p>`;
         }
-    };
-
-    // Gestisce eventuali errori di rete
-    xhr.onerror = function() {
-        document.getElementById("message-container").innerHTML = `<p style="color: red;">Errore di rete. Riprova piÃ¹ tardi.</p>`;
-        console.error('Errore di rete:', xhr.statusText);
-    };
-    
-    // Invia la richiesta al server con i dati JSON
-    xhr.send(JSON.stringify(data));
+    })
+    .catch(error => {
+        document.querySelector(".message-container").innerHTML = `<p style="color: red;">Si è verificato un errore. Riprova più tardi.</p>`;
+    });
 });
