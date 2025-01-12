@@ -1036,7 +1036,7 @@ class DatabaseHelper{
         if (is_null($idCarrello)) {
             return []; 
         }
-        $stmt = $this->db->prepare("SELECT d.CodiceProdotto, d.Quantita ,p.Nome,p.Prezzo,i.PercorsoImg, p.Disponibilita
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto, d.Quantita, d.Selezionato ,p.Nome,p.Prezzo,i.PercorsoImg, p.Disponibilita
                                     FROM DettaglioCarrello as d
                                     JOIN Prodotto as p ON d.CodiceProdotto = p.CodiceProdotto
                                     LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
@@ -1047,17 +1047,31 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPricesFromSelected($selectedProducts) {
-        if (empty($selectedProducts)) {
-            return [];
+    public function updateCart($userId, $products) {
+        try {
+            $carrelloId = $this->getCartId($userId);
+            if (!$carrelloId) {
+                throw new Exception("Carrello non trovato per l'utente.");
+            }
+            $query = "INSERT INTO DettaglioCarrello (IDcarrello, CodiceProdotto, Quantita, Selezionato)
+                                      VALUES (?, ?, ?, ?)
+                                      ON DUPLICATE KEY UPDATE Quantita = VALUES(Quantita), Selezionato = VALUES(Selezionato)";
+            $stmt = $this->db->prepare($query);
+    
+            foreach ($products as $codiceProdotto => $dati) {
+                if (isset($dati)) {
+                    $selezionato = $dati['Selezionato'] ? 'Y' : 'N';
+                    $stmt->bind_param("ssis", $carrelloId, $codiceProdotto, $dati['Quantita'], $selezionato);
+                    $stmt->execute();
+                }
+            }
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollback();
+            echo "Errore durante l'aggiornamento del carrello: " . $e->getMessage();
         }
-        $placeholders = implode(',', array_fill(0, count($selectedProducts), '?'));
-        $stmt = $this->db->prepare("SELECT CodiceProdotto, Prezzo FROM prodotto WHERE CodiceProdotto IN ($placeholders)");
-        $types = str_repeat('s', count($selectedProducts));
-        $stmt->bind_param($types, ...$selectedProducts);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return false;
     }
 
     public function removeProductToCart($username, $idProdotto){
@@ -1072,16 +1086,17 @@ class DatabaseHelper{
         }
     }
 
-    public function creaOrdine($username) {
-        // Inizio transazione per garantire coerenza dei dati
+    public function createOrder($username) {
         $this->db->begin_transaction();
         try {
+            // Ottieni l'ID del carrello dell'utente
             $carrelloId = $this->getCartId($username);
             if (!$carrelloId) {
                 throw new Exception("Carrello non trovato per l'utente.");
             }
-            // Recupera i prodotti selezionati
-            $querySelezionati = "SELECT dc.CodiceProdotto, dc.Quantita, p.Prezzo
+    
+            // Recupera i prodotti selezionati nel carrello dell'utente
+            $querySelezionati = "SELECT dc.CodiceProdotto, dc.Quantita, p.Prezzo, p.Username AS Venditore
                                  FROM DettaglioCarrello dc
                                  JOIN Prodotto p ON dc.CodiceProdotto = p.CodiceProdotto
                                  WHERE dc.IDcarrello = ? AND dc.Selezionato = 'Y'";
@@ -1091,6 +1106,7 @@ class DatabaseHelper{
             $stmt->execute();
             $result = $stmt->get_result();
     
+            // Verifica se ci sono prodotti selezionati
             if ($result->num_rows === 0) {
                 throw new Exception("Nessun prodotto selezionato nel carrello.");
             }
@@ -1100,18 +1116,23 @@ class DatabaseHelper{
             $stmt = $this->db->prepare($queryCreaOrdine);
             $stmt->bind_param("s", $username);
             $stmt->execute();
+    
             // Ottieni l'ID del nuovo ordine
             $ordineID = $this->db->insert_id;
     
-            // Inserisce i dettagli dell'ordine
+            // Inserisce i dettagli dell'ordine e crea notifiche per i venditori
             $queryDettaglioOrdine = "INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita, PrezzoPagato)
                                       VALUES (?, ?, ?, ?)";
             $stmtDettaglio = $this->db->prepare($queryDettaglioOrdine);
+    
+            $queryNotifica = "INSERT INTO Notifica (Username, Testo, Data) VALUES (?, ?, NOW())";
+            $stmtNotifica = $this->db->prepare($queryNotifica);
     
             while ($row = $result->fetch_assoc()) {
                 $codiceProdotto = $row['CodiceProdotto'];
                 $quantita = $row['Quantita'];
                 $prezzo = $row['Prezzo'];
+                $venditore = $row['Venditore'];
     
                 $stmtDettaglio->bind_param("iiid", $ordineID, $codiceProdotto, $quantita, $prezzo);
                 $stmtDettaglio->execute();
@@ -1121,6 +1142,11 @@ class DatabaseHelper{
                 $stmtAggiorna = $this->db->prepare($queryAggiornaDisponibilita);
                 $stmtAggiorna->bind_param("ii", $quantita, $codiceProdotto);
                 $stmtAggiorna->execute();
+    
+                // Crea una notifica per il venditore
+                $testoNotifica = "Il prodotto con codice $codiceProdotto è stato acquistato in quantità di $quantita.";
+                $stmtNotifica->bind_param("ss", $venditore, $testoNotifica);
+                $stmtNotifica->execute();
             }
     
             // Elimina i prodotti selezionati dal carrello
@@ -1138,7 +1164,8 @@ class DatabaseHelper{
             $this->db->rollback();
             echo "Errore durante la creazione dell'ordine: " . $e->getMessage();
         }
-    }    
+    }
+    
 
 }
 ?>

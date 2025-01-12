@@ -46,6 +46,7 @@ create table DettaglioCarrello (
      IDcarrello INT not null,
      CodiceProdotto INT not null,
      Quantita INT not null,
+     Selezionato CHAR not null DEFAULT 'Y',
      constraint ID_DettaglioCarrello_ID primary key (CodiceProdotto, IDcarrello));
 
 create table DettaglioOrdine (
@@ -90,7 +91,7 @@ CREATE TABLE Prodotto (
     NomeMateriale VARCHAR(50) not null,
     NomeColore VARCHAR(50) not null,
     Peso FLOAT NOT NULL,
-    Disponibilita INT NOT NULL DEFAULT 0,
+    Disponibilita INT NOT NULL DEFAULT 10,
     Altezza FLOAT NOT NULL,
     Larghezza FLOAT NOT NULL,
     Profondita FLOAT NOT NULL,

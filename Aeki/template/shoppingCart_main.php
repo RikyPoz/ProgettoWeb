@@ -5,31 +5,13 @@
     </div>
     <div class="row">
         <!-- Riepilogo in alto per dispositivi mobili -->
-        <div class="col-12 d-md-none mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Riepilogo</h5>
-                    <ul class="list-group list-group-flush" id="recapTableMobile"></ul>
-                    <button class="btn btn-success w-100 mt-3">Procedi all'Acquisto</button>
-                </div>
-            </div>
-        </div>
+        <div class="col-12 d-md-none mb-3" id="recapTableMobile"></div>
 
         <!-- Prodotti nel carrello -->
         <div class="col-md-8 mb-5 " style="overflow-y: auto; max-height: 55vh;" id="productsContainer"></div>
 
         <!-- Riepilogo fisso per desktop -->
-        <div class="col-md-4 d-none d-md-block">
-            <div class="sticky-top" style="top: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Riepilogo</h5>
-                        <ul class="list-group list-group-flush" id="recapTable"></ul>
-                        <button class="btn btn-success w-100 mt-3" id="proceedToCheckout">Procedi all'Acquisto</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="col-md-4 d-none d-md-block" id="recapTable"></div>
     </div>
 </div>
 
