@@ -112,11 +112,11 @@ endif;
     </main>
     <?php if($userType === "Cliente"): ?>
     <!-- Footer -->
-    <footer style="background-color: #FFFFFF; color: #000000; padding: 40px 20px;">
+    <footer style="background-color: #000040; color: #FFFFFF; padding: 40px 20px;">
       <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
           <!-- Informazioni aziendali -->
           <div style="flex: 1 1 300px; margin-bottom: 20px;">
-              <h3 style="color: #000000; margin-bottom: 10px;">AEKI</h3>
+              <h3 style="margin-bottom: 10px;">AEKI</h3>
               <p>Via dell'Universita, 18 - 47521 Cesena FC, Italia</p>
               <p>Email: supporto@aeki.it</p>
               <p>Tel: +39 123 456 789</p>
@@ -124,22 +124,22 @@ endif;
       
           <!-- Navigazione utile -->
           <div style="flex: 1 1 200px; margin-bottom: 20px; text-align: center;"> <!-- Allineamento centrato -->
-              <h4 style="color: #000000; margin-bottom: 10px;">Navigazione</h4>
+              <h4 style="margin-bottom: 10px;">Navigazione</h4>
               <ul style="list-style: none; padding: 0; text-align: center; display: inline-block;"> <!-- Centrare contenuto -->
-                  <li><a href="homePage.php" style="color: #4CAF50; text-decoration: none;">Home</a></li>
-                  <li><a href="profile.php" style="color: #4CAF50; text-decoration: none;">Profilo personale</a></li>
-                  <li><a href="orderList.php" style="color: #4CAF50; text-decoration: none;">Ordini</a></li>
-                  <li><a href="whishlist.php" style="color: #4CAF50; text-decoration: none;">Preferiti</a></li>
+                  <li><a href="homePage.php" style="color: #FFFFFF; text-decoration: none;"><u>Home</u></a></li>
+                  <li><a href="profile.php" style="color: #FFFFFF; text-decoration: none;"><u>Pagina personale</u></a></li>
+                  <li><a href="orderList.php" style="color: #FFFFFF; text-decoration: none;"><u>Ordini</u></a></li>
+                  <li><a href="whishlist.php" style="color: #FFFFFF; text-decoration: none;"><u>Preferiti</u></a></li>
               </ul>
           </div>
       
           <!-- Social media e metodi di pagamento -->
           <div style="flex: 1 1 300px; margin-bottom: 20px; text-align: center;">
-              <h4 style="color: #000000; margin-bottom: 10px;">Seguici su</h4>
+              <h4 style="margin-bottom: 10px;">Seguici su</h4>
               <a style="margin-right: 10px;"><img src="upload/footer/facebook.png" alt="Facebook" width="30"></a>
               <a style="margin-right: 10px;"><img src="upload/footer/instagram.png" alt="Instagram" width="30"></a>
               <a style="margin-right: 10px;"><img src="upload/footer/x.png" alt="X" width="30"></a>
-              <h4 style="color: #000000; margin-top: 20px;">Pagamenti Accettati</h4>
+              <h4 style="margin-top: 20px;">Pagamenti Accettati</h4>
               <img src="upload/footer/visa.png" alt="Visa" width="50" style="margin-right: 10px;">
               <img src="upload/footer/mastercard.png" alt="Mastercard" width="50" style="margin-right: 10px;">
               <img src="upload/footer/paypal.png" alt="PayPal" width="50">

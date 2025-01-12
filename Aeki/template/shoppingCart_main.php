@@ -1,7 +1,7 @@
-<div class="container mt-4">
+<div class="container mt-4" style="height: 70vh">
     <!-- Titolo -->
-    <div class="col-12">
-        <h1 class="fw-bold" id="cartTitle"></h1>
+    <div class="col-12 my-4">
+        <h1 class="fw-bold" style="color: #000070" id="cartTitle"></h1>
     </div>
     <div class="row">
         <!-- Riepilogo in alto per dispositivi mobili -->
@@ -16,7 +16,7 @@
         </div>
 
         <!-- Prodotti nel carrello -->
-        <div class="col-md-8" style="overflow-y: auto; max-height: 55vh;" id="productsContainer"></div>
+        <div class="col-md-8 mb-5 " style="overflow-y: auto; max-height: 55vh;" id="productsContainer"></div>
 
         <!-- Riepilogo fisso per desktop -->
         <div class="col-md-4 d-none d-md-block">
@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Riepilogo</h5>
                         <ul class="list-group list-group-flush" id="recapTable"></ul>
-                        <button class="btn btn-success w-100 mt-3">Procedi all'Acquisto</button>
+                        <button class="btn btn-success w-100 mt-3" id="proceedToCheckout">Procedi all'Acquisto</button>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="row justify-content-center" style="min-height: 70vh">
     <div class="col-md-10 col-12 mt-4">
         <div class="d-flex justify-content-center justify-content-md-start">
             <h1>Preferiti</h1>
@@ -7,8 +7,8 @@
         <?php if (!empty($templateParams["prodotti"])): ?>
             <div class="row d-flex align-items-stretch">
                 <?php foreach($templateParams["prodotti"] as $prodotto): ?>
-                    <div class="col-md-4 col-6 p-2">
-                        <div class="border rounded bg-light d-flex flex-column p-3 h-100">
+                    <div class="col-md-3 col-6 p-2">
+                        <div class="border rounded d-flex flex-column p-3 h-100">
                             <div class="d-flex justify-content-center">
                                 <img src="<?php echo htmlspecialchars($prodotto["PercorsoImg"]); ?>" alt="<?php echo htmlspecialchars($prodotto["Nome"]); ?>" class="img-fluid"> 
                             </div>

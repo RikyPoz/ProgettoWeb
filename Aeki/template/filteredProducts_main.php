@@ -3,7 +3,7 @@ $sliderMin = 0;
 $sliderMax = 100;
 ?>
 
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center mt-5">
   <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Colore -->
@@ -57,14 +57,14 @@ $sliderMax = 100;
       </div>
 
       <div class="text-end mt-3">
-        <button class="btn btn-primary" id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
+        <button class="btn btn-success" id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center mb-5">
   <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Lista Prodotti -->

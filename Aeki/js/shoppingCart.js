@@ -25,76 +25,91 @@ function aggiornaPrezziQuantita(codiceProdotto) {
 
 function getCarrello(products) {
     let result = "";
-    for(let i=0; i < products.length; i++){
-        let quantitaHTML;
-        const codiceProdotto = products[i]["CodiceProdotto"];
-        const disponibilita = products[i]["Disponibilita"];
-        const quantita = products[i]["Quantita"];
+    if (products.length == 0) {
+        result = `  <div class="d-flex justify-content-center align-items-center" style="height: 55vh;">
+                        <div class="text-center">
+                            <img src="upload/noLike.png" alt="nessun mi piace" class="img-fluid">
+                            <h3 class="text-muted mt-4">Nessun Mi Piace</h3>
+                            <p>Non hai nessun prodotto nei preferiti</p>
+                        </div>
+                    </div>`
+    } else {
+        for(let i=0; i < products.length; i++){
+            let quantitaHTML;
+            const codiceProdotto = products[i]["CodiceProdotto"];
+            const disponibilita = products[i]["Disponibilita"];
+            const quantita = products[i]["Quantita"];
 
-        if (disponibilita > 0) {
-            quantitaHTML = `<input type="number" class="form-control form-control-sm w-auto text-center"
-                            id="${codiceProdotto}"
-                            value="${quantita}" 
-                            max="${disponibilita}"
-                            onchange="aggiornaPrezziQuantita(${codiceProdotto})"
-                            min="1" style="max-width: 60px;"
-                            onkeydown="return false;"/>`;
-        } else {
-            quantitaHTML = `<span class="text-danger fw-bold">Non disponibile</span>`;
-        }
+            if (disponibilita > 0) {
+                quantitaHTML = `<input type="number" class="form-control form-control-sm w-auto text-center"
+                                id="${codiceProdotto}"
+                                value="${quantita}" 
+                                max="${disponibilita}"
+                                onchange="aggiornaPrezziQuantita(${codiceProdotto})"
+                                min="1" style="max-width: 60px;"
+                                onkeydown="return false;"/>`;
+            } else {
+                quantitaHTML = `<span class="text-danger fw-bold">Non disponibile</span>`;
+            }
 
-        let product = `
-                    <div class="card mb-3">
-                        <div class="row g-0 align-items-center">
-                            <div class="col-3 col-md-2">
-                                <img src="${products[i]["PercorsoImg"]}" 
-                                    class="img-fluid rounded-start img-fixed" alt="Prodotto">
-                            </div>
-                            <div class="col-9 col-md-10">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <!-- Nome prodotto e quantità -->
-                                        <div class="d-flex align-items-center flex-wrap">
-                                            <h5 class="card-title mb-0 me-3">${products[i]["Nome"]}</h5>
-                                            ${quantitaHTML}
+            let product = `
+                        <div class="card mb-3">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-3 col-md-2">
+                                    <img src="${products[i]["PercorsoImg"]}" 
+                                        class="img-fluid rounded-start img-fixed" alt="Prodotto">
+                                </div>
+                                <div class="col-9 col-md-10">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <!-- Nome prodotto e quantità -->
+                                            <div class="d-flex align-items-center flex-wrap">
+                                                <h5 class="card-title mb-0 me-3">${products[i]["Nome"]}</h5>
+                                                ${quantitaHTML}
+                                            </div>
+
+                                            <!-- Checkbox e prezzo -->
+                                            <div class="d-flex align-items-center">
+                                                <input type="checkbox" class="form-check-input me-2 product-checkbox"
+                                                    onchange="aggiornaRiepilogo()"
+                                                    data-id="${codiceProdotto}"
+                                                    ${disponibilita > 0 ? "checked" : "disabled"}/>
+                                                <p class="mb-0 text-success fw-bold">
+                                                    €${products[i]["Prezzo"]} 
+                                                    <span id="${codiceProdotto}Prezzo">${quantita > 1 ? " x "+quantita : ""}</span>
+                                                </p>
+                                            </div>
                                         </div>
 
-                                        <!-- Checkbox e prezzo -->
-                                        <div class="d-flex align-items-center">
-                                            <input type="checkbox" class="form-check-input me-2 product-checkbox"
-                                                onchange="aggiornaRiepilogo()"
-                                                data-id="${codiceProdotto}"
-                                                ${disponibilita > 0 ? "checked" : "disabled"}/>
-                                            <p class="mb-0 text-success fw-bold">
-                                                €${products[i]["Prezzo"]} 
-                                                <span id="${codiceProdotto}Prezzo">${quantita > 1 ? " x "+quantita : ""}</span>
-                                            </p>
+                                        <!-- Bottoni -->
+                                        <div class="mt-2 d-flex gap-2">
+                                            <a href="singleProduct.php?id=${codiceProdotto}" 
+                                            class="btn btn-outline-primary btn-sm">Visualizza Articolo</a>
+                                            <button class="btn btn-outline-danger btn-sm" 
+                                                onclick="rimuoviDalCarrello(${codiceProdotto})">Rimuovi</button>
                                         </div>
-                                    </div>
-
-                                    <!-- Bottoni -->
-                                    <div class="mt-2 d-flex gap-2">
-                                        <a href="singleProduct.php?id=${codiceProdotto}" 
-                                        class="btn btn-outline-primary btn-sm">Visualizza Articolo</a>
-                                        <button class="btn btn-outline-danger btn-sm" 
-                                            onclick="rimuoviDalCarrello(${codiceProdotto})">Rimuovi</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>`;
-        result += product;
+                        </div>`;
+            result += product;
+        }
+        result += `<div class="text-end fw-bold sticky-bottom bg-light py-2 border-top" id="summary"></div>`;
     }
-    result += `<div class="text-end fw-bold sticky-bottom bg-light py-2 border-top" id="summary"></div>`;
     return result;
 }
 
-async function aggiornaRiepilogo() {
-    const selectedProducts = {};
+function getSelezionati() {
+    const selectedProducts = {}
     document.querySelectorAll('.product-checkbox:checked').forEach((checkbox) => {
         const id = checkbox.getAttribute('data-id');
         selectedProducts[id] = document.getElementById(id).value;
     });
+    return selectedProducts;
+}
+
+async function aggiornaRiepilogo() {
+    const selectedProducts = getSelezionati();
     try {
         const response = await fetch("Ajax/api-shoppingCartTots.php", {
             method: 'POST',
@@ -159,5 +174,37 @@ async function rimuoviDalCarrello(id) {
         console.log("Errore durante la rimozione del prodotto dal carrello:", error.message);
     }
 }
+
+async function salvaModifiche() {
+        const selectedProducts = getSelezionati();
+    try {
+        const response = await fetch("Ajax/api-shoppingCartSave.php", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(selectedProducts)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+        const json = await response.json();
+        const total = json['tot'];
+        window.location.href = `checkout.php?tot=${total}`;
+    } catch (error) {
+        console.log("Errore durante la preparazione del checkout:", error.message);
+    }
+}
+
+/**
+ * Modale con :
+ *  Riepilogo prodotti selezionati
+ *  Scelta tipo spedizione
+ *  Prezzo totale
+ *  Pulsante acquista: Crea ordine, Rimuovi prodotti dal carrello, manda notifica al Seller
+ * 
+ * ALtro modale di successo, codice ordine con data stimata, pulsante torna alla Home o visualizza ordini
+ */
+
+document.getElementById('proceedToCheckout').addEventListener('click', salvaModifiche);
 
 aggiornaCarrello();

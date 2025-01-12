@@ -22,7 +22,7 @@ async function aggiornaMessaggi(ultimaData) {
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }
-
+        
         const json = await response.json();
         console.log("Risposta dal server:", json);
 
