@@ -155,7 +155,7 @@ async function getAddModal() {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                                <button type="button" class="btn btn-primary" id="saveProductBtn">Salva</button>
+                                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" id="saveProductBtn">Salva</button>
                             </div>
                         </div>
                     </div>
@@ -189,7 +189,7 @@ function getUpdateModal(product) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                    <button type="button" class="btn btn-primary" id="updateAvailabilityBtn-${product['CodiceProdotto']}">Salva</button>
+                    <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" id="updateAvailabilityBtn-${product['CodiceProdotto']}">Salva</button>
                 </div>
             </div>
         </div>
@@ -234,7 +234,7 @@ function getUpdateModal(product) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                    <button type="button" class="btn btn-primary" id="updatePriceBtn-${product['CodiceProdotto']}">Salva</button>
+                    <button type="button" class="btn " style="background-color:#000060;color:#FFFFFF" id="updatePriceBtn-${product['CodiceProdotto']}">Salva</button>
                 </div>
             </div>
         </div>

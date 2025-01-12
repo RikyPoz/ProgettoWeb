@@ -6,8 +6,8 @@
     <div class="row mb-4">
         <div class="col-md-6 d-flex">
             <div class="p-4 bg-light border w-100">
-                <h2><strong>Benvenuto su Aeki!</strong></h2>
-                <h3><em>Arredamento per la tua casa</em></h3>
+                <h2 class="fw-bold" style="color: #000070">Benvenuto su Aeki!</h2>
+                <h3 style="color: #000070">Arredamento per la tua casa</h3>
                 <p style="text-align: justify;">
                 Scopri il design e la funzionalità che trasformano ogni spazio in un luogo unico. 
                 Aeki è il tuo partner ideale per arredare con gusto e praticità, grazie a una vasta gamma di mobili e complementi d'arredo progettati per rispondere a ogni tua esigenza. 
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Sezione Categorie -->
-    <h3 class="mt-5">Categorie</h3>
+    <h3 class="mt-5" style="color: #000070">Categorie</h3>
     <div class="slider-container position-relative">
         <?php if (!empty($templateParams["categorie"])): ?>    
 
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Sezione Ambienti -->
-<h3 class="mt-5">Ambienti</h3>
+<h3 class="mt-5" style="color: #000070">Ambienti</h3>
 <div class="slider-container position-relative">
     <?php if (!empty($templateParams["ambienti"])): ?>
 

@@ -16,50 +16,58 @@
     transform: scale(1.2); 
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); 
 }
-
-
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    filter: invert(1); /* Cambia il colore dell'icona a bianco */
+}
 
 </style>
-<div class="row d-flex justify-content-center">
-    <div class = "col-md-10 col-12 rounded shadow p-4">
-        <div class="row d-flex align-items-stretch rounded shadow-sm">
-            <!--img-->
+
+<div class="row d-flex justify-content-center my-5">
+    <div class = "col-md-10 col-12 rounded shadow bg-light p-4">
+        <div class="row d-flex align-items-stretch bg-white rounded-5 ">
+            <!--Img-->
             <div class="col-md-6 d-flex justify-content-center align-items-center">
+
+                <!-- Freccia Sinistra -->
+                <button class="btn me-3" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <!-- Carosello -->
                 <div id="productCarousel" class="carousel slide p-2" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <?php foreach ($templateParams["immagini"] as $img): ?>
-                            <?php if ($img["Icona"] == 'Y'):?>
+                            <?php if ($img["Icona"] == 'Y'): ?>
                                 <div class="carousel-item active">
-                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid rounded" alt="<?php echo $img["PercorsoImg"] ?>">
+                                    <img src="<?php echo $img["PercorsoImg"]; ?>" class="d-block img-fluid rounded" alt="<?php echo $img["PercorsoImg"]; ?>">
                                 </div>
                             <?php else : ?>
                                 <div class="carousel-item">
-                                    <img src="<?php echo $img["PercorsoImg"]?>" class="d-block img-fluid rounded " alt="<?php echo $img["PercorsoImg"] ?>">
+                                    <img src="<?php echo $img["PercorsoImg"]; ?>" class="d-block img-fluid rounded" alt="<?php echo $img["PercorsoImg"]; ?>">
                                 </div>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
+                <!-- Freccia Destra -->
+                <button class="btn ms-3" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
             </div>
 
-
             <!-- Descrizione Prodotto -->
-            <div class="col-md-6 p-4 d-flex flex-column rounded border-start shadow-sm">
+            <div class="col-md-6 p-4 d-flex border-start flex-column">
                 <div class="d-flex align-items-center mb-2">
-                    <h1 class="fw-bold flex-grow-1 display-6"><?php echo $prodotto["Nome"]; ?></h1>
+                    <h1 class="fw-bold flex-grow-1 display-6 "style = "color:#000070"><?php echo $prodotto["Nome"]; ?></h1>
                     <div>
                         <?php if ($prodotto["InWishlist"] == "true"): ?>
-                            <i class="bi bi-heart-fill text-danger fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>"></i>
+                            <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
+                            <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
                         <?php else: ?>
-                            <i class="bi bi-heart fs-1" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>"></i>
+                            <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                            <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -72,7 +80,7 @@
                 </div>
                 <div class="d-flex align-items-center mb-3">
                     <label for="quantity" class="me-3 fs-5">Quantità:</label>
-                    <input type="number" id="quantity" class="form-control w-25 me-3 rounded-pill px-4 text-center shadow-sm" min="0" max="<?php echo $prodotto["Disponibilita"]; ?>" value="0">
+                    <input type="number" id="quantity" class="form-control w-25 me-3 rounded-pill px-4 text-center shadow-sm" min="<?php echo $prodotto["Disponibilita"] > 0 ? 1 : 0; ?>" max="<?php echo $prodotto["Disponibilita"]; ?>" value="<?php echo $prodotto["Disponibilita"] > 0 ? 1 : 0; ?>">
                     <span class="text-muted fs-6">Disponibilità: 
                         <span class="fw-semibold <?php echo $prodotto["Disponibilita"] < 5 ? 'text-danger' : ''; ?>">
                             <?php echo $prodotto["Disponibilita"]; ?>
@@ -91,7 +99,7 @@
         <!-- Tabella con informazioni -->
         <div class="row mt-5 ">
             <div class="col-12">
-                <h2 class="mb-3">Specifiche Prodotto</h2>
+                <h2 class="mb-3" style = "color:#000070">Specifiche Prodotto</h2>
                 <table class="table table-bordered table-rounded">
                     <tbody>
                         <tr>
@@ -127,7 +135,7 @@
         <?php $totalReviews = $prodotto["NumeroRecensioni"]?>
         <div class="row mt-5 ">
             <div class="col-12 ">
-                <h2 class="mb-3">Recensioni Prodotto<span class = "ms-2">(<?php echo $totalReviews?>)</span></h2>
+                <h2 class="mb-3" style = "color:#000070">Recensioni Prodotto<span class = "ms-2">(<?php echo $totalReviews?>)</span></h2>
                 <div class=" mb-3">
                     <span class="fs-4 text-warning"><?php echo getStars((int)$prodotto["ValutazioneMedia"]) ?></span>
                     <span class = "ms-4 fs-5 fw-semibold"><?php echo $prodotto["ValutazioneMedia"] ?> <span class = "fs-5 fw-normal"> su 5</span></span> 
@@ -136,9 +144,9 @@
                 <?php foreach (range(5, 1) as $stars): ?>
                     <?php
                     $reviewCount = 0;
-                    foreach ($templateParams["reviews"] as $review) {
-                        if ($review["stelle"] == $stars) {
-                            $reviewCount = $review["numeroRecensioni"];
+                    foreach ($templateParams["reviewsStats"] as $reviewStat) {
+                        if ($reviewStat["stelle"] == $stars) {
+                            $reviewCount = $reviewStat["numeroRecensioni"];
                             break;
                         }
                     }
@@ -154,6 +162,26 @@
                         <span class="ms-2">(<?php echo $reviewCount ?>)</span>
                     </div>
                 <?php endforeach; ?>
+
+            </div>
+            <div class = "col-md-12 mt-3">
+            <?php foreach ($templateParams["reviews"] as $review): ?>
+                <div class="card my-5 p-3 shadow-sm">
+                    <!-- Review Info -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <span class="fs-5">ID Recensione: <span class = "fw-semibold"><?php echo $review["IDrecensione"] ?></span></span>
+                            <span class="fs-5 mx-5 ">Cliente: <span class = "fw-semibold"><?php echo $review["Cliente"] ?></span></span>
+                            <span class="fs-5 me-4 text-warning"> <?php echo getStars($review["stelle"])?> <span class="fs-5 text-dark ">( <?php echo $review["stelle"] ?>)</span></span>
+                            <hr>
+                            <div class="card-body">
+                                <h4> Descrizione: </h4>
+                                <span class = "mt-3"><?php echo $review["Testo"]?><span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
 
             </div>
         </div>

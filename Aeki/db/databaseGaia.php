@@ -97,6 +97,15 @@ class DatabaseHelper{
         return $unread_count;  // Restituisce il numero di notifiche non lette
     }
     
+    public function updateLettaNotifica($idNotifica) {
+        $query = "UPDATE Notifica SET Letta = 'Y' WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $idNotifica);
+        $stmt->execute();
+    
+        // Restituisce true se almeno una riga è stata modificata, altrimenti false
+        return $stmt->affected_rows > 0;
+    }    
 
     public function newUtente($firstName, $lastName, $username, $email, $password, $phone) {
         $tipo = 'Cliente'; // Tipo fisso come cliente

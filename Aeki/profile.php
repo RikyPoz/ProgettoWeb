@@ -9,6 +9,7 @@ $templateParams["js"] = array(
     "js/updateMessages.js",
     "js/updateProfile.js",
     "js/deleteProfile.js",
+    "js/remember.js",
     "js/changePassword.js"
 );
 

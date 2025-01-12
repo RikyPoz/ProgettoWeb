@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("pippo");
     fetchData('products');
 
     document.getElementById("viewProductsBtn").addEventListener("click", function () {
-        let contentTitle = document.getElementById('contentTitle').innerText;
-        if (contentTitle != 'I tuoi Prodotti') {
+        const pageType = document.getElementById('contentTitle').dataset.type;
+        console.log(pageType);
+        if (pageType != "products") {
             fetchData('products');
         } else {
             console.log('gia nella pagina selezionata');
@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("viewOrdersBtn").addEventListener("click", function () {
-        let contentTitle = document.getElementById('contentTitle').innerText;
-        if (contentTitle != 'Ordini richiesti') {
+        const pageType = document.getElementById('contentTitle').dataset.type;
+        if (pageType != "orders") {
             fetchData('orders');
         } else {
             console.log('gia nella pagina selezionata');
@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("viewStatsBtn").addEventListener("click", function () {
-        let contentTitle = document.getElementById('contentTitle').innerText;
-        if (contentTitle != 'Le tue Statistiche') {
+        const pageType = document.getElementById('contentTitle').dataset.type;
+        if (pageType != "stats") {
             fetchData('stats');
         } else {
             console.log('gia nella pagina selezionata');
@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("viewReviewsBtn").addEventListener("click", function () {
-        let contentTitle = document.getElementById('contentTitle').innerText;
-        if (contentTitle != 'Le tue Recensioni') {
+        const pageType = document.getElementById('contentTitle').dataset.type;
+        if (pageType != "reviews") {
             fetchData('reviews');
         } else {
             console.log('gia nella pagina selezionata');
@@ -82,12 +82,13 @@ async function fetchData(action) {
 }
 
 async function updatePageContent(action, data) {
-    const contentTitle = document.getElementById('contentTitle');
     const contentBody = document.getElementById('contentBody');
+
+    let pageType;
 
     switch (action) {
         case 'products':
-            contentTitle.textContent = 'I tuoi Prodotti';
+            pageType = "products";
             contentBody.innerHTML = await generateProductList(data);
             addModalEventListener();
             data["products"].forEach(product => {
@@ -95,26 +96,28 @@ async function updatePageContent(action, data) {
             });
             break;
         case 'orders':
-            contentTitle.textContent = 'Ordini richiesti';
+            pageType = "orders";
             contentBody.innerHTML = generateOrderList(data);
             break;
         case 'stats':
-            contentTitle.textContent = 'Le tue Statistiche';
+            pageType = "stats";
             contentBody.innerHTML = generateStats(data);
             document.getElementById('timeRange').value = data["periodo"];
-
             statsListener();
             break;
         case 'reviews':
-            contentTitle.textContent = 'Le tue Recensioni';
+            pageType = "reviews";
             contentBody.innerHTML = generateReviews(data);
             break;
         default:
-            contentTitle.textContent = '';
-            contentBody.innerHTML = '<p>Seleziona una sezione per visualizzare i dati.</p>';
-            break;
+            pageType = "default";
+            contentBody.innerHTML = "<p>No content available.</p>";
     }
+
+    const contentTitle = document.getElementById('contentTitle');
+    contentTitle.dataset.type = pageType;
 }
+
 
 function getStars(rating) {
     let fullStars = '★'.repeat(Math.floor(rating));
@@ -131,12 +134,14 @@ async function generateProductList(data) {
     if (!products || products.length === 0) {
         html += '<p>Nessun prodotto aggiunto.</p>';
     }
-    html += `<h2>(${number})</h2>`;
+    let contentTitle = document.getElementById('contentTitle');
+    contentTitle.textContent = `I tuoi Prodotti (${number})`;
+
     html += `<div id="contentBody" class = "row d-flex align-items-stretch">`;
     const modalhtml = await getAddModal();
     html += modalhtml;
     html += `<div class="col-md-4 col-6 p-2">
-                <div class=" d-flex align-items-center justify-content-center shadow border p-4 h-100 bg-light rounded" 
+                <div class=" d-flex align-items-center justify-content-center shadow border p-4 h-100 rounded" 
                     style="cursor: pointer;" 
                     data-bs-toggle="modal" 
                     data-bs-target="#addProductModal">
@@ -152,11 +157,11 @@ async function generateProductList(data) {
     products.forEach(product => {
         html += `
                 <div class="col-md-4 col-6 p-2">
-                    <div class="rounded shadow d-flex flex-column bg-light p-3 h-100 ${product["Disponibilita"] === 0 ? 'border-danger' : ''}">
+                    <div class="rounded shadow d-flex flex-column p-3 h-100 ${product["Disponibilita"] === 0 ? 'border-danger' : ''}">
                         <img src="${product["PercorsoImg"]}" alt="${product["Nome"]}" class="img-fluid position-relative">
                         <div class="d-flex flex-column align-items-center mt-auto">
                             <span class="fw-bold fs-3 mt-2">${product["Nome"]} </span>
-                            <span class="text-success fs-5">${product["Prezzo"]}€</span>
+                            <span class="fs-5">${product["Prezzo"]}€</span>
                             <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}" id="productAvailability-${product["CodiceProdotto"]}" data-availability="${product["Disponibilita"]}">
                                 Disponibilità: ${product["Disponibilita"]}
                             </span>
@@ -171,7 +176,7 @@ async function generateProductList(data) {
                                 </div>
                                 <div class="d-flex align-items-center mt-2">
                                     <a href="#" class="btn border rounded btn-sm me-2 w-100" data-bs-toggle="modal" data-bs-target="#deleteProductModal-${product['CodiceProdotto']}">Elimina</a>
-                                    <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Modifica</a>
+                                    <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Modifica €</a>
                                 </div>
                             </div>
                         </div>
@@ -195,10 +200,10 @@ function generateOrderList(data) {
     const number = data["orderNumber"];
     if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
 
+    let contentTitle = document.getElementById('contentTitle');
+    contentTitle.textContent = `I tuoi Ordini (${number})`;
 
-    let html = `<h2>(${number})</h2>`;
-
-    html += `<div id="orders-list">`;
+    let html = `<div id="orders-list">`;
 
     const groupedOrders = orders.reduce((acc, order) => {
         if (!acc[order.IDordine]) {
@@ -232,7 +237,7 @@ function generateOrderList(data) {
             <!-- Order Info -->
             <div class="d-flex flex-column flex-md-row ms-3 justify-content-md-around ms-md-0 my-4">
                 <span class="fs-5">ID Ordine: <span class="fw-semibold">${order.IDordine}</span></span>
-                <span class="fs-5">Costo Totale: <span class="fw-semibold">${order.PrezzoTotale.toFixed(2)}</span>€</span>
+                <span class="fs-5">Costo Totale: <span class="fw-semibold">${order.PrezzoTotale}</span>€</span>
                 <span class="fs-5">Data Ordine: <span class="fw-semibold">${order.Data}</span></span>
             </div>
             <!-- Separator -->
@@ -252,10 +257,10 @@ function generateOrderList(data) {
                             <h2 class="fw-semibold fs-4">${product.Nome}</h2>
                             ${product.Rimosso === 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
                             <span class="fs-5 me-4">Quantità: ${product.Quantita}</span>
-                            <span class="fs-5 text-muted">${product.PrezzoPagato.toFixed(2)} €</span>
+                            <span class="fs-5 text-muted">${product.PrezzoPagato} €</span>
                         </div>
                         <div class="mt-4">
-                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn "style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
                         </div>
                     </div>
                 </div>`;
@@ -278,6 +283,9 @@ function generateOrderList(data) {
 function generateStats(stats) {
     if (!stats) return '<p>Nessun statistica trovato.</p>';
 
+    let contentTitle = document.getElementById('contentTitle');
+    contentTitle.textContent = `Le tue Statistiche`;
+
     let html = `
     <div class = "row my-4">
         <div class = "col-md-4">
@@ -289,7 +297,7 @@ function generateStats(stats) {
                         <option value="month">Ultimo mese</option>
                         <option value="year">Ultimo anno</option>
                     </select>
-                    <button class="btn btn-primary ms-2" type="button" id="submitBtn">Invia</button>
+                    <button class="btn ms-2" style="background-color:#000060;color:#FFFFFF" type="button" id="submitBtn">Invia</button>
                 </div>
             </div>
         </div >
@@ -369,7 +377,7 @@ function generateStats(stats) {
                                 ${product.Rimosso == 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
                                 <span class="fs-5 me-4">Quantità totale venduta: ${product.Quantita}</span>
                                 <p class="fs-5 me-4">Ricavo totale: ${product.RicavoTotale} €</p>
-                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
                             </div>
                         </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
                     </div>
@@ -400,7 +408,7 @@ function generateStats(stats) {
                                 <h2 class="fw-semibold fs-4">${product.Nome}</h2>
                                 ${product.Rimosso == 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
                                 <p class="fs-5 me-4"> Mi piace totali: ${product.likeTotali}</p>
-                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                                <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
                             </div>
                         </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
                     </div>
@@ -424,7 +432,11 @@ function generateReviews(data) {
         return '<p>Nessuna recensione trovata.</p>';
     }
 
+    let contentTitle = document.getElementById('contentTitle');
+    contentTitle.textContent = `Le tue Recensioni (${data.reviews.length})`;
+
     let reviews = data.reviews;
+    let html = ``;
 
     let groupedReviews = reviews.reduce((acc, review) => {
         if (!acc[review.CodiceProdotto]) {
@@ -446,7 +458,6 @@ function generateReviews(data) {
         return acc;
     }, {});
 
-    let html = `<h2> (${data.reviews.length})</h2>`;
 
     Object.values(groupedReviews).forEach(product => {
         html += `
@@ -461,7 +472,7 @@ function generateReviews(data) {
                     ${product.Rimosso == 'Y' ? '<h4 class="fw-semibold fs-4">(Prodotto Rimosso)</h4>' : ''}
                     <span class = "fs-5">Codice Prodotto: <span class = "fw-semibold">${product.CodiceProdotto}</span></span>
                     <div class="mt-4">
-                        <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn btn-primary">Visualizza articolo</a>
+                        <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
                     </div>
                 </div>
             </div>

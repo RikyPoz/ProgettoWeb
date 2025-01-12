@@ -1,5 +1,8 @@
 <?php
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../bootstrap.php'; 
 
 header('Content-Type: application/json');
@@ -26,7 +29,7 @@ if ($user) { // Se l'utente esiste
         
         // Controlla il tipo di utente
         $userType = $user['Tipo']; // Il campo Tipo contiene "Cliente" o "Venditore" in base al ruolo dell'utente
-    
+        
         // Redirige l'utente in base al tipo
         if ($userType === 'Cliente') {
             echo json_encode(['success' => true, 'redirect' => './profile.php', 'message' => 'Login effettuato con successo!']);

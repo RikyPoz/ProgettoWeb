@@ -7,6 +7,8 @@ header('Content-Type: application/json');
 if (isset($_SESSION['user_id'])) {
     // Recupera l'username dalla sessione
     $username = $dbh->getUtente($_SESSION['user_id']);
+    
+    // Controlla se ultimaData è presente, altrimenti usa una data predefinita
     $ultimaData = $_POST['ultimaData'] ?? '2000-01-01 00:00:00';
 
     // Verifica se il formato della data è valido
@@ -16,7 +18,7 @@ if (isset($_SESSION['user_id'])) {
     }
 
     try {
-        // Ottieni i messaggi più recenti
+        // Ottiene i messaggi più recenti
         $messaggi = $dbh->getMessaggiByData($username['Username'], $ultimaData);
         if (count($messaggi) > 0) {
             echo json_encode(['success' => true, 'messages' => $messaggi]);

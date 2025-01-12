@@ -73,7 +73,7 @@ class DatabaseHelper{
     }
 
     public function getMessaggiByData($username, $data) {
-        $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? AND Data >= ? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT Testo, Data, IdNotifica, Letta FROM Notifica WHERE Username = ? AND Data >= ? ORDER BY Data ASC, IdNotifica ASC");
         $stmt->bind_param("ss", $username, $data);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -85,6 +85,16 @@ class DatabaseHelper{
     
         return $messaggi;
     }
+    
+    public function updateLettaNotifica($idNotifica) {
+        $query = "UPDATE Notifica SET Letta = 'Y' WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $idNotifica);
+        $stmt->execute();
+    
+        // Restituisce true se almeno una riga è stata modificata, altrimenti false
+        return $stmt->affected_rows > 0;
+    }   
 
     public function getNumeroNotifiche($username) {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM Notifica WHERE Username = ? AND Letta = 'N'");
@@ -310,6 +320,20 @@ class DatabaseHelper{
                                     WHERE r.CodiceProdotto = ?  
                                     GROUP BY r.stelle
                                     ORDER BY r.stelle DESC");
+                                    
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+        
+    }
+
+    public function getProductReviews($idProdotto){
+        $stmt = $this->db->prepare("SELECT IDrecensione,Testo,stelle,r.Username AS Cliente
+                                    FROM Recensione AS r
+                                    JOIN Prodotto AS p ON p.CodiceProdotto = r.CodiceProdotto
+                                    WHERE p.CodiceProdotto = ?");
                                     
         $stmt->bind_param('i', $idProdotto);
         $stmt->execute();
@@ -583,10 +607,12 @@ class DatabaseHelper{
     }
 
     public function getSellerOrderNumber($username){
-        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT IDordine) AS ordiniTotali
+        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT do.IDordine) AS ordiniTotali
                                     FROM Prodotto AS p 
                                     JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
-                                    WHERE p.username = ?");
+                                    JOIN Ordine AS o ON o.IDordine = do.IDordine
+                                    WHERE p.username = ?
+                                    AND o.Spedito = 'N'");
         
         $stmt->bind_param('s', $username);
         $stmt->execute();
