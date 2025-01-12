@@ -51,7 +51,10 @@ endif;
                 <ul class="navbar-nav ms-auto d-flex justify-content-around align-items-center">
                     <li class="nav-item d-flex flex-column align-items-center">
                         <?php if (isset($_SESSION['user_id'])): ?>
-                        
+                        <?php
+                        $user_id = $_SESSION['user_id'];
+                        $unread_count = $dbh->getNumeroNotifiche($user_id); 
+                        ?>
                         <div class="dropdown">
                             <button class="btn btn-light text-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person" style="font-size: 1.5rem;"></i>
