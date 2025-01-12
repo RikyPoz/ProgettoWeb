@@ -65,7 +65,9 @@ endif;
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow rounded" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profilo</a></li>
+                                <?php if($userType === "Cliente"): ?>
                                 <li><a class="dropdown-item" href="orderList.php"><i class="bi bi-list-check me-2"></i>Ordini</a></li>
+                                <?php endif; ?>
                                 <li><a class="dropdown-item text-danger logout-button" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                             </ul>
                         </div>

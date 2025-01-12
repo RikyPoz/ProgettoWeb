@@ -3,7 +3,7 @@
     <div class="row">
         <!-- Colonna laterale -->
         <div class="col-md-3 p-4 border-end">
-            <h4>Profilo Venditore</h4>
+            <h2 style="color:#000070">Profilo Venditore</h2>
             <div class="my-4">
                 <div class = "d-flex justify-content-center">
                     <img src="<?php echo $venditore["Icona"]?>" class="img-fluid rounded-circle" alt="Immagine Profilo">
@@ -18,16 +18,16 @@
             </div>
 
             <div class="btn-group-vertical w-100">
-                <button class="btn btn-primary mb-1" id="viewProductsBtn">Visualizza i Prodotti</button>
-                <button class="btn btn-primary mb-1" id="viewOrdersBtn">Visualizza Ordini</button>
-                <button class="btn btn-primary mb-1" id="viewStatsBtn">Visualizza Statistiche</button>
-                <button class="btn btn-primary" id="viewReviewsBtn">Visualizza Recensioni</button>
+                <button class="btn mb-1" id="viewProductsBtn" style="background-color: #000060; color: #FFFFFF">Visualizza i Prodotti</button>
+                <button class="btn mb-1" id="viewOrdersBtn" style="background-color: #000060; color: #FFFFFF">Visualizza Ordini</button>
+                <button class="btn mb-1" id="viewStatsBtn" style="background-color: #000060; color: #FFFFFF">Visualizza Statistiche</button>
+                <button class="btn " id="viewReviewsBtn" style="background-color: #000060; color: #FFFFFF">Visualizza Recensioni</button>
             </div>
         </div>
 
         <!-- Colonna centrale -->
         <div class="col-md-9 p-4" id="content-area">
-            <h1 id="contentTitle"></h1>
+            <h1 id="contentTitle" data-type=" " style="color:#000070"></h1>
             <div id="contentBody"></div>
         </div>
     </div>

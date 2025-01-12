@@ -319,6 +319,20 @@ class DatabaseHelper{
         
     }
 
+    public function getProductReviews($idProdotto){
+        $stmt = $this->db->prepare("SELECT IDrecensione,Testo,stelle,r.Username AS Cliente
+                                    FROM Recensione AS r
+                                    JOIN Prodotto AS p ON p.CodiceProdotto = r.CodiceProdotto
+                                    WHERE p.CodiceProdotto = ?");
+                                    
+        $stmt->bind_param('i', $idProdotto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+        
+    }
+
     public function writeReview($username,$idProdotto,$valutazione,$testo){
         $stmt = $this->db->prepare("INSERT INTO `Recensione`(`Testo`, `stelle`, `Username`, `CodiceProdotto`) VALUES (?,?,?,?)");
         $stmt->bind_param('siss', $testo,$valutazione,$username,$idProdotto); 
@@ -583,10 +597,12 @@ class DatabaseHelper{
     }
 
     public function getSellerOrderNumber($username){
-        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT IDordine) AS ordiniTotali
+        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT do.IDordine) AS ordiniTotali
                                     FROM Prodotto AS p 
                                     JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
-                                    WHERE p.username = ?");
+                                    JOIN Ordine AS o ON o.IDordine = do.IDordine
+                                    WHERE p.username = ?
+                                    AND o.Spedito = 'N'");
         
         $stmt->bind_param('s', $username);
         $stmt->execute();

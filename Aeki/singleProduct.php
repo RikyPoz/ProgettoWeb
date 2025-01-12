@@ -13,7 +13,8 @@ $templateParams["nome"] = "singleProduct_main.php";
 $idprodotto = $_GET["id"];
 $templateParams["prodotto"] = $dbh->getProdotto($idprodotto);
 $templateParams["immagini"] = $dbh->getProdottoImages($idprodotto);
-$templateParams["reviews"] = $dbh->getStarNumber($idprodotto);
+$templateParams["reviewsStats"] = $dbh->getStarNumber($idprodotto);
+$templateParams["reviews"] = $dbh->getProductReviews($idprodotto);
 $templateParams["prodotto"]["InWishlist"] = "false";  
 
 
@@ -23,6 +24,8 @@ if (isset($_SESSION['user_id'])) {
         $templateParams["prodotto"]["InWishlist"] = "true";  
     }
     $templateParams["userType"] = $dbh->userType($userId);
+}else{
+    $templateParams["userType"] = "Cliente";
 }
 
 

@@ -82,9 +82,10 @@ async function addModalEventListener() {
 async function updateModalEventListeners(product) {
     const modals = document.querySelectorAll(`#updateAvailabilityModal-${product.CodiceProdotto}, #deleteProductModal-${product.CodiceProdotto}, #updateProductModal-${product.CodiceProdotto}`);
 
-    const rifornisciButton = modals[0]?.querySelector('.btn-primary');
-    const eliminaButton = modals[1]?.querySelector('.btn-danger');
-    const modificaButton = modals[2]?.querySelector('.btn-primary');
+
+    const rifornisciButton = modals[0]?.querySelector(`#updateAvailabilityBtn-${product.CodiceProdotto}`);
+    const eliminaButton = modals[1]?.querySelector(`#deleteProductBtn-${product.CodiceProdotto}`);
+    const modificaButton = modals[2]?.querySelector(`#updatePriceBtn-${product.CodiceProdotto}`);
 
     if (rifornisciButton && eliminaButton && modificaButton) {
         rifornisciButton.addEventListener('click', () => updateProductAvailability(product));

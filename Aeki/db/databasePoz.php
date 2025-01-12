@@ -570,10 +570,12 @@ class DatabaseHelper{
     }
 
     public function getSellerOrderNumber($username){
-        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT IDordine) AS ordiniTotali
+        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT do.IDordine) AS ordiniTotali
                                     FROM Prodotto AS p 
                                     JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
-                                    WHERE p.username = ?");
+                                    JOIN Ordine AS o ON o.IDordine = do.IDordine
+                                    WHERE p.username = ?
+                                    AND o.Spedito = 'N'");
         
         $stmt->bind_param('s', $username);
         $stmt->execute();
