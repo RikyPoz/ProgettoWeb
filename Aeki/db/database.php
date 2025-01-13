@@ -1128,7 +1128,7 @@ class DatabaseHelper{
                                  WHERE dc.IDcarrello = ? AND dc.Selezionato = 'Y'";
             
             $stmt = $this->db->prepare($querySelezionati);
-            $stmt->bind_param("i", $carrelloId);
+            $stmt->bind_param('i', $carrelloId);
             $stmt->execute();
             $result = $stmt->get_result();
     
@@ -1140,7 +1140,7 @@ class DatabaseHelper{
             // Crea un nuovo ordine
             $queryCreaOrdine = "INSERT INTO Ordine (Data, Username, Spedito) VALUES (NOW(), ?, 'N')";
             $stmt = $this->db->prepare($queryCreaOrdine);
-            $stmt->bind_param("s", $username);
+            $stmt->bind_param('s', $username);
             $stmt->execute();
     
             // Ottieni l'ID del nuovo ordine
@@ -1164,13 +1164,12 @@ class DatabaseHelper{
                 $stmtDettaglio->execute();
     
                 // Aggiorna la disponibilità del prodotto
-                $queryAggiornaDisponibilita = "UPDATE Prodotto SET Disponibilita = Disponibilita - ? WHERE CodiceProdotto = ?";
-                $stmtAggiorna = $this->db->prepare($queryAggiornaDisponibilita);
+                $stmtAggiorna = $this->db->prepare("UPDATE Prodotto SET Disponibilita = Disponibilita - ? WHERE CodiceProdotto = ?");
                 $stmtAggiorna->bind_param("ii", $quantita, $codiceProdotto);
                 $stmtAggiorna->execute();
     
                 // Crea una notifica per il venditore
-                $testoNotifica = "Il prodotto con codice $codiceProdotto è stato acquistato in quantità di $quantita.";
+                $testoNotifica = "Il prodotto con codice $codiceProdotto è stato acquistato in quantità $quantita.";
                 $stmtNotifica->bind_param("ss", $venditore, $testoNotifica);
                 $stmtNotifica->execute();
             }
@@ -1183,13 +1182,12 @@ class DatabaseHelper{
     
             // Commit della transazione
             $this->db->commit();
-    
-            echo "Ordine creato con successo. ID ordine: " . $ordineID;
+            return true;
         } catch (Exception $e) {
             // Rollback in caso di errore
             $this->db->rollback();
-            echo "Errore durante la creazione dell'ordine: " . $e->getMessage();
         }
+        return false;
     }
     
 

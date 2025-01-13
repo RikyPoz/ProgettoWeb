@@ -10,6 +10,8 @@ function aggiornaRiepilogo() {
             nArticoli += product["Quantita"];
         }
     });
+    let totHTML;
+    let riepilogoHTML;
     if (nArticoli > 0) {
         riepilogoHTML = `<div class="sticky-top" style="top: 1rem;">
                             <div class="card">
@@ -18,29 +20,31 @@ function aggiornaRiepilogo() {
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between">
                                             <span>Articoli</span> 
-                                            <span>€${tot * 0.88}</span>
+                                            <span>€${(tot * 0.88).toFixed(2)}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between">
                                             <span>IVA</span> 
-                                            <span>€${tot * 0.22}</span>
+                                            <span>€${(tot * 0.22).toFixed(2)}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between fw-bold">
                                             <span>Totale</span> 
-                                            <span>€${tot}</span>
+                                            <span>€${tot.toFixed(2)}</span>
                                         </li>
                                     </ul>
                                     <button class="btn btn-success w-100 mt-3" id="proceedToCheckout" onclick="salvaModifiche()">Procedi all'Acquisto</button>
                                 </div>
                             </div>  
                         </div>`;
-        summaryHTML = `Totale (${nArticoli} articoli): €${tot}`;
+        totHTML = `Totale (${nArticoli} articoli): €${tot}`;
     } else {
         riepilogoHTML = "";
-        summaryHTML = ``;
+        totHTML = ``;
     }
     document.getElementById("recapTable").innerHTML = riepilogoHTML;
     document.getElementById("recapTableMobile").innerHTML = riepilogoHTML;
-    document.getElementById("summary").textContent = summaryHTML;
+    try {   
+        document.getElementById("tot").textContent = totHTML;
+    } catch(error) {}
 }
 
 function aggiornaPrezziQuantita(codiceProdotto) {
@@ -53,6 +57,26 @@ function aggiornaPrezziQuantita(codiceProdotto) {
 function aggiornaSelezionato(codiceProdotto) {
     productsFromId[codiceProdotto]["Selezionato"] = !productsFromId[codiceProdotto]["Selezionato"];
     aggiornaRiepilogo();
+}
+
+function aggiornaSpedizione() {
+    const shippingType = document.getElementById('shippingType');
+    const deliveryDateElement = document.getElementById('estimatedDelivery');
+    const successDeliveryDateElement = document.getElementById('successDeliveryDate');
+    
+    if (!shippingType) {
+        deliveryDateElement.textContent = '--';
+        successDeliveryDateElement.textContent = 'Arrivo previsto: --';
+        return;
+    }
+    const currentDate = new Date();
+    const daysToAdd = shippingType.value === 'express' ? 2 : 7;
+    const priceToAdd = shippingType.value === 'express' ? 10 : 5;
+    currentDate.setDate(currentDate.getDate() + daysToAdd);
+    const formattedDate = currentDate.toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('totModal').textContent = (tot + priceToAdd).toFixed(2)+" €";
+    deliveryDateElement.textContent = formattedDate;
+    successDeliveryDateElement.textContent = `Arrivo previsto: ${formattedDate}`;
 }
 
 function getCarrello(products) {
@@ -70,12 +94,13 @@ function getCarrello(products) {
         for(let i=0; i < products.length; i++){
             let quantitaHTML;
             const codiceProdotto = ""+products[i]["CodiceProdotto"];
+            const nome = products[i]["Nome"];
             const disponibilita = products[i]["Disponibilita"];
             const quantita = Number(products[i]["Quantita"]);
             const prezzo = products[i]["Prezzo"];
             const selezionato = products[i]["Selezionato"] == 'Y';
             const checkbox = disponibilita < 1 ? "disabled" : selezionato ? "checked" : "";
-            const productElement = { Quantita: quantita, Disponibilita: disponibilita, Prezzo: prezzo, Selezionato: selezionato };
+            const productElement = { Quantita: quantita, Disponibilita: disponibilita, Prezzo: prezzo, Selezionato: selezionato, Nome: nome };
             productsFromId[codiceProdotto] = productElement;
             if (disponibilita > 0) {
                 quantitaHTML = `<input type="number" class="form-control form-control-sm w-auto text-center"
@@ -101,7 +126,7 @@ function getCarrello(products) {
                                         <div class="d-flex justify-content-between align-items-center">
                                             <!-- Nome prodotto e quantità -->
                                             <div class="d-flex align-items-center flex-wrap">
-                                                <h5 class="card-title mb-0 me-3">${products[i]["Nome"]}</h5>
+                                                <h5 class="card-title mb-0 me-3">${nome}</h5>
                                                 ${quantitaHTML}
                                             </div>
 
@@ -109,7 +134,6 @@ function getCarrello(products) {
                                             <div class="d-flex align-items-center">
                                                 <input type="checkbox" class="form-check-input me-2 product-checkbox"
                                                     onchange="aggiornaSelezionato(${codiceProdotto})"
-                                                    data-id="${codiceProdotto}"
                                                     ${checkbox}/>
                                                 <p class="mb-0 text-success fw-bold">
                                                     €${prezzo} 
@@ -131,7 +155,7 @@ function getCarrello(products) {
                         </div>`;
             result += product;
         }
-        result += `<div class="text-end fw-bold sticky-bottom bg-light py-2 border-top" id="summary"></div>`;
+        result += `<div class="text-end fw-bold sticky-bottom bg-light py-2 border-top" id="tot"></div>`;
     }
     return result;
 }
@@ -198,9 +222,60 @@ async function modificaCarrello(data) {
 }
 
 async function procediAllAquisto() {
-    
+    const modalElement = document.getElementById('checkoutModal');
+    const modal = new bootstrap.Modal(modalElement);
+    const summary = document.getElementById('productSummary');
+    let summaryHTML = "";
+    productsFromId.forEach(product => {
+        if (product["Selezionato"]) {
+            quantita = product["Quantita"];
+            summaryHTML += `<li class="list-group-item">${product["Nome"]}${quantita > 1 ? " x "+quantita : ""} - ${product["Prezzo"]*quantita} €</li>`
+        }
+    });
+    summary.innerHTML = summaryHTML;
+    aggiornaSpedizione();
+    modal.show();
 }
 
+function validaDati() {
+    const cardNumber = document.getElementById('cardNumber').value;
+    const address = document.getElementById('address').value;
+
+    if (!/^[0-9]{16}$/.test(cardNumber)) {
+        alert('Il numero della carta deve essere composto da 16 cifre.');
+    } else if (!address.trim()) {
+        alert('L\'indirizzo di consegna è obbligatorio.');
+    } else {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+        modal.hide();
+        acquista();
+    }
+}
+
+async function acquista() {
+    try {
+        const response = await fetch("Ajax/api-createOrder.php");
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+        const json = await response.json();
+        modaleFinale(json.success);
+    } catch (error) {
+        console.log("Errore durante la fase di acquisto", error.message);
+    }
+}
+
+function modaleFinale(success) {
+    let modal;
+    if (success) {
+        modal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+        aggiornaCarrello();
+    } else {
+        modal = new bootstrap.Modal(document.getElementById('orderErrorModal'));
+    }
+    modal.show();
+}
 
 /**
  * Modale con :
