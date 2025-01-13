@@ -44,7 +44,7 @@
             <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
                 <h3>Messaggi in arrivo</h3>
                 <ul class="list-group messaggi-container" id="messaggi-container">
-                    <!-- I messaggi verranno aggiunti dinamicamente tramite JS -->
+                    <!-- Messaggi aggiunti dinamicamente -->
                 </ul>
             </div>
             <!-- Sezione Recensioni -->

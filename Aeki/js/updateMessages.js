@@ -72,7 +72,7 @@ function aggiornaMessaggiUI(messaggi) {
         }
 
         console.log("Messaggio:", messaggio); // Mostra il messaggio intero
-        console.log("Stato del messaggio:", messaggio.Letta); // Mostra lo stato di 'Letta'        
+        console.log("Stato del messaggio:", messaggio.Letta); // Mostra lo stato di 'Letta'
 
         // Controlla se il messaggio esiste già nella UI (utilizzando sia l'ID che la Data)
         if (existingMessageIds.includes(messaggio.IdNotifica)) {
@@ -86,9 +86,10 @@ function aggiornaMessaggiUI(messaggi) {
         const testoSpan = document.createElement('span');
         testoSpan.textContent = messaggio.Testo;
 
-        // Se il messaggio non è letto (Letta = 'N'), applica il grassetto
+        // Se il messaggio non è letto (Letta = 'N'), applica il grassetto e aggiungi la classe per il cursore
         if (messaggio.Letta === 'N') {
             testoSpan.style.fontWeight = 'bold';
+            listItem.classList.add('unread'); // Aggiungi la classe per la manina
             listItem.addEventListener('click', () => leggiMessaggio(messaggio.IdNotifica, listItem, testoSpan));
         }
 
@@ -98,7 +99,7 @@ function aggiornaMessaggiUI(messaggi) {
 
         const idSpan = document.createElement('span');
         idSpan.classList.add('message-id');
-        idSpan.style.display = 'none';  
+        idSpan.style.display = 'none';
         idSpan.textContent = messaggio.IdNotifica;
 
         listItem.appendChild(testoSpan);
@@ -137,7 +138,13 @@ async function leggiMessaggio(idNotifica, listItem, testoSpan) {
         if (json.success) {
             // Rimuove il grassetto dal testo
             testoSpan.style.fontWeight = 'normal';
-            listItem.removeEventListener('click', () => leggiMessaggio(idNotifica, listItem, testoSpan)); // Rimuove l'event listener dopo che è stato letto
+            
+            // Rimuove la classe 'unread'
+            listItem.classList.remove('unread');
+                
+            // Rimuove l'event listener per evitare ulteriori click
+            listItem.removeEventListener('click', () => leggiMessaggio(idNotifica, listItem, testoSpan)); 
+            
             console.log(`Messaggio ${idNotifica} marcato come letto`);
         } else {
             console.error(`Errore nel marcare il messaggio come letto: ${json.message}`);
@@ -146,3 +153,22 @@ async function leggiMessaggio(idNotifica, listItem, testoSpan) {
         console.error(`Errore durante l'aggiornamento del messaggio: ${error.message}`);
     }
 }
+
+function caricaFoglioStile(url) {
+    const esiste = Array.from(document.querySelectorAll('link')).some(link => link.href === url);
+    if (!esiste) {
+        const head = document.querySelector('head');
+        const link = document.createElement('link');
+        
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = url;
+        
+        head.appendChild(link);
+        console.log(`Caricato foglio di stile: ${url}`);
+    } else {
+        console.log(`Foglio di stile già caricato: ${url}`);
+    }
+}
+
+caricaFoglioStile('./css/updateMessages_style.css'); 
