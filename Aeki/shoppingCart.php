@@ -5,11 +5,13 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
+$nomeUtente = $_SESSION['user_id'];
+if($dbh->userType($nomeUtente) === "Venditore"){
+    header("Location: homePage.php");
+    exit;
+}
 $templateParams["titolo"] = "Aeki - carrello";
 $templateParams["nome"] = "shoppingCart_main.php";
-$_SESSION['user_id'] = "user1";
-$nomeUtente = $_SESSION['user_id'];
 $templateParams["prodotti"] = $dbh->getCarrello($nomeUtente);
 $templateParams["js"] = array("js/shoppingCart.js");
 

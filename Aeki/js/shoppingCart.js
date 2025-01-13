@@ -13,7 +13,7 @@ function aggiornaRiepilogo() {
     });
     let totHTML;
     let riepilogoHTML;
-    if (nArticoli > 0) {
+    if (productsFromId.length > 0) {
         riepilogoHTML = `<div class="sticky-top" style="top: 1rem;">
                             <div class="card">
                                 <div class="card-body">
