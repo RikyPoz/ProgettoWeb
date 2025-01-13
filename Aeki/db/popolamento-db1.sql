@@ -87,7 +87,7 @@ INSERT INTO Prodotto (Nome, Prezzo, Descrizione, NomeMateriale, Peso, NomeColore
 ('Tavolo ovale', 700.0, 'Tavolo elegante per sala da pranzo.', 'Legno massello', 80.0, 'Marrone', 75.0, 200.0, 100.0, 'Sala da pranzo', 'Tavoli', 'Paso','N'),
 ('Sedia elegante', 100.0, 'Sedia comoda ed elegante.', 'Tessuto e acciaio', 10.0, 'Beige', 90.0, 45.0, 45.0, 'Sala da pranzo', 'Sedie', 'Paso','N'),
 ('Credenza classica', 600.0, 'Credenza con vetrina.', 'Legno e vetro', 120.0, 'Marrone', 180.0, 160.0, 50.0, 'Sala da pranzo', 'Armadi', 'Gaia','N'),
-('Cassettiera vintage', 300.0, 'Cassettiera dallo stile retrò.', 'Legno', 60.0, 'Bianco', 100.0, 120.0, 45.0, 'Sala da pranzo', 'Cassettiere', 'Gaia','N'),
+('Cassettiera vintage', 300.0, 'Cassettiera dallo stile retrò.', 'Legno', 60.0, 'Beige', 100.0, 120.0, 45.0, 'Sala da pranzo', 'Cassettiere', 'Gaia','N'),
 ('Mensola decorativa', 150.0, 'Mensola per oggetti decorativi.', 'Legno', 15.0, 'Beige', 20.0, 150.0, 30.0, 'Sala da pranzo', 'Librerie e scaffali', 'Gaia','N'),
 ('Scrivania angolare', 450.0, 'Scrivania spaziosa con design moderno.', 'Legno e metallo', 50.0, 'Nero', 75.0, 160.0, 90.0, 'Studio', 'Tavoli', 'Gaia','N'),
 ('Sedia ergonomica', 250.0, 'Sedia regolabile per comfort e postura.', 'Tessuto e metallo', 15.0, 'Grigio', 120.0, 50.0, 50.0, 'Studio', 'Sedie', 'Gaia','N'),
