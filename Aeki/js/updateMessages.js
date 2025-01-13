@@ -59,25 +59,27 @@ function aggiornaMessaggiUI(messaggi) {
         return;
     }
 
-    console.log("Messaggi da aggiungere:", messaggi);
+    const noMessagesElement = document.querySelector('#no-messages');
+    
+    // Se ci sono nuovi messaggi rimuove il messaggio "Nessun messaggio disponibile"
+    if (messaggi.length > 0 && noMessagesElement) {
+        noMessagesElement.remove();
+    }
 
-    // Ottieni gli ID dei messaggi già presenti nella UI per evitare duplicati
-    const existingMessageIds = Array.from(messaggiContainer.children).map(item => item.querySelector('span.message-id')?.textContent);
+    // Ottiene gli ID dei messaggi già presenti nella UI per evitare duplicati
+    const existingMessageIds = Array.from(messaggiContainer.children)
+        .filter(item => item.id !== 'no-messages') // Esclude il messaggio "Nessun messaggio disponibile"
+        .map(item => item.querySelector('span.message-id')?.textContent);
 
     messaggi.forEach(messaggio => {
-        // Verifica che l'ID del messaggio sia presente
         if (!messaggio.IdNotifica) {
             console.error("ID del messaggio mancante:", messaggio);
-            return; // Salta il messaggio se l'ID non è valido
+            return;
         }
 
-        console.log("Messaggio:", messaggio); // Mostra il messaggio intero
-        console.log("Stato del messaggio:", messaggio.Letta); // Mostra lo stato di 'Letta'
-
-        // Controlla se il messaggio esiste già nella UI (utilizzando sia l'ID che la Data)
         if (existingMessageIds.includes(messaggio.IdNotifica)) {
             console.log(`Messaggio già presente: ${messaggio.Data} on ID ${messaggio.IdNotifica}`);
-            return; // Salta il messaggio già esistente
+            return;
         }
 
         const listItem = document.createElement('li');
@@ -86,10 +88,9 @@ function aggiornaMessaggiUI(messaggi) {
         const testoSpan = document.createElement('span');
         testoSpan.textContent = messaggio.Testo;
 
-        // Se il messaggio non è letto (Letta = 'N'), applica il grassetto e aggiungi la classe per il cursore
         if (messaggio.Letta === 'N') {
             testoSpan.style.fontWeight = 'bold';
-            listItem.classList.add('unread'); // Aggiungi la classe per la manina
+            listItem.classList.add('unread');
             listItem.addEventListener('click', () => leggiMessaggio(messaggio.IdNotifica, listItem, testoSpan));
         }
 
@@ -106,8 +107,17 @@ function aggiornaMessaggiUI(messaggi) {
         listItem.appendChild(dataSpan);
         listItem.appendChild(idSpan);
 
-        messaggiContainer.prepend(listItem); // Aggiunge il nuovo messaggio all'inizio
+        messaggiContainer.prepend(listItem);
     });
+
+    // Se non ci sono messaggi aggiunge "Nessun messaggio disponibile"
+    if (messaggiContainer.children.length === 0 && !noMessagesElement) {
+        const noMessagesItem = document.createElement('li');
+        noMessagesItem.id = 'no-messages';
+        noMessagesItem.classList.add('text-muted');
+        noMessagesItem.textContent = 'Nessun messaggio disponibile.';
+        messaggiContainer.appendChild(noMessagesItem);
+    }
 }
 
 async function leggiMessaggio(idNotifica, listItem, testoSpan) {

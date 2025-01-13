@@ -44,6 +44,8 @@
             <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
                 <h3>Messaggi in arrivo</h3>
                 <ul class="list-group messaggi-container" id="messaggi-container">
+                    <!-- Riga mostrata se non ci sono messaggi per l'utente -->
+                    <li id="no-messages" class="text-muted">Nessun messaggio disponibile.</li> 
                     <!-- Messaggi aggiunti dinamicamente -->
                 </ul>
             </div>
