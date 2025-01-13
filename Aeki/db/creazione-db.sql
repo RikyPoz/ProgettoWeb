@@ -54,6 +54,7 @@ create table DettaglioOrdine (
      CodiceProdotto INT not null,
      Quantita INT not null,
      PrezzoPagato FLOAT not null,
+     ProdottoSpedito char not null DEFAULT 'N',
      constraint ID_DettaglioOrdine_ID primary key (CodiceProdotto, IDordine));
 
 create table DettaglioWishlist (
@@ -80,7 +81,8 @@ create table Ordine (
      IDordine INT AUTO_INCREMENT,
      Data date not null,
      Username VARCHAR(20) not null,
-     Spedito char not null,
+     GiorniSpedizione INT not null,
+     PrezzoSpedizione FLOAT not null,
      constraint ID_Ordine_ID primary key (IDordine));
 
 CREATE TABLE Prodotto (

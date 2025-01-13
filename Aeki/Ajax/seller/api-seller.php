@@ -31,14 +31,10 @@ if (isset($data['action'])) {
 
         case 'orders':
             $orders = $dbh->getSellerOrderedProducts($seller);
-            $orderNumber = $dbh->getSellerOrderNumber($seller);
-            $result = [
-                'orders' => $orders,
-                'orderNumber' => $orderNumber
-            ];
+
             echo json_encode([
                 'success' => true,
-                'data' => $result
+                'data' => $orders
             ]);
             break;
 

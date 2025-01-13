@@ -596,7 +596,7 @@ class DatabaseHelper{
                                     JOIN Ordine AS o ON d.IDordine = o.IDordine
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
                                     WHERE p.username = ?
-                                    AND o.Spedito = 'N'
+                                    AND do.Spedito = 'N'
                                     ORDER BY o.Data DESC"
                                     );
         
@@ -605,25 +605,6 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-
-    public function getSellerOrderNumber($username){
-        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT do.IDordine) AS ordiniTotali
-                                    FROM Prodotto AS p 
-                                    JOIN DettaglioOrdine AS do ON p.CodiceProdotto = do.CodiceProdotto
-                                    JOIN Ordine AS o ON o.IDordine = do.IDordine
-                                    WHERE p.username = ?
-                                    AND o.Spedito = 'N'");
-        
-        $stmt->bind_param('s', $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
-
-        $ordersNumber = isset($data['ordiniTotali']) ? $data['ordiniTotali'] : 0;
-    
-        return $ordersNumber;
-    }
-
 
 
     public function addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {

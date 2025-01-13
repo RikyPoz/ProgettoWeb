@@ -226,6 +226,56 @@ async function updateProductPrice(product) {
     }
 }
 
+async function updateModalEventListeners(product) {
+    const modals = document.querySelectorAll(`#updateAvailabilityModal-${product.CodiceProdotto}, #deleteProductModal-${product.CodiceProdotto}, #updateProductModal-${product.CodiceProdotto}`);
+
+
+    const orderButton = modals[0]?.querySelector(`#updateAvailabilityBtn-${product.CodiceProdotto}`);
+
+    if (orderButton) {
+        orderButton.addEventListener('click', () => sendOrder(product));
+    } else {
+        console.error(`Bottone di spedizione non trovato`);
+    }
+}
+
+async function sendOrder(product) {
+    try {
+
+        const sendingData = {
+            action: 'send-order',
+            codiceProdotto: product.CodiceProdotto,
+        };
+
+        const response = await fetch('Ajax/seller/api-seller-product.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sendingData)
+        });
+
+
+        if (!response.ok) {
+            throw new Error(`Errore nella richiesta: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Prodotto eliminato');
+            const closeButton = document.querySelector(`#deleteProductModal-${product.CodiceProdotto} .btn-close`);
+            closeButton.click();
+            fetchData("products");
+        } else {
+            alert('Errore durante l\'eliminazione del prodotto ' + result.message);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nel comunicare con il server');
+    }
+}
+
 async function insertImages() {
     const productImage1 = document.getElementById("productImage1").files[0];
     const productImage2 = document.getElementById("productImage2").files[0];

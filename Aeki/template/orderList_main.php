@@ -47,7 +47,7 @@
               </div>
               <!--Button-->
               <div class = "d-flex justify-content-md-end justify-content-center p-3 ">
-                <button type="button" class="btn btn-lg" style="background-color: #000060; color: #FFFFFF">Traccia il mio pacco</button>
+                <button type="button" class="btn btn-lg" id="traccia-<?php echo $prodotto["CodiceProdotto"]?>"style="background-color: #000060; color: #FFFFFF">Traccia il mio pacco</button>
               </div>
           </div>
         <?php endforeach; ?>

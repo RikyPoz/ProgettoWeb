@@ -195,15 +195,8 @@ async function generateProductList(data) {
 
 }
 
-function generateOrderList(data) {
-    const orders = data["orders"];
-    const number = data["orderNumber"];
+function generateOrderList(orders) {
     if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
-
-    let contentTitle = document.getElementById('contentTitle');
-    contentTitle.textContent = `Ordini in Arrivo (${number})`;
-
-    let html = `<div id="orders-list">`;
 
     const groupedOrders = orders.reduce((acc, order) => {
         if (!acc[order.IDordine]) {
@@ -229,6 +222,12 @@ function generateOrderList(data) {
 
         return acc;
     }, {});
+
+    const number = Object.keys(groupedOrders).length;
+    let contentTitle = document.getElementById('contentTitle');
+    contentTitle.textContent = `Ordini in Arrivo (${number})`;
+
+    let html = `<div id="orders-list">`;
 
     Object.values(groupedOrders).forEach(order => {
         html += `
