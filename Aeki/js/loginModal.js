@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const modal = document.getElementById("myModal");
     const btn = document.getElementById("openModal");
-    const span = document.querySelector(".close");
+    const span = document.querySelector(".modal-close");
 
     // Mostra il modale
     btn.onclick = function() {
