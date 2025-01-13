@@ -81,6 +81,18 @@ if (isset($data['action'])) {
                 echo json_encode(['success' => false, 'message' => 'Dati insufficienti']);
             }
             break;
+        case 'send-order':
+            if (isset($data['idOrdine'])) {
+                $idOrdine = $data['idOrdine'];
+
+                $result = $dbh->sendOrder($idOrdine,$seller);
+                //$dbh->notifyCartChange($codiceProdotto,$testo);
+                echo $result;
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Dati insufficienti']);
+            }
+
+            break;
     }
 } else {
     echo json_encode(["success" => false, "message" => "Azione non specificata."]);

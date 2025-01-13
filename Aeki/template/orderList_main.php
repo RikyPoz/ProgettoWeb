@@ -32,6 +32,7 @@
                           <h2 style = "color:#000070"><?php echo $prodotto["Nome"] ?> </h2>
                           <span class="fs-4 me-4">Quantità : <span class = "fw-semibold"><?php echo $prodotto["Quantita"] ?></span></span>
                           <span class="fs-4 ">Prezzo Pagato: <span class = "fw-semibold"><?php echo $prodotto["PrezzoPagato"] ?> €</span></span>
+                          <span class="fs-4 ">Spedito: <span class = "fw-semibold"><?php echo $prodotto["ProdottoSpedito"] ?> </span></span>
                         </div>
                         <?php if($prodotto["Rimosso"] == 'N'):?>
                           <div>
@@ -46,9 +47,19 @@
                 <?php endforeach; ?>
               </div>
               <!--Button-->
-              <div class = "d-flex justify-content-md-end justify-content-center p-3 ">
-                <button type="button" class="btn btn-lg" id="traccia-<?php echo $prodotto["CodiceProdotto"]?>"style="background-color: #000060; color: #FFFFFF">Traccia il mio pacco</button>
+              <div class="d-flex justify-content-md-end justify-content-center p-3">
+                  <button 
+                      type="button" 
+                      class="btn btn-lg" 
+                      id="traccia-<?php echo $ordine["IDordine"]; ?>"
+                      data-idordine="<?php echo $ordine["IDordine"]; ?>"
+                      data-dataordine="<?php echo $ordine["Data"]; ?>"
+                      data-prodotti='<?php echo json_encode($ordine["prodotti"]); ?>'
+                      style="background-color: #000060; color: #FFFFFF">
+                      Traccia il mio pacco
+                  </button>
               </div>
+
           </div>
         <?php endforeach; ?>
       </div>

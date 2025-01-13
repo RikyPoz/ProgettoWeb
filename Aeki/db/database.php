@@ -532,7 +532,7 @@ class DatabaseHelper{
     }
 
     public function getProdottiPerOrdine($idOrdine){
-        $stmt = $this->db->prepare("SELECT d.CodiceProdotto,d.PrezzoPagato,d.Quantita,p.Nome,i.PercorsoImg,p.Rimosso
+        $stmt = $this->db->prepare("SELECT d.CodiceProdotto,d.PrezzoPagato,d.Quantita,p.Nome,i.PercorsoImg,p.Rimosso,d.ProdottoSpedito
                                     FROM DettaglioOrdine AS d
                                     JOIN Prodotto AS p ON d.CodiceProdotto = p.CodiceProdotto
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
@@ -589,14 +589,14 @@ class DatabaseHelper{
 
     //restituisce tutti i prodotti ordinati dai clienti
     public function getSellerOrderedProducts($username){
-        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, d.PrezzoPagato, d.Quantita, 
-                                    d.CodiceProdotto, p.Nome,i.PercorsoImg,p.Rimosso
+        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, do.PrezzoPagato, do.Quantita, 
+                                    do.CodiceProdotto, p.Nome,i.PercorsoImg,p.Rimosso
                                     FROM Prodotto AS p
-                                    JOIN DettaglioOrdine AS d ON d.CodiceProdotto = p.CodiceProdotto
-                                    JOIN Ordine AS o ON d.IDordine = o.IDordine
+                                    JOIN DettaglioOrdine AS do ON do.CodiceProdotto = p.CodiceProdotto
+                                    JOIN Ordine AS o ON o.IDordine = do.IDordine
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
                                     WHERE p.username = ?
-                                    AND do.Spedito = 'N'
+                                    AND do.ProdottoSpedito = 'N'
                                     ORDER BY o.Data DESC"
                                     );
         
@@ -604,6 +604,29 @@ class DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function sendOrder($idOrdine,$seller){
+        try{
+            $stmt = $this->db->prepare("UPDATE DettaglioOrdine AS do
+                                        JOIN Prodotto AS p ON p.CodiceProdotto = do.CodiceProdotto
+                                        SET do.ProdottoSpedito = 'Y'
+                                        WHERE do.IDOrdine = ?
+                                        AND p.Username = ?");
+            
+            $stmt->bind_param('is', $idOrdine,$seller);
+            $stmt->execute();
+            return json_encode([
+                'success' => true,
+                'message' => 'ordine spedito con successo'
+            ]);
+        } catch (mysqli_sql_exception $e) {
+        return json_encode([
+            'success' => false,
+            'message' => 'Errore SQL: ' . $e->getMessage()
+        ]);
+
+}
     }
 
 

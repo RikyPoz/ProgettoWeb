@@ -30,7 +30,7 @@ foreach ($templateParams["ordini"] as &$ordine) { //& usato per non creare una c
 }
 unset($ordine);
 
-
+$templateParams["js"] = array("js/orderTracking.js");
 
 require 'template/base.php';
 ?>

@@ -97,7 +97,11 @@ async function updatePageContent(action, data) {
             break;
         case 'orders':
             pageType = "orders";
-            contentBody.innerHTML = generateOrderList(data);
+            const groupedOrders = getGroupedOrders(data);
+            contentBody.innerHTML = generateOrderList(groupedOrders);
+            Object.values(groupedOrders).forEach(order => {
+                sendOrderEventListeners(order);
+            });
             break;
         case 'stats':
             pageType = "stats";
@@ -195,33 +199,8 @@ async function generateProductList(data) {
 
 }
 
-function generateOrderList(orders) {
-    if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
-
-    const groupedOrders = orders.reduce((acc, order) => {
-        if (!acc[order.IDordine]) {
-            acc[order.IDordine] = {
-                IDordine: order.IDordine,
-                Data: order.Data,
-                Cliente: order.Cliente,
-                PrezzoTotale: 0,
-                Prodotti: []
-            };
-        }
-
-        acc[order.IDordine].Prodotti.push({
-            Nome: order.Nome,
-            Quantita: order.Quantita,
-            PrezzoPagato: order.PrezzoPagato,
-            CodiceProdotto: order.CodiceProdotto,
-            PercorsoImg: order.PercorsoImg,
-            Rimosso: order.Rimosso
-        });
-
-        acc[order.IDordine].PrezzoTotale += parseFloat(order.PrezzoPagato);
-
-        return acc;
-    }, {});
+function generateOrderList(groupedOrders) {
+    if (!groupedOrders || groupedOrders.length === 0) return '<p>Nessun ordine trovato.</p>';
 
     const number = Object.keys(groupedOrders).length;
     let contentTitle = document.getElementById('contentTitle');
@@ -269,7 +248,7 @@ function generateOrderList(orders) {
             </div>
             <!-- Button -->
             <div class="d-flex justify-content-md-end justify-content-center  p-3">
-                <button type="button" class="btn btn-lg" style = "background-color:#000060;color:#FFFFFF">Spedisci</button>
+                <button type="button" class="btn btn-lg" id="sendOrder-${order.IDordine}" style = "background-color:#000060;color:#FFFFFF">Spedisci</button>
             </div>
         </div>`;
     });
@@ -277,7 +256,33 @@ function generateOrderList(orders) {
     html += `</div>`;
     return html;
 }
+function getGroupedOrders(orders) {
+    const groupedOrders = orders.reduce((acc, order) => {
+        if (!acc[order.IDordine]) {
+            acc[order.IDordine] = {
+                IDordine: order.IDordine,
+                Data: order.Data,
+                Cliente: order.Cliente,
+                PrezzoTotale: 0,
+                Prodotti: []
+            };
+        }
 
+        acc[order.IDordine].Prodotti.push({
+            Nome: order.Nome,
+            Quantita: order.Quantita,
+            PrezzoPagato: order.PrezzoPagato,
+            CodiceProdotto: order.CodiceProdotto,
+            PercorsoImg: order.PercorsoImg,
+            Rimosso: order.Rimosso
+        });
+
+        acc[order.IDordine].PrezzoTotale += parseFloat(order.PrezzoPagato);
+
+        return acc;
+    }, {});
+    return groupedOrders;
+}
 
 function generateStats(stats) {
     if (!stats) return '<p>Nessun statistica trovato.</p>';

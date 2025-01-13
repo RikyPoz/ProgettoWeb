@@ -226,25 +226,22 @@ async function updateProductPrice(product) {
     }
 }
 
-async function updateModalEventListeners(product) {
-    const modals = document.querySelectorAll(`#updateAvailabilityModal-${product.CodiceProdotto}, #deleteProductModal-${product.CodiceProdotto}, #updateProductModal-${product.CodiceProdotto}`);
+async function sendOrderEventListeners(order) {
+    const sendButton = document.querySelector(`#sendOrder-${order.IDordine}`);
 
-
-    const orderButton = modals[0]?.querySelector(`#updateAvailabilityBtn-${product.CodiceProdotto}`);
-
-    if (orderButton) {
-        orderButton.addEventListener('click', () => sendOrder(product));
+    if (sendButton) {
+        sendButton.addEventListener('click', () => sendOrder(order));
     } else {
         console.error(`Bottone di spedizione non trovato`);
     }
 }
 
-async function sendOrder(product) {
+async function sendOrder(order) {
     try {
 
         const sendingData = {
             action: 'send-order',
-            codiceProdotto: product.CodiceProdotto,
+            idOrdine: order.IDordine,
         };
 
         const response = await fetch('Ajax/seller/api-seller-product.php', {
@@ -263,10 +260,8 @@ async function sendOrder(product) {
         const result = await response.json();
 
         if (result.success) {
-            alert('Prodotto eliminato');
-            const closeButton = document.querySelector(`#deleteProductModal-${product.CodiceProdotto} .btn-close`);
-            closeButton.click();
-            fetchData("products");
+            alert('Ordine Inviato');
+            fetchData("orders");
         } else {
             alert('Errore durante l\'eliminazione del prodotto ' + result.message);
         }
