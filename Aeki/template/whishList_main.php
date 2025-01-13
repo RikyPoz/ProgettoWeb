@@ -1,6 +1,6 @@
 <div class="row justify-content-center my-5" style="min-height: 70vh">
     <div class="col-md-10 col-12 rounded shadow bg-light p-4">
-        <div class="d-flex justify-content-center justify-content-md-start mb-5">
+        <div class="d-flex justify-content-center justify-content-md-start mb-4">
             <h1 class="fw-bold "style = "color:#000070">I miei Preferiti</h1>
         </div>
         <!--Prodotti-->
@@ -18,7 +18,7 @@
                                 </span>
                                 <div class="d-flex flex-column align-items-center">
                                     <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["Prezzo"]); ?>€</span>
-                                    <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
+                                    <i class="bi bi-heart-fill fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;color:#B00000"></i>
                                     <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
                                     <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]; ?>" class="btn border border-dark btn-sm mt-2 rounded-pill me-1">
                                         <i class="bi bi-eye me-2"></i>Visualizza

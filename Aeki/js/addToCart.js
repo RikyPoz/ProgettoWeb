@@ -21,7 +21,7 @@ function addToCartEventListener() {
         };
 
         try {
-            const response = await fetch('Ajax/api-addToCart.php', {
+            const response = await fetch('Ajax/shoppingCart/api-addToCart.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

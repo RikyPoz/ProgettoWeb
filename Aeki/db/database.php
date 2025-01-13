@@ -653,8 +653,9 @@ class DatabaseHelper{
             $codiceProdotto = $this->db->insert_id;
 
             foreach ($paths as $key => $path) {
+                $icona = ($key === 0) ? 'Y' : 'N';
+            
                 $stmtImg = $this->db->prepare("INSERT INTO `ImmagineProdotto`(`PercorsoImg`, `Icona`, `CodiceProdotto`) VALUES (?,?,?)");
-                $icona = 'Y';  //solo la prima è icona
                 $stmtImg->bind_param('ssi', $path, $icona, $codiceProdotto);
                 
                 if (!$stmtImg->execute()) {

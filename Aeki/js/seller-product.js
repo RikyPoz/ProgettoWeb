@@ -51,7 +51,7 @@ async function addModalEventListener() {
         };
 
         try {
-            const response = await fetch('Ajax/api-seller-product.php', {
+            const response = await fetch('Ajax/seller/api-seller-product.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ async function deleteProduct(product) {
             codiceProdotto: product.CodiceProdotto,
         };
 
-        const response = await fetch('Ajax/api-seller-product.php', {
+        const response = await fetch('Ajax/seller/api-seller-product.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ async function updateProductAvailability(product) {
         };
 
 
-        const response = await fetch('Ajax/api-seller-product.php', {
+        const response = await fetch('Ajax/seller/api-seller-product.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ async function updateProductPrice(product) {
             nuovoPrezzo: newPrice
         };
 
-        const response = await fetch('Ajax/api-seller-product.php', {
+        const response = await fetch('Ajax/seller/api-seller-product.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

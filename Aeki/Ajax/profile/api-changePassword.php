@@ -1,10 +1,6 @@
 <?php
 
-ini_set('display_errors', 1);  // Mostra gli errori
-ini_set('display_startup_errors', 1);  // Mostra gli errori all'avvio
-error_reporting(E_ALL);  // Mostra tutti gli errori, avvisi e notifiche
-
-include '../bootstrap.php';
+include '../../bootstrap.php';
 
 // Controlla se l'utente è autenticato
 if (!isset($_SESSION['user_id'])) {

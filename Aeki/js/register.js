@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.querySelector("form#registerForm");
-    
+
     registerForm.addEventListener("submit", function (e) {
         e.preventDefault(); // Evita il comportamento di submit del form tradizionale
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Invio dei dati tramite AJAX
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'Ajax/api-register.php', true);
+        xhr.open('POST', 'Ajax/login/api-register.php', true);
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
         xhr.onload = function () {

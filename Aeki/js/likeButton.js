@@ -45,7 +45,7 @@ async function rimuoviDaWishlist(prodottoId) {
             type: "remove"
         };
         console.log(sendingData);
-        const response = await fetch('Ajax/api-likeButton.php', {
+        const response = await fetch('Ajax/wishList/api-likeButton.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData)
@@ -82,7 +82,7 @@ async function aggiungiAWishlist(prodottoId) {
             type: "add"
         };
         console.log(sendingData);
-        const response = await fetch('Ajax/api-likeButton.php', {
+        const response = await fetch('Ajax/wishList/api-likeButton.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData)

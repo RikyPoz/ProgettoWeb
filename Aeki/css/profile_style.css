@@ -1,13 +1,12 @@
 /* Contenitore dei messaggi */
-aside.col-lg-4 {
-    margin-top: 45px; 
+aside.col-lg-5 {
+    margin-top: 45px;
 }
 
 .messaggi-container,
 .recensioni-container {
-    max-height: 300px; /* Limita l'altezza */
-    overflow-y: scroll; /* Mostra sempre la barra di scorrimento */
-    padding-right: 10px; /* Facoltativo, per spazio */
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 .messaggi-container::-webkit-scrollbar,

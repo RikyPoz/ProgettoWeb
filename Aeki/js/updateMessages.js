@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function aggiornaMessaggi() {
     // Prepara i dati
-    const data = { 
-        ultimaData 
+    const data = {
+        ultimaData
     };
 
     try {
-        const response = await fetch('Ajax/api-updateMessages.php', {
+        const response = await fetch('Ajax/profile/api-updateMessages.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ async function aggiornaMessaggi() {
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }
-        
+
         const json = await response.json();
         console.log("Risposta dal server:", json);
 
@@ -60,7 +60,7 @@ function aggiornaMessaggiUI(messaggi) {
     }
 
     const noMessagesElement = document.querySelector('#no-messages');
-    
+
     // Se ci sono nuovi messaggi rimuove il messaggio "Nessun messaggio disponibile"
     if (messaggi.length > 0 && noMessagesElement) {
         noMessagesElement.remove();
@@ -129,7 +129,7 @@ async function leggiMessaggio(idNotifica, listItem, testoSpan) {
 
     // Invia una richiesta al server per segnare il messaggio come letto
     try {
-        const response = await fetch('Ajax/api-markAsRead.php', {
+        const response = await fetch('Ajax/profile/api-markAsRead.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -148,13 +148,13 @@ async function leggiMessaggio(idNotifica, listItem, testoSpan) {
         if (json.success) {
             // Rimuove il grassetto dal testo
             testoSpan.style.fontWeight = 'normal';
-            
+
             // Rimuove la classe 'unread'
             listItem.classList.remove('unread');
-                
+
             // Rimuove l'event listener per evitare ulteriori click
-            listItem.removeEventListener('click', () => leggiMessaggio(idNotifica, listItem, testoSpan)); 
-            
+            listItem.removeEventListener('click', () => leggiMessaggio(idNotifica, listItem, testoSpan));
+
             console.log(`Messaggio ${idNotifica} marcato come letto`);
         } else {
             console.error(`Errore nel marcare il messaggio come letto: ${json.message}`);
@@ -169,11 +169,11 @@ function caricaFoglioStile(url) {
     if (!esiste) {
         const head = document.querySelector('head');
         const link = document.createElement('link');
-        
+
         link.rel = 'stylesheet';
         link.type = 'text/css';
         link.href = url;
-        
+
         head.appendChild(link);
         console.log(`Caricato foglio di stile: ${url}`);
     } else {

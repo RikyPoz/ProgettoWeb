@@ -1,6 +1,6 @@
 <?php
 
-require_once '../bootstrap.php'; 
+require_once '../../bootstrap.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Controlla se l'username è presente nella sessione

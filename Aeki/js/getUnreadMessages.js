@@ -1,10 +1,10 @@
 function updateNotificationCount() {
-    fetch('Ajax/api-getUnreadMessages.php')
+    fetch('Ajax/profile/api-getUnreadMessages.php')
         .then(response => response.json())
         .then(data => {
             const unreadCount = data.unread_count;
             const badgeElement = document.getElementById('unreadCount');
-            
+
             if (unreadCount > 0) {
                 if (badgeElement) {
                     badgeElement.textContent = unreadCount;

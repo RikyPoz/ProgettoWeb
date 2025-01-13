@@ -4,7 +4,7 @@
 
 async function getAddModal() {
     try {
-        const response = await fetch('Ajax/api-getInfo.php');
+        const response = await fetch('Ajax/products/api-getInfo.php');
         const result = await response.json();
 
         if (!result.success) {

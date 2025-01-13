@@ -6,7 +6,7 @@
 <div class="container my-5">
     <div class="row">
         <!-- Sezione Profilo -->
-        <section class="col-lg-8">
+        <section class="col-lg-7">
             <h2 class="fw-bold" style="color: #000070">Benvenuto <?php echo $templateParams["utente"]['Username']; ?>!</h2>
             <div class="border rounded p-4">
                 <h3>Il tuo profilo</h3>
@@ -27,19 +27,19 @@
                     <input type="text" class="form-control telefonoUtente" value="<?php echo $templateParams["utente"]['Telefono']; ?>" readonly>
                 </div>
                 <!-- Pulsante per aprire il modale per modificare il profilo -->
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modificaProfiloModal">Modifica Profilo</button>
+                <button type="button" class="btn btn-light border" data-bs-toggle="modal" data-bs-target="#modificaProfiloModal">Modifica Profilo</button>
             </div>
             <!-- Pulsanti Cambia Password ed Elimina Account -->
             <div class="d-flex justify-content-end gap-3 mt-4">
                 <!-- Pulsante Cambia Password che apre il modale -->
-                <button type="button" class="btn btn-secondary" style="background-color: #000060" data-bs-toggle="modal" data-bs-target="#cambiaPasswordModal">Cambia password</button>
+                <button type="button" class="btn" style="background-color: #000060;color:#FFFFFF" data-bs-toggle="modal" data-bs-target="#cambiaPasswordModal">Cambia password</button>
                 <!-- Pulsante Elimina Account che apre il modale -->
-                <button type="button" class="btn btn-danger" style="background-color: #B00000" data-bs-toggle="modal" data-bs-target="#eliminaAccountModal">Elimina account</button>
+                <button type="button" class="btn" style="background-color: #B00000;color:#FFFFFF" data-bs-toggle="modal" data-bs-target="#eliminaAccountModal">Elimina account</button>
             </div>
         </section>
 
         <!-- Aside -->
-        <aside class="col-lg-4">
+        <aside class="col-lg-5">
             <!-- Sezione Messaggi -->
             <div class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto;">
                 <h3>Messaggi in arrivo</h3>
@@ -100,7 +100,7 @@
                         <label for="telefonoUtente" class="form-label">Telefono</label>
                         <input type="text" class="form-control" name="telefono" value="<?php echo $templateParams["utente"]['Telefono']; ?>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+                    <button type="submit" class="btn" style="background-color:#000060;color:#FFFFFF">Salva Modifiche</button>
                 </form>
             </div>
         </div>
@@ -149,7 +149,7 @@
                             </button>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Cambia Password</button>
+                    <button type="submit" class="btn" style="background-color: #000060;color:#FFFFFF">Cambia Password</button>
                 </form>
             </div>
         </div>
@@ -166,7 +166,7 @@
             </div>
             <div class="modal-body">
                 <p>Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.</p>
-                <button type="button" class="btn btn-danger">Elimina Account</button>
+                <button type="button" class="btn" style="background-color: #B00000;color:#FFFFFF">Elimina Account</button>
                 <div class="message"></div> <!-- Contenitore per i messaggi di successo o errore -->
             </div>
         </div>

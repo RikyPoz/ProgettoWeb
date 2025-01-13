@@ -1,5 +1,5 @@
 <?php
-require_once '../bootstrap.php';
+require_once '../../bootstrap.php';
 
 // Distruggi tutte le variabili di sessione
 session_unset();

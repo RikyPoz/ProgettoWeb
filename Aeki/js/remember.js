@@ -69,12 +69,12 @@ function showCookieNotice() {
     document.body.appendChild(notice);
 
     // Rimuovi l'overlay e il messaggio quando l'utente interagisce
-    document.getElementById('acceptCookies').addEventListener('click', function() {
+    document.getElementById('acceptCookies').addEventListener('click', function () {
         document.body.removeChild(overlay); // Rimuove l'overlay
         document.getElementById('cookieNotice').remove(); // Rimuovi il messaggio
     });
 
-    document.getElementById('rejectCookies').addEventListener('click', function() {
+    document.getElementById('rejectCookies').addEventListener('click', function () {
         document.body.removeChild(overlay); // Rimuove l'overlay
         document.getElementById('cookieNotice').remove(); // Rimuovi il messaggio
     });
@@ -101,10 +101,10 @@ document.getElementById('remember').addEventListener('change', function () {
 });
 
 // Se esiste il cookie, pre-compilare il modulo di login con il cookie
-window.onload = function() {
+window.onload = function () {
     const emailCookie = getCookie('userEmail');
     const passwordCookie = getCookie('userPassword');
-    
+
     if (emailCookie && passwordCookie) {
         document.getElementById('email').value = emailCookie;
         document.getElementById('password').value = passwordCookie; // Pre-compila anche la password
@@ -126,7 +126,7 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
     // Invio dei dati tramite AJAX
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'Ajax/api-login.php', true);
+    xhr.open('POST', 'Ajax/login/api-login.php', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     xhr.onload = function () {
@@ -163,7 +163,7 @@ document.getElementById("deleteAccountBtn").addEventListener("click", function (
 
     // Crea una richiesta AJAX
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "Ajax/api-deleteProfile.php", true);
+    xhr.open("POST", "Ajax/profile/api-deleteProfile.php", true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onload = function () {

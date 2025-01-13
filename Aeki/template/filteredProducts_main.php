@@ -57,7 +57,7 @@ $sliderMax = 100;
       </div>
 
       <div class="text-end mt-3">
-        <button class="btn btn-success" id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
+        <button class="btn" style="background-color:#000060;color:#FFFFFF"id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
       </div>
     </div>
   </div>

@@ -40,7 +40,7 @@ async function aggiornaProfilo(data) {
     submitButton.textContent = "Caricamento...";
 
     try {
-        const response = await fetch("Ajax/api-updateProfile.php", {
+        const response = await fetch("Ajax/profile/api-updateProfile.php", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
@@ -77,7 +77,7 @@ async function aggiornaProfilo(data) {
             document.getElementById("email").value = data.email;
             document.getElementById("telefono").value = data.telefono;
 
-            document.getElementById("nome").textContent = data.nome; 
+            document.getElementById("nome").textContent = data.nome;
             document.getElementById("cognome").textContent = data.cognome;
             document.getElementById("email").textContent = data.email;
             document.getElementById("telefono").textContent = data.telefono;

@@ -83,8 +83,8 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                <button type="button" class="btn btn-primary" onclick="validaDati()">Acquista</button>
+                <button type="button" class="btn border-dark" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF"onclick="validaDati()">Acquista</button>
             </div>
         </div>
     </div>

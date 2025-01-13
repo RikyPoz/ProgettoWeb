@@ -1,25 +1,25 @@
-document.getElementById("deleteAccountBtn").addEventListener("click", function() {
+document.getElementById("deleteAccountBtn").addEventListener("click", function () {
     // Log per verificare che l'utente ha cliccato il pulsante
     console.log("Eliminazione account confermata.");
 
     // Crea una richiesta AJAX
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "Ajax/api-deleteProfile.php", true);
+    xhr.open("POST", "Ajax/profile/api-deleteProfile.php", true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     // Log prima di inviare la richiesta
     console.log("Invio della richiesta di eliminazione dell'account...");
 
     // Gestisci la risposta dal server
-    xhr.onload = function() {
+    xhr.onload = function () {
         // Log della risposta del server
         console.log("Risposta del server ricevuta:", xhr.status, xhr.responseText);
-    
+
         if (xhr.status === 200) {
             try {
                 const response = JSON.parse(xhr.responseText);
                 console.log("Risposta JSON:", response);
-    
+
                 if (response.success) {
                     document.getElementById("message").innerHTML = `<p style="color: green;">${response.message}</p>`;
                     window.location.href = "/ProgettoWeb/Aeki/homePage.php"; // Reindirizza alla home
@@ -36,7 +36,7 @@ document.getElementById("deleteAccountBtn").addEventListener("click", function()
             console.error('Errore durante la richiesta AJAX:', xhr.status, xhr.statusText);
         }
     };
-    
+
     // Invia la richiesta al server
     xhr.send();
 

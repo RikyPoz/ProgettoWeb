@@ -1,6 +1,6 @@
-document.querySelector('.logout-button').addEventListener('click', function(event) {
+document.querySelector('.logout-button').addEventListener('click', function (event) {
     event.preventDefault();
-    console.log('Logout cliccato'); 
+    console.log('Logout cliccato');
 
     // Crea il modale dinamicamente
     const modal = document.createElement('div');
@@ -13,9 +13,9 @@ document.querySelector('.logout-button').addEventListener('click', function(even
     modal.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
     modal.style.display = 'flex';
     modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'flex-start';  
+    modal.style.alignItems = 'flex-start';
     modal.style.opacity = '0';
-    modal.style.transition = 'opacity 0.3s ease-in-out'; 
+    modal.style.transition = 'opacity 0.3s ease-in-out';
 
     // Contenuto del modale
     const modalContent = document.createElement('div');
@@ -26,7 +26,7 @@ document.querySelector('.logout-button').addEventListener('click', function(even
     modalContent.style.width = '350px';
     modalContent.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
     modalContent.style.transform = 'scale(0.8)';
-    modalContent.style.transition = 'transform 0.3s ease, opacity 0.3s ease'; 
+    modalContent.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
 
     // Messaggio del modale
     const message = document.createElement('p');
@@ -86,28 +86,28 @@ document.querySelector('.logout-button').addEventListener('click', function(even
     }, 10);
 
     // Gestisce il click sul pulsante "Logout"
-    logoutButton.addEventListener('click', function() {
+    logoutButton.addEventListener('click', function () {
         // Effettua la richiesta AJAX per il logout
-        fetch('Ajax/api-logout.php', {
+        fetch('Ajax/login/api-logout.php', {
             method: 'GET',
         })
-        .then(response => response.text())  
-        .then(data => {
-            console.log('Risposta del server:', data);  
-            try {
-                const jsonData = JSON.parse(data);  
-                if (jsonData.status === 'success') {
-                    window.location.href = 'homePage.php';
-                } else {
-                    console.error('Errore durante il logout');
+            .then(response => response.text())
+            .then(data => {
+                console.log('Risposta del server:', data);
+                try {
+                    const jsonData = JSON.parse(data);
+                    if (jsonData.status === 'success') {
+                        window.location.href = 'homePage.php';
+                    } else {
+                        console.error('Errore durante il logout');
+                    }
+                } catch (e) {
+                    console.error('Errore nel parsing JSON:', e);
                 }
-            } catch (e) {
-                console.error('Errore nel parsing JSON:', e);
-            }
-        })
-        .catch(error => {
-            console.error('Errore nella richiesta AJAX:', error);
-        });
+            })
+            .catch(error => {
+                console.error('Errore nella richiesta AJAX:', error);
+            });
 
         // Nasconde il modale dopo aver cliccato "Logout"
         modal.style.opacity = '0';
@@ -117,8 +117,8 @@ document.querySelector('.logout-button').addEventListener('click', function(even
     });
 
     // Gestisce il click sul pulsante "Annulla"
-    cancelButton.addEventListener('click', function() {
-        console.log('Logout annullato'); 
+    cancelButton.addEventListener('click', function () {
+        console.log('Logout annullato');
         modal.style.opacity = '0';
         setTimeout(() => {
             document.body.removeChild(modal);  // Nasconde il modale

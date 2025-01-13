@@ -1,4 +1,4 @@
-let productsFromId= [];
+let productsFromId = [];
 let tot;
 let nArticoli = 0;
 function aggiornaRiepilogo() {
@@ -31,25 +31,25 @@ function aggiornaRiepilogo() {
                                             <span>€${tot.toFixed(2)}</span>
                                         </li>
                                     </ul>
-                                    <button class="btn btn-success w-100 mt-3" id="proceedToCheckout" onclick="salvaModifiche()">Procedi all'Acquisto</button>
+                                    <button class="btn w-100 mt-3" id="proceedToCheckout" onclick="salvaModifiche()" style ="background-color:#000060;color:#FFFFFF">Procedi all'Acquisto</button>
                                 </div>
                             </div>  
                         </div>`;
-        totHTML = `Totale (${nArticoli} articoli): €${tot}`;
+        totHTML = `Totale (${nArticoli} articoli): €${tot.toFixed(2)}`;
     } else {
         riepilogoHTML = "";
         totHTML = ``;
     }
     document.getElementById("recapTable").innerHTML = riepilogoHTML;
     document.getElementById("recapTableMobile").innerHTML = riepilogoHTML;
-    try {   
+    try {
         document.getElementById("tot").textContent = totHTML;
-    } catch(error) {}
+    } catch (error) { }
 }
 
 function aggiornaPrezziQuantita(codiceProdotto) {
     quantita = document.getElementById(codiceProdotto).value;
-    document.getElementById("moltiplicatore"+codiceProdotto).textContent = quantita > 1 ? " x "+quantita : "";
+    document.getElementById("moltiplicatore" + codiceProdotto).textContent = quantita > 1 ? " x " + quantita : "";
     productsFromId[codiceProdotto]["Quantita"] = Number(quantita);
     aggiornaRiepilogo();
 }
@@ -63,7 +63,7 @@ function aggiornaSpedizione() {
     const shippingType = document.getElementById('shippingType');
     const deliveryDateElement = document.getElementById('estimatedDelivery');
     const successDeliveryDateElement = document.getElementById('successDeliveryDate');
-    
+
     if (!shippingType) {
         deliveryDateElement.textContent = '--';
         successDeliveryDateElement.textContent = 'Arrivo previsto: --';
@@ -74,7 +74,7 @@ function aggiornaSpedizione() {
     const priceToAdd = shippingType.value === 'express' ? 10 : 5;
     currentDate.setDate(currentDate.getDate() + daysToAdd);
     const formattedDate = currentDate.toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('totModal').textContent = (tot + priceToAdd).toFixed(2)+" €";
+    document.getElementById('totModal').textContent = (tot + priceToAdd).toFixed(2) + " €";
     deliveryDateElement.textContent = formattedDate;
     successDeliveryDateElement.textContent = `Arrivo previsto: ${formattedDate}`;
 }
@@ -91,9 +91,9 @@ function getCarrello(products) {
                         </div>
                     </div>`
     } else {
-        for(let i=0; i < products.length; i++){
+        for (let i = 0; i < products.length; i++) {
             let quantitaHTML;
-            const codiceProdotto = ""+products[i]["CodiceProdotto"];
+            const codiceProdotto = "" + products[i]["CodiceProdotto"];
             const nome = products[i]["Nome"];
             const disponibilita = products[i]["Disponibilita"];
             const quantita = Number(products[i]["Quantita"]);
@@ -103,7 +103,7 @@ function getCarrello(products) {
             const productElement = { Quantita: quantita, Disponibilita: disponibilita, Prezzo: prezzo, Selezionato: selezionato, Nome: nome };
             productsFromId[codiceProdotto] = productElement;
             if (disponibilita > 0) {
-                quantitaHTML = `<input type="number" class="form-control form-control-sm w-auto text-center"
+                quantitaHTML = `<input type="number" class="form-control form-control-sm rounded-pill w-auto text-center"
                                 id="${codiceProdotto}"
                                 value="${quantita}" 
                                 max="${disponibilita}"
@@ -111,7 +111,7 @@ function getCarrello(products) {
                                 min="1" style="max-width: 60px;"
                                 onkeydown="return false;"/>`;
             } else {
-                quantitaHTML = `<span class="text-danger fw-bold">Non disponibile</span>`;
+                quantitaHTML = `<span class="fw-bold"style="color:#B00000">Non disponibile</span>`;
             }
 
             let product = `
@@ -135,9 +135,9 @@ function getCarrello(products) {
                                                 <input type="checkbox" class="form-check-input me-2 product-checkbox"
                                                     onchange="aggiornaSelezionato(${codiceProdotto})"
                                                     ${checkbox}/>
-                                                <p class="mb-0 text-success fw-bold">
+                                                <p class="mb-0 fw-bold">
                                                     €${prezzo} 
-                                                    <span id="moltiplicatore${codiceProdotto}">${quantita > 1 ? " x "+quantita : ""}</span>
+                                                    <span id="moltiplicatore${codiceProdotto}">${quantita > 1 ? " x " + quantita : ""}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -145,9 +145,9 @@ function getCarrello(products) {
                                         <!-- Bottoni -->
                                         <div class="mt-2 d-flex gap-2">
                                             <a href="singleProduct.php?id=${codiceProdotto}" 
-                                            class="btn btn-outline-primary btn-sm">Visualizza Articolo</a>
-                                            <button class="btn btn-outline-danger btn-sm" 
-                                                onclick="rimuoviDalCarrello(${codiceProdotto})">Rimuovi</button>
+                                            class="btn border border-dark btn-sm "><i class="bi bi-eye me-1"></i>Visualizza Articolo</a>
+                                            <button class="btn btn-sm"style ="background-color:#B00000;color:#FFFFFF" 
+                                                onclick="rimuoviDalCarrello(${codiceProdotto})"><i class="bi bi-trash3 me-1"></i>Rimuovi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@ function getCarrello(products) {
 
 async function aggiornaCarrello() {
     try {
-        const response = await fetch("Ajax/api-shoppingCart.php");
+        const response = await fetch("Ajax/shoppingCart/api-shoppingCart.php");
 
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
@@ -179,13 +179,13 @@ async function aggiornaCarrello() {
 
 function rimuoviDalCarrello(id) {
     const data = {
-            operation: 'remove',
-            productId: id
-        }
+        operation: 'remove',
+        productId: id
+    }
     if (modificaCarrello(data)) {
         aggiornaCarrello();
     };
-    
+
 }
 
 function salvaModifiche() {
@@ -200,7 +200,7 @@ function salvaModifiche() {
 
 async function modificaCarrello(data) {
     try {
-        const response = await fetch("Ajax/api-modifyCart.php", {
+        const response = await fetch("Ajax/shoppingCart/api-modifyCart.php", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -209,7 +209,7 @@ async function modificaCarrello(data) {
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }
-        const json = await response.json();        
+        const json = await response.json();
         if (json['success']) {
             return true;
         } else {
@@ -229,7 +229,7 @@ async function procediAllAquisto() {
     productsFromId.forEach(product => {
         if (product["Selezionato"]) {
             quantita = product["Quantita"];
-            summaryHTML += `<li class="list-group-item">${product["Nome"]}${quantita > 1 ? " x "+quantita : ""} - ${product["Prezzo"]*quantita} €</li>`
+            summaryHTML += `<li class="list-group-item">${product["Nome"]}${quantita > 1 ? " x " + quantita : ""} - ${product["Prezzo"] * quantita} €</li>`
         }
     });
     summary.innerHTML = summaryHTML;
@@ -254,7 +254,7 @@ function validaDati() {
 
 async function acquista() {
     try {
-        const response = await fetch("Ajax/api-createOrder.php");
+        const response = await fetch("Ajax/shoppingCart/api-createOrder.php");
 
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);

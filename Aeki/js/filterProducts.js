@@ -4,7 +4,7 @@ let selectedMaxPrice = 10000;
 let minPrice = 0;
 let maxPrice = 10000;
 
-const minPriceInput = document.getElementById('minPriceInput'); 
+const minPriceInput = document.getElementById('minPriceInput');
 const maxPriceInput = document.getElementById('maxPriceInput');
 const displayedMinPrice = document.getElementById('displayMinPrice');
 const displayedMaxPrice = document.getElementById('displayMaxPrice');
@@ -18,7 +18,7 @@ function mapQuadratic(value) {
 
 function updatePriceRange() {
     if (parseFloat(minPriceInput.value) > parseFloat(maxPriceInput.value)) {
-      minPriceInput.value = maxPriceInput.value;
+        minPriceInput.value = maxPriceInput.value;
     }
     selectedMinPrice = mapQuadratic(parseFloat(minPriceInput.value)).toFixed(2);
     selectedMaxPrice = mapQuadratic(parseFloat(maxPriceInput.value)).toFixed(2);
@@ -33,7 +33,7 @@ async function getPriceMinMax() {
         value: filterValue
     };
     try {
-        const response = await fetch("Ajax/api-prices.php", {
+        const response = await fetch("Ajax/products/api-prices.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
@@ -46,7 +46,7 @@ async function getPriceMinMax() {
         minPrice = json[0]["min"];
         maxPrice = json[0]["max"];
         updatePriceRange();
-        
+
     } catch (error) {
         console.log("Errore durante il caricamento degli estremi dei prezzi:", error.message);
     }
@@ -61,13 +61,13 @@ function addProductsLink() {
                 window.location.href = `singleProduct.php?id=${productId}`;
             }
         });
-    });   
+    });
 }
 
 function getProductList(products) {
     let result = "";
 
-    for(let i=0; i < products.length; i++) {
+    for (let i = 0; i < products.length; i++) {
         let product = `
             <div class="col-md-3 col-6 p-2">
                         <div class="product-card border rounded-3 bg-white d-flex flex-column p-3 h-100" data-id='${products[i]["CodiceProdotto"]}' style='cursor: pointer;'>
@@ -75,7 +75,7 @@ function getProductList(products) {
                                 <img src="${products[i]["PercorsoImg"]}" alt="${products[i]["Nome"]}" class="img-fluid" onerror="this.onerror=null; this.src='upload/not-found-image.png'"> 
                             </div>
                             <div class="d-flex flex-column align-items-center border-top text-center" >
-                                <span class="fw-bold fs-4 flex-grow-1 d-flex align-items-center justify-content-center mb-1" style="color: #000070">
+                                <span class="fw-bold fs-4 flex-grow-1 d-flex align-items-center justify-content-center mb-1">
                                     ${products[i]["Nome"]}
                                 </span>
                                 <div class="fw-bold fs-4 d-flex flex-column align-items-center">
@@ -103,12 +103,14 @@ async function updateProductList() {
         NomeColore: selectedColors,
         Prezzo: { min: selectedMinPrice, max: selectedMaxPrice },
         [filterType]: filterValue,
-        ValutazioneMedia: { min: selectedStars.includes("threeStars") ? 3 :
-                        selectedStars.includes("fourStars") ? 4 :
-                        selectedStars.includes("fiveStars") ? 5 : 0, max: 5 }
+        ValutazioneMedia: {
+            min: selectedStars.includes("threeStars") ? 3 :
+                selectedStars.includes("fourStars") ? 4 :
+                    selectedStars.includes("fiveStars") ? 5 : 0, max: 5
+        }
     };
     try {
-        const response = await fetch("Ajax/api-filterProducts.php", {
+        const response = await fetch("Ajax/products/api-filterProducts.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(filters)
@@ -121,7 +123,7 @@ async function updateProductList() {
         const productsContainer = document.getElementById("productsContainer");
         productsContainer.innerHTML = getProductList(json);
         addProductsLink();
-        
+
     } catch (error) {
         console.log("Errore durante il caricamento dei prodotti filtrati:", error.message);
     }

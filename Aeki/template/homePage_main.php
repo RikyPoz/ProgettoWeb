@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="./css/homePage_style.css">
 </head>
 
-<div class="container mt-4">
+<div class="container my-4">
     <div class="row mb-4">
         <div class="col-md-6 d-flex">
             <div class="p-4 bg-light border w-100">

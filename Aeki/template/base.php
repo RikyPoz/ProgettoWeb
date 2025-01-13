@@ -5,7 +5,6 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
   
     <!-- Icone Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -13,7 +12,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <title><?php echo $templateParams["titolo"]; ?></title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
 </head>
 <body>
     
@@ -60,7 +58,7 @@ endif;
             <i class="bi bi-person" style="font-size: 1.5rem;"></i>
             <!-- Punto rosso per notifiche non lette -->
             <?php if ($unread_count > 0): ?>
-                <span class="badge bg-danger" id="unreadCount" style="position: absolute; top: -5px; right: -5px; font-size: 0.8rem;"><?php echo $unread_count; ?></span>
+                <span class="badge" id="unreadCount" style="position: absolute; top: -5px; right: -5px; font-size: 0.8rem;background-color:#B00000"><?php echo $unread_count; ?></span>
             <?php endif; ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end shadow rounded" aria-labelledby="profileDropdown">
@@ -68,7 +66,7 @@ endif;
             <?php if($userType === "Cliente"): ?>
             <li><a class="dropdown-item" href="orderList.php"><i class="bi bi-list-check me-2"></i>Ordini</a></li>
             <?php endif; ?>
-            <li><a class="dropdown-item text-danger logout-button" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            <li><a class="dropdown-item logout-button"style=";color:#B00000" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
         </ul>
     </div>
     <?php else: ?>

@@ -28,7 +28,7 @@
                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
                     <label class="form-check-label" for="remember">Ricordami</label>
                 </div>
-                <button type="button" class="btn btn-primary" style="background-color: #000060" id="loginButton">Accedi</button>
+                <button type="button" class="btn" style="background-color: #000060;color:#FFFFFF" id="loginButton">Accedi</button>
             </form>
             <div id="loginMessage" class="mt-3"></div>
             <div class="mt-3 text-center">

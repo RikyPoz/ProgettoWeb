@@ -54,7 +54,7 @@ async function fetchData(action) {
 
 
     try {
-        const response = await fetch('Ajax/api-seller.php', {
+        const response = await fetch('Ajax/seller/api-seller.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendingData)
@@ -201,7 +201,7 @@ function generateOrderList(data) {
     if (!orders || orders.length === 0) return '<p>Nessun ordine trovato.</p>';
 
     let contentTitle = document.getElementById('contentTitle');
-    contentTitle.textContent = `I tuoi Ordini (${number})`;
+    contentTitle.textContent = `Ordini in Arrivo (${number})`;
 
     let html = `<div id="orders-list">`;
 
@@ -260,7 +260,7 @@ function generateOrderList(data) {
                             <span class="fs-5 text-muted">${product.PrezzoPagato} €</span>
                         </div>
                         <div class="mt-4">
-                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn "style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
+                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn border-dark">Visualizza articolo</a>
                         </div>
                     </div>
                 </div>`;
@@ -270,7 +270,7 @@ function generateOrderList(data) {
             </div>
             <!-- Button -->
             <div class="d-flex justify-content-md-end justify-content-center  p-3">
-                <button type="button" class="btn btn-lg border shadow-sm">Spedisci</button>
+                <button type="button" class="btn btn-lg" style = "background-color:#000060;color:#FFFFFF">Spedisci</button>
             </div>
         </div>`;
     });

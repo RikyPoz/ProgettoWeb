@@ -19,27 +19,27 @@ use aekiDB;
 -- _____________ 
 
 create table Ambiente (
-     NomeAmbiente VARCHAR(50) not null,
-     PercorsoImmagine VARCHAR(50) not null,
+     NomeAmbiente VARCHAR(30) not null,
+     PercorsoImmagine VARCHAR(60) not null,
      constraint ID_Ambiente_ID primary key (NomeAmbiente));
 
 create table Carrello (
      IDcarrello INT AUTO_INCREMENT,
-     Username VARCHAR(50) not null,
+     Username VARCHAR(20) not null,
      constraint ID_Carrello_ID primary key (IDcarrello),
      constraint FKpossiede_ID unique (Username));
 
 create table Categoria (
-     NomeCategoria VARCHAR(50) not null,
-     PercorsoImmagine VARCHAR(50) not null,
+     NomeCategoria VARCHAR(30) not null,
+     PercorsoImmagine VARCHAR(60) not null,
      constraint ID_Categoria_ID primary key (NomeCategoria));
 
 create table Colore (
-     NomeColore VARCHAR(50) not null,
+     NomeColore VARCHAR(40) not null,
      constraint ID_Colore_ID primary key (NomeColore));
 
 create table Materiale (
-     NomeMateriale VARCHAR(50) not null,
+     NomeMateriale VARCHAR(40) not null,
      constraint ID_Materiale_ID primary key (NomeMateriale));
 
 create table DettaglioCarrello (
@@ -62,44 +62,44 @@ create table DettaglioWishlist (
      constraint ID_DettaglioWishlist_ID primary key (CodiceProdotto, IDwishlist));
 
 create table ImmagineProdotto (
-     PercorsoImg VARCHAR(50) not null,
+     PercorsoImg VARCHAR(60) not null,
      Icona char not null,
      CodiceProdotto INT not null,
      constraint ID_ImmagineProdotto_ID primary key (PercorsoImg));
 
 create table Notifica (
      IdNotifica INT AUTO_INCREMENT,
-     Username VARCHAR(50) not null,
-     Testo VARCHAR(50) not null,
+     Username VARCHAR(20) not null,
+     Testo VARCHAR(100) not null,
      Data DATETIME not null,
-     Letta char(1) not null default 'N',
+     Letta char not null default 'N',
      constraint ID_Notifica_ID primary key (IdNotifica),
      constraint SID_Notifica_ID unique (Username, IdNotifica));
 
 create table Ordine (
      IDordine INT AUTO_INCREMENT,
      Data date not null,
-     Username VARCHAR(50) not null,
+     Username VARCHAR(20) not null,
      Spedito char not null,
      constraint ID_Ordine_ID primary key (IDordine));
 
 CREATE TABLE Prodotto (
     CodiceProdotto INT AUTO_INCREMENT,
-    Nome VARCHAR(50) NOT NULL,
+    Nome VARCHAR(40) NOT NULL,
     Prezzo FLOAT NOT NULL,
     Descrizione VARCHAR(200) NOT NULL,
-    NomeMateriale VARCHAR(50) not null,
-    NomeColore VARCHAR(50) not null,
+    NomeMateriale VARCHAR(40) not null,
+    NomeColore VARCHAR(40) not null,
     Peso FLOAT NOT NULL,
-    Disponibilita INT NOT NULL DEFAULT 10,
+    Disponibilita INT NOT NULL DEFAULT 6,
     Altezza FLOAT NOT NULL,
     Larghezza FLOAT NOT NULL,
     Profondita FLOAT NOT NULL,
     ValutazioneMedia FLOAT NOT NULL DEFAULT 0,  
     NumeroRecensioni INT NOT NULL DEFAULT 0,      
-    NomeAmbiente VARCHAR(50) NOT NULL,
-    NomeCategoria VARCHAR(50) NOT NULL,
-    Username VARCHAR(50) NOT NULL,
+    NomeAmbiente VARCHAR(40) NOT NULL,
+    NomeCategoria VARCHAR(40) NOT NULL,
+    Username VARCHAR(20) NOT NULL,
     Rimosso char NOT NUlL,
     CONSTRAINT ID_Prodotto_ID PRIMARY KEY (CodiceProdotto)
 );
@@ -113,20 +113,20 @@ create table Recensione (
     constraint ID_Recensione_ID primary key (IDrecensione));
 
 create table Utente (
-     Nome VARCHAR(50) not null,
-     Cognome VARCHAR(50) not null,
-     Username VARCHAR(50) not null,
-     Email VARCHAR(50) not null,
-     Password VARCHAR(50) not null,
-     Tipo VARCHAR(50) not null,
-     PartitaIVA VARCHAR(50),
-     Telefono VARCHAR(50) not null,
+     Nome VARCHAR(20) not null,
+     Cognome VARCHAR(20) not null,
+     Username VARCHAR(20) not null,
+     Email VARCHAR(30) not null,
+     Password VARCHAR(30) not null,
+     Tipo VARCHAR(20) not null,
+     PartitaIVA VARCHAR(20),
+     Telefono VARCHAR(20) not null,
      Icona VARCHAR(50),
      constraint ID_Utente_ID primary key (Username));
 
 create table WishList (
      IDwishlist INT AUTO_INCREMENT,
-     Username VARCHAR(50) not null,
+     Username VARCHAR(20) not null,
      constraint ID_WishList_ID primary key (IDwishlist),
      constraint FKha_ID unique (Username));
 

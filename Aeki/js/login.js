@@ -10,15 +10,14 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
     // Invio dati al server tramite AJAX
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'Ajax/api-login.php', true);
-    console.log('Invio richiesta a:', 'Ajax/api-login.php');
+    xhr.open('POST', 'Ajax/login/api-login.php', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     xhr.onload = function () {
         if (xhr.status === 200) {
 
             try {
-                const response = JSON.parse(xhr.responseText); 
+                const response = JSON.parse(xhr.responseText);
 
                 if (response.success) {
                     document.getElementById('loginMessage').innerHTML = '<div class="alert alert-success">Login effettuato con successo. Reindirizzamento...</div>';
