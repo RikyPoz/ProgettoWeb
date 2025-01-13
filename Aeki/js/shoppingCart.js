@@ -1,6 +1,7 @@
 let productsFromId = [];
 let tot;
 let nArticoli = 0;
+let spedizione = {};
 function aggiornaRiepilogo() {
     tot = 0;
     nArticoli = 0;
@@ -72,6 +73,8 @@ function aggiornaSpedizione() {
     const currentDate = new Date();
     const daysToAdd = shippingType.value === 'express' ? 2 : 7;
     const priceToAdd = shippingType.value === 'express' ? 10 : 5;
+    spedizione["Giorni"] = daysToAdd;
+    spedizione["Prezzo"] = priceToAdd;
     currentDate.setDate(currentDate.getDate() + daysToAdd);
     const formattedDate = currentDate.toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' });
     document.getElementById('totModal').textContent = (tot + priceToAdd).toFixed(2) + " €";
@@ -253,8 +256,13 @@ function validaDati() {
 }
 
 async function acquista() {
+    data = { spedizione: spedizione };
     try {
-        const response = await fetch("Ajax/shoppingCart/api-createOrder.php");
+        const response = await fetch("Ajax/shoppingCart/api-createOrder.php", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
 
         if (!response.ok) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
@@ -262,7 +270,7 @@ async function acquista() {
         const json = await response.json();
         modaleFinale(json.success);
     } catch (error) {
-        console.log("Errore durante la fase di acquisto", error.message);
+        modaleFinale(false);
     }
 }
 

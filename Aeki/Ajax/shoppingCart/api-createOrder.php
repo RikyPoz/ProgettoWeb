@@ -6,10 +6,15 @@ if (!isset($_SESSION['user_id'])) {
 }
 $userId = $_SESSION['user_id'];
 header('Content-Type: application/json');
-$result = $dbh->createOrder($userId);
-if ($result) {
-    echo json_encode(["success" => true]);
+$data = json_decode(file_get_contents('php://input'), true);
+if (isset($data["spedizione"])) {
+    $result = $dbh->createOrder($userId, $data["spedizione"]);
+    if ($result) {
+        echo json_encode(["success" => true]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Errore durante la fase di acquisto."]);
+    }
 } else {
-    echo json_encode(["success" => false, "message" => "Errore durante la fase di acquisto."]);
+    echo json_encode(["success" => false, "message" => "Errore! Dati mancanti."]);
 }
 ?>

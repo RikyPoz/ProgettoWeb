@@ -1094,7 +1094,7 @@ class DatabaseHelper{
         }
     }
 
-    public function createOrder($username) {
+    public function createOrder($username, $spedizione) {
         $this->db->begin_transaction();
         try {
             // Ottieni l'ID del carrello dell'utente
@@ -1120,9 +1120,9 @@ class DatabaseHelper{
             }
     
             // Crea un nuovo ordine
-            $queryCreaOrdine = "INSERT INTO Ordine (Data, Username, Spedito) VALUES (NOW(), ?, 'N')";
+            $queryCreaOrdine = "INSERT INTO Ordine (Data, Username, GiorniSpedizione, PrezzoSpedizione) VALUES (NOW(), ?, ?, ?)";
             $stmt = $this->db->prepare($queryCreaOrdine);
-            $stmt->bind_param('s', $username);
+            $stmt->bind_param('sid', $username, $spedizione["Giorni"], $spedizione["Prezzo"]);
             $stmt->execute();
     
             // Ottieni l'ID del nuovo ordine
