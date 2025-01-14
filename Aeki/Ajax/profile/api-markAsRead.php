@@ -5,7 +5,6 @@ header('Content-Type: application/json');
 
 // Verifica se l'utente è loggato
 if (isset($_SESSION['user_id'])) {
-    // Leggi i dati JSON dalla richiesta
     $data = json_decode(file_get_contents('php://input'), true);
 
     // Recupera l'ID del messaggio

@@ -1,7 +1,7 @@
 document.getElementById("cambiaPasswordForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Previene il comportamento predefinito del form
+    event.preventDefault(); 
 
-    // Ottieni i valori dei campi del form
+    // Ottiene i valori dei campi del form
     const passwordAttuale = document.getElementById("passwordAttuale").value;
     const nuovaPassword = document.getElementById("nuovaPassword").value;
     const confermaNuovaPassword = document.getElementById("confermaNuovaPassword").value;
@@ -21,7 +21,7 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
         return;
     }
 
-    // Aggiungi la logica per inviare i dati al server
+    // Logica per inviare i dati al server
     fetch('Ajax/profile/api-changePassword.php', {
         method: 'POST',
         headers: {
@@ -40,8 +40,8 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
                 // Ritardo di 2 secondi (2000 millisecondi) prima di chiudere il modal e reindirizzare
                 setTimeout(function () {
                     document.getElementById("cambiaPasswordModal").style.display = "none";
-                }, 2000); // Attendere 2 secondi prima del reindirizzamento
-                // Chiedi conferma per aggiornare i cookie
+                }, 2000); 
+                // Chiede conferma per aggiornare i cookie
                 setTimeout(function () {
                     // Mostra un messaggio per chiedere se l'utente vuole aggiornare i cookie
                     const cookieUpdateMessage = document.createElement('div');
@@ -56,7 +56,7 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
                 `;
                     document.body.appendChild(cookieUpdateMessage);
 
-                    // Aggiungi l'overlay sfocato
+                    // Aggiunge l'overlay sfocato
                     const overlay = document.createElement('div');
                     overlay.style.position = 'fixed';
                     overlay.style.top = '0';
@@ -65,27 +65,27 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
                     overlay.style.bottom = '0';
                     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
                     overlay.style.filter = 'blur(5px)';
-                    overlay.style.zIndex = '999';  // Il valore è inferiore rispetto al messaggio
+                    overlay.style.zIndex = '999';  
                     document.body.appendChild(overlay);
 
-                    // Gestisci l'accettazione dei cookie
+                    // Gestisce l'accettazione dei cookie
                     document.getElementById('acceptCookieUpdate').addEventListener('click', function () {
                         setCookie('userPassword', nuovaPassword, 30); // Memorizza la nuova password nei cookie per 30 giorni
-                        // Rimuovi il messaggio e l'overlay
+                        // Rimuove il messaggio e l'overlay
                         document.body.removeChild(cookieUpdateMessage);
                         document.body.removeChild(overlay);
-                        // Procedi con il reindirizzamento
+                        // Procede con il reindirizzamento
                         document.getElementById("cambiaPasswordModal").style.display = "none";
                         window.location.href = "login.php";
                     });
 
-                    // Gestisci il rifiuto dei cookie
+                    // Gestisce il rifiuto dei cookie
                     document.getElementById('rejectCookieUpdate').addEventListener('click', function () {
                         clearCookie('userPassword'); // Elimina il cookie della password
-                        // Rimuovi il messaggio e l'overlay
+                        // Rimuove il messaggio e l'overlay
                         document.body.removeChild(cookieUpdateMessage);
                         document.body.removeChild(overlay);
-                        // Procedi con il reindirizzamento
+                        // Procede con il reindirizzamento
                         setTimeout(function () {
                             document.getElementById("cambiaPasswordModal").style.display = "none";
                             window.location.href = "login.php";

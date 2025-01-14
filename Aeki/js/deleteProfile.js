@@ -1,8 +1,5 @@
 document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-    // Log per verificare che l'utente ha cliccato il pulsante
-    console.log("Eliminazione account confermata.");
 
-    // Crea una richiesta AJAX
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "Ajax/profile/api-deleteProfile.php", true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -10,7 +7,7 @@ document.getElementById("deleteAccountBtn").addEventListener("click", function (
     // Log prima di inviare la richiesta
     console.log("Invio della richiesta di eliminazione dell'account...");
 
-    // Gestisci la risposta dal server
+    // Gestisce la risposta dal server
     xhr.onload = function () {
         // Log della risposta del server
         console.log("Risposta del server ricevuta:", xhr.status, xhr.responseText);
@@ -21,10 +18,10 @@ document.getElementById("deleteAccountBtn").addEventListener("click", function (
                 console.log("Risposta JSON:", response);
 
                 if (response.success) {
-                    document.getElementById("message").innerHTML = `<p style="color: #006400;">${response.message}</p>`; // Verde scuro per successo
+                    document.getElementById("message").innerHTML = `<p style="color: #006400;">${response.message}</p>`; 
                     window.location.href = "/ProgettoWeb/Aeki/homePage.php"; // Reindirizza alla home
                 } else {
-                    document.getElementById("message").innerHTML = `<p style="color: #B00000;">${response.message}</p>`; // Rosso scuro per errore
+                    document.getElementById("message").innerHTML = `<p style="color: #B00000;">${response.message}</p>`;
                 }
             } catch (e) {
                 // Gestione dell'errore se la risposta non è un JSON valido

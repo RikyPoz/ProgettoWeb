@@ -4,15 +4,22 @@ require_once '../../bootstrap.php';
 
 header('Content-Type: application/json');
 
+// Ricezione dei dati JSON
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Estrai i dati
-$firstName = $data['first_name'];
-$lastName = $data['last_name'];
-$username = $data['username'];
-$email = $data['email'];
-$phone = $data['phone'];
-$password = $data['password'];
+// Estrazione dei dati
+$firstName = $data['first_name'] ?? null;
+$lastName = $data['last_name'] ?? null;
+$username = $data['username'] ?? null;
+$email = $data['email'] ?? null;
+$phone = $data['phone'] ?? null;
+$password = $data['password'] ?? null;
+
+// Verifica che i dati obbligatori siano presenti
+if (!$firstName || !$lastName || !$username || !$email || !$phone || !$password) {
+    echo json_encode(['success' => false, 'message' => 'Tutti i campi sono obbligatori.']);
+    exit;
+}
 
 // Verifica che l'email non esista già nel database
 $existingUser = $dbh->getUtenteByEmail($email);
@@ -31,13 +38,12 @@ if ($existingUsername) {
 // Hash della password
 $hashedPassword = hash('sha256', $password);
 
-// Inserisce i nuovi dati nel database
+// Inserimento dei dati nel database
 $insertSuccess = $dbh->newUtente($firstName, $lastName, $username, $email, $hashedPassword, $phone);
 
 if ($insertSuccess) {
-    // Crea il carrello per il nuovo utente
+    // Creazione carrello e wishlist per il nuovo utente
     $cartCreated = $dbh->createCart($username);
-    // Crea la wishlist per il nuovo utente
     $wishlistCreated = $dbh->createWishlist($username);
 
     if ($cartCreated && $wishlistCreated) {
@@ -48,5 +54,4 @@ if ($insertSuccess) {
 } else {
     echo json_encode(['success' => false, 'message' => 'Errore durante la registrazione.']);
 }
-
 ?>

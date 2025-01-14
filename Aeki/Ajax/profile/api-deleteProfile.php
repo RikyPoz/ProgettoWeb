@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_SESSION['user_id'])) {
         $username = $_SESSION['user_id'];
 
-        // Usa il metodo deleteUtente per eliminare l'account
+        // Elimina l'account
         $deletedRows = $dbh->deleteUtente($username);
 
         if ($deletedRows > 0) {
@@ -16,10 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Elimina i cookie relativi all'utente
             if (isset($_COOKIE['userEmail'])) {
-                setcookie('userEmail', '', time() - 3600, '/'); // Elimina il cookie con scadenza nel passato
+                setcookie('userEmail', '', time() - 3600, '/'); 
             }
             if (isset($_COOKIE['userPassword'])) {
-                setcookie('userPassword', '', time() - 3600, '/'); // Elimina il cookie con scadenza nel passato
+                setcookie('userPassword', '', time() - 3600, '/'); 
             }
 
             // Risponde con successo
