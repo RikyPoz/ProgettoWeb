@@ -17,15 +17,15 @@ function getStars($rating) {
     $emptyStars = 5 - $fullStars - $halfStar;
 
     for ($i = 0; $i < $fullStars; $i++) {
-        $output .= '<i class="bi bi-star-fill text-warning"></i>';
+        $output .= '<span class="bi bi-star-fill text-warning"></span>';
     }
 
     if ($halfStar) {
-        $output .= '<i class="bi bi-star-half text-warning"></i>';
+        $output .= '<span class="bi bi-star-half text-warning"></span>';
     }
 
     for ($i = 0; $i < $emptyStars; $i++) {
-        $output .= '<i class="bi bi-star text-warning"></i>';
+        $output .= '<span class="bi bi-star text-warning"></span>';
     }
     return $output;
 }

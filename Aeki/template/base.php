@@ -71,7 +71,7 @@ endif;
                             </ul>
                         </div>
                         <?php else: ?>
-                        <a href="login.php" class="btn btn-light text-center">
+                        <a href="login.php" class="btn btn-light text-center" title="login">
                             <span class="bi bi-person" style="font-size: 1.5rem;"></span>
                         </a>
                         <?php endif; ?>
