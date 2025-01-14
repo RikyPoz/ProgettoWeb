@@ -164,28 +164,48 @@
                 <?php endforeach; ?>
 
             </div>
-            <div class = "col-md-12 mt-3">
-            <?php foreach ($templateParams["reviews"] as $review): ?>
-                <div class="card my-5 p-3 shadow-sm">
-                    <!-- Review Info -->
-                    <div class="row align-items-center">
-                        <div class="col-12">
-                            <span class="fs-5">ID Recensione: <span class = "fw-semibold"><?php echo $review["IDrecensione"] ?></span></span>
-                            <span class="fs-5 mx-5 ">Cliente: <span class = "fw-semibold"><?php echo $review["Cliente"] ?></span></span>
-                            <span class="fs-5 me-4 text-warning"> <?php echo getStars($review["stelle"])?> <span class="fs-5 text-dark ">( <?php echo $review["stelle"] ?>)</span></span>
-                            <hr>
-                            <div class="card-body">
-                                <h4> Descrizione: </h4>
-                                <span class = "mt-3"><?php echo $review["Testo"]?><span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-12 mt-3">
+                <div class="d-flex justify-content-md-end justify-content-center">
+                    <button class="btn btn-link text-decoration-none fs-5" id="toggle-reviews-btn" style="color:#000070">
+                        Visualizza recensioni 
+                        <i class="bi bi-chevron-down" id="toggle-icon"></i>
+                    </button>
                 </div>
-            <?php endforeach; ?>
-
+                <hr>
+                <div id="reviews-container" class="d-none">
+                    <?php if (empty($templateParams["reviews"])): ?>
+                        <p class="text-muted">Nessuna recensione disponibile</p>
+                    <?php else: ?>
+                        <?php foreach ($templateParams["reviews"] as $review): ?>
+                            <div class="card my-3 p-3 shadow-sm">
+                                <!-- Review Info -->
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <div class = "d-flex flex-column flex-md-row">
+                                            <span class="fs-5">ID Recensione: <span class="fw-semibold"><?php echo $review["IDrecensione"] ?></span></span>
+                                            <span class="fs-5 mx-md-5">Cliente: <span class="fw-semibold"><?php echo $review["Cliente"] ?></span></span>
+                                            <span class="fs-5 me-md-4 text-warning"><?php echo getStars($review["stelle"]) ?> 
+                                                <span class="fs-5 text-dark">(<?php echo $review["stelle"] ?>)</span>
+                                            </span>
+                                        </div>
+                                        <hr>
+                                        <div class="card-body">
+                                            <h4>Descrizione:</h4>
+                                            <span class="mt-3"><?php echo $review["Testo"] ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
         
     </div>
 </div>
+
+
+
+
 

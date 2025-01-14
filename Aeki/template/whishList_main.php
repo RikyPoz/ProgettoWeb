@@ -8,19 +8,35 @@
             <div class="row d-flex align-items-stretch">
                 <?php foreach($templateParams["prodotti"] as $prodotto): ?>
                     <div class="col-md-3 col-6 p-2">
-                        <div class="border rounded-3 bg-white d-flex flex-column p-3 h-100">
-                            <div class="d-flex justify-content-center p-2">
-                                <img src="<?php echo htmlspecialchars($prodotto["PercorsoImg"]); ?>" alt="<?php echo htmlspecialchars($prodotto["Nome"]); ?>" class="img-fluid" onerror="this.onerror=null; this.src='upload/not-found-image.png'"> 
+                        <div class="border rounded-3 shadow bg-white d-flex flex-column h-100">
+                            <!-- Immagine -->
+                            <div class="d-flex justify-content-center p-3">
+                                <img src="<?php echo htmlspecialchars($prodotto["PercorsoImg"]); ?>" 
+                                    alt="<?php echo htmlspecialchars($prodotto["Nome"]); ?>" 
+                                    class="img-fluid" 
+                                    style="max-height: 200px; object-fit: contain;" 
+                                    onerror="this.onerror=null; this.src='upload/not-found-image.png'">
                             </div>
-                            <div class="d-flex flex-column align-items-center border-top text-center" style="height: 100%;">
-                                <span class="fw-bold fs-4 flex-grow-1 d-flex align-items-center justify-content-center mb-1">
-                                    <?php echo htmlspecialchars($prodotto["Nome"]); ?>
-                                </span>
-                                <div class="d-flex flex-column align-items-center">
-                                    <span class="text-muted fs-5"><?php echo htmlspecialchars($prodotto["Prezzo"]); ?>€</span>
-                                    <i class="bi bi-heart-fill fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;color:#B00000"></i>
-                                    <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
-                                    <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]; ?>" class="btn border border-dark btn-sm mt-2 rounded-pill me-1">
+                            <!-- Informazioni -->
+                            <div class="d-flex flex-column align-items-center rounded-3 shadow-sm mt-auto py-2" style="height: auto;">
+                                <!-- Nome -->
+                                <div class="text-center">
+                                    <span class="fw-bold fs-4 d-block">
+                                        <?php echo htmlspecialchars($prodotto["Nome"]); ?>
+                                    </span>
+                                </div>
+
+                                <!-- altre info -->
+                                <div class="d-flex flex-column align-items-center mt-4">
+                                    <span class="text-muted fs-5 mb-2">
+                                        <?php echo number_format($prodotto["Prezzo"], 2, ',', ''); ?>€
+                                    </span>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-heart-fill fs-2 me-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="color:#B00000; display:inline-block;"></i>
+                                        <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                                    </div>
+                                    <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]; ?>" 
+                                    class="btn btn-sm mt-2 rounded-pill border-dark">
                                         <i class="bi bi-eye me-2"></i>Visualizza
                                     </a>
                                 </div>
@@ -29,6 +45,7 @@
                     </div>
                 <?php endforeach; ?>
             </div>
+
         <?php else: ?>
             <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
                 <div class="text-center">

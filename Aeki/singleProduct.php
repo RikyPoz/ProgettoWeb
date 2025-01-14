@@ -29,7 +29,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 
-$templateParams["js"] = array("js/addToCart.js","js/likeButton.js");
+$templateParams["js"] = array("js/addToCart.js","js/likeButton.js","js/singleProductReview.js");
 
 
 

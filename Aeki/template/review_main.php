@@ -1,5 +1,5 @@
 <?php $prodotto = $templateParams["prodotto"]; ?>
-<div class="container mt-5">
+<div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 mt-4">
             <h1 class="text-center">Recensisci il Prodotto</h1>
@@ -42,7 +42,7 @@
                     <a href="orderList.php" class="btn btn-outline-secondary me-2 px-4 py-2 rounded-pill shadow-sm hover-shadow" role="button">
                         <i class="bi bi-x-circle me-2"></i>Annulla
                     </a>
-                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm hover-shadow" role="button">
+                    <button type="submit" class="btn px-4 py-2 rounded-pill shadow-sm hover-shadow" style = "background-color:#000060;color:#FFFFFF"role="button">
                         <i class="bi bi-send me-2"></i>Invia Recensione
                     </button>
                 </div>

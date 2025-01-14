@@ -35,18 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="d-flex justify-content-between align-items-center">
                                 <!-- 1 -->
                                 <div>
-                                    <img src="upload/in_preparazione.png" alt="In preparazione" class="img-fluid mb-2" style="width: 80px;">
-                                    <p>In preparazione</p>
+                                    <img src="upload/in_preparazione.png" alt="In preparazione" class="img-fluid mb-2" style="width: 100px;">
+                                    <p class = "fw-semibold">In preparazione</p>
                                 </div>
                                 <!-- 2 -->
                                 <div>
-                                    <img src="upload/spedito.png" alt="Spedito" class="img-fluid mb-2" style="width: 80px;">
-                                    <p>Spedito</p>
+                                    <img src="upload/spedito.png" alt="Spedito" class="img-fluid mb-2" style="width: 100px;">
+                                    <p class = "fw-semibold">Spedito</p>
                                 </div>
                                 <!-- 3 -->
                                 <div>
-                                    <img src="upload/consegnato.png" alt="Consegnato" class="img-fluid mb-2" style="width: 80px;">
-                                    <p>Consegnato</p>
+                                    <img src="upload/consegnato.png" alt="Consegnato" class="img-fluid mb-2" style="width: 100px;">
+                                    <p class = "fw-semibold">Consegnato</p>
                                 </div>
                             </div>
                         </div>
@@ -63,6 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="position-absolute top-50 start-0 translate-middle" style="width: 20px; height: 20px; background-color: #000060; display:${orderState === 0 ? 'inline-block' : 'none'};border-radius: 50%;"></div>
                             <div class="position-absolute top-50 start-50 translate-middle" style="width: 20px; height: 20px; background-color: #000060; display:${orderState === 1 ? 'inline-block' : 'none'};border-radius: 50%;"></div>
                             <div class="position-absolute top-50 start-100 translate-middle" style="width: 20px; height: 20px; background-color: #000060; display:${orderState === 2 ? 'inline-block' : 'none'};border-radius: 50%;"></div>
+                        </div>
+                        <div class = "mt-4">
+                        <span class = "fw-semibold">${orderState === 0 ? 'Il tuo pacco è in fase di preparazione!' : ''}</span>
+                        <span class = "fw-semibold">${orderState === 1 ? 'Il tuo pacco è stato spedito!' : ''}</span>
+                        <span class = "fw-semibold">${orderState === 2 ? 'Il tuo pacco è stato consegnato!' : ''}</span>
                         </div>
                     </div>
                     <div class="modal-footer">

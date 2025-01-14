@@ -32,7 +32,6 @@
                           <h2 style = "color:#000070"><?php echo $prodotto["Nome"] ?> </h2>
                           <span class="fs-4 me-4">Quantità : <span class = "fw-semibold"><?php echo $prodotto["Quantita"] ?></span></span>
                           <span class="fs-4 ">Prezzo Pagato: <span class = "fw-semibold"><?php echo $prodotto["PrezzoPagato"] ?> €</span></span>
-                          <span class="fs-4 ">Spedito: <span class = "fw-semibold"><?php echo $prodotto["ProdottoSpedito"] ?> </span></span>
                         </div>
                         <?php if($prodotto["Rimosso"] == 'N'):?>
                           <div>

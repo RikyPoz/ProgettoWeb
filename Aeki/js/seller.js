@@ -164,25 +164,35 @@ async function generateProductList(data) {
                     <div class="rounded shadow d-flex flex-column p-3 h-100 ${product["Disponibilita"] === 0 ? 'border-danger' : ''}">
                         <img src="${product["PercorsoImg"]}" alt="${product["Nome"]}" class="img-fluid position-relative">
                         <div class="d-flex flex-column align-items-center mt-auto">
-                            <span class="fw-bold fs-3 mt-2">${product["Nome"]} </span>
+                            <span class="fw-bold fs-3 mt-2 text-center">${product["Nome"]} </span>
                             <span class="fs-5">${product["Prezzo"]}€</span>
-                            <span class="fw-bold fs-5 mt-2 ${product["Disponibilita"] === 0 ? 'text-danger' : ''}" id="productAvailability-${product["CodiceProdotto"]}" data-availability="${product["Disponibilita"]}">
+                            <span class="fw-bold fs-5 mt-2" style="${product["Disponibilita"] === 0 ? 'color:#B00000' : ''}" id="productAvailability-${product["CodiceProdotto"]}" data-availability="${product["Disponibilita"]}">
                                 Disponibilità: ${product["Disponibilita"]}
                             </span>
                             <div class="d-flex align-items-center">
                                 <span class='text-warning fs-4'>${getStars(product["ValutazioneMedia"])}</span>
                                 <span class='text-muted ms-1 small'>(${product["NumeroRecensioni"]})</span>
                             </div>
-                            <div class="container mt-2">
-                                <div class="d-flex align-items-center">
-                                    <a href="singleProduct.php?id=${product['CodiceProdotto']}" class="btn border rounded btn-sm me-2 w-100">Visualizza</a>
-                                    <a href="#" class="btn border rounded btn-sm w-100 ${product['Disponibilita'] === 0 ? 'text-danger border-danger' : ''}" data-bs-toggle="modal" data-bs-target="#updateAvailabilityModal-${product['CodiceProdotto']}">Rifornisci</a>
+                            <div class="d-flex flex-column mt-2">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <a href="singleProduct.php?id=${product['CodiceProdotto']}" class="btn border rounded btn-sm w-100">Visualizza</a>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <a href="#" class="btn border rounded btn-sm w-100 " style="${product['Disponibilita'] === 0 ? 'color:#B00000' : ''}" data-bs-toggle="modal" data-bs-target="#updateAvailabilityModal-${product['CodiceProdotto']}">Rifornisci</a>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center mt-2">
-                                    <a href="#" class="btn border rounded btn-sm me-2 w-100" data-bs-toggle="modal" data-bs-target="#deleteProductModal-${product['CodiceProdotto']}">Elimina</a>
-                                    <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Modifica €</a>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Cambia €</a>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <a href="#" class="btn border rounded btn-sm w-100" style="color:#B00000" data-bs-toggle="modal" data-bs-target="#deleteProductModal-${product['CodiceProdotto']}">Elimina</a>
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>`;
@@ -468,15 +478,17 @@ function generateReviews(data) {
         <div class="card shadow mt-5 p-3">
             <!-- Product Info -->
             <div class="row d-flex align-items-center">
-                <div class="col-md-2">
+                <div class="col-md-2 col-12">
                     <img src="${product.PercorsoImg}" alt="img" class="img-fluid">
                 </div>
-                <div class="col-md-6">
-                    <h3 class="fw-semibold">${product.Nome}</h3>
-                    ${product.Rimosso == 'Y' ? '<h4 class="fw-semibold fs-4">(Prodotto Rimosso)</h4>' : ''}
-                    <span class = "fs-5">Codice Prodotto: <span class = "fw-semibold">${product.CodiceProdotto}</span></span>
-                    <div class="mt-4">
-                        <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
+                <div class="col-md-6 col-12">
+                    <div class = "d-flex flex-column align-items-center align-items-md-start">
+                        <h3 class="fw-semibold">${product.Nome}</h3>
+                        ${product.Rimosso == 'Y' ? '<h4 class="fw-semibold fs-4">(Prodotto Rimosso)</h4>' : ''}
+                        <span class = "fs-5">Codice Prodotto: <span class = "fw-semibold">${product.CodiceProdotto}</span></span>
+                        <div class="mt-4">
+                            <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -493,9 +505,11 @@ function generateReviews(data) {
                 <!-- Review Info -->
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <span class="fs-5">ID Recensione: <span class = "fw-semibold">${review.IDrecensione}</span></span>
-                        <span class="fs-5 mx-5 ">Cliente: <span class = "fw-semibold">${review.Cliente}</span></span>
-                        <span class="fs-5 me-4 text-warning">${getStars(review.Stelle)} <span class="fs-5 text-dark ">(${review.Stelle})</span></span>
+                        <div class = "d-flex flex-column flex-md-row" >
+                            <span class="fs-5">ID Recensione: <span class = "fw-semibold">${review.IDrecensione}</span></span>
+                            <span class="fs-5 mx-md-5 ">Cliente: <span class = "fw-semibold">${review.Cliente}</span></span>
+                            <span class="fs-5 me-4 text-warning">${getStars(review.Stelle)} <span class="fs-5 text-dark ">(${review.Stelle})</span></span>
+                        </div>
                         <hr>
                         <div class="card-body">
                             <h4> Descrizione: </h4>
