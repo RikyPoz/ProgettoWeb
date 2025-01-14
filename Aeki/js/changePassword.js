@@ -49,8 +49,8 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
                     <div class="alert alert-info" style="position: fixed; top: 10px; left: 10px; right: 10px; z-index: 1050; background-color: white; color: black; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                         <p><strong>Vuoi memorizzare la nuova password nei cookie?</strong></p>
                         <div style="display: flex; gap: 10px;">
-                            <button id="acceptCookieUpdate" class="btn btn-success btn-sm">Accetta</button>
-                            <button id="rejectCookieUpdate" class="btn btn-danger btn-sm">Rifiuta</button>
+                            <button id="acceptCookieUpdate" class="btn btn-sm" style="background-color: #000060; color: #FFFFFF">Accetta</button>
+                            <button id="rejectCookieUpdate" class="btn btn-sm" style="background-color: #B00000; color: #FFFFFF">Rifiuta</button>
                         </div>
                     </div>
                 `;

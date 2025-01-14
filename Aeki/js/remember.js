@@ -44,8 +44,8 @@ function showCookieNotice() {
             Per saperne di più su come utilizziamo i cookie e su come puoi modificarne le impostazioni, consulta la nostra Informativa sui Cookie. 
             Cliccando su "Accetta", acconsenti all'utilizzo di tutti i cookie.</p>
             <div style="display: flex; gap: 10px;">
-                <button id="acceptCookies" class="btn btn-success btn-sm" style="background-color: #28a745; border-color: #28a745; font-size: 12px; padding: 8px 16px;">Accetta</button>
-                <button id="rejectCookies" class="btn btn-danger btn-sm" style="background-color: #dc3545; border-color: #dc3545; font-size: 12px; padding: 8px 16px;">Rifiuta</button>
+                <button id="acceptCookies" class="btn btn-sm" style="background-color: #000060; color: #FFFFFF; border-color: #0000070; font-size: 12px; padding: 8px 16px;">Accetta</button>
+                <button id="rejectCookies" class="btn btn-sm" style="background-color: #B00000; color: #FFFFFF"; border-color: #B00000; font-size: 12px; padding: 8px 16px;">Rifiuta</button>
             </div>
         </div>
     `;
@@ -107,8 +107,8 @@ window.onload = function () {
 
     if (emailCookie && passwordCookie) {
         document.getElementById('email').value = emailCookie;
-        document.getElementById('password').value = passwordCookie; // Pre-compila anche la password
-        document.getElementById('remember').checked = true; // Se c'è un cookie, la casella "Ricordami" è selezionata
+        document.getElementById('password').value = passwordCookie; // Pre-compila la password
+        document.getElementById('remember').checked = true; // Se c'è un cookie la casella "Ricordami" è selezionata
     }
 };
 
@@ -142,7 +142,7 @@ document.getElementById('loginButton').addEventListener('click', function () {
 
                 document.getElementById('loginMessage').innerHTML = '<div class="alert alert-success">Login effettuato con successo. Reindirizzamento...</div>';
                 setTimeout(() => {
-                    window.location.href = './profile.php'; // Reindirizza alla pagina del profilo
+                    window.location.href = response.redirect; // Reindirizza alla pagina del profilo
                 }, 2000);
             } else {
                 document.getElementById('loginMessage').innerHTML = `<div class="alert alert-danger">${response.message}</div>`;

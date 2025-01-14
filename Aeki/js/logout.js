@@ -32,7 +32,7 @@ document.querySelector('.logout-button').addEventListener('click', function (eve
     const message = document.createElement('p');
     message.innerText = 'Sei sicuro di voler effettuare il logout?';
     message.style.fontSize = '16px';
-    message.style.color = '#333';
+    message.style.color = '#000000';
     modalContent.appendChild(message);
 
     // Pulsante "Logout"
@@ -41,17 +41,17 @@ document.querySelector('.logout-button').addEventListener('click', function (eve
     logoutButton.style.padding = '12px 24px';
     logoutButton.style.margin = '10px';
     logoutButton.style.border = 'none';
-    logoutButton.style.backgroundColor = '#4CAF50';
-    logoutButton.style.color = '#fff';
+    logoutButton.style.backgroundColor = '#000060';
+    logoutButton.style.color = '#FFFFFF';
     logoutButton.style.cursor = 'pointer';
     logoutButton.style.fontSize = '16px';
     logoutButton.style.borderRadius = '5px';
     logoutButton.style.transition = 'background-color 0.3s ease';
     logoutButton.addEventListener('mouseenter', () => {
-        logoutButton.style.backgroundColor = '#45a049';
+        logoutButton.style.backgroundColor = '#000030';
     });
     logoutButton.addEventListener('mouseleave', () => {
-        logoutButton.style.backgroundColor = '#4CAF50';
+        logoutButton.style.backgroundColor = '#000060';
     });
     modalContent.appendChild(logoutButton);
 
@@ -61,17 +61,17 @@ document.querySelector('.logout-button').addEventListener('click', function (eve
     cancelButton.style.padding = '12px 24px';
     cancelButton.style.margin = '10px';
     cancelButton.style.border = 'none';
-    cancelButton.style.backgroundColor = '#f44336';
-    cancelButton.style.color = '#fff';
+    cancelButton.style.backgroundColor = '#B00000';
+    cancelButton.style.color = '#FFFFFF';
     cancelButton.style.cursor = 'pointer';
     cancelButton.style.fontSize = '16px';
     cancelButton.style.borderRadius = '5px';
     cancelButton.style.transition = 'background-color 0.3s ease';
     cancelButton.addEventListener('mouseenter', () => {
-        cancelButton.style.backgroundColor = '#d32f2f';
+        cancelButton.style.backgroundColor = '#850000';
     });
     cancelButton.addEventListener('mouseleave', () => {
-        cancelButton.style.backgroundColor = '#f44336';
+        cancelButton.style.backgroundColor = '#B00000';
     });
     modalContent.appendChild(cancelButton);
 
