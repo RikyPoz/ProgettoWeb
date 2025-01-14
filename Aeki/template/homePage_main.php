@@ -1,6 +1,4 @@
-<head>
-    <link rel="stylesheet" href="./css/homePage_style.css">
-</head>
+<link rel="stylesheet" href="./css/homePage_style.css">
 
 <div class="container my-4">
     <div class="row mb-4">

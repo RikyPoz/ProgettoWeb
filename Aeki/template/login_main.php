@@ -20,7 +20,7 @@
                     <div class="input-group">
                         <input type="password" class="form-control" id="password" name="password" required placeholder="Inserisci la tua password">
                         <span class="input-group-text" id="togglePassword" style="cursor: pointer;" aria-label="Mostra password">
-                            <i class="bi bi-eye" id="toggleIcon"></i>
+                            <em class="bi bi-eye" id="toggleIcon"></em>
                         </span>
                     </div>
                 </div>

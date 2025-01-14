@@ -21,18 +21,18 @@ document.getElementById("deleteAccountBtn").addEventListener("click", function (
                 console.log("Risposta JSON:", response);
 
                 if (response.success) {
-                    document.getElementById("message").innerHTML = `<p style="color: green;">${response.message}</p>`;
+                    document.getElementById("message").innerHTML = `<p style="color: #006400;">${response.message}</p>`; // Verde scuro per successo
                     window.location.href = "/ProgettoWeb/Aeki/homePage.php"; // Reindirizza alla home
                 } else {
-                    document.getElementById("message").innerHTML = `<p style="color: red;">${response.message}</p>`;
+                    document.getElementById("message").innerHTML = `<p style="color: #B00000;">${response.message}</p>`; // Rosso scuro per errore
                 }
             } catch (e) {
                 // Gestione dell'errore se la risposta non è un JSON valido
-                document.getElementById("message").innerHTML = `<p style="color: red;">Errore di parsing della risposta: ${e.message}</p>`;
+                document.getElementById("message").innerHTML = `<p style="color: #B00000;">Errore di parsing della risposta: ${e.message}</p>`;
                 console.error('Errore di parsing JSON:', e);
             }
         } else {
-            document.getElementById("message").innerHTML = `<p style="color: red;">Errore del server. Riprova più tardi.</p>`;
+            document.getElementById("message").innerHTML = `<p style="color: #B00000;">Errore del server. Riprova più tardi.</p>`;
             console.error('Errore durante la richiesta AJAX:', xhr.status, xhr.statusText);
         }
     };

@@ -1,6 +1,4 @@
-<head>
-    <link rel="stylesheet" href="./css/profile_style.css">
-</head>
+<link rel="stylesheet" href="./css/profile_style.css">
 
 <!-- Contenuto della pagina -->
 <div class="container my-5">
@@ -12,19 +10,19 @@
                 <h3>Il tuo profilo</h3>
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control nomeUtente" value="<?php echo $templateParams["utente"]['Nome']; ?>" readonly>
+                    <input type="text" class="form-control nomeUtente" id="nome" value="<?php echo $templateParams["utente"]['Nome']; ?>" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="cognome" class="form-label">Cognome</label>
-                    <input type="text" class="form-control cognomeUtente" value="<?php echo $templateParams["utente"]['Cognome']; ?>" readonly>
+                    <input type="text" class="form-control cognomeUtente" id="cognome" value="<?php echo $templateParams["utente"]['Cognome']; ?>" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
-                    <input type="email" class="form-control emailUtente" value="<?php echo $templateParams["utente"]['Email']; ?>" readonly>
+                    <input type="email" class="form-control emailUtente" id="email" value="<?php echo $templateParams["utente"]['Email']; ?>" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Telefono</label>
-                    <input type="text" class="form-control telefonoUtente" value="<?php echo $templateParams["utente"]['Telefono']; ?>" readonly>
+                    <input type="text" class="form-control telefonoUtente" id="telefono" value="<?php echo $templateParams["utente"]['Telefono']; ?>" readonly>
                 </div>
                 <!-- Pulsante per aprire il modale per modificare il profilo -->
                 <button type="button" class="btn btn-light border" data-bs-toggle="modal" data-bs-target="#modificaProfiloModal">Modifica Profilo</button>
@@ -86,19 +84,19 @@
                 <form id="modificaProfiloForm">
                     <div class="mb-3">
                         <label for="nomeUtente" class="form-label">Nome</label>
-                        <input type="text" class="form-control" name="nome" value="<?php echo $templateParams["utente"]['Nome']; ?>">
+                        <input type="text" class="form-control" name="nome" id="nomeUtente" value="<?php echo $templateParams["utente"]['Nome']; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="cognomeUtente" class="form-label">Cognome</label>
-                        <input type="text" class="form-control" name="cognome" value="<?php echo $templateParams["utente"]['Cognome']; ?>">
+                        <input type="text" class="form-control" name="cognome" id="cognomeUtente" value="<?php echo $templateParams["utente"]['Cognome']; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="emailUtente" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" name="email" value="<?php echo $templateParams["utente"]['Email']; ?>">
+                        <input type="email" class="form-control" name="email" id="emailUtente" value="<?php echo $templateParams["utente"]['Email']; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="telefonoUtente" class="form-label">Telefono</label>
-                        <input type="text" class="form-control" name="telefono" value="<?php echo $templateParams["utente"]['Telefono']; ?>">
+                        <input type="text" class="form-control" name="telefono" id="telefonoUtente" value="<?php echo $templateParams["utente"]['Telefono']; ?>">
                     </div>
                     <button type="submit" class="btn" style="background-color:#000060;color:#FFFFFF">Salva Modifiche</button>
                 </form>
@@ -125,7 +123,7 @@
                         <div class="input-group">
                             <input type="password" class="form-control" id="passwordAttuale" name="passwordAttuale" required>
                             <button type="button" class="btn btn-outline-secondary togglePasswordAttuale" id="togglePasswordAttuale">
-                                <i class="bi bi-eye" id="toggleIconAttuale"></i>
+                                <em class="bi bi-eye" id="toggleIconAttuale"></em>
                             </button>
                         </div>
                     </div>
@@ -135,7 +133,7 @@
                         <div class="input-group">
                             <input type="password" class="form-control" id="nuovaPassword" name="nuovaPassword" required>
                             <button type="button" class="btn btn-outline-secondary togglePasswordNuova" id="togglePasswordNuova">
-                                <i class="bi bi-eye" id="toggleIconNuova"></i>
+                                <em class="bi bi-eye" id="toggleIconNuova"></em>
                             </button>
                         </div>
                     </div>
@@ -145,7 +143,7 @@
                         <div class="input-group">
                             <input type="password" class="form-control" id="confermaNuovaPassword" name="confermaNuovaPassword" required>
                             <button type="button" class="btn btn-outline-secondary togglePasswordConferma" id="togglePasswordConferma">
-                                <i class="bi bi-eye" id="toggleIconConferma"></i>
+                                <em class="bi bi-eye" id="toggleIconConferma"></em>
                             </button>
                         </div>
                     </div>

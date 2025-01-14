@@ -36,25 +36,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         xhr.onload = function () {
             console.log("Risposta grezza del server: ", xhr.responseText); // Stampa la risposta grezza
-
+        
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
-
+        
                 // Se la registrazione è andata a buon fine, mostra un messaggio di successo
                 const messageContainer = document.getElementById("message-container"); // Aggiungi questo contenitore HTML per il messaggio
-
+        
                 if (response.success) {
-                    // Mostra il messaggio di successo
-                    messageContainer.innerHTML = `<p style="color: green;">${response.message}</p>`;
+                    // Mostra il messaggio di successo con un verde scuro
+                    messageContainer.innerHTML = `<p style="color: #006400;">${response.message}</p>`;
                     window.location.href = '/ProgettoWeb/Aeki/login.php'; // Usa il percorso assoluto
                 } else {
-                    // Mostra l'errore
-                    messageContainer.innerHTML = `<p style="color: red;">${response.message}</p>`;
+                    // Mostra l'errore con un rosso scuro
+                    messageContainer.innerHTML = `<p style="color: #B00000;">${response.message}</p>`;
                 }
             } else {
                 alert('Errore del server. Riprova più tardi.');
             }
-        };
+        };        
 
         // Gestisci l'errore di rete o server
         xhr.onerror = function () {

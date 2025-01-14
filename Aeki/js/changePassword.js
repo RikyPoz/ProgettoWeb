@@ -11,13 +11,13 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
 
     // Verifica che i campi non siano vuoti
     if (!passwordAttuale || !nuovaPassword || !confermaNuovaPassword) {
-        document.querySelector(".message-container").innerHTML = `<p style="color: red;">Tutti i campi sono richiesti.</p>`;
+        document.querySelector(".message-container").innerHTML = `<p style="color: #B00000;">Tutti i campi sono richiesti.</p>`;
         return; // Ferma l'esecuzione se i campi sono vuoti
     }
 
     // Verifica che le nuove password coincidano
     if (nuovaPassword !== confermaNuovaPassword) {
-        document.querySelector(".message-container").innerHTML = `<p style="color: red;">Le nuove password non corrispondono.</p>`;
+        document.querySelector(".message-container").innerHTML = `<p style="color: #B00000;">Le nuove password non corrispondono.</p>`;
         return;
     }
 
@@ -36,7 +36,7 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
         .then(data => {
             if (data.success) {
                 // Messaggio di successo
-                document.querySelector(".message-container").innerHTML = `<p style="color: green;">Password cambiata con successo! Reindirizzamento in corso...</p>`;
+                document.querySelector(".message-container").innerHTML = `<p style="color: #006400;">Password cambiata con successo! Reindirizzamento in corso...</p>`;
                 // Ritardo di 2 secondi (2000 millisecondi) prima di chiudere il modal e reindirizzare
                 setTimeout(function () {
                     document.getElementById("cambiaPasswordModal").style.display = "none";
@@ -94,10 +94,10 @@ document.getElementById("cambiaPasswordForm").addEventListener("submit", functio
 
                 }, 2000); // Mostra il messaggio di conferma dopo 2 secondi
             } else {
-                document.querySelector(".message-container").innerHTML = `<p style="color: red;">${data.message}</p>`;
+                document.querySelector(".message-container").innerHTML = `<p style="color: #B00000;">${data.message}</p>`;
             }
         })
         .catch(error => {
-            document.querySelector(".message-container").innerHTML = `<p style="color: red;">Si è verificato un errore. Riprova più tardi.</p>`;
+            document.querySelector(".message-container").innerHTML = `<p style="color: #B00000;">Si è verificato un errore. Riprova più tardi.</p>`;
         });
 });
