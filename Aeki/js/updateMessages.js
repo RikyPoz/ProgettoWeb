@@ -25,19 +25,16 @@ async function aggiornaMessaggi() {
         }
 
         const json = await response.json();
-        console.log("Risposta dal server:", json);
 
         if (json.success) {
             if (json.messages && json.messages.length > 0) {
                 // Trova il messaggio più recente
                 const messaggioPiuRecente = json.messages[json.messages.length - 1];
-                console.log("Messaggio più recente:", messaggioPiuRecente);
 
                 // Confronta la data dell'ultimo messaggio con ultimaData
                 if (ultimaData === null || messaggioPiuRecente.Data > ultimaData) {
                     aggiornaMessaggiUI(json.messages); // Aggiorna la UI con i nuovi messaggi
                     ultimaData = messaggioPiuRecente.Data; // Aggiorna ultimaData solo se il nuovo messaggio è più recente
-                    console.log("Aggiornata ultimaData a:", ultimaData);
                 } else {
                     console.log("Nessun nuovo messaggio trovato.");
                 }
@@ -78,7 +75,6 @@ function aggiornaMessaggiUI(messaggi) {
         }
 
         if (existingMessageIds.includes(messaggio.IdNotifica)) {
-            console.log(`Messaggio già presente: ${messaggio.Data} on ID ${messaggio.IdNotifica}`);
             return;
         }
 

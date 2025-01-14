@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie('userPassword', '', time() - 3600, '/'); 
             }
 
-            // Risponde con successo
             echo json_encode(['success' => true, 'message' => 'Account eliminato con successo!']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Errore nell\'eliminazione dell\'account.']);

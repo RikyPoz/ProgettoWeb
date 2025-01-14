@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
             password: password
         };
 
-        // Invio dei dati tramite AJAX
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'Ajax/login/api-register.php', true);
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.success) {
                     messageContainer.innerHTML = `<p style="color: #006400;">Registrazione completata! Effettua il login.</p>`;
                     
-                    // Attendi 2 secondi e poi reindirizza alla pagina di login
+                    // Attende 2 secondi e poi reindirizza alla pagina di login
                     setTimeout(() => {
                         window.location.href = '/ProgettoWeb/Aeki/login.php';
                     }, 2000);
