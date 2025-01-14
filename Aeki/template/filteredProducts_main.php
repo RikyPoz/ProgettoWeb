@@ -57,7 +57,7 @@ $sliderMax = 100;
       </div>
 
       <div class="text-end mt-3">
-        <button class="btn" style="background-color:#000060;color:#FFFFFF" id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
+        <button class="btn" style="background-color:#000060;color:#FFFFFF" id ="filterButton"><span class="bi bi-filter"></span> Filtra</button>
       </div>
     </div>
   </div>
@@ -68,10 +68,10 @@ $sliderMax = 100;
   <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
     <div class="row d-flex align-items-stretch">
       <!-- Lista Prodotti -->
-      <h1 class="fw-semibold mb-3">
+      <h2 class="fw-semibold mb-3">
         <span id="filterType" data-id="<?php echo $templateParams["tipoSelezione"]; ?>"><?php echo $templateParams["nomeSelezione"]; ?></span>
         <span id="productCount" class="text-muted"></span>
-      </h1>
+      </h2>
       <div class="row g-4" id="productsContainer"></div>
     </div>
   </div>

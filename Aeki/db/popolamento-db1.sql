@@ -277,11 +277,11 @@ INSERT INTO DettaglioCarrello (IDcarrello, CodiceProdotto, Quantita) VALUES
 (2, 2, 1);
 
 -- Populating Ordine table
-INSERT INTO Ordine (Data, Username,GiorniSpedizione,PrezzoSpedizione) VALUES
-('2024-12-01', 'user1','2','10.0'),
-('2024-12-12', 'user1','7','5.0'),
-('2024-12-02', 'user2','2','10.0'),
-('2024-12-03', 'user2','7','5.0');
+INSERT INTO Ordine (Data, Username, DataArrivo, PrezzoSpedizione) VALUES
+('2024-12-01', 'user1','2024-12-03','10.0'),
+('2024-12-12', 'user1','2024-12-18','5.0'),
+('2024-12-02', 'user2','2024-12-10','10.0'),
+('2024-12-03', 'user2','2024-12-09','5.0');
 
 -- Populating DettaglioOrdine table
 INSERT INTO DettaglioOrdine (IDordine, CodiceProdotto, Quantita, PrezzoPagato) VALUES 

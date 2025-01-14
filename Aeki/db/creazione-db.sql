@@ -81,7 +81,7 @@ create table Ordine (
      IDordine INT AUTO_INCREMENT,
      Data date not null,
      Username VARCHAR(20) not null,
-     GiorniSpedizione INT not null,
+     DataArrivo date not null,
      PrezzoSpedizione FLOAT not null,
      CodiceStato INT not null DEFAULT 0,
      constraint ID_Ordine_ID primary key (IDordine));

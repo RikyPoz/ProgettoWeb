@@ -471,7 +471,7 @@ class DatabaseHelper{
 
             $disponibilita = ($stmt->get_result()->fetch_assoc())["Disponibilita"];
             $quantitaCarrello = ($stmt2->get_result()->fetch_assoc())["Quantita"];
-            
+
             if ($disponibilita >= $quantity + $quantitaCarrello) {
                 $stmt1 = $this->db->prepare("UPDATE `DettaglioCarrello` SET `Quantita` = `Quantita` + ? WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
                 $stmt1->bind_param('iss', $quantity, $cartId, $productId);
@@ -523,7 +523,7 @@ class DatabaseHelper{
     //ORDERS
 
     public function getOrdini($username){
-        $stmt = $this->db->prepare("SELECT IDordine ,Data,CodiceStato,GiorniSpedizione,PrezzoSpedizione FROM Ordine WHERE Username=? ORDER BY Data DESC");
+        $stmt = $this->db->prepare("SELECT IDordine ,Data,CodiceStato, DataArrivo, PrezzoSpedizione FROM Ordine WHERE Username=? ORDER BY Data DESC");
         $stmt->bind_param('s',$username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -1163,9 +1163,9 @@ class DatabaseHelper{
             }
     
             // Crea un nuovo ordine
-            $queryCreaOrdine = "INSERT INTO Ordine (Data, Username, GiorniSpedizione, PrezzoSpedizione) VALUES (NOW(), ?, ?, ?)";
+            $queryCreaOrdine = "INSERT INTO Ordine (Data, Username, DataArrivo, PrezzoSpedizione) VALUES (NOW(), ?, DATE_ADD(NOW(), INTERVAL ? DAY), ?)";
             $stmt = $this->db->prepare($queryCreaOrdine);
-            $stmt->bind_param('sid', $username, $spedizione["Giorni"], $spedizione["Prezzo"]);
+            $stmt->bind_param('ssd', $username, $spedizione["Giorni"], $spedizione["Prezzo"]);
             $stmt->execute();
     
             // Ottieni l'ID del nuovo ordine
