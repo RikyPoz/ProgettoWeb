@@ -35,7 +35,7 @@
                 <div class="d-flex flex-nowrap gap-3 slider-track">
                     <?php foreach ($templateParams["categorie"] as $categoria): ?>
                         <div class="text-center">
-                            <a href="filteredProducts.php?categories=<?php echo $categoria['NomeCategoria']; ?>" class="btn p-0">
+                            <a href="filteredProducts.php?categories=<?php echo urlencode($categoria['NomeCategoria']); ?>" class="btn p-0">
                                 <img src="<?php echo $categoria['PercorsoImmagine']; ?>" class="rounded" alt="Categoria <?php echo $categoria['NomeCategoria']; ?>">
                                 <p class="mt-3 fw-semibold"><?php echo $categoria['NomeCategoria']; ?></p>
                             </a>
@@ -53,33 +53,32 @@
     </div>
 
     <!-- Sezione Ambienti -->
-<h3 class="mt-5" style="color: #000070">Ambienti</h3>
-<div class="slider-container position-relative">
-    <?php if (!empty($templateParams["ambienti"])): ?>
+    <h3 class="mt-5" style="color: #000070">Ambienti</h3>
+    <div class="slider-container position-relative">
+        <?php if (!empty($templateParams["ambienti"])): ?>
 
-        <button class="btn btn-outline-secondary btn-sm slider-button slider-button-left">
-            <span class="bi bi-arrow-left"></span>
-        </button>
+            <button class="btn btn-outline-secondary btn-sm slider-button slider-button-left">
+                <span class="bi bi-arrow-left"></span>
+            </button>
 
-        <div class="overflow-hidden slider-wrapper ambient-slider"> 
-            <div class="d-flex flex-nowrap gap-3 slider-track">
-                <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
-                    <div class="text-center">
-                        <a href="filteredProducts.php?ambient=<?php echo $ambiente['NomeAmbiente']; ?>" class="btn p-0">
-                            <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo $ambiente['NomeAmbiente']; ?>">
-                            <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
+            <div class="overflow-hidden slider-wrapper ambient-slider"> 
+                <div class="d-flex flex-nowrap gap-3 slider-track">
+                    <?php foreach ($templateParams["ambienti"] as $ambiente): ?>
+                        <div class="text-center">
+                            <a href="filteredProducts.php?ambient=<?php echo urlencode($ambiente['NomeAmbiente']); ?>" class="btn p-0">
+                                <img src="<?php echo $ambiente['PercorsoImmagine']; ?>" class="rounded" alt="Ambiente <?php echo $ambiente['NomeAmbiente']; ?>">
+                                <p class="mt-3 fw-semibold"><?php echo $ambiente['NomeAmbiente']; ?></p>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
 
-        <button class="btn btn-outline-secondary btn-sm slider-button slider-button-right">
-            <span class="bi bi-arrow-right"></span>
-        </button>
-    <?php else: ?>
-        <p>Nessun ambiente disponibile.</p>
-    <?php endif; ?>
-</div>
-
+            <button class="btn btn-outline-secondary btn-sm slider-button slider-button-right">
+                <span class="bi bi-arrow-right"></span>
+            </button>
+        <?php else: ?>
+            <p>Nessun ambiente disponibile.</p>
+        <?php endif; ?>
+    </div>
 </div>
