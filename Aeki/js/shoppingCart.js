@@ -256,7 +256,7 @@ function validaDati() {
     const cardNumber = document.getElementById('cardNumber').value;
     const cardType = document.getElementById('cardType').value;
     const shippingType = document.getElementById('shippingType').value;
-    if (shippingType.value == "") {
+    if (shippingType == "") {
         alert('Selezionare tipo di spedizione.');
     } else if (cardType == "") {
         alert('Selezionare tipo di carta per il pagamento.');
