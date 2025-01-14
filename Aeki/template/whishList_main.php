@@ -1,7 +1,7 @@
 <div class="row justify-content-center my-5" style="min-height: 70vh">
     <div class="col-md-10 col-12 rounded shadow bg-light p-4">
         <div class="d-flex justify-content-center justify-content-md-start mb-4">
-            <h1 class="fw-bold "style = "color:#000070">I miei Preferiti</h1>
+            <h1 class="fw-bold " style = "color:#000070">I miei Preferiti</h1>
         </div>
         <!--Prodotti-->
         <?php if (!empty($templateParams["prodotti"])): ?>

@@ -42,7 +42,7 @@
                     <a href="orderList.php" class="btn btn-outline-secondary me-2 px-4 py-2 rounded-pill shadow-sm hover-shadow" role="button">
                         <span class="bi bi-x-circle me-2"></span>Annulla
                     </a>
-                    <button type="submit" class="btn px-4 py-2 rounded-pill shadow-sm hover-shadow" style = "background-color:#000060;color:#FFFFFF"role="button">
+                    <button type="submit" class="btn px-4 py-2 rounded-pill shadow-sm hover-shadow" style = "background-color:#000060;color:#FFFFFF">
                         <span class="bi bi-send me-2"></span>Invia Recensione
                     </button>
                 </div>

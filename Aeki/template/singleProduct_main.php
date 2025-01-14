@@ -1,27 +1,6 @@
+<link rel="stylesheet" href="./css/singleProduct_style.css">
+
 <?php $prodotto = $templateParams["prodotto"];?>
-<style>
-.carousel-inner img {
-    max-width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-}
-
-.carousel-item img {
-    transition: transform 0.1s ease, box-shadow 0.1s ease; 
-    cursor: zoom-in; 
-    object-fit: contain; 
-}
-
-.carousel-item img:hover {
-    transform: scale(1.2); 
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); 
-}
-.carousel-control-prev-icon, .carousel-control-next-icon {
-    filter: invert(1); /* Cambia il colore dell'icona a bianco */
-}
-
-</style>
-
 <div class="row d-flex justify-content-center my-5">
     <div class = "col-md-10 col-12 rounded shadow bg-light p-4">
         <div class="row d-flex align-items-stretch bg-white rounded-5 ">
@@ -60,7 +39,7 @@
             <!-- Descrizione Prodotto -->
             <div class="col-md-6 p-4 d-flex border-start flex-column">
                 <div class="d-flex align-items-center mb-2">
-                    <h1 class="fw-bold flex-grow-1 display-6 "style = "color:#000070"><?php echo $prodotto["Nome"]; ?></h1>
+                    <h1 class="fw-bold flex-grow-1 display-6 " style = "color:#000070"><?php echo $prodotto["Nome"]; ?></h1>
                     <div>
                         <?php if ($prodotto["InWishlist"] == "true"): ?>
                             <span class="bi bi-heart-fill fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;color:#B00000"></span>

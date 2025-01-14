@@ -1,0 +1,21 @@
+.carousel-inner img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.carousel-item img {
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    cursor: zoom-in;
+    object-fit: contain;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.2);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}

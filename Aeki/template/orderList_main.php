@@ -2,12 +2,12 @@
   <div class="col-md-10 col-12 rounded shadow  p-4">
     <!-- Titolo e filtro -->
     <div class="d-flex justify-content-center justify-content-md-start">
-      <h1 class="fw-bold "style = "color:#000070">I miei Ordini</h1>
+      <h1 class="fw-bold " style = "color:#000070">I miei Ordini</h1>
     </div>
 
     <!--Order List-->
     <?php if (!empty($templateParams["ordini"])): ?>
-      <div id="orders-list ">
+      <div id="orders-list">
         <?php foreach($templateParams["ordini"] as $ordine): ?>
           <!--Single Order-->
           <div class=" my-5 border bg-light rounded shadow-sm">
