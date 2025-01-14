@@ -25,12 +25,13 @@
                 <!--Single Product -->
                 <div class = " row justify-content-center align-items-center border rounded-3 shadow-sm bg-white p-3 mb-3 ">
                     <div class = "col-md-2 col-6 ">
-                        <img src="<?php echo $prodotto["PercorsoImg"] ?>" alt="img" class="img-fluid"onerror="this.onerror=null; this.src='upload/not-found-image.png'">
+                        <img src="<?php echo $prodotto["PercorsoImg"] ?>" alt="Prodotto <?php echo $prodotto["Nome"] ?>" class="img-fluid">
                     </div>
-                    <div class = "col-md-10 col-12 flex-column  ps-md-5">
-                        <div class = "d-flex flex-column mb-4">
+                    <div class = "col-md-10 col-12 d-flex justify-content-center justify-content-md-start ps-md-5">
+                      <div class ="flex-column">
+                        <div class = "d-flex flex-column align-items-center align-items-md-start mb-4">
                           <h2 style = "color:#000070"><?php echo $prodotto["Nome"] ?> </h2>
-                          <span class="fs-4 me-4">Quantità : <span class = "fw-semibold"><?php echo $prodotto["Quantita"] ?></span></span>
+                          <span class="fs-4 ">Quantità : <span class = "fw-semibold"><?php echo $prodotto["Quantita"] ?></span></span>
                           <span class="fs-4 ">Prezzo Pagato: <span class = "fw-semibold"><?php echo $prodotto["PrezzoPagato"] ?> €</span></span>
                         </div>
                         <?php if($prodotto["Rimosso"] == 'N'):?>
@@ -41,6 +42,7 @@
                         <?php else: ?>
                             <span class = "fs-5 text-muted">(Questo prodotto è stato rimosso dal venditore)</span>
                         <?php endif;?>
+                      </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -51,9 +53,9 @@
                       type="button" 
                       class="btn btn-lg" 
                       id="traccia-<?php echo $ordine["IDordine"]; ?>"
-                      data-idordine="<?php echo $ordine["IDordine"]; ?>"
-                      data-dataordine="<?php echo $ordine["Data"]; ?>"
-                      data-prodotti='<?php echo json_encode($ordine["prodotti"]); ?>'
+                      data-idOrdine="<?php echo $ordine["IDordine"]; ?>"
+                      data-codiceStato="<?php echo $ordine["CodiceStato"]; ?>"
+                      data-giorniSpedizione="<?php echo $ordine["GiorniSpedizione"]; ?>"
                       style="background-color: #000060; color: #FFFFFF">
                       Traccia il mio pacco
                   </button>

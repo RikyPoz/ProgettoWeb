@@ -57,7 +57,7 @@ if (isset($data['action'])) {
                 $result = $dbh->updateProductAvailability($codiceProdotto, $nuovaDisponibilita);
 
                 if($data['vecchiaDisponibilita'] == 0){
-                    $testo = "Il prodotto $codiceProdotto è tornato disponibile!";
+                    $testo = "Il prodotto #$codiceProdotto è tornato disponibile!";
                     $dbh->notifyCartChange($codiceProdotto,$testo);
                 }
                
@@ -72,7 +72,7 @@ if (isset($data['action'])) {
             if (isset($data['codiceProdotto']) && isset($data['nuovoPrezzo'])) {
                 $codiceProdotto = $data['codiceProdotto'];
                 $nuovoPrezzo = $data['nuovoPrezzo'];
-                $testo = "Il prodotto $codiceProdotto ha subito una variazione di prezzo!";
+                $testo = "Il prodotto #$codiceProdotto ha subito una variazione di prezzo!";
 
                 $result = $dbh->updateProductPrice($codiceProdotto, $nuovoPrezzo);
                 $dbh->notifyCartChange($codiceProdotto,$testo);
@@ -86,7 +86,6 @@ if (isset($data['action'])) {
                 $idOrdine = $data['idOrdine'];
 
                 $result = $dbh->sendOrder($idOrdine,$seller);
-                //$dbh->notifyCartChange($codiceProdotto,$testo);
                 echo $result;
             } else {
                 echo json_encode(['success' => false, 'message' => 'Dati insufficienti']);

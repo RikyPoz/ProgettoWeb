@@ -522,7 +522,7 @@ class DatabaseHelper{
     //ORDERS
 
     public function getOrdini($username){
-        $stmt = $this->db->prepare("SELECT IDordine ,Data FROM Ordine WHERE Username=?");
+        $stmt = $this->db->prepare("SELECT IDordine ,Data,CodiceStato,GiorniSpedizione,PrezzoSpedizione FROM Ordine WHERE Username=? ORDER BY Data DESC");
         $stmt->bind_param('s',$username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -615,6 +615,29 @@ class DatabaseHelper{
             
             $stmt->bind_param('is', $idOrdine,$seller);
             $stmt->execute();
+            //dopo aver tracciato come spediti i suoi prodotti per quell ordine controlla se quell ordine è pronto 
+            //per partire o meno(e quindi se tutti i suoi prodotti sono stati Spediti)
+            $stmt1 = $this->db->prepare("SELECT COUNT(*) = COUNT(CASE WHEN do.ProdottoSpedito = 'Y' THEN 1 END) AS tuttiSpediti
+                                        FROM DettaglioOrdine AS do
+                                        JOIN Ordine AS o ON o.IDordine = do.IDordine
+                                        WHERE do.IDOrdine = ?
+                                        ");
+
+            $stmt1->bind_param('i', $idOrdine);
+            $stmt1->execute();
+            $result = $stmt1->get_result()->fetch_assoc();
+            $tuttiSpediti = $result["tuttiSpediti"];
+
+            if ($tuttiSpediti) {
+                $stmt2 = $this->db->prepare("
+                    UPDATE Ordine 
+                    SET CodiceStato = 1 
+                    WHERE IDordine = ?");
+                $stmt2->bind_param('i', $idOrdine);
+                $stmt2->execute();
+
+                $this->notifyOrderShipped($idOrdine);
+            }
             return json_encode([
                 'success' => true,
                 'message' => 'ordine spedito con successo'
@@ -624,8 +647,21 @@ class DatabaseHelper{
             'success' => false,
             'message' => 'Errore SQL: ' . $e->getMessage()
         ]);
+        }
+    }
 
-}
+    public function notifyOrderShipped($idOrdine){
+        $data = date('Y-m-d H:i:s');
+        $testo = "Il tuo ordine #$idOrdine è stato spedito";
+
+        $stmt = $this->db->prepare("
+            INSERT INTO `Notifica` (`Username`, `Testo`, `Data`)
+            SELECT Username, ?, ?
+            FROM Ordine
+            WHERE IDordine = ?
+        ");
+        $stmt->bind_param('ssi', $testo, $data,$idOrdine);
+        $stmt->execute();
     }
 
 

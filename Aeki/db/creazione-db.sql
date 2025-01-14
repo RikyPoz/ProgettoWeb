@@ -83,6 +83,7 @@ create table Ordine (
      Username VARCHAR(20) not null,
      GiorniSpedizione INT not null,
      PrezzoSpedizione FLOAT not null,
+     CodiceStato INT not null DEFAULT 0,
      constraint ID_Ordine_ID primary key (IDordine));
 
 CREATE TABLE Prodotto (
