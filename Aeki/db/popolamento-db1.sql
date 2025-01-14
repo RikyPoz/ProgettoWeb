@@ -137,7 +137,6 @@ INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
 ('upload/products/divano_angolare_2.png', 'N', 2),
 ('upload/products/divano_angolare_3.png', 'N', 2),
 ('upload/products/libreria_modulare_1.png', 'Y', 3),
-('upload/products/libreria_modulare_2.png', 'N', 3),
 ('upload/products/sedia_design_1.png', 'Y', 4),
 ('upload/products/sedia_design_2.png', 'N', 4),
 ('upload/products/sedia_design_3.png', 'N', 4),

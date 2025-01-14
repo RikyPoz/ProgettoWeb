@@ -6,6 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentScrollPosition = 0;
         const scrollAmount = 300;
 
+        // Nascondi le frecce e abilita il tocco su mobile
+        if (window.innerWidth <= 768) {
+            slider.style.overflowX = "auto";
+            slider.style.webkitOverflowScrolling = "touch";
+            return;
+        }
+
         function updateButtonState() {
             const maxScroll = slider.scrollWidth - slider.offsetWidth;
             leftButton.disabled = currentScrollPosition <= 0;

@@ -48,6 +48,11 @@
         height: 150px; 
     }
 
+    /* Nascondi i pulsanti di navigazione */
+    .slider-button {
+        display: none;
+    }
+
     /* Abilitare lo scorrimento orizzontale */
     .slider-wrapper.categories-slider,
     .slider-wrapper.ambient-slider {
