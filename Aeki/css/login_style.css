@@ -31,10 +31,16 @@
 
 .login-page .modal-close {
     color: #aaa;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
+    font-size: 24px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    padding: 0; 
+    border: none; 
+    background: transparent;
+    line-height: 1;
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
 }
 
 .login-page .modal-close:hover {
