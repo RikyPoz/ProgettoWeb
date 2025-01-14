@@ -143,7 +143,9 @@ function getCarrello(products) {
 
                                             <!-- Checkbox e prezzo -->
                                             <div class="d-flex align-items-center">
+                                                <label style="display: none;" for="checkbox-${codiceProdotto}">Selezionato</label>
                                                 <input type="checkbox" class="form-check-input me-2 product-checkbox"
+                                                    id="checkbox-${codiceProdotto}"
                                                     onchange="aggiornaSelezionato(${codiceProdotto})"
                                                     ${checkbox}/>
                                                 <p class="mb-0 fw-bold">
@@ -156,9 +158,9 @@ function getCarrello(products) {
                                         <!-- Bottoni -->
                                         <div class="mt-2 d-flex gap-2">
                                             <a href="singleProduct.php?id=${codiceProdotto}" 
-                                            class="btn border border-dark btn-sm "><i class="bi bi-eye me-1"></i>Visualizza Articolo</a>
-                                            <button class="btn btn-sm"style ="background-color:#B00000;color:#FFFFFF" 
-                                                onclick="rimuoviDalCarrello(${codiceProdotto})"><i class="bi bi-trash3 me-1"></i>Rimuovi</button>
+                                            class="btn border border-dark btn-sm "><span class="bi bi-eye me-1"></span>Visualizza Articolo</a>
+                                            <button class="btn btn-sm" style ="background-color:#B00000;color:#FFFFFF" 
+                                                onclick="rimuoviDalCarrello(${codiceProdotto})"><span class="bi bi-trash3 me-1"></span>Rimuovi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -296,15 +298,5 @@ function modaleFinale(success) {
     }
     modal.show();
 }
-
-/**
- * Modale con :
- *  Riepilogo prodotti selezionati
- *  Scelta tipo spedizione
- *  Prezzo totale
- *  Pulsante acquista: Crea ordine, Rimuovi prodotti dal carrello, manda notifica al Seller
- * 
- * ALtro modale di successo, codice ordine con data stimata, pulsante torna alla Home o visualizza ordini
- */
 
 aggiornaCarrello();
