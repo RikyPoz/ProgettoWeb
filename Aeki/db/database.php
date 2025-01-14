@@ -108,21 +108,21 @@ class DatabaseHelper{
     }
     
 
-    public function newUtente($firstName, $lastName, $username, $email, $password, $phone) {
+    public function newUtente($nome, $cognome, $username, $email, $hashedPassword, $telefono) {
         $tipo = 'Cliente'; // Tipo fisso come cliente
         $partitaIVA = NULL; // PartitaIVA impostata a NULL
         $icona = NULL; // Icona impostata a NULL
         $stmt = $this->db->prepare("INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $firstName, $lastName, $username, $email, $password, $tipo, $partitaIVA, $phone, $icona);
+        $stmt->bind_param("sssssssss", $nome, $cognome, $username, $email, $hashedPassword, $tipo, $partitaIVA, $telefono, $icona);
         $stmt->execute();
-        $result = $stmt->get_result();
+    
         // Controlla se l'inserimento ha avuto successo
         if ($stmt->affected_rows > 0) {
             return true;
         } else {
             return false;
         }
-    }    
+    }     
 
     public function updateUtente($nome, $cognome, $email, $telefono, $username) {
         // Prepara i campi da aggiornare e i parametri per il bind
@@ -170,7 +170,7 @@ class DatabaseHelper{
         return $stmt->affected_rows;
     }
 
-    public function updatePassword($username, $passwordAttuale, $nuovaPassword) {
+    public function updatePassword($username, $hashedPasswordAttuale, $hashedNuovaPassword) {
         // Verifica la password attuale
         $stmt = $this->db->prepare("SELECT Password FROM Utente WHERE Username = ?");
         $stmt->bind_param("s", $username);
@@ -180,21 +180,20 @@ class DatabaseHelper{
         $stmt->free_result();
         $stmt->close();
     
-        // Verifica se la password attuale è corretta 
-        if ($passwordAttuale === $passwordDB) {
-            // Se password attuale è corretta aggiorna la password
+        // Confronta l'hash della password attuale con quella salvata nel database
+        if ($hashedPasswordAttuale === $passwordDB) {
+            // Se la password attuale è corretta, aggiorna la password con il nuovo hash
             $updateStmt = $this->db->prepare("UPDATE Utente SET Password = ? WHERE Username = ?");
-            $updateStmt->bind_param('ss', $nuovaPassword, $username);
+            $updateStmt->bind_param('ss', $hashedNuovaPassword, $username);
             $updateStmt->execute();
     
-            // Se l'aggiornamento ha avuto successo restituisce true
+            // Restituisce true se l'aggiornamento è riuscito
             return $updateStmt->affected_rows > 0;
         }
-
-        // Se la password attuale non è corretta restituisce false
-        return false;
-    }
     
+        // Se la password attuale non è corretta, restituisce false
+        return false;
+    }    
     
     public function deleteUtente($username) {
         // Inizia una transazione per garantire consistenza

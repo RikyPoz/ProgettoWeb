@@ -8,14 +8,18 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Recupera i dati POST
+// Recupera i dati 
 $data = json_decode(file_get_contents('php://input'), true);
-$username = $_SESSION['user_id']; // Ottiene il nome utente dalla sessione
+$username = $_SESSION['user_id'];
 $passwordAttuale = $data['passwordAttuale'];
 $nuovaPassword = $data['nuovaPassword'];
 
+// Hash della password attuale e della nuova password
+$hashedPasswordAttuale = hash('sha256', $passwordAttuale);
+$hashedNuovaPassword = hash('sha256', $nuovaPassword);
+
 // Chiama la funzione per aggiornare la password
-$result = $dbh->updatePassword($username, $passwordAttuale, $nuovaPassword);
+$result = $dbh->updatePassword($username, $hashedPasswordAttuale, $hashedNuovaPassword);
 
 // Verifica il risultato e invia una risposta al client
 if ($result) {

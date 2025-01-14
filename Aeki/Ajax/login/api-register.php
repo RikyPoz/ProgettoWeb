@@ -4,7 +4,6 @@ require_once '../../bootstrap.php';
 
 header('Content-Type: application/json');
 
-// Ricevi i dati JSON inviati dal client
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Estrai i dati
@@ -29,8 +28,11 @@ if ($existingUsername) {
     exit;
 }
 
-// Inserisci i nuovi dati nel database
-$insertSuccess = $dbh->newUtente($firstName, $lastName, $username, $email, $password, $phone);
+// Hash della password
+$hashedPassword = hash('sha256', $password);
+
+// Inserisce i nuovi dati nel database
+$insertSuccess = $dbh->newUtente($firstName, $lastName, $username, $email, $hashedPassword, $phone);
 
 if ($insertSuccess) {
     // Crea il carrello per il nuovo utente

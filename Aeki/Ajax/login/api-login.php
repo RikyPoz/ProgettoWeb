@@ -18,9 +18,12 @@ if (!$email || !$password) {
 // Verifica credenziali
 $user = $dbh->getUtenteByEmail($email);
 
-if ($user) { // Se l'utente esiste
-    // Confronto password 
-    if ($password === $user['Password']) {
+if ($user) { 
+    // Hash della password inserita dall'utente
+    $hashedPassword = hash('sha256', $password); 
+    
+    // Confronto password hashata
+    if ($hashedPassword === $user['Password']) {
         // Imposta una sessione 
         $_SESSION['user_id'] = $user['Username'];
         

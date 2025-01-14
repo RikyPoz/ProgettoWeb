@@ -1,11 +1,11 @@
 -- Populating Utente table
 INSERT INTO Utente (Nome, Cognome, Username, Email, Password, Tipo, PartitaIVA, Telefono, Icona) VALUES
-('anonimo', 'Anonimo', 'Anonimo', 'anonimo@example.com', 'password', 'cliente', NULL, '0000000000', NULL),
-('Mario', 'Rossi', 'user1', 'mario.rossi@example.com', 'password123', 'Cliente', NULL, '1234567890', NULL),
-('Luigi', 'Verdi', 'user2', 'luigi.verdi@example.com', 'password123', 'Cliente', NULL, '0987654321', NULL),
-('Pietro', 'Pasini', 'Paso', 'pietro.pasini@example.com', 'password123', 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo1.png'),
-('Gaia', 'Pojaghi', 'Gaia', 'gaia.pojaghi@example.com', 'password123', 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo2.png'),
-('Riccardo', 'Polazzi', 'Poz', 'riccardo.polazzi@example.com', 'password123', 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo1.png');
+('anonimo', 'Anonimo', 'Anonimo', 'anonimo@example.com', SHA2('password', 256), 'cliente', NULL, '0000000000', NULL),
+('Mario', 'Rossi', 'user1', 'mario.rossi@example.com', SHA2('password123', 256), 'Cliente', NULL, '1234567890', NULL),
+('Luigi', 'Verdi', 'user2', 'luigi.verdi@example.com', SHA2('password123', 256), 'Cliente', NULL, '0987654321', NULL),
+('Pietro', 'Pasini', 'Paso', 'pietro.pasini@example.com', SHA2('password123', 256), 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo1.png'),
+('Gaia', 'Pojaghi', 'Gaia', 'gaia.pojaghi@example.com', SHA2('password123', 256), 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo2.png'),
+('Riccardo', 'Polazzi', 'Poz', 'riccardo.polazzi@example.com', SHA2('password123', 256), 'Venditore', '12345678901', '1122334455', 'upload/seller/profilo1.png');
 
 -- Populating Ambiente table
 INSERT INTO Ambiente (NomeAmbiente, PercorsoImmagine) VALUES

@@ -119,7 +119,7 @@ create table Utente (
      Cognome VARCHAR(20) not null,
      Username VARCHAR(20) not null,
      Email VARCHAR(30) not null,
-     Password VARCHAR(30) not null,
+     Password VARCHAR(100) not null,
      Tipo VARCHAR(20) not null,
      PartitaIVA VARCHAR(20),
      Telefono VARCHAR(20) not null,
