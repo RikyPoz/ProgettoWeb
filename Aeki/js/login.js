@@ -31,8 +31,6 @@ document.getElementById('loginButton').addEventListener('click', function () {
                     document.getElementById('loginMessage').innerHTML = `<div class="alert alert-danger">${response.message}</div>`;
                 }
             } catch (error) {
-                // Se non riesce a fare il parsing, mostra un messaggio di errore
-                console.error('Errore di parsing JSON:', error);
                 document.getElementById('loginMessage').innerHTML = '<div class="alert alert-danger">Errore nella risposta del server. Riprova più tardi.</div>';
             }
         } else {

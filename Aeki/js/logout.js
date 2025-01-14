@@ -1,6 +1,5 @@
 document.querySelector('.logout-button').addEventListener('click', function (event) {
     event.preventDefault();
-    console.log('Logout cliccato');
 
     // Crea il modale dinamicamente
     const modal = document.createElement('div');
@@ -93,7 +92,6 @@ document.querySelector('.logout-button').addEventListener('click', function (eve
         })
             .then(response => response.text())
             .then(data => {
-                console.log('Risposta del server:', data);
                 try {
                     const jsonData = JSON.parse(data);
                     if (jsonData.status === 'success') {
@@ -118,7 +116,6 @@ document.querySelector('.logout-button').addEventListener('click', function (eve
 
     // Gestisce il click sul pulsante "Annulla"
     cancelButton.addEventListener('click', function () {
-        console.log('Logout annullato');
         modal.style.opacity = '0';
         setTimeout(() => {
             document.body.removeChild(modal);  // Nasconde il modale

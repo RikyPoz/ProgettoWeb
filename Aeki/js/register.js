@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.querySelector("form#registerForm");
 
     registerForm.addEventListener("submit", function (e) {
-        e.preventDefault(); // Evita il comportamento di submit del form tradizionale
+        e.preventDefault(); 
 
-        // Ottieni i dati dal form
+        // Ottiene i dati dal form
         const firstName = document.getElementById('first-name').value;
         const lastName = document.getElementById('last-name').value;
         const username = document.getElementById('username').value;
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = document.getElementById('new-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
 
-        // Validazione dei campi (ad esempio, verifica che le password siano uguali)
+        // Validazione dei campi (verifica che le password siano uguali)
         if (password !== confirmPassword) {
             alert("Le password non corrispondono.");
             return;
@@ -35,20 +35,17 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
         xhr.onload = function () {
-            console.log("Risposta grezza del server: ", xhr.responseText); // Stampa la risposta grezza
         
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
         
-                // Se la registrazione è andata a buon fine, mostra un messaggio di successo
-                const messageContainer = document.getElementById("message-container"); // Aggiungi questo contenitore HTML per il messaggio
+                // Se la registrazione è andata a buon fine mostra un messaggio di successo
+                const messageContainer = document.getElementById("message-container"); 
         
                 if (response.success) {
-                    // Mostra il messaggio di successo con un verde scuro
                     messageContainer.innerHTML = `<p style="color: #006400;">${response.message}</p>`;
-                    window.location.href = '/ProgettoWeb/Aeki/login.php'; // Usa il percorso assoluto
+                    window.location.href = '/ProgettoWeb/Aeki/login.php'; 
                 } else {
-                    // Mostra l'errore con un rosso scuro
                     messageContainer.innerHTML = `<p style="color: #B00000;">${response.message}</p>`;
                 }
             } else {
@@ -56,12 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         };        
 
-        // Gestisci l'errore di rete o server
         xhr.onerror = function () {
             alert("Errore di rete. Si prega di riprovare.");
         };
 
-        // Invia i dati JSON
         xhr.send(JSON.stringify(data));
     });
 });

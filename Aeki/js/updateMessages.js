@@ -134,11 +134,10 @@ async function leggiMessaggio(idNotifica, listItem, testoSpan) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ idNotifica })  // Assicurati che l'ID sia passato correttamente
+            body: JSON.stringify({ idNotifica })  
         });
 
         const json = await response.json();
-        console.log("Risposta dal server:", json);  // Log della risposta dal server
 
         if (!json) {
             console.error("Risposta del server mancante o non valida");

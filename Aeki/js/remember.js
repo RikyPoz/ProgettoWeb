@@ -14,25 +14,25 @@ function getCookie(name) {
 // Funzione per impostare il cookie
 function setCookie(name, value, days) {
     const expires = new Date();
-    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000)); // Imposta la data di scadenza
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000)); 
     document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/`;
 }
 
 // Funzione per cancellare il cookie
 function clearCookie(name) {
-    document.cookie = `${name}=; max-age=0; path=/`; // Impostando max-age a 0 si elimina il cookie
+    document.cookie = `${name}=; max-age=0; path=/`; 
 }
 
 // Funzione per effettuare il logout e rimuovere i cookie
 function logout() {
     clearCookie('userEmail');
     clearCookie('userPassword');
-    window.location.href = '/login'; // Reindirizza alla pagina di login
+    window.location.href = '/login'; 
 }
 
 // Mostra il messaggio di informativa sui cookie
 function showCookieNotice() {
-    if (getCookie('cookieConsent')) return; // Non mostrare se già accettato
+    if (getCookie('cookieConsent')) return; 
 
     const notice = document.createElement('div');
     notice.id = 'cookieNotice';
@@ -50,7 +50,6 @@ function showCookieNotice() {
         </div>
     `;
 
-    // Crea un overlay sfocato sotto il messaggio
     const overlay = document.createElement('div');
     overlay.id = 'cookieOverlay';
     overlay.style.position = 'fixed';
@@ -59,55 +58,51 @@ function showCookieNotice() {
     overlay.style.right = '0';
     overlay.style.bottom = '0';
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-    overlay.style.filter = 'blur(5px)'; // Applica la sfocatura
-    overlay.style.zIndex = '999'; // Posiziona l'overlay sotto il messaggio
+    overlay.style.filter = 'blur(5px)';
+    overlay.style.zIndex = '999'; 
 
-    // Applica l'overlay sopra la pagina
     document.body.appendChild(overlay);
-
-    // Mostra l'informativa sui cookie
     document.body.appendChild(notice);
 
-    // Rimuovi l'overlay e il messaggio quando l'utente interagisce
     document.getElementById('acceptCookies').addEventListener('click', function () {
-        document.body.removeChild(overlay); // Rimuove l'overlay
-        document.getElementById('cookieNotice').remove(); // Rimuovi il messaggio
+        document.body.removeChild(overlay); 
+        document.getElementById('cookieNotice').remove(); 
     });
 
     document.getElementById('rejectCookies').addEventListener('click', function () {
-        document.body.removeChild(overlay); // Rimuove l'overlay
-        document.getElementById('cookieNotice').remove(); // Rimuovi il messaggio
+        document.body.removeChild(overlay); 
+        document.getElementById('cookieNotice').remove(); 
     });
 
-    // Gestisci l'accettazione dei cookie
+    // Gestisce l'accettazione dei cookie
     document.getElementById('acceptCookies').addEventListener('click', function () {
         setCookie('cookieConsent', 'accepted', 365); // Memorizza il consenso
-        document.getElementById('remember').checked = true; // Mantieni la spunta
-        document.body.removeChild(notice); // Rimuovi il messaggio
+        document.getElementById('remember').checked = true; // Mantiene la spunta
+        document.body.removeChild(notice); 
     });
 
-    // Gestisci il rifiuto dei cookie
+    // Gestisce il rifiuto dei cookie
     document.getElementById('rejectCookies').addEventListener('click', function () {
-        document.getElementById('remember').checked = false; // Rimuovi la spunta
-        document.body.removeChild(notice); // Rimuovi il messaggio
+        document.getElementById('remember').checked = false; // Rimuove la spunta
+        document.body.removeChild(notice); 
     });
 }
 
-// Aggiungi un event listener alla casella "Ricordami"
+// Aggiunge un event listener alla casella "Ricordami"
 document.getElementById('remember').addEventListener('change', function () {
     if (this.checked) {
         showCookieNotice(); // Mostra l'informativa sui cookie
     }
 });
 
-// Se esiste il cookie, pre-compilare il modulo di login con il cookie
+// Se esiste il cookie pre-compilare il modulo di login con il cookie
 window.onload = function () {
     const emailCookie = getCookie('userEmail');
     const passwordCookie = getCookie('userPassword');
 
     if (emailCookie && passwordCookie) {
         document.getElementById('email').value = emailCookie;
-        document.getElementById('password').value = passwordCookie; // Pre-compila la password
+        document.getElementById('password').value = passwordCookie; 
         document.getElementById('remember').checked = true; // Se c'è un cookie la casella "Ricordami" è selezionata
     }
 };
@@ -124,7 +119,6 @@ document.getElementById('loginButton').addEventListener('click', function () {
         return;
     }
 
-    // Invio dei dati tramite AJAX
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'Ajax/login/api-login.php', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -161,7 +155,6 @@ document.getElementById("deleteAccountBtn").addEventListener("click", function (
         return;
     }
 
-    // Crea una richiesta AJAX
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "Ajax/profile/api-deleteProfile.php", true);
     xhr.setRequestHeader("Content-Type", "application/json");

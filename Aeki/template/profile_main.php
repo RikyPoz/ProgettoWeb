@@ -27,11 +27,10 @@
                 <!-- Pulsante per aprire il modale per modificare il profilo -->
                 <button type="button" class="btn btn-light border" data-bs-toggle="modal" data-bs-target="#modificaProfiloModal">Modifica Profilo</button>
             </div>
-            <!-- Pulsanti Cambia Password ed Elimina Account -->
             <div class="d-flex justify-content-end gap-3 mt-4">
-                <!-- Pulsante Cambia Password che apre il modale -->
+                <!-- Pulsante Cambia Password per aprire il modale -->
                 <button type="button" class="btn" style="background-color: #000060;color:#FFFFFF" data-bs-toggle="modal" data-bs-target="#cambiaPasswordModal">Cambia password</button>
-                <!-- Pulsante Elimina Account che apre il modale -->
+                <!-- Pulsante Elimina Account per aprire il modale -->
                 <button type="button" class="btn" style="background-color: #B00000;color:#FFFFFF" data-bs-toggle="modal" data-bs-target="#eliminaAccountModal">Elimina account</button>
             </div>
         </section>

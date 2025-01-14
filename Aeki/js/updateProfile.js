@@ -50,7 +50,6 @@ async function aggiornaProfilo(data) {
         console.log("Risposta del server:", result);
 
         if (!response.ok) {
-            // Gestione degli errori con stati HTTP
             if (response.status === 400) {
                 alert("Errore nella richiesta. Controlla i dati inseriti.");
             } else if (response.status === 500) {
@@ -82,7 +81,7 @@ async function aggiornaProfilo(data) {
             document.getElementById("email").textContent = data.email;
             document.getElementById("telefono").textContent = data.telefono;
 
-            // Chiudi il modal
+            // Chiude il modale
             const modalElement = document.getElementById('modificaProfiloModal');
             const modal = bootstrap.Modal.getInstance(modalElement);
             modal.hide();
