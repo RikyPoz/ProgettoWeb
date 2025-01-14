@@ -22,11 +22,11 @@
 
                 <!-- Valutazione -->
                 <div id="rating" class="d-inline-flex mb-3">
-                    <i class="bi bi-star-fill fs-2 star-rating text-warning" data-value="1"></i>
-                    <i class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="2"></i>
-                    <i class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="3"></i>
-                    <i class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="4"></i>
-                    <i class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="5"></i>
+                    <span class="bi bi-star-fill fs-2 star-rating text-warning" data-value="1"></span>
+                    <span class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="2"></span>
+                    <span class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="3"></span>
+                    <span class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="4"></span>
+                    <span class="bi bi-star-fill fs-2 star-rating text-secondary" data-value="5"></span>
                 </div>
                 <p class = "mt-2 fs-4">Valutazione: <span id="rating-value" class="fw-semibold fs-4">1</span></p>
                 <input type="hidden" id="rating-value-input" name="rating" value="1">
@@ -40,10 +40,10 @@
                 <!-- Pulsanti -->
                 <div class="d-flex justify-content-center justify-content-md-end">
                     <a href="orderList.php" class="btn btn-outline-secondary me-2 px-4 py-2 rounded-pill shadow-sm hover-shadow" role="button">
-                        <i class="bi bi-x-circle me-2"></i>Annulla
+                        <span class="bi bi-x-circle me-2"></span>Annulla
                     </a>
                     <button type="submit" class="btn px-4 py-2 rounded-pill shadow-sm hover-shadow" style = "background-color:#000060;color:#FFFFFF"role="button">
-                        <i class="bi bi-send me-2"></i>Invia Recensione
+                        <span class="bi bi-send me-2"></span>Invia Recensione
                     </button>
                 </div>
             </form>

@@ -3,13 +3,13 @@
     <div class="row">
         <!-- Colonna laterale -->
         <div class="col-md-3 p-4 border-end">
-            <h2 style="color:#000070">Profilo Venditore</h2>
+            <h1 style="color:#000070">Profilo Venditore</h1>
             <div class="my-4">
                 <div class = "d-flex justify-content-center">
                     <img src="<?php echo $venditore["Icona"]?>" class="img-fluid rounded-circle" alt="Immagine Profilo">
                 </div>
                 <div>
-                    <h5 class="mt-2"><?php echo $venditore["Nome"] ; echo " "; echo $venditore["Cognome"]?></h5>
+                    <h2 class="mt-2"><?php echo $venditore["Nome"] ; echo " "; echo $venditore["Cognome"]?></h2>
                     <p><strong>Username:</strong> <?php echo $venditore["Username"]?></p>
                     <p><strong>Email:</strong> <?php echo $venditore["Email"]?></p>
                     <p><strong>Contatto:</strong> <?php echo $venditore["Telefono"]?></p>

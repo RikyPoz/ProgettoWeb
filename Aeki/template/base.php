@@ -93,7 +93,7 @@ endif;
                     </li>
                     <?php else: ?>
                     <li class="nav-item d-flex flex-column align-items-center mx-3">
-                        <a href="seller.php" class="btn btn-light text-center">
+                        <a href="seller.php" title = "seller hub" class="btn btn-light text-center">
                             <span class="bi bi-briefcase" style="font-size: 1.5rem;"></span>
                         </a>
                         <span>Hub</span>

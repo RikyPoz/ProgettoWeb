@@ -63,11 +63,11 @@
                     <h1 class="fw-bold flex-grow-1 display-6 "style = "color:#000070"><?php echo $prodotto["Nome"]; ?></h1>
                     <div>
                         <?php if ($prodotto["InWishlist"] == "true"): ?>
-                            <i class="bi bi-heart-fill fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;color:#B00000"></i>
-                            <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                            <span class="bi bi-heart-fill fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;color:#B00000"></span>
+                            <span class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></span>
                         <?php else: ?>
-                            <i class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
-                            <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></i>
+                            <span class="bi bi-heart-fill text-danger fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></span>
+                            <span class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:inline-block;"></span>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <span class="fs-4 fw-semibold"><?php echo $prodotto["Prezzo"]; ?> €</span>
                 </div>
                 <div class="card p-3 mb-5">
-                    <h5 class="card-title fs-5"><i class="bi bi-info-circle me-2"></i>Descrizione:</h5>
+                    <h2 class="card-title fs-5"><span class="bi bi-info-circle me-2"></span>Descrizione:</h2>
                     <p class="fs-6 text-muted"><?php echo $prodotto["Descrizione"]; ?></p>
                 </div>
                 <div class="d-flex align-items-center mb-3">
@@ -92,7 +92,7 @@
                     </span>
                 </div>
                 <button id="addToCartButton" class="btn rounded-pill w-100 py-2 fs-5 hover-shadow" style="background-color: #000060; color: #FFFFFF" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?> ">
-                    <i class="bi bi-cart-plus me-2"></i>Aggiungi al carrello
+                    <span class="bi bi-cart-plus me-2"></span>Aggiungi al carrello
                 </button>
                 <div id="userType" data-user-type="<?php echo $templateParams["userType"]?>" style="display: none;"></div>
             </div>
@@ -172,7 +172,7 @@
                 <div class="d-flex justify-content-md-end justify-content-center">
                     <button class="btn btn-link text-decoration-none fs-5" id="toggle-reviews-btn" style="color:#000070">
                         Visualizza recensioni 
-                        <i class="bi bi-chevron-down" id="toggle-icon"></i>
+                        <span class="bi bi-chevron-down" id="toggle-icon"></span>
                     </button>
                 </div>
                 <hr>
@@ -194,7 +194,7 @@
                                         </div>
                                         <hr>
                                         <div class="card-body">
-                                            <h4>Descrizione:</h4>
+                                            <h2>Descrizione:</h2>
                                             <span class="mt-3"><?php echo $review["Testo"] ?></span>
                                         </div>
                                     </div>

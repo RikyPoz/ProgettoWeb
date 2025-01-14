@@ -150,7 +150,7 @@ async function generateProductList(data) {
                     data-bs-toggle="modal" 
                     data-bs-target="#addProductModal">
                     <div class="text-center">
-                        <i class="bi bi-plus-circle fs-1 mb-3"></i> 
+                        <span class="bi bi-plus-circle fs-1 mb-3"></span> 
                         <p class="fs-4 fw-semibold text-dark">Aggiungi Prodotto</p>
                     </div>
                 </div>
@@ -243,7 +243,7 @@ function generateOrderList(groupedOrders) {
                     <div class="col-md-10 col-12 flex-column ps-md-5">
                         <div>
                             <h2 class="fw-semibold fs-4">${product.Nome}</h2>
-                            ${product.Rimosso === 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
+                            ${product.Rimosso === 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
                             <span class="fs-5 me-4">Quantità: ${product.Quantita}</span>
                             <span class="fs-5 text-muted">${product.PrezzoPagato} €</span>
                         </div>
@@ -304,6 +304,7 @@ function generateStats(stats) {
     <div class = "row my-4">
         <div class = "col-md-4">
             <div class="form-group">
+            <label for="timeRange" style="display:none"class="form-label">Seleziona l'intervallo di tempo:</label>
                 <div class="input-group">
                     <select id="timeRange" class="form-select">
                         <option value="all">Di sempre</option>
@@ -323,42 +324,42 @@ function generateStats(stats) {
             <!-- Prodotti Venduti Totale -->
             <div class="col">
                 <div class="card shadow h-100 p-3">
-                    <h5 class="card-title">Prodotti Distinti Venduti</h5>
+                    <p class = "fs-4" class="card-title">Prodotti Distinti Venduti</p>
                     <p class="fs-3">${stats.totalSelledProduct}</p>
                 </div>
             </div>
             <!-- Quantità Venduta Totale -->
             <div class="col">
                 <div class="card shadow h-100 p-3">
-                    <h5 class="card-title">Quantità Totale Venduta</h5>
+                    <p class = "fs-4" class="card-title">Quantità Totale Venduta</p>
                     <p class="fs-3">${stats.totalSelledQuantity}</p>
                 </div>
             </div>
             <!-- Guadagno Totale -->
             <div class="col">
                 <div class="card shadow h-100 p-3">
-                    <h5 class="card-title">Guadagno Totale</h5>
+                    <p class = "fs-4" class="card-title">Guadagno Totale</p>
                     <p class="fs-3">${stats.totalSales}€</p>
                 </div>
             </div>
             <!-- Like Totali -->
             <div class="col">
                 <div class="card shadow h-100 p-3">
-                    <h5 class="card-title">Mi Piace Totali</h5>
+                    <p class = "fs-4" class="card-title">Mi Piace Totali</p>
                     <p class="fs-3">${stats.totalLikeReceived}</p>
                 </div>
             </div>
             <!-- Recensioni Prodotti -->
             <div class="col">
                 <div class="card shadow h-100 p-3">
-                    <h5 class="card-title">Recensioni Totali</h5>
+                    <p class = "fs-4" class="card-title">Recensioni Totali</p>
                     <p class="fs-3">${stats.reviewsData["totalReviews"]}</p>
                 </div>
             </div>
             <!-- Valutazione Media -->
             <div class="col">
                 <div class="card shadow h-100 p-3">
-                    <h5 class="card-title">Valutazione Media</h5>
+                    <p class = "fs-4" class="card-title">Valutazione Media</p>
                     <span class="fs-3 text-warning">
                         ${getStars(stats.reviewsData["averageRating"])} 
                         <span class="fs-3 text-dark">${stats.reviewsData["averageRating"].slice(0, 3)}</span>
@@ -373,7 +374,7 @@ function generateStats(stats) {
             <div class = "col-md-12 ">
                 <div class = "card shadow my-3 p-3">
                     <!-- Title-->
-                    <h5 class="card-title mt-3">Prodotti Più Venduti</h5> 
+                    <h2 class="card-title mt-3">Prodotti Più Venduti</h2> 
                     
                     <!-- Separator -->
                     <hr class="mb-4">
@@ -388,7 +389,7 @@ function generateStats(stats) {
                             </div>
                             <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
                                 <h2 class="fw-semibold fs-4">${product.Nome}</h2>
-                                ${product.Rimosso == 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
+                                ${product.Rimosso == 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
                                 <span class="fs-5 me-4">Quantità totale venduta: ${product.Quantita}</span>
                                 <p class="fs-5 me-4">Ricavo totale: ${product.RicavoTotale} €</p>
                                 <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
@@ -405,7 +406,7 @@ function generateStats(stats) {
             <div class = "col-md-12 ">
                 <div class = "card shadow my-3 p-3">
                     <!-- Title-->
-                    <h5 class="card-title mt-3">Prodotti Più Piaciuti</h5> 
+                    <h2 class="card-title mt-3">Prodotti Più Piaciuti</h2> 
                     
                     <!-- Separator -->
                     <hr class="mb-4">
@@ -420,7 +421,7 @@ function generateStats(stats) {
                             </div>
                             <div class="col-md-8 col-12 align-content-center flex-column ps-md-5 ">
                                 <h2 class="fw-semibold fs-4">${product.Nome}</h2>
-                                ${product.Rimosso == 'Y' ? '<h3 class="fw-semibold fs-4">(Prodotto Rimosso)</h3>' : ''}
+                                ${product.Rimosso == 'Y' ? '<h2 class="fw-semibold fs-4">(Prodotto Rimosso)</h2>' : ''}
                                 <p class="fs-5 me-4"> Mi piace totali: ${product.likeTotali}</p>
                                 <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
                             </div>

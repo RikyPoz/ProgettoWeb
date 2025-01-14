@@ -32,12 +32,12 @@
                                         <?php echo number_format($prodotto["Prezzo"], 2, ',', ''); ?>€
                                     </span>
                                     <div class="d-flex align-items-center">
-                                        <i class="bi bi-heart-fill fs-2 me-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="color:#B00000; display:inline-block;"></i>
-                                        <i class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></i>
+                                        <span class="bi bi-heart-fill fs-2 me-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="color:#B00000; display:inline-block;"></span>
+                                        <span class="bi bi-heart fs-2" data-id="<?php echo htmlspecialchars($prodotto["CodiceProdotto"]); ?>" style="display:none;"></span>
                                     </div>
                                     <a href="singleProduct.php?id=<?php echo $prodotto["CodiceProdotto"]; ?>" 
                                     class="btn btn-sm mt-2 rounded-pill border-dark">
-                                        <i class="bi bi-eye me-2"></i>Visualizza
+                                        <span class="bi bi-eye me-2"></span>Visualizza
                                     </a>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
             <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
                 <div class="text-center">
                     <img src="upload/noLike.png" alt="nessun mi piace" class="img-fluid">
-                    <h3 class="text-muted mt-4">Nessun Mi Piace</h3>
+                    <h2 class="text-muted mt-4">Nessun Mi Piace</h2>
                     <p>Non hai nessun prodotto nei preferiti</p>
                 </div>
             </div>
