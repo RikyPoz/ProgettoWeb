@@ -2,6 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
     addToCartEventListener();
 });
 
+function updateQuantity(disponibilita) {
+    const input = document.querySelector("#quantity");
+    const quantity = document.querySelector("#quantity").value;
+    if (disponibilita < quantity) {
+        input.value = disponibilita;
+    } else if (quantity < 1) {
+        input.value = 1;
+    }
+}
 
 function addToCartEventListener() {
     const addToCartButton = document.querySelector("#addToCartButton");
@@ -10,7 +19,7 @@ function addToCartEventListener() {
         const productId = addToCartButton.getAttribute("data-id");
         const quantity = document.querySelector("#quantity").value;
         const userType = document.querySelector("#userType").getAttribute("data-user-type");
-
+        
         if (userType === "Venditore") {
             alert("Sei Un Venditore")
             return;

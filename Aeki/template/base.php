@@ -37,9 +37,10 @@ endif;
 
             <!-- Search Bar -->
             <form class="d-flex mx-auto" role="search" style="width: 50%;" action="filteredProducts.php" method="get">
-                <input class="form-control me-2" type="search" name="search" placeholder="Cerca..." aria-label="Search" required>
+                <label style="display: none;" for="cerca">cerca</label>
+                <input class="form-control me-2" type="search" name="search" id="cerca" placeholder="Cerca..." aria-label="Search" required>
                 <button class="btn btn-outline-secondary" type="submit">
-                    <i class="bi bi-search"></i>
+                    <span class="bi bi-search"></span>
                 </button>
             </form>
 
@@ -55,23 +56,23 @@ endif;
                         ?>
                         <div class="dropdown">
                             <button class="btn btn-light text-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person" style="font-size: 1.5rem;"></i>
+                                <span class="bi bi-person" style="font-size: 1.5rem;"></span>
                                 <!-- Punto rosso per notifiche non lette -->
                                 <?php if ($unread_count > 0): ?>
-                                    <span class="badge" id="unreadCount" style="position: absolute; top: -5px; right: -5px; font-size: 0.8rem;background-color:#B00000"><?php echo $unread_count; ?></span>
+                                    <span class="badge" id="unreadCount" style="position: absolute; top: -5px; right: -5px; font-size: 0.8rem;background-color:#B00000; color: #FFFFFF"><?php echo $unread_count; ?></span>
                                 <?php endif; ?>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow rounded" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profilo</a></li>
+                                <li><a class="dropdown-item" href="profile.php"><span class="bi bi-person-circle me-2"></span>Profilo</a></li>
                                     <?php if($userType === "Cliente"): ?>
-                                    <li><a class="dropdown-item" href="orderList.php"><i class="bi bi-list-check me-2"></i>Ordini</a></li>
+                                    <li><a class="dropdown-item" href="orderList.php"><span class="bi bi-list-check me-2"></span>Ordini</a></li>
                                     <?php endif; ?>
-                                <li><a class="dropdown-item logout-button"style=";color:#B00000" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                                <li><a class="dropdown-item logout-button" style="color:#B00000;" href="#"><span class="bi bi-box-arrow-right me-2"></span>Logout</a></li>
                             </ul>
                         </div>
                         <?php else: ?>
                         <a href="login.php" class="btn btn-light text-center">
-                            <i class="bi bi-person" style="font-size: 1.5rem;"></i>
+                            <span class="bi bi-person" style="font-size: 1.5rem;"></span>
                         </a>
                         <?php endif; ?>
                         <span>Profilo</span>
@@ -79,21 +80,21 @@ endif;
 
                     <?php if($userType === "Cliente"): ?>
                     <li class="nav-item d-flex flex-column align-items-center mx-3">
-                        <a href="whishlist.php" class="btn btn-light text-center">
-                            <i class="bi bi-house-heart" style="font-size: 1.5rem;"></i>
+                        <a href="whishlist.php" class="btn btn-light text-center" title="preferiti">
+                            <span class="bi bi-house-heart" style="font-size: 1.5rem;"></span>
                         </a>
                         <span>Preferiti</span>
                     </li>
                     <li class="nav-item d-flex flex-column align-items-center">
-                        <a href="shoppingCart.php" class="btn btn-light text-center">
-                            <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
+                        <a href="shoppingCart.php" class="btn btn-light text-center" title="carrello">
+                            <span class="bi bi-cart" style="font-size: 1.5rem;"></span>
                         </a>
                         <span>Carrello</span>
                     </li>
                     <?php else: ?>
                     <li class="nav-item d-flex flex-column align-items-center mx-3">
                         <a href="seller.php" class="btn btn-light text-center">
-                            <i class="bi bi-briefcase" style="font-size: 1.5rem;"></i>
+                            <span class="bi bi-briefcase" style="font-size: 1.5rem;"></span>
                         </a>
                         <span>Hub</span>
                     </li>

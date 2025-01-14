@@ -29,8 +29,8 @@ $sliderMax = 100;
         <div class="mb-3">
           <!-- Valori selezionati -->
           <div class="d-flex justify-content-between small mb-2">
-            <span id="displayMinPrice">€ -</span>
-            <span id="displayMaxPrice">€ -</span>
+            <label id="displayMinPrice" for="minPriceInput">€ -</label>
+            <label id="displayMaxPrice" for="maxPriceInput">€ -</label>
           </div>
 
           <!-- Slider -->
@@ -57,7 +57,7 @@ $sliderMax = 100;
       </div>
 
       <div class="text-end mt-3">
-        <button class="btn" style="background-color:#000060;color:#FFFFFF"id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
+        <button class="btn" style="background-color:#000060;color:#FFFFFF" id ="filterButton"><i class="bi bi-filter"></i> Filtra</button>
       </div>
     </div>
   </div>
@@ -69,7 +69,7 @@ $sliderMax = 100;
     <div class="row d-flex align-items-stretch">
       <!-- Lista Prodotti -->
       <h1 class="fw-semibold mb-3">
-        <span id="filterType" data="<?php echo $templateParams["tipoSelezione"]; ?>"><?php echo $templateParams["nomeSelezione"]; ?></span>
+        <span id="filterType" data-id="<?php echo $templateParams["tipoSelezione"]; ?>"><?php echo $templateParams["nomeSelezione"]; ?></span>
         <span id="productCount" class="text-muted"></span>
       </h1>
       <div class="row g-4" id="productsContainer"></div>

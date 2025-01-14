@@ -49,7 +49,16 @@ function aggiornaRiepilogo() {
 }
 
 function aggiornaPrezziQuantita(codiceProdotto) {
-    quantita = document.getElementById(codiceProdotto).value;
+    const input = document.getElementById(codiceProdotto);
+    let quantita = input.value;
+    const disponibilita = productsFromId[codiceProdotto]["Disponibilita"]; 
+    if (disponibilita < quantita) {
+        quantita = disponibilita;
+        input.value = disponibilita;
+    } else if (quantita < 1) {
+        quantita = 1;
+        input.value = 1;
+    }
     document.getElementById("moltiplicatore" + codiceProdotto).textContent = quantita > 1 ? " x " + quantita : "";
     productsFromId[codiceProdotto]["Quantita"] = Number(quantita);
     aggiornaRiepilogo();
@@ -111,8 +120,7 @@ function getCarrello(products) {
                                 value="${quantita}" 
                                 max="${disponibilita}"
                                 onchange="aggiornaPrezziQuantita(${codiceProdotto})"
-                                min="1" style="max-width: 60px;"
-                                onkeydown="return false;"/>`;
+                                min="1" style="max-width: 60px;"/>`;
             } else {
                 quantitaHTML = `<span class="fw-bold"style="color:#B00000">Non disponibile</span>`;
             }
@@ -225,30 +233,34 @@ async function modificaCarrello(data) {
 }
 
 async function procediAllAquisto() {
-    const modalElement = document.getElementById('checkoutModal');
-    const modal = new bootstrap.Modal(modalElement);
-    const summary = document.getElementById('productSummary');
-    let summaryHTML = "";
-    productsFromId.forEach(product => {
-        if (product["Selezionato"]) {
-            quantita = product["Quantita"];
-            summaryHTML += `<li class="list-group-item">${product["Nome"]}${quantita > 1 ? " x " + quantita : ""} - ${product["Prezzo"] * quantita} €</li>`
-        }
-    });
-    summary.innerHTML = summaryHTML;
-    aggiornaSpedizione();
-    modal.show();
+    if (nArticoli > 0) {
+        const modalElement = document.getElementById('checkoutModal');
+        const modal = new bootstrap.Modal(modalElement);
+        const summary = document.getElementById('productSummary');
+        let summaryHTML = "";
+        productsFromId.forEach(product => {
+            if (product["Selezionato"]) {
+                quantita = product["Quantita"];
+                summaryHTML += `<li class="list-group-item">${product["Nome"]}${quantita > 1 ? " x " + quantita : ""} - ${product["Prezzo"] * quantita} €</li>`;
+            }
+        });
+        summary.innerHTML = summaryHTML;
+        aggiornaSpedizione();
+        modal.show();
+    }   
 }
 
 function validaDati() {
     const cardNumber = document.getElementById('cardNumber').value;
-    const address = document.getElementById('address').value;
-
-    if (!/^[0-9]{16}$/.test(cardNumber)) {
+    const cardType = document.getElementById('cardType').value;
+    const shippingType = document.getElementById('shippingType').value;
+    if (shippingType.value == "") {
+        alert('Selezionare tipo di spedizione.');
+    } else if (cardType == "") {
+        alert('Selezionare tipo di carta per il pagamento.');
+    } else if (!/^[0-9]{16}$/.test(cardNumber)) {
         alert('Il numero della carta deve essere composto da 16 cifre.');
-    } else if (!address.trim()) {
-        alert('L\'indirizzo di consegna è obbligatorio.');
-    } else {
+    } else { 
         const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
         modal.hide();
         acquista();

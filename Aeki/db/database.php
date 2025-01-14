@@ -44,16 +44,6 @@ class DatabaseHelper{
         return $result->fetch_assoc();
     }
     
-    public function getOrdiniByUtente($username) {
-        $stmt = $this->db->prepare("SELECT * FROM Ordine WHERE Username = ? ORDER BY Data DESC");
-        $stmt->bind_param("s", $username);  
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-    
-    
     public function getMessaggiByUtente($username) {
         $stmt = $this->db->prepare("SELECT Testo, Data FROM Notifica WHERE Username = ? ORDER BY Data DESC");
         $stmt->bind_param("s", $username);  
@@ -470,17 +460,28 @@ class DatabaseHelper{
         if (!$cartId) {
             return false;  
         }
-        
         if ($this->alreadyInShoppingCart($cartId, $productId)) {
-            $stmt = $this->db->prepare("UPDATE `DettaglioCarrello` SET `Quantita` = `Quantita` + ? WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
-            $stmt->bind_param('sss', $quantity, $cartId, $productId); // Usa 'iss' 
+            $stmt = $this->db->prepare("SELECT Disponibilita FROM Prodotto WHERE CodiceProdotto = ?");
+            $stmt->bind_param('i',$productId);
             $stmt->execute();
+
+            $stmt2 = $this->db->prepare("SELECT Quantita FROM DettaglioCarrello as d JOIN Prodotto as p ON p.CodiceProdotto = d.CodiceProdotto WHERE d.IDcarrello = ? AND p.CodiceProdotto = ?");
+            $stmt2->bind_param('ii',$cartId, $productId);
+            $stmt2->execute();
+
+            $disponibilita = ($stmt->get_result()->fetch_assoc())["Disponibilita"];
+            $quantitaCarrello = ($stmt2->get_result()->fetch_assoc())["Quantita"];
+            
+            if ($disponibilita >= $quantity + $quantitaCarrello) {
+                $stmt1 = $this->db->prepare("UPDATE `DettaglioCarrello` SET `Quantita` = `Quantita` + ? WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
+                $stmt1->bind_param('iss', $quantity, $cartId, $productId);
+                $stmt1->execute();
+            }
         } else {
             $stmt = $this->db->prepare("INSERT INTO `DettaglioCarrello` (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?, ?, ?)");
-            $stmt->bind_param('sss', $cartId, $productId, $quantity); // Usa 'ssi' 
+            $stmt->bind_param('ssi', $cartId, $productId, $quantity);
             $stmt->execute();
         }
-    
         if ($stmt->affected_rows > 0) {
             return true;
         } else {
@@ -1004,7 +1005,7 @@ class DatabaseHelper{
         }
     }
     
-    public function getMateriali1(){
+    public function getMateriali(){
         $stmt = $this->db->prepare("SELECT NomeMateriale FROM Materiale ");
         $stmt->execute();
         $result = $stmt->get_result();
@@ -1012,24 +1013,8 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getColori1(){
+    public function getColori(){
         $stmt = $this->db->prepare("SELECT NomeColore FROM Colore ");
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-    
-    public function getAmbienti1(){
-        $stmt = $this->db->prepare("SELECT NomeAmbiente FROM Ambiente ");
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getCategorie1(){
-        $stmt = $this->db->prepare("SELECT NomeCategoria FROM Categoria ");
         $stmt->execute();
         $result = $stmt->get_result();
 

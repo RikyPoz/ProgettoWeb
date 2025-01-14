@@ -25,7 +25,7 @@
                 <!--Single Product -->
                 <div class = " row justify-content-center align-items-center border rounded-3 shadow-sm bg-white p-3 mb-3 ">
                     <div class = "col-md-2 col-6 ">
-                        <img src="<?php echo $prodotto["PercorsoImg"] ?>" alt="Prodotto <?php echo $prodotto["Nome"] ?>" class="img-fluid">
+                        <img src="<?php echo $prodotto["PercorsoImg"] ?>" alt="<?php echo $prodotto["Nome"] ?>" class="img-fluid">
                     </div>
                     <div class = "col-md-10 col-12 d-flex justify-content-center justify-content-md-start ps-md-5">
                       <div class ="flex-column">

@@ -80,7 +80,11 @@
                 </div>
                 <div class="d-flex align-items-center mb-3">
                     <label for="quantity" class="me-3 fs-5">Quantità:</label>
-                    <input type="number" id="quantity" class="form-control w-25 me-3 rounded-pill px-4 text-center shadow-sm" min="<?php echo $prodotto["Disponibilita"] > 0 ? 1 : 0; ?>" max="<?php echo $prodotto["Disponibilita"]; ?>" value="<?php echo $prodotto["Disponibilita"] > 0 ? 1 : 0; ?>">
+                    <input type="number" id="quantity" class="form-control w-25 me-3 rounded-pill px-4 text-center shadow-sm"
+                        onchange="updateQuantity(<?php echo $prodotto['Disponibilita']?>)"
+                        min="<?php echo $prodotto["Disponibilita"] > 0 ? 1 : 0; ?>"
+                        max="<?php echo $prodotto["Disponibilita"]; ?>"
+                        value="<?php echo $prodotto["Disponibilita"] > 0 ? 1 : 0; ?>">
                     <span class="text-muted fs-6">Disponibilità: 
                         <span class="fw-semibold" style="<?php echo $prodotto["Disponibilita"] < 5 ? 'color:#B00000' : ''; ?>">
                             <?php echo $prodotto["Disponibilita"]; ?>

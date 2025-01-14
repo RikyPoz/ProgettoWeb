@@ -1,7 +1,7 @@
-<div class="container mt-4" style="height: 70vh">
+<div class="container mt-4" style="min-height: 70vh">
     <!-- Titolo -->
     <div class="col-12 my-4">
-        <h1 class="fw-bold" style="color: #000070" id="cartTitle"></h1>
+        <h1 class="fw-bold" style="color: #000070" id="cartTitle">Carrello</h1>
     </div>
     <div class="row">
         <!-- Riepilogo in alto per dispositivi mobili -->
@@ -10,32 +10,38 @@
         <!-- Prodotti nel carrello -->
         <div class="col-md-8 mb-5 " style="overflow-y: auto; max-height: 55vh;" id="productsContainer"></div>
 
-        <!-- Riepilogo fisso per desktop -->
+        <!-- Riepilogo per desktop -->
         <div class="col-md-4 d-none d-md-block" id="recapTable"></div>
     </div>
 </div>
+
+<!-- Modale checkout -->
 <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="checkoutModalLabel">Acquista i tuoi prodotti</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Header -->
+            <div class="modal-header text-white" style="background-color:#000060;color:#FFFFFF">
+                <h2 class="modal-title" id="checkoutModalLabel">Acquista i tuoi prodotti</h2>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+            <!-- Body -->
             <div class="modal-body">
                 <form id="checkoutForm">
                     <!-- Riepilogo prodotti -->
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <h6>Riepilogo prodotti</h6>
-                            <ul id="productSummary" class="list-group"></ul>
+                            <h2 style="color:#000060">Riepilogo prodotti</h2>
+                            <ul id="productSummary" class="list-group shadow-sm"></ul>
                         </div>
                     </div>
 
                     <!-- Scelta tipo spedizione -->
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <h6>Tipo di spedizione</h6>
-                            <select class="form-control" id="shippingType" required onchange="aggiornaSpedizione()">
+                            <label class="form-label" style="color:#000060" for="shippingType">Tipo di spedizione</label>
+                            <select class="form-select" id="shippingType" required onchange="aggiornaSpedizione()">
+                                <option value="" disabled selected>Seleziona un'opzione</option>
                                 <option value="standard">Standard (5,00 €)</option>
                                 <option value="express">Express (10,00 €)</option>
                             </select>
@@ -45,20 +51,29 @@
                     <!-- Prezzo totale e consegna stimata -->
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <h6>Prezzo totale</h6>
-                            <p id="totModal" class="fw-bold">0,00 €</p>
+                            <h2 style="color:#000060">Prezzo totale</h2>
+                            <p id="totModal" class="fw-bold text-dark">0,00 €</p>
                         </div>
                         <div class="col-md-6">
-                            <h6>Arrivo previsto</h6>
-                            <p id="estimatedDelivery" class="fw-bold">--</p>
+                            <h2 style="color:#000060">Arrivo previsto</h2>
+                            <p id="estimatedDelivery" class="fw-bold text-dark">--</p>
                         </div>
                     </div>
 
                     <!-- Indirizzo -->
                     <div class="row mb-4">
-                        <div class="col-md-12">
-                            <label for="address" class="form-label">Indirizzo di consegna</label>
-                            <input type="text" class="form-control" id="address" placeholder="Inserisci il tuo indirizzo" required>
+                        <label class="form-label">Indirizzo di spedizione</label>
+                        <div class="col-md-1 mt-1">
+                            <label class="form-label" for="via">Via</label>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" id="via" value="dell'Università" readonly>
+                        </div>
+                        <div class="col-md-1 mt-1">
+                            <label class="form-label" for="numero-civico">Numero</label>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" id="numero-civico" value="18" readonly>
                         </div>
                     </div>
 
@@ -67,7 +82,8 @@
                         <!-- Tipo carta -->
                         <div class="col-md-6 mb-3">
                             <label for="cardType" class="form-label">Tipo carta</label>
-                            <select class="form-control" id="cardType" required>
+                            <select class="form-select" id="cardType" required>
+                                <option value="" disabled selected>Seleziona un'opzione</option>
                                 <option value="visa">Visa</option>
                                 <option value="mastercard">Mastercard</option>
                             </select>
@@ -82,19 +98,21 @@
                 </form>
             </div>
 
+            <!-- Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn border-dark" data-bs-dismiss="modal">Chiudi</button>
-                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF"onclick="validaDati()">Acquista</button>
+                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" onclick="validaDati()">Acquista</button>
             </div>
         </div>
     </div>
 </div>
-<!-- Modale: Ordine effettuato con successo -->
+
+<!-- Modale successo -->
 <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="orderSuccessModalLabel">Ordine effettuato con successo</h5>
+                <h2 class="modal-title" id="orderSuccessModalLabel">Ordine effettuato con successo</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -102,19 +120,19 @@
                 <p id="successDeliveryDate" class="fw-bold">Arrivo previsto: --</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='homePage.php'">Torna alla Home</button>
-                <button type="button" class="btn btn-primary" onclick="window.location.href='orderList.php'">Visualizza Ordini</button>
+                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" onclick="window.location.href='homePage.php'">Torna alla Home</button>
+                <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" onclick="window.location.href='orderList.php'">Visualizza Ordini</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modale: Qualcosa è andato storto -->
+<!-- Modale errore -->
 <div class="modal fade" id="orderErrorModal" tabindex="-1" aria-labelledby="orderErrorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="orderErrorModalLabel">Errore nell'ordine</h5>
+                <h2 class="modal-title" id="orderErrorModalLabel">Errore nell'ordine</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

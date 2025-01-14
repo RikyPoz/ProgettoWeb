@@ -8,7 +8,7 @@ const minPriceInput = document.getElementById('minPriceInput');
 const maxPriceInput = document.getElementById('maxPriceInput');
 const displayedMinPrice = document.getElementById('displayMinPrice');
 const displayedMaxPrice = document.getElementById('displayMaxPrice');
-const filterType = document.getElementById("filterType").getAttribute("data");
+const filterType = document.getElementById("filterType").getAttribute("data-id");
 const filterValue = document.getElementById("filterType").textContent;
 
 function mapQuadratic(value) {
@@ -53,7 +53,7 @@ async function getPriceMinMax() {
 }
 
 function addProductsLink() {
-    const productCards = document.querySelectorAll(".product-card");
+    const productCards = document.querySelectorAll(".prodotto");
     productCards.forEach(card => {
         card.addEventListener("click", function () {
             const productId = this.getAttribute("data-id");
@@ -68,19 +68,33 @@ function getProductList(products) {
     let result = "";
 
     for (let i = 0; i < products.length; i++) {
-        let product = `
-            <div class="col-md-3 col-6 p-2">
-                        <div class="product-card border rounded-3 bg-white d-flex flex-column p-3 h-100" data-id='${products[i]["CodiceProdotto"]}' style='cursor: pointer;'>
-                            <div class="d-flex justify-content-center p-2" style="height: 100%;">
-                                <img src="${products[i]["PercorsoImg"]}" alt="${products[i]["Nome"]}" class="img-fluid" onerror="this.onerror=null; this.src='upload/not-found-image.png'"> 
+        let product = `<div class="col-md-3 col-6 p-2">
+                        <div class="prodotto border rounded-3 shadow bg-white d-flex flex-column h-100" data-id='${products[i]["CodiceProdotto"]}' style='cursor: pointer;'>
+                            <!-- Immagine -->
+                            <div class="d-flex justify-content-center p-3">
+                                <img src="${products[i]["PercorsoImg"]}" 
+                                    alt="${products[i]["Nome"]}"
+                                    class="img-fluid" 
+                                    style="max-height: 200px; object-fit: contain;" 
+                                    onerror="this.onerror=null; this.src='upload/not-found-image.png'">
                             </div>
-                            <div class="d-flex flex-column align-items-center border-top text-center" >
-                                <span class="fw-bold fs-4 flex-grow-1 d-flex align-items-center justify-content-center mb-1">
+                            <!-- Informazioni -->
+                            <div class="d-flex flex-column align-items-center rounded-3 shadow-sm mt-auto py-2" style="height: auto;">
+                                <!-- Nome -->
+                                <div class="text-center">
+                                    <span class="fs-4 d-block">
                                     ${products[i]["Nome"]}
-                                </span>
-                                <div class="fw-bold fs-4 d-flex flex-column align-items-center">
-                                    <span class="text-bold fs-5">€${products[i]["Prezzo"].toFixed(2)}</span>
-                                    <span class='text-warning fs-4'>${products[i]["ValutazioneMedia"]}</span>
+                                    </span>
+                                </div>
+
+                                <!-- altre info -->
+                                <div class="d-flex flex-column align-items-center mt-4">
+                                    <span class="fw-bold fs-4 mb-2">
+                                        ${products[i]["Prezzo"].toFixed(2)}€
+                                    </span>
+                                    <div class="d-flex align-items-center">
+                                        ${products[i]["Stelle"]} (${products[i]["ValutazioneMedia"]})
+                                    </div>
                                 </div>
                             </div>
                         </div>

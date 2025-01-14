@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $filters = json_decode(file_get_contents('php://input'), true);
 $filteredProducts = $dbh->getProductsList($filters);
 foreach ($filteredProducts as &$product) {
-    $product["ValutazioneMedia"] = getStars($product["ValutazioneMedia"]);
+    $product["Stelle"] = getStars($product["ValutazioneMedia"]);
 }
 echo json_encode($filteredProducts);
 ?>
