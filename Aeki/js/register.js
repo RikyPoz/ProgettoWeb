@@ -35,23 +35,26 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
         xhr.onload = function () {
-        
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
-        
+
                 // Se la registrazione è andata a buon fine mostra un messaggio di successo
-                const messageContainer = document.getElementById("message-container"); 
-        
+                const messageContainer = document.getElementById("message-container");
+
                 if (response.success) {
-                    messageContainer.innerHTML = `<p style="color: #006400;">${response.message}</p>`;
-                    window.location.href = '/ProgettoWeb/Aeki/login.php'; 
+                    messageContainer.innerHTML = `<p style="color: #006400;">Registrazione completata! Effettua il login.</p>`;
+                    
+                    // Attendi 2 secondi e poi reindirizza alla pagina di login
+                    setTimeout(() => {
+                        window.location.href = '/ProgettoWeb/Aeki/login.php';
+                    }, 2000);
                 } else {
                     messageContainer.innerHTML = `<p style="color: #B00000;">${response.message}</p>`;
                 }
             } else {
                 alert('Errore del server. Riprova più tardi.');
             }
-        };        
+        };
 
         xhr.onerror = function () {
             alert("Errore di rete. Si prega di riprovare.");
