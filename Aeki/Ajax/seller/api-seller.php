@@ -69,56 +69,27 @@ if (isset($data['action'])) {
                 $topLikedProducts = $dbh->getTopLikedProducts($seller);
                 $totalLikeReceived = $dbh->getTotalLikeReceived($seller);
                 $reviewsData = $dbh->getReviewsData($seller);
+
+                $stats = [
+                    'totalLikeReceived' => $totalLikeReceived,
+                    'topLikedProducts' => $topLikedProducts,
+                    'totalSelledQuantity' => $totalSelledQuantity,
+                    'reviewsData' => $reviewsData,
+                    'totalSelledProduct' => $totalSelledProduct,
+                    'totalSales' => $totalSales,
+                    'topSellingProducts' => $topSellingProducts,
+                ];
                 
-                $stats['totalLikeReceived'] = $totalLikeReceived;
-                $stats['topLikedProducts'] = $topLikedProducts;
-                $stats['totalSelledQuantity'] = $totalSelledQuantity;
-                $stats['reviewsData'] = $reviewsData;
-                if ($totalSelledProduct === false) {
-                    $allSuccess = false;
-                    $stats['totalSelledProduct'] = "sql error -> totaSelledProduct";
-                } else {
-                    $stats['totalSelledProduct'] = $totalSelledProduct;
+                
+                // Controlla se uno dei valori è `false`
+                foreach ($stats as $key => $value) {
+                    if ($value === false) {
+                        $allSuccess = false;
+                    }
                 }
-
-                if ($totalSales === false) {
-                    $allSuccess = false;
-                    $stats['totalSales'] = "sql error -> totaSales";
-                } else {
-                    $stats['totalSales'] = $totalSales;
-                }
-            
-                if ($topSellingProducts === false) {
-                    $allSuccess = false;
-                    $stats['topSellingProducts'] = "sql error -> topSellingProduct";
-                } else {
-                    $stats['topSellingProducts'] = $topSellingProducts;
-                }
-
+                
                 $stats['periodo'] = $periodo;
-            
-                /*if ($reviews['success'] === false) {
-                    $allSuccess = false;
-                    $stats['reviews'] = $reviews; // Ritorna l'errore se c'è
-                } else {
-                    $stats['reviews'] = $reviews['data'];
-                }
-            
-                if ($conversionRate['success'] === false) {
-                    $allSuccess = false;
-                    $stats['conversionRate'] = $conversionRate; // Ritorna l'errore se c'è
-                } else {
-                    $stats['conversionRate'] = $conversionRate['data'];
-                }
-            
-                if ($delayedShipments['success'] === false) {
-                    $allSuccess = false;
-                    $stats['delayedShipments'] = $delayedShipments; // Ritorna l'errore se c'è
-                } else {
-                    $stats['delayedShipments'] = $delayedShipments['data'];
-                }*/
-            
-                // Ritorna il risultato finale
+        
                 echo json_encode([
                     'success' => $allSuccess,
                     'data' => $stats

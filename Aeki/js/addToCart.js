@@ -45,15 +45,9 @@ function addToCartEventListener() {
             const json = await response.json();
 
             if (json.success) {
-                console.log("tutto ok");
-                alert("aggiunto");
+                alert("Prodotto aggiunto al carrello");
             } else {
-                console.log("Errore nell'aggiunta al carrello");
-                if (json.error === 'not_logged_in') {
-                    alert(json.message);
-                } else {
-                    alert("Si è verificato un errore: " + json.message);
-                }
+                alert(json.message);
             }
 
         } catch (error) {

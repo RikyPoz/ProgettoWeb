@@ -47,9 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error(`Errore nella richiesta: ${response.status}`);
             }
 
-
             const result = await response.json();
-            console.log(result);
 
             if (result.success) {
                 alert(result.message);

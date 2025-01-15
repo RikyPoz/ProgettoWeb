@@ -27,9 +27,7 @@ async function addModalEventListener() {
 
         const paths = await insertImages();
 
-        if (paths) {
-            console.log('Percorsi delle immagini:', paths);
-        } else {
+        if (!paths) {
             alert('Errore nel caricamento delle immagini');
             return;
         }
