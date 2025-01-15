@@ -597,7 +597,7 @@ class DatabaseHelper{
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
                                     WHERE p.username = ?
                                     AND do.ProdottoSpedito = 'N'
-                                    ORDER BY o.Data DESC"
+                                    ORDER BY o.DataArrivo DESC"
                                     );
         
         $stmt->bind_param('s', $username);

@@ -1,12 +1,17 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const trackButtons = document.querySelectorAll("button[id^='traccia-']");
 
     trackButtons.forEach(button => {
         button.addEventListener("click", () => {
             const orderId = button.getAttribute("data-idOrdine");
-            const stateCode = button.getAttribute("data-codiceStato");
+            let stateCode = button.getAttribute("data-codiceStato");
             const shippingDay = button.getAttribute("data-giorniSpedizione");
-
+            const today = new Date().toISOString().slice(0, 10);
+            if (today >= shippingDay && stateCode == 1) {
+                stateCode = 2;
+            }
             showOrderPopup(orderId, stateCode, shippingDay);
         });
     });

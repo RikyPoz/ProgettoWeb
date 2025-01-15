@@ -55,7 +55,7 @@
                       id="traccia-<?php echo $ordine["IDordine"]; ?>"
                       data-idOrdine="<?php echo $ordine["IDordine"]; ?>"
                       data-codiceStato="<?php echo $ordine["CodiceStato"]; ?>"
-                      data-giorniSpedizione="<?php echo $ordine["GiorniSpedizione"]; ?>"
+                      data-giorniSpedizione="<?php echo $ordine["DataArrivo"]; ?>"
                       style="background-color: #000060; color: #FFFFFF">
                       Traccia il mio pacco
                   </button>

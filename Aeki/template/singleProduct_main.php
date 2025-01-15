@@ -51,12 +51,13 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <span class="fs-4 fw-semibold"><?php echo $prodotto["Prezzo"]; ?> €</span>
+                    <span class="fs-4 fw-semibold"><?php echo number_format($prodotto["Prezzo"], 2, ',', ''); ?> €</span>
                 </div>
-                <div class="card p-3 mb-5">
+                <div class="card p-3 mb-3">
                     <h2 class="card-title fs-5"><span class="bi bi-info-circle me-2"></span>Descrizione:</h2>
                     <p class="fs-6 text-muted"><?php echo $prodotto["Descrizione"]; ?></p>
                 </div>
+                <span class="mb-3" >Venduto da: <span class="fw-semibold" ><?php echo $prodotto["Username"]; ?></span></span>
                 <div class="d-flex align-items-center mb-3">
                     <label for="quantity" class="me-3 fs-5">Quantità:</label>
                     <input type="number" id="quantity" class="form-control w-25 me-3 rounded-pill px-4 text-center shadow-sm"
