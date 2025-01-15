@@ -79,7 +79,7 @@ class DatabaseHelper{
     public function updateLettaNotifica($idNotifica) {
         $query = "UPDATE Notifica SET Letta = 'Y' WHERE IdNotifica = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $idNotifica);
+        $stmt->bind_param('i', $idNotifica);
         $stmt->execute();
     
         // Restituisce true se almeno una riga è stata modificata, altrimenti false
@@ -279,7 +279,7 @@ class DatabaseHelper{
 
     public function getProdotto($idProdotto){
         $stmt = $this->db->prepare("SELECT * FROM Prodotto WHERE CodiceProdotto=?");
-        $stmt->bind_param('s',$idProdotto);
+        $stmt->bind_param('i',$idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
     
@@ -288,7 +288,7 @@ class DatabaseHelper{
 
     public function getProdottoImages($idProdotto){
         $stmt = $this->db->prepare("SELECT PercorsoImg, Icona FROM ImmagineProdotto WHERE CodiceProdotto=?");
-        $stmt->bind_param('s',$idProdotto);
+        $stmt->bind_param('i',$idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
     
@@ -296,7 +296,7 @@ class DatabaseHelper{
     }
     public function getProdottoIcon($idProdotto){
         $stmt = $this->db->prepare("SELECT PercorsoImg FROM ImmagineProdotto WHERE CodiceProdotto=? AND Icona='Y'");
-        $stmt->bind_param('s',$idProdotto);
+        $stmt->bind_param('i',$idProdotto);
         $stmt->execute();
         $result = $stmt->get_result();
     
@@ -334,7 +334,7 @@ class DatabaseHelper{
 
     public function writeReview($username,$idProdotto,$valutazione,$testo){
         $stmt = $this->db->prepare("INSERT INTO `Recensione`(`Testo`, `stelle`, `Username`, `CodiceProdotto`) VALUES (?,?,?,?)");
-        $stmt->bind_param('siss', $testo,$valutazione,$username,$idProdotto); 
+        $stmt->bind_param('sisi', $testo,$valutazione,$username,$idProdotto); 
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {
@@ -415,7 +415,7 @@ class DatabaseHelper{
         $idWishList = $this->getWishListId($username);
         // Rimuoviamo il prodotto dalla wishlist
         $stmt = $this->db->prepare("DELETE FROM DettaglioWishlist WHERE CodiceProdotto = ? AND IDwishlist = ?");
-        $stmt->bind_param('ss', $idProdotto, $idWishList);  // Usa 'i' per interi
+        $stmt->bind_param('ii', $idProdotto, $idWishList);  // Usa 'i' per interi
         $stmt->execute();
     
         if ($stmt->affected_rows > 0) {
@@ -440,7 +440,7 @@ class DatabaseHelper{
     public function inWishList($productId,$username){
         $idWishList = $this->getWishListId($username);
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM DettaglioWishlist WHERE CodiceProdotto = ? AND IDwishlist = ?");
-        $stmt->bind_param('ss', $productId, $idWishList);  // Usa 'i' per interi
+        $stmt->bind_param('ii', $productId, $idWishList);  // Usa 'i' per interi
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
@@ -476,14 +476,14 @@ class DatabaseHelper{
 
             if ($disponibilita >= $quantity + $quantitaCarrello) {
                 $stmt1 = $this->db->prepare("UPDATE `DettaglioCarrello` SET `Quantita` = `Quantita` + ? WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
-                $stmt1->bind_param('iss', $quantity, $cartId, $productId);
+                $stmt1->bind_param('iii', $quantity, $cartId, $productId);
                 $stmt1->execute();
             }else{
                 return false;
             }
         } else {
             $stmt = $this->db->prepare("INSERT INTO `DettaglioCarrello` (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?, ?, ?)");
-            $stmt->bind_param('ssi', $cartId, $productId, $quantity);
+            $stmt->bind_param('iii', $cartId, $productId, $quantity);
             $stmt->execute();
         }
         if ($stmt->affected_rows > 0) {
@@ -510,7 +510,7 @@ class DatabaseHelper{
     public function alreadyInShoppingCart($cartId, $productId) {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM `DettaglioCarrello` WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
         
-        $stmt->bind_param('ss', $cartId, $productId);
+        $stmt->bind_param('ii', $cartId, $productId);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
@@ -541,7 +541,7 @@ class DatabaseHelper{
                                     JOIN Prodotto AS p ON d.CodiceProdotto = p.CodiceProdotto
                                     LEFT JOIN ImmagineProdotto AS i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
                                     WHERE d.IDordine = ?");
-        $stmt->bind_param('s',$idOrdine);
+        $stmt->bind_param('i',$idOrdine);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -791,7 +791,7 @@ class DatabaseHelper{
     public function updateProductPrice($codiceProdotto, $nuovoPrezzo) {
         try{
         $stmt = $this->db->prepare("UPDATE Prodotto SET Prezzo = ? WHERE CodiceProdotto = ?");
-        $stmt->bind_param('ss',$nuovoPrezzo,$codiceProdotto);
+        $stmt->bind_param('di',$nuovoPrezzo,$codiceProdotto);
         $stmt->execute();
         return json_encode([
             'success' => true,
@@ -809,7 +809,7 @@ class DatabaseHelper{
         
         try{
             $stmt = $this->db->prepare("UPDATE Prodotto SET Disponibilita = Disponibilita + ? WHERE CodiceProdotto = ?");
-            $stmt->bind_param('ss', $nuovaDisponibilita,$codiceProdotto);
+            $stmt->bind_param('si', $nuovaDisponibilita,$codiceProdotto);
             $stmt->execute();   
             return json_encode([
                 'success' => true,
@@ -1095,7 +1095,7 @@ class DatabaseHelper{
                                     JOIN Prodotto as p ON d.CodiceProdotto = p.CodiceProdotto
                                     LEFT JOIN ImmagineProdotto as i ON p.CodiceProdotto = i.CodiceProdotto AND Icona = 'Y'
                                     WHERE IDcarrello = ?");
-        $stmt->bind_param('s', $idCarrello);
+        $stmt->bind_param('i', $idCarrello);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -1115,7 +1115,7 @@ class DatabaseHelper{
             foreach ($products as $codiceProdotto => $dati) {
                 if (isset($dati)) {
                     $selezionato = $dati['Selezionato'] ? 'Y' : 'N';
-                    $stmt->bind_param("ssis", $carrelloId, $codiceProdotto, $dati['Quantita'], $selezionato);
+                    $stmt->bind_param("iiis", $carrelloId, $codiceProdotto, $dati['Quantita'], $selezionato);
                     $stmt->execute();
                 }
             }
@@ -1131,7 +1131,7 @@ class DatabaseHelper{
     public function removeProductToCart($username, $idProdotto){
         $idCarrello = $this->getCartId($username);
         $stmt = $this->db->prepare("DELETE FROM DettaglioCarrello WHERE CodiceProdotto = ? AND IDcarrello = ?");
-        $stmt->bind_param('ss', $idProdotto, $idCarrello);
+        $stmt->bind_param('ii', $idProdotto, $idCarrello);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
             return true; 
