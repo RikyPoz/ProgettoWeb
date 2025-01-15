@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("viewProductsBtn").addEventListener("click", function () {
         const pageType = document.getElementById('contentTitle').dataset.type;
-        console.log(pageType);
         if (pageType != "products") {
             fetchData('products');
         } else {
@@ -64,11 +63,7 @@ async function fetchData(action) {
             throw new Error(`Errore nella richiesta: ${response.status}`);
         }
 
-        const text = await response.text();
-        console.log(text);
-
-        const json = JSON.parse(text);
-        console.log(json);
+        const json = await response.json();
 
         if (json.success) {
             await updatePageContent(action, json.data)
