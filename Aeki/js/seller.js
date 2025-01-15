@@ -215,10 +215,11 @@ function generateOrderList(groupedOrders) {
         <!-- Single Order -->
         <div class="my-3 card shadow">
             <!-- Order Info -->
-            <div class="d-flex flex-column flex-md-row ms-3 justify-content-md-around ms-md-0 my-4">
-                <span class="fs-5">ID Ordine: <span class="fw-semibold">${order.IDordine}</span></span>
-                <span class="fs-5">Costo Totale: <span class="fw-semibold">${order.PrezzoTotale}</span>€</span>
-                <span class="fs-5">Data Ordine: <span class="fw-semibold">${order.Data}</span></span>
+            <div class="d-flex flex-column flex-md-row ms-3 ms-md-0 my-4">
+                <span class="fs-5 ms-md-3">ID Ordine: <span class="fw-semibold">${order.IDordine}</span></span>
+                <span class="fs-5 ms-md-3">Costo Totale: <span class="fw-semibold">${order.PrezzoTotale}</span>€</span>
+                <span class="fs-5 ms-md-3">Data Ordine: <span class="fw-semibold">${order.Data}</span></span>
+                <span class="fs-5 ms-md-3">Data Promessa: <span class="fw-semibold">${order.DataArrivo}</span></span>
             </div>
             <!-- Separator -->
             <hr class="mb-4">
@@ -264,6 +265,7 @@ function getGroupedOrders(orders) {
             acc[order.IDordine] = {
                 IDordine: order.IDordine,
                 Data: order.Data,
+                DataArrivo: order.DataArrivo,
                 Cliente: order.Cliente,
                 PrezzoTotale: 0,
                 Prodotti: []

@@ -95,7 +95,7 @@
                             <td><?php echo $prodotto["NomeColore"]?></td>
                         </tr>
                         <tr>
-                            <th>Largezza</th>
+                            <th>Larghezza</th>
                             <td><?php echo $prodotto["Larghezza"]?> <span class = "text-muted">cm</span></td>
                         </tr>
                         <tr>

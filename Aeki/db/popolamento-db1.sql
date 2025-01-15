@@ -75,8 +75,8 @@ INSERT INTO Prodotto (Nome, Prezzo, Descrizione, NomeMateriale, Peso, NomeColore
 ('Armadio pensile', 300.0, 'Armadio per riporre utensili.', 'Legno', 30.0, 'Grigio', 90.0, 100.0, 40.0, 'Cucina', 'Armadi', 'Paso','N'),
 ('Credenza', 400.0, 'Elegante credenza per la cucina.', 'Legno', 80.0, 'Marrone', 150.0, 120.0, 50.0, 'Cucina', 'Librerie e scaffali', 'Paso','N'),
 ('Mobile bagno sospeso', 350.0, 'Mobile bagno moderno sospeso.', 'Legno e vetro', 30.0, 'Bianco', 60.0, 100.0, 45.0, 'Bagno', 'Cassettiere', 'Paso','N'),
-('Specchio LED', 120.0, 'Specchio bagno con illuminazione LED.', 'Vetro', 8.0, 'Argento', 80.0, 60.0, 5.0, 'Bagno', 'Librerie e scaffali', 'Paso','N'),
-('Sgabello doccia', 50.0, 'Sgabello resistente per doccia.', 'Alluminio', 5.0, 'Grigio', 45.0, 35.0, 35.0, 'Bagno', 'Sedie', 'Paso','N'),
+('Specchio LED', 120.0, 'Specchio bagno con illuminazione LED.', 'Vetro', 8.0, 'Trasparente', 80.0, 60.0, 5.0, 'Bagno', 'Librerie e scaffali', 'Paso','N'),
+('Sgabello doccia', 50.0, 'Sgabello resistente per doccia.', 'Alluminio', 5.0, 'Argento', 45.0, 35.0, 35.0, 'Bagno', 'Sedie', 'Paso','N'),
 ('Armadio per biancheria', 200.0, 'Armadio per asciugamani e biancheria.', 'Legno', 40.0, 'Bianco', 180.0, 70.0, 45.0, 'Bagno', 'Armadi', 'Paso','N'),
 ('Tavolino multifunzione', 80.0, 'Tavolino da bagno per accessori.', 'Legno', 10.0, 'Marrone', 60.0, 50.0, 40.0, 'Bagno', 'Tavoli', 'Paso','N'),
 ('Letto matrimoniale', 600.0, 'Letto matrimoniale con contenitore.', 'Legno', 90.0, 'Marrone', 40.0, 200.0, 160.0, 'Camera da letto', 'Letti', 'Paso','N'),
@@ -108,27 +108,27 @@ INSERT INTO Prodotto (Nome, Prezzo, Descrizione, NomeMateriale, Peso, NomeColore
 ('Scrivania ufficio', 400.0, 'Scrivania funzionale con ripiani.', 'Legno e metallo', 70.0, 'Bianco', 75.0, 150.0, 80.0, 'Studio', 'Tavoli', 'Gaia','N'),
 ('Tavolino soggiorno', 200.0, 'Tavolino basso per il soggiorno.', 'Legno', 30.0, 'Marrone', 45.0, 120.0, 60.0, 'Soggiorno', 'Tavoli', 'Poz','N'),
 ('Tavolo cucina quadrato', 300.0, 'Tavolo quadrato per la cucina.', 'Plastica', 40.0, 'Bianco', 75.0, 100.0, 100.0, 'Cucina', 'Tavoli', 'Poz','N'),
-('Tavolo pieghevole', 150.0, 'Tavolo pieghevole per spazi ridotti.', 'Metallo e plastica', 25.0, 'Grigio', 75.0, 120.0, 60.0, 'Bagno', 'Tavoli', 'Poz','N'),
+('Tavolo pieghevole', 150.0, 'Tavolo pieghevole per spazi ridotti.', 'Metallo e plastica', 25.0, 'Bianco', 75.0, 120.0, 60.0, 'Bagno', 'Tavoli', 'Poz','N'),
 ('Sedia imbottita soggiorno', 150.0, 'Sedia confortevole con imbottitura.', 'Tessuto e legno', 15.0, 'Grigio', 90.0, 50.0, 50.0, 'Soggiorno', 'Sedie', 'Poz','N'),
 ('Sgabello cucina alto', 120.0, 'Sgabello moderno e robusto.', 'Metallo', 10.0, 'Bianco', 100.0, 40.0, 40.0, 'Cucina', 'Sedie', 'Poz','N'),
-('Sedia da pranzo classica', 180.0, 'Sedia elegante per la sala da pranzo.', 'Legno massello', 20.0, 'Marrone', 95.0, 45.0, 45.0, 'Sala da pranzo', 'Sedie', 'Poz','N'),
+('Sedia da pranzo classica', 180.0, 'Sedia elegante per la sala da pranzo.', 'Legno massello', 20.0, 'Bianco', 95.0, 45.0, 45.0, 'Sala da pranzo', 'Sedie', 'Poz','N'),
 ('Sedia ergonomica studio', 250.0, 'Sedia regolabile e comoda.', 'Plastica e metallo', 18.0, 'Nero', 120.0, 50.0, 50.0, 'Studio', 'Sedie', 'Poz','N'),
-('Panca bagno', 100.0, 'Sedia/panca multifunzione.', 'Bamboo', 8.0, 'Bianco', 50.0, 90.0, 35.0, 'Bagno', 'Sedie', 'Poz','N'),
+('Panca bagno', 100.0, 'Sedia/panca multifunzione.', 'Bamboo', 8.0, 'Beige', 50.0, 90.0, 35.0, 'Bagno', 'Sedie', 'Poz','N'),
 ('Cassettiera soggiorno moderna', 400.0, 'Cassettiera spaziosa con design minimalista.', 'Legno', 50.0, 'Marrone', 100.0, 80.0, 40.0, 'Soggiorno', 'Cassettiere', 'Poz','N'),
 ('Cassettiera bagno compatta', 200.0, 'Cassettiera ideale per spazi piccoli.', 'Plastica', 15.0, 'Bianco', 70.0, 50.0, 35.0, 'Bagno', 'Cassettiere', 'Poz','N'),
-('Cassettiera camera da letto', 500.0, 'Cassettiera elegante e robusta.', 'Legno massello', 80.0, 'Marrone', 120.0, 100.0, 45.0, 'Camera da letto', 'Cassettiere', 'Poz','N'),
-('Cassettiera cucina multiuso', 300.0, 'Cassettiera pratica per utensili.', 'Metallo', 40.0, 'Grigio', 90.0, 60.0, 40.0, 'Cucina', 'Cassettiere', 'Poz','N'),
-('Cassettiera ufficio studio', 350.0, 'Cassettiera con ruote per ufficio.', 'Legno e metallo', 30.0, 'Nero', 75.0, 50.0, 40.0, 'Studio', 'Cassettiere', 'Poz','N'),
+('Cassettiera camera', 500.0, 'Cassettiera elegante e robusta.', 'Legno massello', 80.0, 'Bianco', 120.0, 100.0, 45.0, 'Camera da letto', 'Cassettiere', 'Poz','N'),
+('Cassettiera cucina multiuso', 300.0, 'Cassettiera pratica per utensili.', 'Metallo', 40.0, 'Bianco', 90.0, 60.0, 40.0, 'Cucina', 'Cassettiere', 'Poz','N'),
+('Cassettiera ufficio studio', 350.0, 'Cassettiera con ruote per ufficio.', 'Legno e metallo', 30.0, 'Bianco', 75.0, 50.0, 40.0, 'Studio', 'Cassettiere', 'Poz','N'),
 ('Divano letto soggiorno', 800.0, 'Divano trasformabile in letto.', 'Tessuto e legno', 100.0, 'Grigio', 85.0, 200.0, 90.0, 'Soggiorno', 'Divani', 'Poz','N'),
-('Divano angolare soggiorno', 1200.0, 'Divano spazioso e confortevole.', 'Tessuto e metallo', 150.0, 'Blu', 90.0, 300.0, 150.0, 'Soggiorno', 'Divani', 'Poz','N'),
+('Divano angolare soggiorno', 1200.0, 'Divano spazioso e confortevole.', 'Tessuto e metallo', 150.0, 'Grigio', 90.0, 300.0, 150.0, 'Soggiorno', 'Divani', 'Poz','N'),
 ('Poltrona relax soggiorno', 600.0, 'Poltrona comoda per il relax.', 'Pelle e legno', 80.0, 'Marrone', 100.0, 90.0, 90.0, 'Soggiorno', 'Divani', 'Poz','N'),
 ('Divano letto studio', 750.0, 'Divano pratico per spazi ridotti.', 'Tessuto', 90.0, 'Nero', 85.0, 190.0, 80.0, 'Studio', 'Divani', 'Poz','N'),
-('Divano classico camera da letto', 700.0, 'Divano elegante per la camera.', 'Tessuto e legno', 110.0, 'Beige', 85.0, 220.0, 100.0, 'Camera da letto', 'Divani', 'Poz','N'),
+('Divano classico camera', 700.0, 'Divano elegante per la camera.', 'Tessuto e legno', 110.0, 'Bianco', 85.0, 220.0, 100.0, 'Camera da letto', 'Divani', 'Poz','N'),
 ('Libreria soggiorno moderna', 500.0, 'Libreria elegante con scaffali regolabili.', 'Legno massello', 80.0, 'Marrone', 200.0, 120.0, 40.0, 'Soggiorno', 'Librerie e scaffali', 'Poz','N'),
 ('Scaffale bagno compatto', 150.0, 'Scaffale a tre ripiani per spazi piccoli.', 'Plastica', 20.0, 'Bianco', 90.0, 60.0, 30.0, 'Bagno', 'Librerie e scaffali', 'Poz','N'),
-('Libreria cucina multiuso', 250.0, 'Libreria per utensili e oggetti decorativi.', 'Metallo', 50.0, 'Grigio', 180.0, 90.0, 35.0, 'Cucina', 'Librerie e scaffali', 'Poz','N'),
-('Libreria camera classica', 600.0, 'Libreria elegante con ante in vetro.', 'Legno', 100.0, 'Marrone', 220.0, 140.0, 45.0, 'Camera da letto', 'Librerie e scaffali', 'Poz','N'),
-('Scaffale studio modulare', 400.0, 'Scaffale modulare per uffici o studi.', 'Metallo e plastica', 70.0, 'Nero', 190.0, 100.0, 40.0, 'Studio', 'Librerie e scaffali', 'Poz','N');
+('Libreria cucina multiuso', 250.0, 'Libreria per utensili e oggetti decorativi.', 'Metallo', 50.0, 'Beige', 180.0, 90.0, 35.0, 'Cucina', 'Librerie e scaffali', 'Poz','N'),
+('Libreria camera classica', 600.0, 'Libreria elegante con ante in vetro.', 'Legno', 100.0, 'Bianco', 220.0, 140.0, 45.0, 'Camera da letto', 'Librerie e scaffali', 'Poz','N'),
+('Scaffale studio modulare', 400.0, 'Scaffale modulare per uffici o studi.', 'Metallo e plastica', 70.0, 'Bianco', 190.0, 100.0, 40.0, 'Studio', 'Librerie e scaffali', 'Poz','N');
  
 -- Immagini per prodotti
 INSERT INTO ImmagineProdotto (PercorsoImg, Icona, CodiceProdotto) VALUES
@@ -309,17 +309,5 @@ INSERT INTO DettaglioWishlist (CodiceProdotto, IDwishlist) VALUES
 (33, 2),
 (3, 2);
 
--- Populating Notifiche table
-INSERT INTO Notifica (Username, Testo, Data) VALUES
-('user1', 'Ordine Spedito', '2024-12-01 08:30:00'),
-('user2', 'Ordine Effettuato', '2024-12-02 14:45:00'),
-('user2', 'Promozione Attiva', '2024-12-03 09:15:00'),
-('user1', 'Ordine In Arrivo', '2024-12-08 11:30:00'),
-('user2', 'Nuovo Messaggio', '2024-12-11 17:45:00'),
-('user2', 'Prodotto non più disponibile', '2024-12-13 18:15:00');
 
--- Populating Recensione table
-INSERT INTO Recensione (Testo, stelle, CodiceProdotto, Username) VALUES
-('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 5, 1, 'user1'),
-('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in hendrerit nulla. Phasellus consequat sapien eleifend, porttitor est nec, consequat elit.', 4, 2, 'user2'),
-('Soddisfatto', 4, 3, 'user2');
+

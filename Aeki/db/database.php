@@ -593,7 +593,7 @@ class DatabaseHelper{
 
     //restituisce tutti i prodotti ordinati dai clienti
     public function getSellerOrderedProducts($username){
-        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, do.PrezzoPagato, do.Quantita, 
+        $stmt = $this->db->prepare("SELECT o.IDordine,o.Data, o.Username AS Cliente, o.DataArrivo, do.PrezzoPagato, do.Quantita, 
                                     do.CodiceProdotto, p.Nome,i.PercorsoImg,p.Rimosso
                                     FROM Prodotto AS p
                                     JOIN DettaglioOrdine AS do ON do.CodiceProdotto = p.CodiceProdotto

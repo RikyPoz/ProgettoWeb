@@ -5,6 +5,8 @@ require_once 'bootstrap.php';
 $templateParams["titolo"] = "Aeki - FilteredProducts";
 $templateParams["nome"] = "filteredProducts_main.php";
 
+
+
 if (isset($_GET['ambient'])) {
     $templateParams["tipoSelezione"] = "NomeAmbiente";
     $templateParams["nomeSelezione"] = $_GET['ambient'];
@@ -14,6 +16,9 @@ if (isset($_GET['ambient'])) {
 } else if (isset($_GET["search"])) {
     $templateParams["tipoSelezione"] = "Nome";
     $templateParams["nomeSelezione"] = $_GET['search'];
+}else{
+    header("Location: homePage.php");
+    exit;
 }
 
 $templateParams["colors"] = $dbh->getColori();

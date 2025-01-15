@@ -17,6 +17,11 @@ $templateParams["reviewsStats"] = $dbh->getStarNumber($idprodotto);
 $templateParams["reviews"] = $dbh->getProductReviews($idprodotto);
 $templateParams["prodotto"]["InWishlist"] = "false";  
 
+if($templateParams["prodotto"]["Rimosso"]=='Y'){
+    header("Location: homePage.php");
+    exit;
+}
+
 
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];  
