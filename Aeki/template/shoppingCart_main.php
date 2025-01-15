@@ -4,7 +4,7 @@
         <h1 class="fw-bold" style="color: #000070" id="cartTitle">Carrello</h1>
     </div>
     <div class="row">
-        <!-- Riepilogo in alto per dispositivi mobili -->
+        <!-- Riepilogo in alto per mobile -->
         <div class="col-12 d-md-none mb-3" id="recapTableMobile"></div>
 
         <!-- Prodotti nel carrello -->
@@ -25,7 +25,6 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <!-- Body -->
             <div class="modal-body">
                 <form id="checkoutForm">
                     <!-- Riepilogo prodotti -->
@@ -98,7 +97,7 @@
                 </form>
             </div>
 
-            <!-- Footer -->
+            <!-- Bottoni -->
             <div class="modal-footer">
                 <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" data-bs-dismiss="modal">Chiudi</button>
                 <button type="button" class="btn" style="background-color:#000060;color:#FFFFFF" onclick="validaDati()">Acquista</button>
