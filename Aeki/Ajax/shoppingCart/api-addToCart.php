@@ -26,7 +26,7 @@ if (isset($data["productId"]) && isset($data["quantity"])) {
     if ($result) {
         echo json_encode(["success" => true]);
     } else {
-        echo json_encode(["success" => false, "message" => "Errore durante l'aggiunta al carrello."]);
+        echo json_encode(["success" => false, "message" => "L'aggiunta al carrello non è andata a buon fine"]);
     }
 } else {
     echo json_encode(["success" => false, "message" => "Dati mancanti."]);

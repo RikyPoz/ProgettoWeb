@@ -28,16 +28,16 @@ INSERT INTO Categoria (NomeCategoria, PercorsoImmagine) VALUES
 
 -- Populating Colore table
 INSERT INTO Colore (NomeColore) VALUES
-('Marrone'),
-('Grigio'),
-('Bianco'),
-('Beige'),
-('Argento'),
-('Nero'),
 ('Rosso'),
 ('Blu'),
-('Trasparente'),
-('Verde');
+('Verde'),
+('Bianco'),
+('Nero'),
+('Marrone'),
+('Grigio'),
+('Beige'),
+('Argento'),
+('Trasparente');
 
 -- Populating Materiale table 
 INSERT INTO Materiale (NomeMateriale) VALUES

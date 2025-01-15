@@ -124,7 +124,7 @@ async function getAddModal() {
                                     <div class="row">
                                         <!-- Colonna 1 -->
                                         <div class="col-md-12 mb-3">
-                                            <label for="productDescription" class="form-label">Descrizione (Max 50 caratteri)</label>
+                                            <label for="productDescription" class="form-label">Descrizione (Max 200 caratteri)</label>
                                             <textarea class="form-control" id="productDescription" rows="4" required></textarea>
                                         </div>
                                     </div>

@@ -5,7 +5,14 @@ $sliderMax = 100;
 
 <div class="row d-flex justify-content-center mt-5">
   <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
-    <div class="row d-flex align-items-stretch">
+    <div class="d-flex justify-content-md-start justify-content-center">
+      <button class="btn btn-link text-decoration-none fs-5" id="toggle-filter-btn" style="color:#000070">
+          Visualizza Filtri 
+          <span class="bi bi-chevron-down" id="toggle-icon"></span>
+      </button>
+    </div>
+    <hr>
+    <div class="row d-flex align-items-stretch d-none" id="filter-container">
       <!-- Colore -->
       <div class="col-12 col-md-4" data-group="colore">
         <h5 class="fw-semibold mb-3">Colore</h5>
@@ -66,9 +73,9 @@ $sliderMax = 100;
 
 <div class="row d-flex justify-content-center mb-5">
   <div class = "col-md-10 col-12 border rounded shadow bg-light p-4">
-    <div class="row d-flex align-items-stretch">
+    <div class="row d-flex align-items-stretch justify-content-center">
       <!-- Lista Prodotti -->
-      <h2 class="fw-semibold mb-3">
+      <h2 class="fw-semibold mb-3" style="color:#000070">
         <span id="filterType" data-id="<?php echo $templateParams["tipoSelezione"]; ?>"><?php echo $templateParams["nomeSelezione"]; ?></span>
         <span id="productCount" class="text-muted"></span>
       </h2>

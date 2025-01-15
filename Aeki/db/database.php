@@ -465,17 +465,21 @@ class DatabaseHelper{
             $stmt->bind_param('i',$productId);
             $stmt->execute();
 
+            $disponibilita = ($stmt->get_result()->fetch_assoc())["Disponibilita"];
+
             $stmt2 = $this->db->prepare("SELECT Quantita FROM DettaglioCarrello as d JOIN Prodotto as p ON p.CodiceProdotto = d.CodiceProdotto WHERE d.IDcarrello = ? AND p.CodiceProdotto = ?");
             $stmt2->bind_param('ii',$cartId, $productId);
             $stmt2->execute();
 
-            $disponibilita = ($stmt->get_result()->fetch_assoc())["Disponibilita"];
+            
             $quantitaCarrello = ($stmt2->get_result()->fetch_assoc())["Quantita"];
 
             if ($disponibilita >= $quantity + $quantitaCarrello) {
                 $stmt1 = $this->db->prepare("UPDATE `DettaglioCarrello` SET `Quantita` = `Quantita` + ? WHERE `IDcarrello` = ? AND `CodiceProdotto` = ?");
                 $stmt1->bind_param('iss', $quantity, $cartId, $productId);
                 $stmt1->execute();
+            }else{
+                return false;
             }
         } else {
             $stmt = $this->db->prepare("INSERT INTO `DettaglioCarrello` (`IDcarrello`, `CodiceProdotto`, `Quantita`) VALUES (?, ?, ?)");
@@ -669,10 +673,10 @@ class DatabaseHelper{
     public function addProduct($userId,$nome,$prezzo,$descrizione,$paths,$larghezza,$altezza,$profondita,$ambiente,$categoria,$colore,$materiale,$peso) {
         
         try{
-            $stmt = $this->db->prepare("INSERT INTO `Prodotto`(`Nome`, `Prezzo`, `Descrizione`, `Materiale`, `Peso`, `NomeColore`,
-                                                     `Altezza`, `Larghezza`, `Profondita`, 
-                                                     `NomeAmbiente`, `NomeCategoria`, `Username`,`Rimosso`) 
-                                        VALUES (?,?,?,?,?,?,?,?,?,?,?,'N')");
+            $stmt = $this->db->prepare("INSERT INTO Prodotto (Nome, Prezzo, Descrizione, NomeMateriale, Peso, NomeColore,
+                                                     Altezza, Larghezza, Profondita, 
+                                                     NomeAmbiente, NomeCategoria, Username,Rimosso) 
+                                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'N')");
     
             $stmt->bind_param('sdssdsdddsss', 
                 $nome, 
@@ -710,7 +714,7 @@ class DatabaseHelper{
         } catch (mysqli_sql_exception $e) {
                 return json_encode([
                     'success' => false,
-                    'message' => 'Errore SQL: ' . $e->getMessage()
+                    'message' => 'Errore SQL totale: ' . $e->getMessage()
                 ]);
     
         }
@@ -740,8 +744,8 @@ class DatabaseHelper{
     }
    
     public function notifyUsersDeletedProduct($codiceProdotto) {
-        $testoWishlist = "Il prodotto $codiceProdotto è stato rimosso dalla tua wishList";
-        $testoCarrello = "Il prodotto $codiceProdotto è stato rimosso dal tuo carrello";
+        $testoWishlist = "Il prodotto #$codiceProdotto è stato rimosso dalla tua wishList";
+        $testoCarrello = "Il prodotto #$codiceProdotto è stato rimosso dal tuo carrello";
         $data = date('Y-m-d H:i:s');
     
         $stmtWishlist = $this->db->prepare("
@@ -1024,9 +1028,8 @@ class DatabaseHelper{
     function getProductsList($filters = [], $orderBy = 'Prezzo ASC') {
         $query = "SELECT p.CodiceProdotto, p.Nome, p.Prezzo, p.ValutazioneMedia, p.NumeroRecensioni, i.PercorsoImg 
                 FROM Prodotto p
-                JOIN ImmagineProdotto i ON p.CodiceProdotto = i.CodiceProdotto
-                WHERE i.Icona = 'Y'
-                AND p.Rimosso = 'N'";
+                LEFT JOIN ImmagineProdotto i ON p.CodiceProdotto = i.CodiceProdotto AND i.Icona = 'Y'
+                WHERE p.Rimosso = 'N'";
 
         $queryParams = [];
         $queryTypes = '';

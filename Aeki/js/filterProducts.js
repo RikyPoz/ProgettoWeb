@@ -143,9 +143,28 @@ async function updateProductList() {
     }
 }
 
+function filterListener() {
+
+    const toggleBtn = document.getElementById("toggle-filter-btn");
+    const filterContainer = document.getElementById("filter-container");
+    const toggleIcon = document.getElementById("toggle-icon");
+
+    toggleBtn.addEventListener("click", () => {
+        filterContainer.classList.toggle("d-none");
+        if (filterContainer.classList.contains("d-none")) {
+            toggleIcon.classList.remove("bi-chevron-up");
+            toggleIcon.classList.add("bi-chevron-down");
+        } else {
+            toggleIcon.classList.remove("bi-chevron-down");
+            toggleIcon.classList.add("bi-chevron-up");
+        }
+    });
+};
+
 
 document.getElementById("filterButton").addEventListener("click", updateProductList);
 minPriceInput.addEventListener('input', updatePriceRange);
 maxPriceInput.addEventListener('input', updatePriceRange);
 getPriceMinMax();
 updateProductList();
+filterListener();

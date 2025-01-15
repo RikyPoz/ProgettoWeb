@@ -51,7 +51,7 @@ function aggiornaRiepilogo() {
 function aggiornaPrezziQuantita(codiceProdotto) {
     const input = document.getElementById(codiceProdotto);
     let quantita = input.value;
-    const disponibilita = productsFromId[codiceProdotto]["Disponibilita"]; 
+    const disponibilita = productsFromId[codiceProdotto]["Disponibilita"];
     if (disponibilita < quantita) {
         quantita = disponibilita;
         input.value = disponibilita;
@@ -110,10 +110,9 @@ function getCarrello(products) {
             const disponibilita = products[i]["Disponibilita"];
             const quantita = Number(products[i]["Quantita"]);
             const prezzo = products[i]["Prezzo"];
-            const selezionato = products[i]["Selezionato"] == 'Y';
+            let selezionato = products[i]["Selezionato"] == 'Y';
             const checkbox = disponibilita < 1 ? "disabled" : selezionato ? "checked" : "";
-            const productElement = { Quantita: quantita, Disponibilita: disponibilita, Prezzo: prezzo, Selezionato: selezionato, Nome: nome };
-            productsFromId[codiceProdotto] = productElement;
+
             if (disponibilita > 0) {
                 quantitaHTML = `<input type="number" class="form-control form-control-sm rounded-pill w-auto text-center"
                                 id="${codiceProdotto}"
@@ -123,12 +122,16 @@ function getCarrello(products) {
                                 min="1" style="max-width: 60px;"/>`;
             } else {
                 quantitaHTML = `<span class="fw-bold"style="color:#B00000">Non disponibile</span>`;
+                selezionato = false;
             }
+
+            const productElement = { Quantita: quantita, Disponibilita: disponibilita, Prezzo: prezzo, Selezionato: selezionato, Nome: nome };
+            productsFromId[codiceProdotto] = productElement;
 
             let product = `
                         <div class="card mb-3">
                             <div class="row g-0 align-items-center">
-                                <div class="col-3 col-md-2">
+                                <div class="col-3 col-md-2 p-2">
                                     <img src="${products[i]["PercorsoImg"]}" 
                                         class="img-fluid rounded-start img-fixed" alt="Prodotto">
                                 </div>
@@ -249,7 +252,7 @@ async function procediAllAquisto() {
         summary.innerHTML = summaryHTML;
         aggiornaSpedizione();
         modal.show();
-    }   
+    }
 }
 
 function validaDati() {
@@ -262,7 +265,7 @@ function validaDati() {
         alert('Selezionare tipo di carta per il pagamento.');
     } else if (!/^[0-9]{16}$/.test(cardNumber)) {
         alert('Il numero della carta deve essere composto da 16 cifre.');
-    } else { 
+    } else {
         const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
         modal.hide();
         acquista();

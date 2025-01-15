@@ -135,9 +135,6 @@ async function generateProductList(data) {
     const number = data["productNumber"];
 
 
-    if (!products || products.length === 0) {
-        html += '<p>Nessun prodotto aggiunto.</p>';
-    }
     let contentTitle = document.getElementById('contentTitle');
     contentTitle.textContent = `I tuoi Prodotti (${number})`;
 
@@ -184,7 +181,7 @@ async function generateProductList(data) {
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-2">
-                                        <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Cambia €</a>
+                                        <a href="#" class="btn border rounded btn-sm w-100" data-bs-toggle="modal" data-bs-target="#updateProductModal-${product['CodiceProdotto']}">Cambia_€</a>
                                     </div>
                                     <div class="col-12 col-md-6 mb-2">
                                         <a href="#" class="btn border rounded btn-sm w-100" style="color:#B00000" data-bs-toggle="modal" data-bs-target="#deleteProductModal-${product['CodiceProdotto']}">Elimina</a>
@@ -425,7 +422,7 @@ function generateStats(stats) {
                                 <p class="fs-5 me-4"> Mi piace totali: ${product.likeTotali}</p>
                                 <a href="singleProduct.php?id=${product.CodiceProdotto}" class="btn"style="background-color:#000060;color:#FFFFFF">Visualizza articolo</a>
                             </div>
-                        </div>`).join('') : '<li><span>Nessun prodotto venduto nel periodo selezionato</span></li>'}
+                        </div>`).join('') : '<li><span>Nessun prodotto inserito tra i preferiti</span></li>'}
                     </div>
                 </div>
             </div>
@@ -443,12 +440,12 @@ function statsListener() {
 
 
 function generateReviews(data) {
+    let contentTitle = document.getElementById('contentTitle');
+    contentTitle.textContent = `Le tue Recensioni (${data.reviews.length})`;
+
     if (!data || !data.reviews || data.reviews.length === 0) {
         return '<p>Nessuna recensione trovata.</p>';
     }
-
-    let contentTitle = document.getElementById('contentTitle');
-    contentTitle.textContent = `Le tue Recensioni (${data.reviews.length})`;
 
     let reviews = data.reviews;
     let html = ``;

@@ -44,6 +44,7 @@ if (!empty($uploadedPaths)) {
     $response['success'] = true;
     $response['paths'] = $uploadedPaths; 
 } else {
+    $response['success'] = false;
     $response['message'] = 'Nessun file caricato o errore nel caricamento';
 }
 
